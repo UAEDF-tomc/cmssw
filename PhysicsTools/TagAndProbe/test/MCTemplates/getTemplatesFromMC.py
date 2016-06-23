@@ -42,8 +42,8 @@ def main(options):
             print "Doing templates for "+histNameSt,
             hp = histNameSt+"_Pass"
             hf = histNameSt+"_Fail"
-            histos[hp] = ROOT.TH1D(hp, hp, 120, 60, 120)
-            histos[hf] = ROOT.TH1D(hf, hf, 120, 60, 120)
+            histos[hp] = ROOT.TH1D(hp, hp, 60, 60, 120)
+            histos[hf] = ROOT.TH1D(hf, hf, 60, 60, 120)
             
             #binning = options.tagTauVarName+" > 0.2 && "+options.probeTauVarName+" > 0.2 && mcTrue == 1 && pair_mass60to120 && "+options.etVarName +">"+str(pts[binVar1])+" && "+options.etVarName +"<"+str(pts[binVar1+1])+" && "+options.etaVarName +">"+str(etas[binVar2])+" && "+options.etaVarName +"<"+str(etas[binVar2+1])            
             binning = "mcTrue == 1 && pair_mass60to120 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
@@ -69,6 +69,7 @@ def main(options):
             hfailInt = histos[hf].Integral()
             
             print "%.2f %.2f %1.4f"%(hpassInt, hfailInt, hpassInt/(hpassInt+hfailInt))
+            print hpassInt, hfailInt
     
     outFile = ROOT.TFile(options.output, "RECREATE")
     for k in histos:

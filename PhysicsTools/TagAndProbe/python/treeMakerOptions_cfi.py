@@ -19,6 +19,28 @@ def setModules(process, options):
     
     from PhysicsTools.TagAndProbe.pileupConfiguration_cfi import pileupProducer
     process.pileupReweightingProducer = pileupProducer.clone()
+    process.pileupReweightingProducer = cms.EDProducer("PileupWeightProducer",
+                                                       hardcodedWeights = cms.untracked.bool(True),
+                                                       pileupInfoTag    = cms.InputTag("slimmedAddPileupInfo")
+                                                       )
+    
+    process.GsfDRToNearestTauProbe = cms.EDProducer("DeltaRNearestGenPComputer",
+                                                    probes = cms.InputTag(options['ELECTRON_COLL']),
+                                                    objects = cms.InputTag('prunedGenParticles'),
+                                                    objectSelection = cms.string("abs(pdgId)==15"),
+                                                    )
+    
+    process.GsfDRToNearestTauSC = cms.EDProducer("DeltaRNearestGenPComputer",
+                                                 probes = cms.InputTag("superClusterCands"),
+                                                 objects = cms.InputTag('prunedGenParticles'),
+                                                 objectSelection = cms.string("abs(pdgId)==15"),
+                                                 )
+    
+    process.GsfDRToNearestTauTag = cms.EDProducer("DeltaRNearestGenPComputer",
+                                                  probes = cms.InputTag(options['ELECTRON_COLL']),
+                                                  objects = cms.InputTag('prunedGenParticles'),
+                                                  objectSelection = cms.string("abs(pdgId)==15"),
+                                                  )
     
 ###################################################################                                                                               
 ## ELECTRON MODULES                                                                                                                                    

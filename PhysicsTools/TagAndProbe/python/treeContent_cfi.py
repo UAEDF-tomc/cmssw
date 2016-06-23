@@ -45,7 +45,6 @@ ProbeVariablesToStore = cms.PSet(
     probe_Ele_dxy           = cms.InputTag("eleVarHelper:dxy"),
     probe_Ele_nonTrigMVA    = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
     probe_Ele_trigMVA       = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Values"),
-     
     #isolation
     probe_Ele_chIso         = cms.string("pfIsolationVariables().sumChargedHadronPt"),
     probe_Ele_phoIso        = cms.string("pfIsolationVariables().sumPhotonEt"),

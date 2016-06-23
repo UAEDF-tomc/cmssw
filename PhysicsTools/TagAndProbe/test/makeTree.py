@@ -14,6 +14,13 @@ varOptions.register(
     VarParsing.varType.bool,
     "Compute MC efficiencies"
     )
+varOptions.register(
+    "isRunC",
+    False,
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.bool,
+    "Using data from run C"
+    )
 
 varOptions.parseArguments()
 
@@ -21,6 +28,8 @@ options['HLTProcessName']          = "HLT"
 options['ELECTRON_COLL']           = "slimmedElectrons"
 options['ELECTRON_CUTS']           = "(abs(eta)<2.5)"# && (ecalEnergy*sin(superCluster.position.theta)>10.0)"
 options['ELECTRON_TAG_CUTS']       = "(abs(eta)<=2.5) && !(1.4442<=abs(eta)<=1.566) && pt >= 25.0"
+#options['ELECTRON_CUTS']           = "(abs(superCluster.eta)<2.5) && (ecalEnergy*sin(superClusterPosition.theta)>10.0)" # broken
+#options['ELECTRON_TAG_CUTS']       = "(abs(superCluster.eta)<=2.1) && !(1.4442<=abs(superCluster.eta)<=1.566) && pt >= 30.0"
 options['SUPERCLUSTER_COLL']       = "reducedEgamma:reducedSuperClusters"
 options['SUPERCLUSTER_CUTS']       = "abs(eta)<2.5 && !(1.4442< abs(eta) <1.566) && et>10.0"
 options['MAXEVENTS']               = cms.untracked.int32(-1) 
@@ -52,6 +61,9 @@ else:
     options['GLOBALTAG']           = '76X_dataRun2_v15'
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 
+import PhysicsTools.TagAndProbe.treeMakerOptionsAdam_cfi as adam
+adam.AdjustOptions(options, varOptions)
+
 ###################################################################
 
 setModules(process, options)
@@ -82,6 +94,7 @@ process.maxEvents = cms.untracked.PSet( input = options['MAXEVENTS'])
 
 from PhysicsTools.TagAndProbe.electronIDModules_cfi import *
 setIDs(process, options)
+
 
 ###################################################################
 ## SEQUENCES
@@ -235,3 +248,6 @@ process.TFileService = cms.Service(
     "TFileService", fileName = cms.string(options['OUTPUT_FILE_NAME']),
     closeFileFast = cms.untracked.bool(True)
     )
+
+import PhysicsTools.TagAndProbe.makeTreeAdam_cfi as adam
+adam.AddMiniIso(process, options, varOptions)
