@@ -649,8 +649,8 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   //double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   //double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
-  double totPassing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
-  double totFailinging = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
+  //double totPassing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
+  //double totFailinging = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
   double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120");
   double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120");
