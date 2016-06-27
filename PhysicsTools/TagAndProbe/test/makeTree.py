@@ -14,14 +14,6 @@ varOptions.register(
     VarParsing.varType.bool,
     "Compute MC efficiencies"
     )
-varOptions.register(
-    "isRunC",
-    False,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "Using data from run C"
-    )
-
 varOptions.parseArguments()
 
 options['HLTProcessName']          = "HLT"
@@ -61,8 +53,9 @@ else:
     options['GLOBALTAG']           = '76X_dataRun2_v15'
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 
-import PhysicsTools.TagAndProbe.treeMakerOptionsAdam_cfi as adam
-adam.AdjustOptions(options, varOptions)
+# Modify the options
+import PhysicsTools.TagAndProbe.treeMakerOptionsSusy_cfi as susyOptions
+susyOptions.AdjustOptions(options, varOptions)
 
 ###################################################################
 
@@ -94,7 +87,6 @@ process.maxEvents = cms.untracked.PSet( input = options['MAXEVENTS'])
 
 from PhysicsTools.TagAndProbe.electronIDModules_cfi import *
 setIDs(process, options)
-
 
 ###################################################################
 ## SEQUENCES
@@ -249,5 +241,6 @@ process.TFileService = cms.Service(
     closeFileFast = cms.untracked.bool(True)
     )
 
-import PhysicsTools.TagAndProbe.makeTreeAdam_cfi as adam
-adam.AddMiniIso(process, options, varOptions)
+# Add Mini isolation
+import PhysicsTools.TagAndProbe.makeTreeSUSY_cfi.py as susyAdditions
+susyAdditions.AddMiniIso(process, options, varOptions)
