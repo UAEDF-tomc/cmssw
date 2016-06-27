@@ -25,6 +25,7 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "CommonTools/Utils/interface/StringCutObjectSelector.h"
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
 
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h" 
 
@@ -178,6 +179,8 @@ class BaseTreeFiller : boost::noncopyable {
         WeightMode weightMode_;
         edm::EDGetTokenT<GenEventInfoProduct> weightSrcToken_;
         edm::EDGetTokenT<reco::VertexCollection> recVtxsToken_;
+	edm::EDGetTokenT<pat::JetCollection> jetsToken_;
+        edm::EDGetTokenT<reco::CandidateView> probesToken_;
         edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
         edm::EDGetTokenT<pat::METCollection> pfmetToken_;
         edm::EDGetTokenT<reco::PFMETCollection> pfmetAODToken_;
@@ -195,6 +198,7 @@ class BaseTreeFiller : boost::noncopyable {
 
         /// Add branches with event variables: met, sum ET, .. etc.
 	bool addEventVariablesInfo_;
+	bool addJetVariablesInfo_;
 	bool saveBeamSpot_;
 	bool saveMET_;
 	bool saveRho_;
@@ -215,6 +219,9 @@ class BaseTreeFiller : boost::noncopyable {
         mutable float mPVx_,mPVy_,mPVz_,mBSx_,mBSy_,mBSz_;
 	mutable float mpfMET_,mpfSumET_,mpfPhi_;
 	mutable float rho_;
+        mutable float mht_, mnjets_;
+
+        float jet_pt_cut_, jet_eta_cut_, match_delta_r_;
 };
 
 

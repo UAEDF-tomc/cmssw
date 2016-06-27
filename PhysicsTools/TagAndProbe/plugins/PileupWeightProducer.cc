@@ -45,7 +45,6 @@ private:
 };
 
 PileupWeightProducer::PileupWeightProducer(const edm::ParameterSet& iConfig) {
-
   pileupMC_   = iConfig.getParameter<std::vector<double> >("PileupMC");
   pileupData_ = iConfig.getParameter<std::vector<double> >("PileupData");
   pileupInfoTag_ = consumes<std::vector<PileupSummaryInfo> >(iConfig.getParameter<edm::InputTag>("pileupInfoTag"));

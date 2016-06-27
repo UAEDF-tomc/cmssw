@@ -482,6 +482,18 @@ void TagProbeFitter::doFitEfficiency(RooWorkspace* w, RooAbsData* data, string p
 
   double totPassing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   double totFailing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
+
+  cout << "Printing QQQ" << endl;
+  w->Print();
+  cout << "Fundamental vars" << endl;
+  const RooArgSet &vars = w->allVars();
+  TIterator *iter_ptr = vars.createIterator();
+  for(; iter_ptr != nullptr && *(*iter_ptr) != nullptr; iter_ptr->Next()){
+    RooAbsArg *var = static_cast<RooAbsArg*>(*(*iter_ptr));
+    if(var == nullptr) continue;
+    var->Print();
+  }
+  cout << "Printed QQQ" << endl;
   
   //******* The block of code below is to make the fit converge faster.
   // ****** This part is OPTIONAL, i.e., off be default. User can activate this
@@ -637,8 +649,45 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   //double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   //double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
-  double totPassing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
-  double totFailinging = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
+  //double totPassing = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
+  //double totFailinging = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
+
+  double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120");
+  double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120");
+  double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
+  double bkgFailing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
+  double sigPassing = totPassing - bkgPassing;
+  double sigFailing = totFailinging - bkgFailing;
+  if((sigPassing + sigFailing) > 0.){
+    //Have a rough estimate
+    signalEfficiency = sigPassing/(sigPassing + sigFailing);
+  }else if((totPassing + totFailinging) > 0.){
+    //Naively attributed all events to bkg or there were no events. Shouldn't happen.
+    signalEfficiency = totPassing/(totPassing + totFailinging);
+  }else{
+    //Just use value from python config
+  }
+  if(signalEfficiency < 0.02){
+    w->var("efficiency")->setVal(0.02);
+  }else if(signalEfficiency > 0.98){
+    w->var("efficiency")->setVal(0.98);
+  }else{
+    w->var("efficiency")->setVal(signalEfficiency);
+  }
+
+  if(signalFractionInPassing != 1.0){
+    if(totPassing > 0.){
+      signalFractionInPassing = sigPassing/totPassing;
+      if(signalFractionInPassing > 0.95){
+	signalFractionInPassing = 0.95;
+      }else if(signalFractionInPassing < 0.05){
+	signalFractionInPassing = 0.05;
+      }
+    }else{
+      signalFractionInPassing = 0.9;
+    }
+    w->var("signalFractionInPassing")->setVal(signalFractionInPassing);
+  }
 
   double numSignalAll = totPassing*signalFractionInPassing/signalEfficiency;
   // check if this value is inconsistent on the failing side
@@ -648,7 +697,14 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   w->var("numSignalAll")->setVal(numSignalAll);
   w->var("numBackgroundPass")->setVal(totPassing - numSignalAll*signalEfficiency);
   w->var("numBackgroundFail")->setVal(totFailinging -  numSignalAll*(1-signalEfficiency));
-  
+  w->var("numSignalAll")->setRange(0.,max(10.*numSignalAll,100.));
+  double nbkgpass = totPassing - numSignalAll*signalEfficiency;
+  w->var("numBackgroundPass")->setVal(nbkgpass);
+  w->var("numBackgroundPass")->setRange(0.,max(10.*nbkgpass,100.));
+  double nbkgfail = totFailinging -  numSignalAll*(1-signalEfficiency);
+  w->var("numBackgroundFail")->setVal(nbkgfail);
+  w->var("numBackgroundFail")->setRange(0.,max(10.*nbkgfail,100.));
+
   if (totPassing == 0) {
     w->var("efficiency")->setVal(0.0);
     w->var("efficiency")->setAsymError(0,1);

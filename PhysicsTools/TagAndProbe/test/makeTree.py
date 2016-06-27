@@ -86,7 +86,6 @@ options['DoPhoID']              = cms.bool( varOptions.doPhoID   )
 options['OUTPUTEDMFILENAME']    = 'edmFile.root'
 options['DEBUG']                = cms.bool(False)
 
-
 if (varOptions.isMC):
     options['OUTPUT_FILE_NAME']    = "TnPTree_mc.root"
     options['TnPPATHS']            = cms.vstring("HLT*")
@@ -103,6 +102,10 @@ else:
     options['HLTFILTERTOMEASURE']  = cms.vstring("hltEle27erWPLooseGsfTrackIsoFilter")
     options['GLOBALTAG']           = 'auto:run2_data'
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
+
+# Modify the options
+import PhysicsTools.TagAndProbe.treeMakerOptionsSusy_cfi as susyOptions
+susyOptions.AdjustOptions(options, varOptions)
 
 ###################################################################
 ## Inputs for test
@@ -353,3 +356,7 @@ process.TFileService = cms.Service(
     "TFileService", fileName = cms.string(options['OUTPUT_FILE_NAME']),
     closeFileFast = cms.untracked.bool(True)
     )
+
+# Add Mini isolation
+import PhysicsTools.TagAndProbe.makeTreeSUSY_cfi.py as susyAdditions
+susyAdditions.AddMiniIso(process, options, varOptions)
