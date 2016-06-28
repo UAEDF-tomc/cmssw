@@ -358,5 +358,5 @@ process.TFileService = cms.Service(
     )
 
 # Add Mini isolation
-import PhysicsTools.TagAndProbe.makeTreeSUSY_cfi.py as susyAdditions
+import PhysicsTools.TagAndProbe.makeTreeSusy_cfi.py as susyAdditions
 susyAdditions.AddMiniIso(process, options, varOptions)
