@@ -3,6 +3,9 @@ import FWCore.ParameterSet.Config as cms
 def AdjustOptions(options, varOptions):
     options["MAXEVENTS"] = cms.untracked.int32(10000)
     options['DoRECO']    = cms.bool(True)
+    options['DOID']      = cms.bool(True)
+    options['DOTRIGGER'] = cms.bool(True)
+    options['useAOD']    = cms.bool(False)
 
     # Needs update (or keep using the defaults)
 #    if varOptions.isMC:

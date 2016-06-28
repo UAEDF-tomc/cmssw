@@ -75,7 +75,7 @@ options['ELECTRON_CUTS']        = "ecalEnergy*sin(superClusterPosition.theta)>5.
 options['SUPERCLUSTER_CUTS']    = "abs(eta)<2.5 && !(1.4442< abs(eta) <1.566) && et>10.0"
 options['PHOTON_CUTS']          = "(abs(-log(tan(superCluster.position.theta/2)))<=2.5) && pt> 10"
 
-options['ELECTRON_TAG_CUTS']    = "(abs(-log(tan(superClusterPosition.theta/2))) <= 2.5) && !(1.4442<=abs(-log(tan(superClusterPosition.theta/2)))<=1.566) && pt >= 30.0"
+options['ELECTRON_TAG_CUTS']    = "(abs(-log(tan(superClusterPosition.theta/2))) <=2.1) && !(1.4442<=abs(-log(tan(superClusterPosition.theta/2)))<=1.566) && pt >= 30.0"
 
 options['MAXEVENTS']            = cms.untracked.int32(varOptions.maxEvents) 
 options['DoTrigger']            = cms.bool( varOptions.doTrigger )
@@ -104,8 +104,8 @@ else:
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 
 # Modify the options
-# import PhysicsTools.TagAndProbe.treeMakerOptionsSusy_cfi as susyOptions
-# susyOptions.AdjustOptions(options, varOptions)
+import PhysicsTools.TagAndProbe.treeMakerOptionsSusy_cfi as susyOptions
+susyOptions.AdjustOptions(options, varOptions)
 
 ###################################################################
 ## Inputs for test
@@ -358,5 +358,5 @@ process.TFileService = cms.Service(
     )
 
 # Add Mini isolation
-#import PhysicsTools.TagAndProbe.makeTreeSusy_cfi as susyAdditions
-#susyAdditions.AddMiniIso(process, options, varOptions)
+import PhysicsTools.TagAndProbe.makeTreeSusy_cfi as susyAdditions
+susyAdditions.AddMiniIso(process, options, varOptions)

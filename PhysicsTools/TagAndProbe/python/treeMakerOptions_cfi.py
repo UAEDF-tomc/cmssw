@@ -19,12 +19,13 @@ def setModules(process, options):
     
     from PhysicsTools.TagAndProbe.pileupConfiguration_cfi import pileupProducer
     process.pileupReweightingProducer = pileupProducer.clone()
-    # Seems this tries to access some other PileUpWeightProducer we don't have
+
+    # Seems this tries to acces some different module than the one we have
 #    process.pileupReweightingProducer = cms.EDProducer("PileupWeightProducer",
 #                                                       hardcodedWeights = cms.untracked.bool(True),
 #                                                       pileupInfoTag    = cms.InputTag("slimmedAddPileupInfo")
 #                                                       )
-    
+   
     process.GsfDRToNearestTauProbe = cms.EDProducer("DeltaRNearestGenPComputer",
                                                     probes = cms.InputTag(options['ELECTRON_COLL']),
                                                     objects = cms.InputTag('prunedGenParticles'),
@@ -42,7 +43,7 @@ def setModules(process, options):
                                                   objects = cms.InputTag('prunedGenParticles'),
                                                   objectSelection = cms.string("abs(pdgId)==15"),
                                                   )
-    
+
 ###################################################################                                                                               
 ## Electron/Photon MODULES                                                                                                                                    
 ###################################################################                                    
