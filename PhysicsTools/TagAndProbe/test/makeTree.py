@@ -19,7 +19,7 @@ varOptions.register(
     "doEleID", True,
     VarParsing.multiplicity.singleton,
     VarParsing.varType.bool,
-    "Include tree for photon ID SF"
+    "Include tree for electron ID SF"
     )
 
 varOptions.register(
@@ -104,8 +104,8 @@ else:
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 
 # Modify the options
-import PhysicsTools.TagAndProbe.treeMakerOptionsSusy_cfi as susyOptions
-susyOptions.AdjustOptions(options, varOptions)
+# import PhysicsTools.TagAndProbe.treeMakerOptionsSusy_cfi as susyOptions
+# susyOptions.AdjustOptions(options, varOptions)
 
 ###################################################################
 ## Inputs for test
@@ -358,5 +358,5 @@ process.TFileService = cms.Service(
     )
 
 # Add Mini isolation
-import PhysicsTools.TagAndProbe.makeTreeSusy_cfi.py as susyAdditions
-susyAdditions.AddMiniIso(process, options, varOptions)
+#import PhysicsTools.TagAndProbe.makeTreeSusy_cfi as susyAdditions
+#susyAdditions.AddMiniIso(process, options, varOptions)

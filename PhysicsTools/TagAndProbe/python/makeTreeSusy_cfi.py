@@ -111,7 +111,7 @@ def AddMiniIso(process, options, varOptions):
     )
 
     MiniIsoProbeVars = cms.PSet(
-        process.GsfElectronToRECO.variables,
+        process.GsfElectronToEleID.variables,
         probe_ele_chMini = cms.InputTag("ElectronIsolation:h+-DR020-BarVeto000-EndVeto001-kt1000-Min005"),
         probe_ele_neuMini = cms.InputTag("ElectronIsolation:h0-DR020-BarVeto000-EndVeto000-kt1000-Min005"),
         probe_ele_phoMini = cms.InputTag("ElectronIsolation:gamma-DR020-BarVeto000-EndVeto008-kt1000-Min005"),
@@ -297,23 +297,23 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsPROBEMultiIso
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoEmu
 
-    process.tagTightID = process.tagTightRECO.clone()
+    process.tagTightID = process.tagTightEleID.clone()
     process.tagTightID.decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-")
-    process.tagTightMiniMVAVLoose = process.tagTightRECO.clone()
+    process.tagTightMiniMVAVLoose = process.tagTightEleID.clone()
     process.tagTightMiniMVAVLoose.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBELoose2D@-")
-    process.tagTightMiniMVATight = process.tagTightRECO.clone()
+    process.tagTightMiniMVATight = process.tagTightEleID.clone()
     process.tagTightMiniMVATight.decay = cms.string("goodElectronsTagHLT@+ goodElectronsPROBETightID2D3D@-")
 
     process.allTagsAndProbes *= process.tagTightID
     process.allTagsAndProbes *= process.tagTightMiniMVAVLoose
     process.allTagsAndProbes *= process.tagTightMiniMVATight
 
-    process.GsfElectronToRECO.jetCollection = cms.InputTag("slimmedJets")
-    process.GsfElectronToRECO.jet_pt_cut = cms.double(30.)
-    process.GsfElectronToRECO.jet_eta_cut = cms.double(2.5)
-    process.GsfElectronToRECO.match_delta_r = cms.double(0.3)
+    process.GsfElectronToEleID.jetCollection = cms.InputTag("slimmedJets")
+    process.GsfElectronToEleID.jet_pt_cut = cms.double(30.)
+    process.GsfElectronToEleID.jet_eta_cut = cms.double(2.5)
+    process.GsfElectronToEleID.match_delta_r = cms.double(0.3)
 
-    process.GsfElectronToID = process.GsfElectronToRECO.clone()
+    process.GsfElectronToID = process.GsfElectronToEleID.clone()
     process.GsfElectronToID.variables = MiniIsoProbeVars
     process.GsfElectronToID.tagProbePairs = cms.InputTag("tagTightID")
     process.GsfElectronToID.flags = cms.PSet(
@@ -327,7 +327,7 @@ def AddMiniIso(process, options, varOptions):
         passingTightID2D3D = cms.InputTag("goodElectronsPROBETightID2D3D"),
     )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
-    process.MVAVLooseElectronToIso = process.GsfElectronToRECO.clone()
+    process.MVAVLooseElectronToIso = process.GsfElectronToEleID.clone()
     process.MVAVLooseElectronToIso.variables = MiniIsoProbeVars
     process.MVAVLooseElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVAVLoose")
     process.MVAVLooseElectronToIso.flags = cms.PSet(
@@ -336,7 +336,7 @@ def AddMiniIso(process, options, varOptions):
         passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
     )
     process.MVAVLooseElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMVAVLoose")
-    process.MVATightElectronToIso = process.GsfElectronToRECO.clone()
+    process.MVATightElectronToIso = process.GsfElectronToEleID.clone()
     process.MVATightElectronToIso.variables = MiniIsoProbeVars
     process.MVATightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVATight")
     process.MVATightElectronToIso.flags = cms.PSet(
@@ -346,10 +346,11 @@ def AddMiniIso(process, options, varOptions):
     )
     process.MVATightElectronToIso.allProbes = cms.InputTag("goodElectronsProbeMVATight")
 
-    if varOptions.isMC:
-        process.GsfElectronToID.probeMatches = cms.InputTag("McMatchRECO")
-        process.MVAVLooseElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
-        process.MVATightElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
+# The McMatchRECO disappeared since 76X, should investigate what it does
+#    if varOptions.isMC:
+#        process.GsfElectronToID.probeMatches = cms.InputTag("McMatchRECO")
+#        process.MVAVLooseElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
+#        process.MVATightElectronToIso.probeMatches = cms.InputTag("McMatchRECO")
 
     process.tree_sequence *= process.GsfElectronToID
     process.tree_sequence *= process.MVAVLooseElectronToIso
