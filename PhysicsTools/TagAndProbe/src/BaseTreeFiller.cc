@@ -31,6 +31,7 @@ void tnp::ProbeFlag::fill(const reco::CandidateBaseRef &probe) const {
 }
 
 tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& iConfig, edm::ConsumesCollector & iC) {
+
   // make trees as requested
   tree_    = fs->make<TTree>(name, name);
   addBranches_(tree_, iConfig, iC, "");
@@ -99,6 +100,7 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
   
   ignoreExceptions_ = iConfig.existsAs<bool>("ignoreExceptions") ? iConfig.getParameter<bool>("ignoreExceptions") : false;
 
+  // This is added by Adam
   addJetVariablesInfo_ = iConfig.existsAs<edm::InputTag>("allProbes") && iConfig.existsAs<edm::InputTag>("jetCollection");
   if(addJetVariablesInfo_){
     probesToken_ = iC.consumes<reco::CandidateView>(iConfig.getParameter<edm::InputTag>("allProbes"));
@@ -266,27 +268,30 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
       iEvent.getByToken(rhoToken_, rhos);
       rho_ = *rhos;
 
-      mnjets_ = 0.;
-      mht_ = 0.;
-      edm::Handle<reco::CandidateView> probes;
-      iEvent.getByToken(probesToken_, probes);
-      edm::Handle<pat::JetCollection> jets;
-      iEvent.getByToken(jetsToken_, jets);
+      if(addJetVariablesInfo_){
+	// stuff added by Adam
+	mnjets_ = 0.;
+	mht_ = 0.;
+	edm::Handle<reco::CandidateView> probes;
+	iEvent.getByToken(probesToken_, probes);
+	edm::Handle<pat::JetCollection> jets;
+	iEvent.getByToken(jetsToken_, jets);
 
-      for(auto jet = jets->begin();
-	  jet != jets->end();
-	  ++jet){
-	double pt = jet->pt();
-	if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
-	bool matched_to_electron = false;
-	for(auto ele = probes->begin();
-	    ele != probes->end();
-	    ++ele){
-	  if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
+	for(auto jet = jets->begin();
+	    jet != jets->end();
+	    ++jet){
+	  double pt = jet->pt();
+	  if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
+	  bool matched_to_electron = false;
+	  for(auto ele = probes->begin();
+	      ele != probes->end();
+	      ++ele){
+	    if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
+	  }
+	  if(matched_to_electron) continue;
+	  mnjets_ += 1.;
+	  mht_ += pt;
 	}
-	if(matched_to_electron) continue;
-	mnjets_ += 1.;
-	mht_ += pt;
       }
     }
   }

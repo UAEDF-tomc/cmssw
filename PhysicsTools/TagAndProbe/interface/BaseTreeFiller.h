@@ -16,6 +16,7 @@
 #include "DataFormats/PatCandidates/interface/MET.h"
 //#include "DataFormats/METReco/interface/PFMET.h"
 #include "DataFormats/METReco/interface/PFMETCollection.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
@@ -25,7 +26,6 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "CommonTools/Utils/interface/StringCutObjectSelector.h"
 #include "CommonTools/Utils/interface/StringObjectFunction.h"
-#include "DataFormats/PatCandidates/interface/Jet.h"
 
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h" 
 
