@@ -38,9 +38,9 @@ private:
   virtual void produce(edm::Event&, const edm::EventSetup&);
   virtual void endJob();
 
-  // ----------member data ---------------------------
-  const edm::InputTag probes_;    
-  const edm::InputTag jets_;    
+  // ----------member data --------------------------
+  edm::EDGetTokenT<reco::CandidateView>      probesToken_;
+  edm::EDGetTokenT<std::vector<reco::PFJet>> jetsToken_;
   const double dRmax_;
   const bool subLepFromJetForPtRel_;
 };
@@ -58,10 +58,10 @@ private:
 // constructors and destructor
 //
 AddPtRatioPtRel::AddPtRatioPtRel(const edm::ParameterSet& iConfig):
-probes_(iConfig.getParameter<edm::InputTag>("probes")),
-jets_(iConfig.getParameter<edm::InputTag>("jets")),
-dRmax_(iConfig.getParameter<double>("dRmax")),
-subLepFromJetForPtRel_(iConfig.getParameter<bool>("subLepFromJetForPtRel"))
+  probesToken_(consumes<reco::CandidateView>(      iConfig.getParameter<edm::InputTag>("probes"))),
+  jetsToken_(  consumes<std::vector<reco::PFJet>>( iConfig.getParameter<edm::InputTag>("jets"))),
+  dRmax_(                                          iConfig.getParameter<double>("dRmax")),
+  subLepFromJetForPtRel_(                          iConfig.getParameter<bool>("subLepFromJetForPtRel"))
 {
 
   //now do what ever initialization is needed
@@ -92,13 +92,8 @@ AddPtRatioPtRel::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
 
-  Handle<View<reco::Candidate> > probes;
-  iEvent.getByLabel(probes_, probes);
-
-  //Aussi  mettre jet dans le fichier de configuration
-  Handle<std::vector<reco::PFJet> > Jets;
-  iEvent.getByLabel(jets_, Jets);
-  //iEvent.getByLabel("ak4PFJetsCHS", Jets);
+  edm::Handle<reco::CandidateView>      probes; iEvent.getByToken(probesToken_, probes);
+  edm::Handle<std::vector<reco::PFJet>> jets; 	iEvent.getByToken(jetsToken_, jets);
 
   //Output
   std::vector<double > ptratio,ptrel;
@@ -109,7 +104,7 @@ AddPtRatioPtRel::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     float dR = 9999;
     TLorentzVector jet, mu;
     
-    for( std::vector<reco::PFJet>::const_iterator ijet = Jets->begin(); ijet != Jets->end(); ++ ijet){
+    for( std::vector<reco::PFJet>::const_iterator ijet = jets->begin(); ijet != jets->end(); ++ ijet){
 
       
       if(deltaR(*ijet, *icand) < dR){
