@@ -1,13 +1,22 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 import sys
+import os
+
+# Always first copy the latest version of the makeTree.py
+import shutil
+shutil.copyfile('../test/makeTree.py', 'makeTree.py')
+
 config = config()
 
-submitVersion = "phov1"
-doEleTree = 'doEleID=False'
-doPhoTree = 'doPhoID=True'
-doHLTTree = 'doTrigger=False'
+submitVersion = "test"
 
-mainOutputDir = '/store/group/phys_egamma/tnp/80X/Photonss_76Xids/%s' % submitVersion
+if os.environ["USER"] in ['tomc']:
+  mainOutputDir = '/store/user/tomc/tnp/80X/%s' % submitVersion
+  config.Site.storageSite = 'T2_BE_IIHE'
+  config.User.voGroup = 'becms'
+else:
+  raise Exception('User settings not known')
+
 
 config.General.transferLogs = False
 
@@ -19,11 +28,6 @@ config.Data.allowNonValidInputDataset = False
 
 config.Data.inputDBS = 'global'
 config.Data.publication = False
-
-#config.Data.publishDataName = 
-
-config.Site.storageSite = 'T2_CH_CERN'
-
 
 
 if __name__ == '__main__':
@@ -49,8 +53,8 @@ if __name__ == '__main__':
     config.Data.outLFNDirBase = '%s/%s/' % (mainOutputDir,'mc')
     config.Data.splitting     = 'FileBased'
     config.Data.unitsPerJob   = 20
-    config.JobType.pyCfgParams  = ['isMC=True',doEleTree,doPhoTree,doHLTTree]
-
+    config.JobType.pyCfgParams  = ['isMC=True']
+    config.JobType.allowUndistributedCMSSW = True 
     
     config.General.requestName  = 'DYToLL_mcAtNLO'
     config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
@@ -75,7 +79,7 @@ if __name__ == '__main__':
     config.Data.splitting     = 'LumiBased'
     config.Data.lumiMask      = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt  '
     config.Data.unitsPerJob   = 50
-    config.JobType.pyCfgParams  = ['isMC=False',doEleTree,doPhoTree,doHLTTree]
+    config.JobType.pyCfgParams  = ['isMC=False']
 
     config.General.requestName  = '2016_RunB'
     config.Data.inputDataset    = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
