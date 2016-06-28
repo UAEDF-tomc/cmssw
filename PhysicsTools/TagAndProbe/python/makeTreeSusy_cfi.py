@@ -356,6 +356,7 @@ def AddMiniIso(process, options, varOptions):
     process.tree_sequence *= process.MVAVLooseElectronToIso
     process.tree_sequence *= process.MVATightElectronToIso
 
+
     #Probably a better way to do this, but just copy for now to refresh paths and insert ElectronIsolation
 
     if varOptions.isMC:
@@ -363,7 +364,7 @@ def AddMiniIso(process, options, varOptions):
             process.sampleInfo +
             process.hltFilter +
             process.ElectronIsolation +
-            process.ele_sequence + 
+            process.cand_sequence +
             process.eleVarHelper +
             process.iso_sums +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
@@ -386,7 +387,7 @@ def AddMiniIso(process, options, varOptions):
             process.sampleInfo +
             process.hltFilter +
             process.ElectronIsolation +
-            process.ele_sequence + 
+            process.cand_sequence +
             process.eleVarHelper +
             process.iso_sums +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
