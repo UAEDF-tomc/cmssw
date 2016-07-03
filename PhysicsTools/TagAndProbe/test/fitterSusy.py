@@ -173,7 +173,8 @@ else:
     trail = "act"
 
 McVetoBinningSpecification = cms.PSet(
-    UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
+#    UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
+    UnbinnedVariables = cms.vstring("mass", "totWeight"),
     BinnedVariables = cms.PSet(IDEfficiencyBins, mcTrue = cms.vstring("true")),
     BinToPDFmap = BinSpec("Veto"),
     )
@@ -199,7 +200,8 @@ McTightID2D3DBinningSpecification = McVetoBinningSpecification.clone()
 McTightID2D3DBinningSpecification.BinToPDFmap = BinSpec("TightID2D3D")
 
 McMVAVLooseMiniBinningSpecification = cms.PSet(
-    UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
+#    UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
+    UnbinnedVariables = cms.vstring("mass", "totWeight"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins, mcTrue = cms.vstring("true")),
     BinToPDFmap = BinSpec("MVAVLooseMini"),
     )
@@ -271,7 +273,7 @@ DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficienc
 
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
-    InputFileNames = cms.vstring("DY_NLO.root"),
+    InputFileNames = cms.vstring("TnPTree_mc.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
     OutputFileName = cms.string("eff_mc_veto.root"),
@@ -292,8 +294,8 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
         probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
         #tag_Ele_pt = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"),
         totWeight = cms.vstring("totWeight", "0", "100000000", ""), 
-        Ele_dRTau = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
-        probe_dRTau = cms.vstring("probe_dRTau", "0.2", "100000", ""),
+#        Ele_dRTau = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
+#        probe_dRTau = cms.vstring("probe_dRTau", "0.2", "100000", ""),
         ),
     # defines all the discrete variables of the probes available in the input tree and intended for use in the efficiency calculation
     Categories = cms.PSet(
