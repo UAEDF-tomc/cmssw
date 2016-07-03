@@ -367,14 +367,14 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
     cout<<"Fitting bin:  "<<dirName<<endl;
     //make a directory for each bin
     gDirectory->mkdir(dirName)->cd();
-    
+
+
     //setup the efficiency category
     if (effCats.size() == 1) {
       effName = effCats.front() + "::" + effStates.front();
       RooMappedCategory efficiencyCategory("_efficiencyCategory_", "_efficiencyCategory_", (RooCategory&)dataVars[effCats.front().c_str()], "Failed");
       efficiencyCategory.map(effStates.front().c_str(), "Passed");
       data->addColumn( efficiencyCategory );
-      //w->import(efficiencyCategory);
     } else {
       RooArgSet rooEffCats; 
       string multiState = "{";
@@ -456,7 +456,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
 }
 
 void TagProbeFitter::doFitEfficiency(RooWorkspace* w, RooAbsData* data, string pdfName, RooRealVar& efficiency) {
-  
+
   //if pdfName is empty skip the fit
   if(pdfName == ""){
     return;
@@ -646,6 +646,8 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   // calculate initial values
   double signalEfficiency = w->var("efficiency")->getVal();
   double signalFractionInPassing = w->var("signalFractionInPassing")->getVal();
+
+  std::cout << "The program is now going to crash, no idea why" << std::endl;
   //double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   //double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
@@ -653,6 +655,8 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   //double totFailinging = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
   double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120");
+  std::cout << "..unreachable.." << std::endl; 
+
   double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120");
   double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
   double bkgFailing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
