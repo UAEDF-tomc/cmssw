@@ -53,14 +53,12 @@ def main(options):
                 cuts = cuts + options.addProbeCut + " && "
             cuts = cuts + binning + " && "+options.idprobe+"==1"+")*"+options.weightVarName
             fChain.Draw("mass>>"+histos[hp].GetName(), cuts, "goff")
-            #print cuts
             
             cuts = "("
             if (options.addProbeCut != ""):
                 cuts = cuts + options.addProbeCut + " && "
             cuts = cuts + binning + " && "+options.idprobe+"==0"+")*"+options.weightVarName
             fChain.Draw("mass>>"+histos[hf].GetName(), cuts, "goff")
-            #print cuts
 
             removeNegativeBins(histos[hp])
             removeNegativeBins(histos[hf])
@@ -89,8 +87,8 @@ if __name__ == "__main__":
     parser.add_option("", "--var2Name", default="probe_sc_et", help="Variable2 branch name")
     parser.add_option("", "--addProbeCut", default="", help="Additional cut on the probe")
     parser.add_option("", "--weightVarName", default="totWeight", help="Weight variable branch name")
-    #parser.add_option("", "--tagTauVarName", default="", help="Tag to tau dr variable branch name")
-    #parser.add_option("", "--probeTauVarName", default="", help="Tag to tau dr variable branch name")
+    parser.add_option("", "--tagTauVarName", default="", help="Tag to tau dr variable branch name NOT IMPLEMENTED")
+    parser.add_option("", "--probeTauVarName", default="", help="Tag to tau dr variable branch name NOT IMPLEMENTED")
 
     (options, arg) = parser.parse_args()
      

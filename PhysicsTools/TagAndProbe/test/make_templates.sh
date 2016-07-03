@@ -1,13 +1,5 @@
-#! /bin/bash
 
-mctype=mc
-if [ "$#" -ge 1 ]
-then
-    mctype="$1"
-fi
-
-echo "Generating templates with extension $mctype"
-file="current/TnPTree_""$mctype""_norm.root"
+file=$1
 
 #All eta
 python MCTemplates/getTemplatesFromMC.py -i "$file" -o ../data/GsfElectronToVeto_alleta.root -d GsfElectronToID --probeTauVarName=probe_dRTau --tagTauVarName=tag_Ele_dRTau --idprobe=passingVeto --var1Name=probe_Ele_pt --var1Bins=10,20,30,40,50,200 --var2Name=probe_sc_abseta --var2Bins=0,2.5 &

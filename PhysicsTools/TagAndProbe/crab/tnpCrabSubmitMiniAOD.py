@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 import sys
 import os
+os.system("eval `scramv1 runtime -sh`")
 
 # Always first copy the latest version of the makeTree.py
 import shutil
@@ -8,7 +10,7 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "test"
+submitVersion = "test_v2"
 
 if os.environ["USER"] in ['tomc']:
   mainOutputDir = '/store/user/tomc/tnp/80X/%s' % submitVersion
@@ -56,17 +58,17 @@ if __name__ == '__main__':
     config.JobType.pyCfgParams  = ['isMC=True']
     config.JobType.allowUndistributedCMSSW = True 
     
-    config.General.requestName  = 'DYToLL_mcAtNLO'
-    config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
-    submit(config)
+#    config.General.requestName  = 'DYToLL_mcAtNLO'
+#    config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
+#    submit(config)
 
     config.General.requestName  = 'DYToLL_madgraph'
     config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/MINIAODSIM'
     submit(config)
 
-    config.General.requestName  = 'WJets_madgraph'
-    config.Data.inputDataset    = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v2/MINIAODSIM'
-    submit(config)
+#    config.General.requestName  = 'WJets_madgraph'
+#    config.Data.inputDataset    = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v2/MINIAODSIM'
+#    submit(config)
 
 
  #   config.General.requestName  = 'ttbar_madgraph'

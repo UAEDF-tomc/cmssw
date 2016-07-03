@@ -12,7 +12,7 @@
   //  //
   //  cout << "Loading FW Lite setup." << endl;
   gSystem->Load("libFWCoreFWLite.so");
-  AutoLibraryLoader::enable();
+  FWLiteEnabler::enable();
   //  gSystem->Load("libPhysicsToolsTagAndProbe.so");
   //  //gSystem->Load("libDataFormatsPatCandidates.so");
   //}
