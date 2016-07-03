@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
-import PhysicsTools.TagAndProbe.parametricTemplatesWP80MC as common
+# import not avaible,  just took PDFs from fiiter.py instead
+#import PhysicsTools.TagAndProbe.parametricTemplatesWP80MC as common
 
 options = VarParsing('analysis')
 options.register(
@@ -37,7 +38,7 @@ options.register(
 
 options.register(
     "dirName",
-    "GsfElectronToSC",
+    "GsfElectronToEleID",
     VarParsing.multiplicity.singleton,
     VarParsing.varType.string,
     "Folder name containing the fitter_tree"
@@ -141,7 +142,19 @@ process.TnPMeasurement = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
                                         # defines all the discrete variables of the probes available in the input tree and intended for use in the efficiency calculation
                                         Expressions = cms.PSet(),
                                         Categories = cms.PSet(),
-                                        PDFs = common.all_pdfs,
+                                        PDFs = cms.PSet(pdfSignalPlusBackground = cms.vstring(
+					  "RooCBExGaussShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,15.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000],sigmaP_2[1.000,0.500,15.00])",
+					  "RooCBExGaussShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,15.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00], sigmaF_2[1.675,0.500,12.000])",
+					  "ZGeneratorLineShape::signalPhy(mass)",
+					  "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0])",
+					  "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0])",
+					  "FCONV::signalPass(mass, signalPhy, signalResPass)",
+					  "FCONV::signalFail(mass, signalPhy, signalResFail)",
+					  "efficiency[0.5,0,1]",
+					  "signalFractionInPassing[1.0]" 
+					  )
+                                        ),
+
                                         Efficiencies = cms.PSet()
                                         )
 

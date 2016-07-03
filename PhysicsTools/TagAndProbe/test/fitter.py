@@ -40,7 +40,7 @@ options.register(
 
 options.register(
     "dirName",
-    "GsfElectronToSC",
+    "GsfElectronToEleID",
     VarParsing.multiplicity.singleton,
     VarParsing.varType.string,
     "Folder name containing the fitter_tree"
