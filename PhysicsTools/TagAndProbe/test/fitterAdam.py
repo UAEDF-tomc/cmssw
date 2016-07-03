@@ -271,7 +271,7 @@ DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficienc
 
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
-    InputFileNames = cms.vstring("current/TnPTree_powheg_mini_norm.root"),
+    InputFileNames = cms.vstring("DY_NLO.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
     OutputFileName = cms.string("eff_mc_veto.root"),
