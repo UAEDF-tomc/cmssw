@@ -273,7 +273,8 @@ DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficienc
 
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
-    InputFileNames = cms.vstring("TnPTree_mc.root"),
+#    InputFileNames = cms.vstring("TnPTree_mc.root"),
+    InputFileNames = cms.vstring("DY_LO.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
     OutputFileName = cms.string("eff_mc_veto.root"),
@@ -497,10 +498,10 @@ process.McMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
     )
 
 process.DataGsfElectronToVeto = process.McGsfElectronToVeto.clone()
-process.DataGsfElectronToVeto.InputFileNames = cms.vstring("current/TnPTree_data.root")
+process.DataGsfElectronToVeto.InputFileNames = cms.vstring("data.root")
 process.DataGsfElectronToVeto.InputDirectoryName = cms.string("GsfElectronToID")
 process.DataGsfElectronToVeto.OutputFileName = cms.string("eff_data_veto.root")
-process.DataGsfElectronToVeto.doCutAndCount = cms.bool(False)
+process.DataGsfElectronToVeto.doCutAndCount = cms.bool(True) # Because False crashes
 delattr(process.DataGsfElectronToVeto, "WeightVariable")
 process.DataGsfElectronToVeto.Variables = cms.PSet(
     mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
