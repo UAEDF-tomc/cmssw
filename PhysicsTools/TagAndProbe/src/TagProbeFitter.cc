@@ -393,7 +393,8 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
 
     RooWorkspace* w = new RooWorkspace();
     //import the data
-    w->import(*(data->get(0)));
+ //   w->import(*(data->get(0)));
+    w->import(*data);
     saveDistributionsPlot(w, data);
 
     if(data->numEntries() > 0) {
@@ -646,8 +647,6 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   // calculate initial values
   double signalEfficiency = w->var("efficiency")->getVal();
   double signalFractionInPassing = w->var("signalFractionInPassing")->getVal();
-
-  std::cout << "The program is now going to crash, no idea why" << std::endl;
   //double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed");
   //double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
@@ -655,7 +654,6 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   //double totFailinging = data->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed");
 
   double totPassing = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120");
-  std::cout << "..unreachable.." << std::endl; 
 
   double totFailinging = w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Failed&&mass>60&&mass<=120");
   double bkgPassing = 3.*w->data("data")->sumEntries("_efficiencyCategory_==_efficiencyCategory_::Passed&&mass>60&&mass<=120&&(mass<=70||mass>110)");
