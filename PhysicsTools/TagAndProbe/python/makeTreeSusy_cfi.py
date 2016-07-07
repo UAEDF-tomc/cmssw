@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 
+
 def AddMiniIso(process, options, varOptions):
     #Adds clones of objects managed by Matteo so that upstream changes propagate to mini iso objects
     process.load("JetMETCorrections.Configuration.JetCorrectors_cff")
@@ -90,14 +91,27 @@ def AddMiniIso(process, options, varOptions):
         dRCandProbeVeto = cms.double(0.0001)
     )
     
-    process.AddPtRatioPtRel = cms.EDProducer(
-        "AddPtRatioPtRel",
+    process.AddPtRatioPtRel = cms.EDProducer("AddPtRatioPtRel",
         probes = cms.InputTag(options['ELECTRON_COLL']),
         # jets = cms.InputTag("ak4PFCHSJetsL1L2L3"),
         jets = cms.InputTag("jetAwareCleaner"),
         dRmax = cms.double(0.4),
         subLepFromJetForPtRel = cms.bool(True)
     )
+
+    # For lepton MVA (actually includes the vars from AddPtRatioPtRel, so that one can be removed eventually)
+    process.AddLeptonJetRelatedVariables = cms.EDProducer("AddLeptonJetRelatedVariables",
+	JetCollection= cms.InputTag("jetAwareCleaner"),
+	JetCollectionWithCSV= cms.InputTag("slimmedJets"),
+#	L1Corrector = cms.InputTag("ak4PFCHSL1FastjetCorrector"),
+#	L1L2L3ResCorrector= cms.InputTag("ak4PFCHSL1FastL2L3Corrector"),
+	pfCandidates = cms.InputTag("packedPFCandidates"),
+    #    pfCandidates = cms.InputTag("pfAllChargedParticlesPFBRECO"),
+	LeptonCollection = cms.InputTag(options['ELECTRON_COLL']),
+	dRmax = cms.double(0.4),
+	subLepFromJetForPtRel = cms.bool(True)
+    )
+
 
     process.MyEleVars = cms.EDProducer(
         "MyElectronVariableHelper",
@@ -108,6 +122,10 @@ def AddMiniIso(process, options, varOptions):
         miniIso = cms.InputTag("relminiiso:sum"),
         ptRatio = cms.InputTag("AddPtRatioPtRel","PtRatio"),
         ptRel = cms.InputTag("AddPtRatioPtRel","PtRel"),
+        jetPtRatio     = cms.InputTag("AddLeptonJetRelatedVariables","PtRatio"),
+        jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","PtRel"),
+        jetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
+        jetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
     )
 
     MiniIsoProbeVars = cms.PSet(
@@ -124,6 +142,10 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_AbsMini = cms.InputTag("absminiiso:sum"),
         probe_ele_PtRatio = cms.InputTag("AddPtRatioPtRel","PtRatio"),
         probe_ele_PtRel = cms.InputTag("AddPtRatioPtRel","PtRel"),
+        probe_ele_JetPtRatio     = cms.InputTag("AddLeptonJetRelatedVariables ","JetPtRatio"),
+        probe_ele_JetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables ","JetPtRel"),
+        probe_ele_JetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables ","JetNDauCharged"),
+        probe_ele_JetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables ","JetBTagCSV"),
         probe_ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
         probe_ele_ecalIso = cms.InputTag("MyEleVars:ecalIso"),
         probe_ele_hcalIso = cms.InputTag("MyEleVars:hcalIso"),
@@ -369,8 +391,9 @@ def AddMiniIso(process, options, varOptions):
             process.iso_sums +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
             process.jetConverter + 
-            process.jetAwareCleaner + 
+            process.jetAwareCleaner +
             process.AddPtRatioPtRel + 
+            process.AddLeptonJetRelatedVariables  + 
             process.MyEleVars +
             process.my_ele_sequence + 
             process.sc_sequence +
@@ -394,6 +417,7 @@ def AddMiniIso(process, options, varOptions):
             process.jetConverter + 
             process.jetAwareCleaner + 
             process.AddPtRatioPtRel + 
+            process.AddLeptonJetRelatedVariables +
             process.MyEleVars +
             process.my_ele_sequence + 
             process.sc_sequence +
