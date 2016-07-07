@@ -138,6 +138,10 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > miniIsoToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > ptRatioToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > ptRelToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > jetPtRatioToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > jetPtRelToken_;
+  edm::EDGetTokenT<edm::ValueMap<int> > jetNDauChargedToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > jetBTagCSVToken_;
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
@@ -148,7 +152,11 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))),
   miniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("miniIso"))),
   ptRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRatio"))),
-  ptRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRel"))){  
+  ptRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRel"))),
+  jetPtRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
+  jetPtRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRel"))),
+  jetNDauChargedToken_(consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
+  jetBTagCSVToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetBTagCSV"))){  
   produces<edm::ValueMap<float> >("sip3d");
   produces<edm::ValueMap<float> >("ecalIso");
   produces<edm::ValueMap<float> >("hcalIso");
@@ -198,6 +206,14 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(ptRatioToken_, ptRatios);
   edm::Handle<edm::ValueMap<float> > ptRels;
   iEvent.getByToken(ptRelToken_, ptRels);
+  edm::Handle<edm::ValueMap<float> > jetPtRatios;
+  iEvent.getByToken(jetPtRatioToken_, jetPtRatios);
+  edm::Handle<edm::ValueMap<float> > jetPtRels;
+  iEvent.getByToken(jetPtRelToken_, jetPtRels);
+  edm::Handle<edm::ValueMap<int> > jetNDauChargeds;
+  iEvent.getByToken(jetNDauChargedToken_, jetNDauChargeds);
+  edm::Handle<edm::ValueMap<float> > jetBTagCSVs;
+  iEvent.getByToken(jetBTagCSVToken_, jetBTagCSVs);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
@@ -233,10 +249,16 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     double mini_iso = (*miniIsos)[pp];
     double pt_ratio = (*ptRatios)[pp];
     double pt_rel = (*ptRels)[pp];
+    double jetPtRatio     = (*jetPtRatios)[pp];
+    double jetPtRel       = (*jetPtRels)[pp];
+    int    jetNDauCharged = (*jetNDauChargeds)[pp];
+    double jetBTagCSV     = (*jetBTagCSVs)[pp];
     double ecalIso = probe.ecalPFClusterIso();
     double hcalIso = probe.hcalPFClusterIso();
     double trackIso = probe.dr03TkSumPt();
     int missingInnerHits = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+
+    std::cout << jetPtRatio << "\t" << jetPtRel << "\t" << jetNDauCharged << "\t" << jetBTagCSV << std::endl;
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
