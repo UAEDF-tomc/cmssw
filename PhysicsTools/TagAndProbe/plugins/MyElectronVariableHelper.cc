@@ -17,6 +17,10 @@
 #include "DataFormats/L1Trigger/interface/L1EmParticleFwd.h"
 
 #include "DataFormats/Math/interface/deltaR.h"
+#include "TMVA/Reader.h"
+
+#include "FWCore/ParameterSet/interface/FileInPath.h"
+
 
 namespace{
   typedef bool MyBool;
@@ -127,6 +131,7 @@ public:
   explicit MyElectronVariableHelper(const edm::ParameterSet & iConfig);
   virtual ~MyElectronVariableHelper() ;
   
+  virtual void beginJob();
   virtual void produce(edm::Event & iEvent, const edm::EventSetup & iSetup) override;
   
 private:
@@ -187,6 +192,33 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
 }
+
+void MyElectronVariableHelper::beginJob(){
+    TMVA::Reader *readerEle = new TMVA::Reader( "!Color:!Silent" );    
+
+    Float_t LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel, 
+    LepGood_miniRelIsoCharged, LepGood_miniRelIsoNeutral, 
+    LepGood_jetPtRelv2, LepGood_jetPtRatio, 
+    LepGood_jetBTagCSV, 
+    LepGood_sip3d, LepGood_dxy, LepGood_dz, 
+    LepGood_mvaIdSpring15;
+
+    readerEle->AddVariable( "LepGood_pt", &LepGood_pt );
+    readerEle->AddVariable( "LepGood_eta", &LepGood_eta );
+    readerEle->AddVariable( "LepGood_jetNDauChargedMVASel", &LepGood_jetNDauChargedMVASel );
+    readerEle->AddVariable( "LepGood_miniRelIsoCharged", &LepGood_miniRelIsoCharged );
+    readerEle->AddVariable( "LepGood_miniRelIsoNeutral", &LepGood_miniRelIsoNeutral );
+    readerEle->AddVariable( "LepGood_jetPtRelv2", &LepGood_jetPtRelv2 );
+    readerEle->AddVariable( "min(LepGood_jetPtRatiov2,1.5)", &LepGood_jetPtRatio );
+    readerEle->AddVariable( "max(LepGood_jetBTagCSV,0)", &LepGood_jetBTagCSV );
+    readerEle->AddVariable( "LepGood_sip3d", &LepGood_sip3d );  
+    readerEle->AddVariable( "log(abs(LepGood_dxy))", &LepGood_dxy );  
+    readerEle->AddVariable( "log(abs(LepGood_dz))", &LepGood_dz );  
+    readerEle->AddVariable( "LepGood_mvaIdSpring15", &LepGood_mvaIdSpring15 );
+ //   edm::FileInPath *fp = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond16_el_sigTTZ_bkgTT_BDTG.weights.xml");
+    readerEle->BookMVA( "BDTG method", "/user/tomc/tagAndProbe/CMSSW_8_0_10/src/PhysicsTools/TagAndProbe/data/forMoriond16_el_sigTTZ_bkgTT_BDTG.weights.xml" ); 
+}
+
 
 void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetup & iSetup) {
   // read input
@@ -249,16 +281,14 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     double mini_iso = (*miniIsos)[pp];
     double pt_ratio = (*ptRatios)[pp];
     double pt_rel = (*ptRels)[pp];
-    double jetPtRatio     = (*jetPtRatios)[pp];
+/*    double jetPtRatio     = (*jetPtRatios)[pp];
     double jetPtRel       = (*jetPtRels)[pp];
     int    jetNDauCharged = (*jetNDauChargeds)[pp];
-    double jetBTagCSV     = (*jetBTagCSVs)[pp];
+    double jetBTagCSV     = (*jetBTagCSVs)[pp];*/
     double ecalIso = probe.ecalPFClusterIso();
     double hcalIso = probe.hcalPFClusterIso();
     double trackIso = probe.dr03TkSumPt();
     int missingInnerHits = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
-
-    std::cout << jetPtRatio << "\t" << jetPtRel << "\t" << jetNDauCharged << "\t" << jetBTagCSV << std::endl;
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
@@ -280,6 +310,21 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passIHit1.push_back(missingInnerHits <= 1);
     passMultiIso.push_back(PassMultiIso(mini_iso, pt_ratio, pt_rel));
     ++i;
+/* Still working on
+    LepGood_pt = pp.Pt();
+    LepGood_eta = _lEta[i];
+    LepGood_jetNDauChargedMVASel = _trackSelectionMultiplicity[i];
+    LepGood_miniRelIsoCharged = _miniisolationCharged[i][0];
+    LepGood_miniRelIsoNeutral = _miniisolation[i][0] - _miniisolationCharged[i][0];
+    LepGood_jetPtRelv2 = _ptrel[i];
+    LepGood_jetPtRatio = TMath::Min(_ptratio[i],1.5);
+    LepGood_jetBTagCSV = TMath::Max(_closeJetCSVAll[i],0.);
+    LepGood_sip3d = _3dIPsig[i]; 
+    LepGood_dxy = TMath::Log(fabs(_ipPV[i]));
+    LepGood_dz = TMath::Log(fabs(_ipZPV[i]));
+    LepGood_mvaIdSpring15 = _mvaValue[i];
+*/
+
   }
 
   // convert into ValueMap and store
@@ -315,4 +360,5 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
 
 
 #include "FWCore/Framework/interface/MakerMacros.h"
+    std::cout << "!!!" << std::endl; 
 DEFINE_FWK_MODULE(MyElectronVariableHelper);
