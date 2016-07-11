@@ -91,22 +91,10 @@ def AddMiniIso(process, options, varOptions):
         dRCandProbeVeto = cms.double(0.0001)
     )
     
-    process.AddPtRatioPtRel = cms.EDProducer("AddPtRatioPtRel",
-        probes = cms.InputTag(options['ELECTRON_COLL']),
-        # jets = cms.InputTag("ak4PFCHSJetsL1L2L3"),
-        jets = cms.InputTag("jetAwareCleaner"),
-        dRmax = cms.double(0.4),
-        subLepFromJetForPtRel = cms.bool(True)
-    )
-
-    # For lepton MVA (actually includes the vars from AddPtRatioPtRel, so that one can be removed eventually)
     process.AddLeptonJetRelatedVariables = cms.EDProducer("AddLeptonJetRelatedVariables",
 	JetCollection= cms.InputTag("jetAwareCleaner"),
 	JetCollectionWithCSV= cms.InputTag("slimmedJets"),
-#	L1Corrector = cms.InputTag("ak4PFCHSL1FastjetCorrector"),
-#	L1L2L3ResCorrector= cms.InputTag("ak4PFCHSL1FastL2L3Corrector"),
 	pfCandidates = cms.InputTag("packedPFCandidates"),
-    #    pfCandidates = cms.InputTag("pfAllChargedParticlesPFBRECO"),
 	LeptonCollection = cms.InputTag(options['ELECTRON_COLL']),
 	dRmax = cms.double(0.4),
 	subLepFromJetForPtRel = cms.bool(True)
@@ -120,10 +108,10 @@ def AddMiniIso(process, options, varOptions):
         dxy = cms.InputTag("eleVarHelper:dxy"),
         dz = cms.InputTag("eleVarHelper:dz"),
         miniIso = cms.InputTag("relminiiso:sum"),
-        ptRatio = cms.InputTag("AddPtRatioPtRel","PtRatio"),
-        ptRel = cms.InputTag("AddPtRatioPtRel","PtRel"),
-        jetPtRatio     = cms.InputTag("AddLeptonJetRelatedVariables","PtRatio"),
-        jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","PtRel"),
+        chargedMiniIso = cms.InputTag("relminiiso:charged"),
+        neutralMiniIso = cms.InputTag("relminiiso:neutral"),
+        jetPtRatio     = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRatio"),
+        jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRel"),
         jetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
         jetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
     )
@@ -170,6 +158,7 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
         probe_ele_passMultiIso = cms.InputTag("MyEleVars:passMultiIso"),
         probe_ele_passMultiIsoEmu = cms.InputTag("MyEleVars:passMultiIsoEmu"),
+        probe_ele_passLeptonMVA = cms.InputTag("MyEleVars:passLeptonMVA"),
     )
 
     setupAllVIDIdsInModule(process,
@@ -284,6 +273,8 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBEMultiIso.selection = cms.InputTag("MyEleVars:passMultiIso")
     process.goodElectronsPROBEMultiIsoEmu = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEMultiIsoEmu.selection = cms.InputTag("MyEleVars:passMultiIsoEmu")
+    process.goodElectronsPROBELeptonMVA = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMVA.selection = cms.InputTag("MyEleVars:passLeptonMVA")
 
     #Applies trigger matching (denominators need to be listed here)
     process.goodElectronsProbeMediumNoIso = process.goodElectronsTagHLT.clone()
@@ -318,6 +309,7 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsProbeMVATight
     process.my_ele_sequence += process.goodElectronsPROBEMultiIso
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoEmu
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMVA
 
     process.tagTightID = process.tagTightEleID.clone()
     process.tagTightID.decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-")
@@ -347,6 +339,7 @@ def AddMiniIso(process, options, varOptions):
         passingFOID2D = cms.InputTag("goodElectronsPROBEFOID2D"),
         passingTight2D3D = cms.InputTag("goodElectronsPROBETight2D3D"),
         passingTightID2D3D = cms.InputTag("goodElectronsPROBETightID2D3D"),
+        passingLeptonMVA = cms.InputTag("goodElectronsPROBELeptonMVA"),
     )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
     process.MVAVLooseElectronToIso = process.GsfElectronToEleID.clone()
@@ -392,7 +385,6 @@ def AddMiniIso(process, options, varOptions):
             process.ak4PFCHSL1FastL2L3CorrectorChain +
             process.jetConverter + 
             process.jetAwareCleaner +
-            process.AddPtRatioPtRel + 
             process.AddLeptonJetRelatedVariables  + 
             process.MyEleVars +
             process.my_ele_sequence + 
@@ -415,8 +407,6 @@ def AddMiniIso(process, options, varOptions):
             process.iso_sums +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
             process.jetConverter + 
-            process.jetAwareCleaner + 
-            process.AddPtRatioPtRel + 
             process.AddLeptonJetRelatedVariables +
             process.MyEleVars +
             process.my_ele_sequence + 
