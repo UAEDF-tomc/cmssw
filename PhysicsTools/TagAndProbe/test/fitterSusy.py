@@ -274,7 +274,7 @@ DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficienc
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
 #    InputFileNames = cms.vstring("TnPTree_mc.root"),
-    InputFileNames = cms.vstring("DY_LO.root"),
+    InputFileNames = cms.vstring("mc.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
     OutputFileName = cms.string("eff_mc_veto.root"),
@@ -282,7 +282,7 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     SaveWorkspace = cms.bool(False), #VERY TIME CONSUMING FOR MC
     doCutAndCount = cms.bool(True),
     floatShapeParameters = cms.bool(True),
-    fixVars = cms.vstring("meanP","sigmaP","meanF","sigmaF"),
+#    fixVars = cms.vstring("meanP","sigmaP","meanF","sigmaF"), # switch off fixed vars
     binnedFit = cms.bool(True),
     binsForFit = cms.uint32(60),
     WeightVariable = cms.string("totWeight"),
@@ -501,7 +501,7 @@ process.DataGsfElectronToVeto = process.McGsfElectronToVeto.clone()
 process.DataGsfElectronToVeto.InputFileNames = cms.vstring("data.root")
 process.DataGsfElectronToVeto.InputDirectoryName = cms.string("GsfElectronToID")
 process.DataGsfElectronToVeto.OutputFileName = cms.string("eff_data_veto.root")
-process.DataGsfElectronToVeto.doCutAndCount = cms.bool(True) # Because False crashes
+process.DataGsfElectronToVeto.doCutAndCount = cms.bool(False)
 delattr(process.DataGsfElectronToVeto, "WeightVariable")
 process.DataGsfElectronToVeto.Variables = cms.PSet(
     mass = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
@@ -666,13 +666,13 @@ process.seq = cms.Sequence()
 
 if (not options.noMC) and (not options.noID):
     process.seq += process.McGsfElectronToVeto
-    process.seq += process.McGsfElectronToLoose
-    process.seq += process.McGsfElectronToMedium
+#    process.seq += process.McGsfElectronToLoose
+#    process.seq += process.McGsfElectronToMediu
     process.seq += process.McGsfElectronToTight
-    process.seq += process.McGsfElectronToLoose2D
-    process.seq += process.McGsfElectronToFOID2D
-    process.seq += process.McGsfElectronToTight2D3D
-    process.seq += process.McGsfElectronToTightID2D3D
+#    process.seq += process.McGsfElectronToLoose2D
+#    process.seq += process.McGsfElectronToFOID2D
+#    process.seq += process.McGsfElectronToTight2D3D
+#    process.seq += process.McGsfElectronToTightID2D3D
 
 if (not options.noMC) and (not options.noIso):
     process.seq += process.McMVAVLooseElectronToMini
