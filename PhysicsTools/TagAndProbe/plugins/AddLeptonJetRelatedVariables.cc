@@ -34,6 +34,7 @@
 #include "DataFormats/Math/interface/deltaR.h"
 
 using namespace std;
+typedef edm::View<reco::Candidate> CandView;
 
 
 //
@@ -51,6 +52,7 @@ private:
   virtual void beginJob();
   virtual void produce(edm::Event&, const edm::EventSetup&);
   virtual void endJob();
+  template <typename T> void putInEvent(std::string, const edm::Handle<CandView>&, std::vector<T>&, edm::Event&);
   
   // ----------auxiliary functions -------------------  
   // ----------member data ---------------------------
@@ -109,7 +111,7 @@ AddLeptonJetRelatedVariables::AddLeptonJetRelatedVariables(const edm::ParameterS
   //now do what ever initialization is needed
   produces<edm::ValueMap<float> >("JetPtRatio");
   produces<edm::ValueMap<float> >("JetPtRel");
-  produces<edm::ValueMap<int> >("JetNDauCharged");
+  produces<edm::ValueMap<float> >("JetNDauCharged");
   produces<edm::ValueMap<float> >("JetBTagCSV");
 }
 
@@ -163,7 +165,7 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
   reco::VertexRefProd PVRefProd(PVs);
 
   //Output
-  std::vector<double > ptratio,ptrel,nchargeddaughers,btagcsv;
+  std::vector<float> ptratio,ptrel,nchargeddaughers,btagcsv;
   for( reco::CandidateView::const_iterator icand = leptons->begin(); icand != leptons->end(); ++ icand){
 
     //Initialise loop variables
@@ -240,6 +242,11 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
   
   
   /// Filling variables previously computed
+  putInEvent("JetPtRatio",     leptons, ptratio,          iEvent);
+  putInEvent("JetPtRel",       leptons, ptrel,            iEvent);
+  putInEvent("JetNDauCharged", leptons, nchargeddaughers, iEvent);
+  putInEvent("JetBTagCSV",     leptons, btagcsv,          iEvent);
+/*
    std::auto_ptr<ValueMap<float> > JetPtRatio(new ValueMap<float>());
    ValueMap<float>::Filler filler(*JetPtRatio);
    filler.insert(leptons, ptratio.begin(), ptratio.end()); 
@@ -252,8 +259,8 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
    filler1.fill();
    iEvent.put(JetPtRel,"JetPtRel");
 
-  std::auto_ptr<ValueMap<int> > JetNDauCharged(new ValueMap<int>());
-  ValueMap<int>::Filler filler2(*JetNDauCharged);
+  std::auto_ptr<ValueMap<float> > JetNDauCharged(new ValueMap<float>());
+  ValueMap<float>::Filler filler2(*JetNDauCharged);
   filler2.insert(leptons, nchargeddaughers.begin(), nchargeddaughers.end()); 
   filler2.fill();
   iEvent.put(JetNDauCharged,"JetNDauCharged");
@@ -262,8 +269,17 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
   ValueMap<float>::Filler filler3(*JetBTagCSV);
   filler3.insert(leptons, btagcsv.begin(), btagcsv.end()); 
   filler3.fill();
-  iEvent.put(JetBTagCSV,"JetBTagCSV");
+  iEvent.put(JetBTagCSV,"JetBTagCSV");*/
 
+}
+
+/// Function to put product into event
+template <typename T> void AddLeptonJetRelatedVariables::putInEvent(std::string name, const edm::Handle<CandView>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
+  std::auto_ptr<edm::ValueMap<T>> out(new edm::ValueMap<T>());
+  typename edm::ValueMap<T>::Filler filler(*out);
+  filler.insert(probesHandle, product.begin(), product.end());
+  filler.fill();
+  iEvent.put(out, name);
 }
 
 

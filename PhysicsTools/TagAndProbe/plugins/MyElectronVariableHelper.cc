@@ -150,7 +150,7 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > neutralMiniIsoToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetPtRatioToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetPtRelToken_;
-  edm::EDGetTokenT<edm::ValueMap<int> > jetNDauChargedToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > jetNDauChargedToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetBTagCSVToken_;
 
   Float_t LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel,
@@ -174,7 +174,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   neutralMiniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("neutralMiniIso"))),
   jetPtRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
   jetPtRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRel"))),
-  jetNDauChargedToken_(consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
+  jetNDauChargedToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
   jetBTagCSVToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetBTagCSV"))){  
   produces<edm::ValueMap<float> >("sip3d");
   produces<edm::ValueMap<float> >("ecalIso");
@@ -250,7 +250,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(jetPtRatioToken_, jetPtRatios);
   edm::Handle<edm::ValueMap<float> > jetPtRels;
   iEvent.getByToken(jetPtRelToken_, jetPtRels);
-  edm::Handle<edm::ValueMap<int> > jetNDauChargeds;
+  edm::Handle<edm::ValueMap<float> > jetNDauChargeds;
   iEvent.getByToken(jetNDauChargedToken_, jetNDauChargeds);
   edm::Handle<edm::ValueMap<float> > jetBTagCSVs;
   iEvent.getByToken(jetBTagCSVToken_, jetBTagCSVs);
@@ -281,23 +281,23 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   for(const auto &probe: *probes){
     edm::RefToBase<reco::Candidate> pp = probes_view->refAt(i);
 
-    double ip3d             = probe.dB(pat::Electron::PV3D);
-    double ip3d_err         = probe.edB(pat::Electron::PV3D);
-    double sip3d            = ip3d/ip3d_err;
-    double mva              = (*mvas)[pp];
-    double dxy              = (*dxys)[pp];
-    double dz               = (*dzs)[pp];
-    double mini_iso         = (*miniIsos)[pp];
-    double charged_mini_iso = (*chargedMiniIsos)[pp];
-    double neutral_mini_iso = (*neutralMiniIsos)[pp];
-    double jetPtRatio       = (*jetPtRatios)[pp];
-    double jetPtRel         = (*jetPtRels)[pp];
-    int    jetNDauCharged   = (*jetNDauChargeds)[pp];
-    double jetBTagCSV       = (*jetBTagCSVs)[pp];
-    double ecalIso          = probe.ecalPFClusterIso();
-    double hcalIso          = probe.hcalPFClusterIso();
-    double trackIso         = probe.dr03TkSumPt();
-    int missingInnerHits    = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+    float ip3d             = probe.dB(pat::Electron::PV3D);
+    float ip3d_err         = probe.edB(pat::Electron::PV3D);
+    float sip3d            = ip3d/ip3d_err;
+    float mva              = (*mvas)[pp];
+    float dxy              = (*dxys)[pp];
+    float dz               = (*dzs)[pp];
+    float mini_iso         = (*miniIsos)[pp];
+    float charged_mini_iso = (*chargedMiniIsos)[pp];
+    float neutral_mini_iso = (*neutralMiniIsos)[pp];
+    float jetPtRatio       = (*jetPtRatios)[pp];
+    float jetPtRel         = (*jetPtRels)[pp];
+    float jetNDauCharged   = (*jetNDauChargeds)[pp];
+    float jetBTagCSV       = (*jetBTagCSVs)[pp];
+    float ecalIso          = probe.ecalPFClusterIso();
+    float hcalIso          = probe.hcalPFClusterIso();
+    float trackIso         = probe.dr03TkSumPt();
+    int missingInnerHits   = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
 
     LepGood_pt                   = pp->pt();
     LepGood_eta                  = pp->eta();
@@ -312,7 +312,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     LepGood_dz                   = TMath::Log(fabs(dz));
     LepGood_mvaIdSpring15        = mva;
 
-    double leptonMva             = readerEle->EvaluateMVA( "BDTG method" );
+    float leptonMva             = readerEle->EvaluateMVA( "BDTG method" );
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
