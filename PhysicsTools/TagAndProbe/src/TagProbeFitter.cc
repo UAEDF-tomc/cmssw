@@ -243,8 +243,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
   int nCats = 0;
   for (unsigned int i=0; i<binnedCategories[0].size(); i++) {
     for (unsigned int j=0; j<binnedCategories[1].size(); j++) {
-
-      unsigned int pdfIndex = (i*binnedCategories[1].size()+j+1)*2;
+      unsigned int pdfIndex = (j*binnedCategories[0].size()+i+1)*2;
 
       if (pdfIndex > binToPDFmap.size())
 	pdfNames.push_back(binToPDFmap[0]);
