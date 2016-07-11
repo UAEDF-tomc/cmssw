@@ -171,21 +171,23 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
     reco::Candidate::LorentzVector jet, e;
     float csv(-999.);
     int nchdaugthers(0);    
-    
-    // Get b-jet info; sorry for the very very messy code I'm too busy now to code it cleanly; this will only work on pat/miniAOD of course
-    for (auto ijet = jets2->begin(); ijet != jets2->end(); ++ijet) {
-      if(deltaR(*ijet, *icand) > dR) continue;  
-      auto patJet = static_cast<const pat::Jet*> (&*ijet);
-      csv = patJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-    }
 
-    for (auto ijet = jets->begin(); ijet != jets->end(); ++ijet) {
+    int i = 0, j = 0;
+    for (auto ijet = jets->begin(); ijet != jets->end(); ++ijet, ++i) {
 
-      // for each muon with the lepton 
-      if(deltaR(*ijet, *icand) > dR) continue;  
+      // get smallest deltaR with the lepton
+      if(deltaR(*ijet, *icand) > dR) continue;
       dR = deltaR(*ijet, *icand);
+
+      // A hacky way to easily get the csv value even if we run on the raw jet collection
+      for (auto jjet = jets2->begin(); jjet != jets2->end(); ++jjet, ++j) {
+        if(i==j){
+          auto patJet = static_cast<const pat::Jet*> (&*jjet);
+          csv = patJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+        }
+      }
       
-      e  = icand->p4(); 
+      e   = icand->p4();
       jet = ijet->p4();
 
       unsigned int ic=0;
@@ -208,6 +210,7 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
 	nchdaugthers++;
       }
     }    
+
     //
     //Fill the pt ratio and pt rel
     //
@@ -219,17 +222,15 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
       nchargeddaughers.push_back(-1);
     }
     else{
-      if ((jet-e).Rho()<0.0001) 
-	jet=e; 
-      else {
-	jet += e;
-      }
       ptratio.push_back(e.pt()/jet.pt());
+
+      if(subLepFromJetForPtRel_) jet -= e;
       TLorentzVector tmp_e, tmp_jet;
       tmp_e.SetPxPyPzE(e.px(),e.py(),e.pz(),e.E());
       tmp_jet.SetPxPyPzE(jet.px(),jet.py(),jet.pz(),jet.E());
       if ((tmp_jet-tmp_e).Rho()<0.0001)  ptrel.push_back(0.);
-      else 	                          ptrel.push_back(tmp_e.Perp((tmp_jet-tmp_e).Vect()));
+      else                               ptrel.push_back(tmp_e.Perp(tmp_jet.Vect()));
+
       btagcsv.push_back(csv);
       nchargeddaughers.push_back(nchdaugthers);
     }
