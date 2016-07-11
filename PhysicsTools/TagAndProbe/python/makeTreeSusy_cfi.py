@@ -158,7 +158,12 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
         probe_ele_passMultiIso = cms.InputTag("MyEleVars:passMultiIso"),
         probe_ele_passMultiIsoEmu = cms.InputTag("MyEleVars:passMultiIsoEmu"),
-        probe_ele_passLeptonMVA = cms.InputTag("MyEleVars:passLeptonMVA"),
+        probe_ele_passLeptonMvaVL = cms.InputTag("MyEleVars:passLeptonMvaVL"),
+        probe_ele_passLeptonMvaL = cms.InputTag("MyEleVars:passLeptonMvaL"),
+        probe_ele_passLeptonMvaM = cms.InputTag("MyEleVars:passLeptonMvaM"),
+        probe_ele_passLeptonMvaT = cms.InputTag("MyEleVars:passLeptonMvaT"),
+        probe_ele_passLeptonMvaVT = cms.InputTag("MyEleVars:passLeptonMvaVT"),
+        probe_ele_passLeptonMvaET = cms.InputTag("MyEleVars:passLeptonMvaET"),
     )
 
     setupAllVIDIdsInModule(process,
@@ -273,8 +278,18 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBEMultiIso.selection = cms.InputTag("MyEleVars:passMultiIso")
     process.goodElectronsPROBEMultiIsoEmu = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEMultiIsoEmu.selection = cms.InputTag("MyEleVars:passMultiIsoEmu")
-    process.goodElectronsPROBELeptonMVA = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBELeptonMVA.selection = cms.InputTag("MyEleVars:passLeptonMVA")
+    process.goodElectronsPROBELeptonMvaVL = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMvaVL.selection = cms.InputTag("MyEleVars:passLeptonMvaVL")
+    process.goodElectronsPROBELeptonMvaL = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMvaL.selection = cms.InputTag("MyEleVars:passLeptonMvaL")
+    process.goodElectronsPROBELeptonMvaM = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMvaM.selection = cms.InputTag("MyEleVars:passLeptonMvaM")
+    process.goodElectronsPROBELeptonMvaT = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMvaT.selection = cms.InputTag("MyEleVars:passLeptonMvaT")
+    process.goodElectronsPROBELeptonMvaVT = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMvaVT.selection = cms.InputTag("MyEleVars:passLeptonMvaVT")
+    process.goodElectronsPROBELeptonMvaET = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBELeptonMvaET.selection = cms.InputTag("MyEleVars:passLeptonMvaET")
 
     #Applies trigger matching (denominators need to be listed here)
     process.goodElectronsProbeMediumNoIso = process.goodElectronsTagHLT.clone()
@@ -309,7 +324,12 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsProbeMVATight
     process.my_ele_sequence += process.goodElectronsPROBEMultiIso
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoEmu
-    process.my_ele_sequence += process.goodElectronsPROBELeptonMVA
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMvaVL
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMvaL
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMvaM
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMvaT
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMvaVT
+    process.my_ele_sequence += process.goodElectronsPROBELeptonMvaET
 
     process.tagTightID = process.tagTightEleID.clone()
     process.tagTightID.decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-")
@@ -339,7 +359,12 @@ def AddMiniIso(process, options, varOptions):
         passingFOID2D = cms.InputTag("goodElectronsPROBEFOID2D"),
         passingTight2D3D = cms.InputTag("goodElectronsPROBETight2D3D"),
         passingTightID2D3D = cms.InputTag("goodElectronsPROBETightID2D3D"),
-        passingLeptonMVA = cms.InputTag("goodElectronsPROBELeptonMVA"),
+        passingLeptonMvaVL = cms.InputTag("goodElectronsPROBELeptonMvaVL"),
+        passingLeptonMvaL = cms.InputTag("goodElectronsPROBELeptonMvaL"),
+        passingLeptonMvaM = cms.InputTag("goodElectronsPROBELeptonMvaM"),
+        passingLeptonMvaT = cms.InputTag("goodElectronsPROBELeptonMvaT"),
+        passingLeptonMvaVT = cms.InputTag("goodElectronsPROBELeptonMvaVT"),
+        passingLeptonMvaET = cms.InputTag("goodElectronsPROBELeptonMvaET"),
     )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
     process.MVAVLooseElectronToIso = process.GsfElectronToEleID.clone()

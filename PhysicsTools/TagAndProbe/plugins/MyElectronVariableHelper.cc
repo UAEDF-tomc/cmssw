@@ -126,9 +126,12 @@ namespace{
     return mini_iso < 0.12 && (jetPtRatio > 0.80 || jetPtRel > 7.2);
   }
 
-  bool PassLeptonMVA(double mva){
-    return mva > 0.5;
-  }
+  bool PassLeptonMvaVL(double mva){ return mva > -0.3;}
+  bool PassLeptonMvaL(double mva){  return mva > 0.25;}
+  bool PassLeptonMvaM(double mva){  return mva > 0.5;}
+  bool PassLeptonMvaT(double mva){  return mva > 0.65;}
+  bool PassLeptonMvaVT(double mva){ return mva > 0.75;}
+  bool PassLeptonMvaET(double mva){ return mva > 0.85;}
 }
 
 class MyElectronVariableHelper : public edm::EDProducer {
@@ -202,7 +205,12 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
   produces<edm::ValueMap<MyBool> >("passMultiIso");
   produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
-  produces<edm::ValueMap<MyBool> >("passLeptonMVA");
+  produces<edm::ValueMap<MyBool> >("passLeptonMvaVL");
+  produces<edm::ValueMap<MyBool> >("passLeptonMvaL");
+  produces<edm::ValueMap<MyBool> >("passLeptonMvaM");
+  produces<edm::ValueMap<MyBool> >("passLeptonMvaT");
+  produces<edm::ValueMap<MyBool> >("passLeptonMvaVT");
+  produces<edm::ValueMap<MyBool> >("passLeptonMvaET");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -275,7 +283,12 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passIHit0;
   std::vector<MyBool> passIHit1;
   std::vector<MyBool> passMultiIso;
-  std::vector<MyBool> passLeptonMVA;
+  std::vector<MyBool> passLeptonMvaVL;
+  std::vector<MyBool> passLeptonMvaL;
+  std::vector<MyBool> passLeptonMvaM;
+  std::vector<MyBool> passLeptonMvaT;
+  std::vector<MyBool> passLeptonMvaVT;
+  std::vector<MyBool> passLeptonMvaET;
 
   size_t i = 0;
   for(const auto &probe: *probes){
@@ -305,8 +318,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     LepGood_miniRelIsoCharged    = charged_mini_iso;
     LepGood_miniRelIsoNeutral    = neutral_mini_iso;
     LepGood_jetPtRelv2           = jetPtRel;
-    LepGood_jetPtRatio           = TMath::Min(jetPtRatio,1.5);
-    LepGood_jetBTagCSV           = TMath::Max(jetBTagCSV,0.);
+    LepGood_jetPtRatio           = TMath::Min(jetPtRatio,(float)1.5);
+    LepGood_jetBTagCSV           = TMath::Max(jetBTagCSV,(float)0.);
     LepGood_sip3d                = sip3d;
     LepGood_dxy                  = TMath::Log(fabs(dxy));
     LepGood_dz                   = TMath::Log(fabs(dz));
@@ -333,7 +346,12 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passIHit0.push_back(missingInnerHits == 0);
     passIHit1.push_back(missingInnerHits <= 1);
     passMultiIso.push_back(PassMultiIso(mini_iso, jetPtRatio, jetPtRel));
-    passLeptonMVA.push_back(PassLeptonMVA(leptonMva));
+    passLeptonMvaVL.push_back(PassLeptonMvaVL(leptonMva));
+    passLeptonMvaL.push_back(PassLeptonMvaL(leptonMva));
+    passLeptonMvaM.push_back(PassLeptonMvaM(leptonMva));
+    passLeptonMvaT.push_back(PassLeptonMvaT(leptonMva));
+    passLeptonMvaVT.push_back(PassLeptonMvaVT(leptonMva));
+    passLeptonMvaET.push_back(PassLeptonMvaET(leptonMva));
     ++i;
   }
 
@@ -366,7 +384,12 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
   Store(iEvent, probes, passMultiIso, "passMultiIso");
   Store(iEvent, probes, And(passMultiIso, passISOEmu), "passMultiIsoEmu");
-  Store(iEvent, probes, passLeptonMVA, "passLeptonMVA");
+  Store(iEvent, probes, passLeptonMvaVL, "passLeptonMvaVL");
+  Store(iEvent, probes, passLeptonMvaL, "passLeptonMvaL");
+  Store(iEvent, probes, passLeptonMvaM, "passLeptonMvaM");
+  Store(iEvent, probes, passLeptonMvaT, "passLeptonMvaT");
+  Store(iEvent, probes, passLeptonMvaVT, "passLeptonMvaVT");
+  Store(iEvent, probes, passLeptonMvaET, "passLeptonMvaET");
 }
 
 
