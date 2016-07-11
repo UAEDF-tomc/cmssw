@@ -47,11 +47,10 @@ def main(options):
             
             #binning = options.tagTauVarName+" > 0.2 && "+options.probeTauVarName+" > 0.2 && mcTrue == 1 && pair_mass60to120 && "+options.etVarName +">"+str(pts[binVar1])+" && "+options.etVarName +"<"+str(pts[binVar1+1])+" && "+options.etaVarName +">"+str(etas[binVar2])+" && "+options.etaVarName +"<"+str(etas[binVar2+1])            
             binning = "mcTrue == 1 && pair_mass60to120 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
-            binning = "mcTrue == 1"
             cuts = "("
             if (options.addProbeCut != ""):
                 cuts = cuts + options.addProbeCut + " && "
-            cuts = cuts + binning + " && "+options.idprobe+"==1"+")"#*"+options.weightVarName
+            cuts = cuts + binning + " && "+options.idprobe+"==1"+")*"+options.weightVarName
 
             fChain.Draw("mass>>"+histos[hp].GetName(), cuts, "goff")
 
@@ -59,9 +58,8 @@ def main(options):
             cuts = "("
             if (options.addProbeCut != ""):
                 cuts = cuts + options.addProbeCut + " && "
-            cuts = cuts + binning + " && "+options.idprobe+"==0"+")" #*"+options.weightVarName
+            cuts = cuts + binning + " && "+options.idprobe+"==0"+")*"+options.weightVarName
 
-            print cuts
             fChain.Draw("mass>>"+histos[hf].GetName(), cuts, "goff")
 
             removeNegativeBins(histos[hp])
@@ -82,7 +80,7 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-i", "--input", default="DY_LO.root", help="Input filename")
     parser.add_option("-o", "--output", default="mc_templates.root", help="Output filename")
-    parser.add_option("-d", "--directory", default="GsfElectronToRECO", help="Directory with fitter_tree")
+    parser.add_option("-d", "--directory", default="GsfElectronToID", help="Directory with fitter_tree")
     parser.add_option("", "--idprobe", default="passingMedium", help="String identifying ID WP to measure")
     parser.add_option("", "--var1Bins", default="20,30,40,50,200", help="Binning to use in var1")
     parser.add_option("", "--var2Bins", default="0.0,1.0,1.4442,1.566,2.0,2.5", help="Binning to use in var2")
