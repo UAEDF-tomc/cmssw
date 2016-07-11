@@ -21,6 +21,7 @@
 
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 
+#include "TMath.h"
 
 namespace{
   typedef bool MyBool;
@@ -120,9 +121,13 @@ namespace{
   }
 
   bool PassMultiIso(double mini_iso,
-		    double pt_ratio,
-		    double pt_rel){
-    return mini_iso < 0.12 && (pt_ratio > 0.80 || pt_rel > 7.2);
+		    double jetPtRatio,
+		    double jetPtRel){
+    return mini_iso < 0.12 && (jetPtRatio > 0.80 || jetPtRel > 7.2);
+  }
+
+  bool PassLeptonMVA(double mva){
+    return mva > 0.5;
   }
 }
 
@@ -141,12 +146,21 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > dxyToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > dzToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > miniIsoToken_;
-  edm::EDGetTokenT<edm::ValueMap<float> > ptRatioToken_;
-  edm::EDGetTokenT<edm::ValueMap<float> > ptRelToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > chargedMiniIsoToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > neutralMiniIsoToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetPtRatioToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetPtRelToken_;
   edm::EDGetTokenT<edm::ValueMap<int> > jetNDauChargedToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetBTagCSVToken_;
+
+  Float_t LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel,
+    LepGood_miniRelIsoCharged, LepGood_miniRelIsoNeutral,
+    LepGood_jetPtRelv2, LepGood_jetPtRatio,
+    LepGood_jetBTagCSV,
+    LepGood_sip3d, LepGood_dxy, LepGood_dz,
+    LepGood_mvaIdSpring15;
+
+  TMVA::Reader *readerEle;
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
@@ -156,8 +170,8 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   dxyToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dxy"))),
   dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))),
   miniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("miniIso"))),
-  ptRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRatio"))),
-  ptRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("ptRel"))),
+  chargedMiniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("chargedMiniIso"))),
+  neutralMiniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("neutralMiniIso"))),
   jetPtRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
   jetPtRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRel"))),
   jetNDauChargedToken_(consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
@@ -188,20 +202,14 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
   produces<edm::ValueMap<MyBool> >("passMultiIso");
   produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
+  produces<edm::ValueMap<MyBool> >("passLeptonMVA");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
 }
 
 void MyElectronVariableHelper::beginJob(){
-    TMVA::Reader *readerEle = new TMVA::Reader( "!Color:!Silent" );    
-
-    Float_t LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel, 
-    LepGood_miniRelIsoCharged, LepGood_miniRelIsoNeutral, 
-    LepGood_jetPtRelv2, LepGood_jetPtRatio, 
-    LepGood_jetBTagCSV, 
-    LepGood_sip3d, LepGood_dxy, LepGood_dz, 
-    LepGood_mvaIdSpring15;
+    readerEle = new TMVA::Reader( "!Color:!Silent" );
 
     readerEle->AddVariable( "LepGood_pt", &LepGood_pt );
     readerEle->AddVariable( "LepGood_eta", &LepGood_eta );
@@ -234,10 +242,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(dzToken_, dzs);
   edm::Handle<edm::ValueMap<float> > miniIsos;
   iEvent.getByToken(miniIsoToken_, miniIsos);
-  edm::Handle<edm::ValueMap<float> > ptRatios;
-  iEvent.getByToken(ptRatioToken_, ptRatios);
-  edm::Handle<edm::ValueMap<float> > ptRels;
-  iEvent.getByToken(ptRelToken_, ptRels);
+  edm::Handle<edm::ValueMap<float> > chargedMiniIsos;
+  iEvent.getByToken(chargedMiniIsoToken_, chargedMiniIsos);
+  edm::Handle<edm::ValueMap<float> > neutralMiniIsos;
+  iEvent.getByToken(neutralMiniIsoToken_, neutralMiniIsos);
   edm::Handle<edm::ValueMap<float> > jetPtRatios;
   iEvent.getByToken(jetPtRatioToken_, jetPtRatios);
   edm::Handle<edm::ValueMap<float> > jetPtRels;
@@ -267,28 +275,44 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passIHit0;
   std::vector<MyBool> passIHit1;
   std::vector<MyBool> passMultiIso;
+  std::vector<MyBool> passLeptonMVA;
 
   size_t i = 0;
   for(const auto &probe: *probes){
     edm::RefToBase<reco::Candidate> pp = probes_view->refAt(i);
 
-    double ip3d = probe.dB(pat::Electron::PV3D);
-    double ip3d_err = probe.edB(pat::Electron::PV3D);
-    double sip3d = ip3d/ip3d_err;
-    double mva = (*mvas)[pp];
-    double dxy = (*dxys)[pp];
-    double dz = (*dzs)[pp];
-    double mini_iso = (*miniIsos)[pp];
-    double pt_ratio = (*ptRatios)[pp];
-    double pt_rel = (*ptRels)[pp];
-/*    double jetPtRatio     = (*jetPtRatios)[pp];
-    double jetPtRel       = (*jetPtRels)[pp];
-    int    jetNDauCharged = (*jetNDauChargeds)[pp];
-    double jetBTagCSV     = (*jetBTagCSVs)[pp];*/
-    double ecalIso = probe.ecalPFClusterIso();
-    double hcalIso = probe.hcalPFClusterIso();
-    double trackIso = probe.dr03TkSumPt();
-    int missingInnerHits = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+    double ip3d             = probe.dB(pat::Electron::PV3D);
+    double ip3d_err         = probe.edB(pat::Electron::PV3D);
+    double sip3d            = ip3d/ip3d_err;
+    double mva              = (*mvas)[pp];
+    double dxy              = (*dxys)[pp];
+    double dz               = (*dzs)[pp];
+    double mini_iso         = (*miniIsos)[pp];
+    double charged_mini_iso = (*chargedMiniIsos)[pp];
+    double neutral_mini_iso = (*neutralMiniIsos)[pp];
+    double jetPtRatio       = (*jetPtRatios)[pp];
+    double jetPtRel         = (*jetPtRels)[pp];
+    int    jetNDauCharged   = (*jetNDauChargeds)[pp];
+    double jetBTagCSV       = (*jetBTagCSVs)[pp];
+    double ecalIso          = probe.ecalPFClusterIso();
+    double hcalIso          = probe.hcalPFClusterIso();
+    double trackIso         = probe.dr03TkSumPt();
+    int missingInnerHits    = probe.gsfTrack()->hitPattern().numberOfHits(reco::HitPattern::MISSING_INNER_HITS);
+
+    LepGood_pt                   = pp->pt();
+    LepGood_eta                  = pp->eta();
+    LepGood_jetNDauChargedMVASel = jetNDauCharged;
+    LepGood_miniRelIsoCharged    = charged_mini_iso;
+    LepGood_miniRelIsoNeutral    = neutral_mini_iso;
+    LepGood_jetPtRelv2           = jetPtRel;
+    LepGood_jetPtRatio           = TMath::Min(jetPtRatio,1.5);
+    LepGood_jetBTagCSV           = TMath::Max(jetBTagCSV,0.);
+    LepGood_sip3d                = sip3d;
+    LepGood_dxy                  = TMath::Log(fabs(dxy));
+    LepGood_dz                   = TMath::Log(fabs(dz));
+    LepGood_mvaIdSpring15        = mva;
+
+    double leptonMva             = readerEle->EvaluateMVA( "BDTG method" );
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
@@ -308,23 +332,9 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passCharge.push_back(probe.isGsfCtfScPixChargeConsistent());
     passIHit0.push_back(missingInnerHits == 0);
     passIHit1.push_back(missingInnerHits <= 1);
-    passMultiIso.push_back(PassMultiIso(mini_iso, pt_ratio, pt_rel));
+    passMultiIso.push_back(PassMultiIso(mini_iso, jetPtRatio, jetPtRel));
+    passLeptonMVA.push_back(PassLeptonMVA(leptonMva));
     ++i;
-/* Still working on
-    LepGood_pt = pp.Pt();
-    LepGood_eta = _lEta[i];
-    LepGood_jetNDauChargedMVASel = _trackSelectionMultiplicity[i];
-    LepGood_miniRelIsoCharged = _miniisolationCharged[i][0];
-    LepGood_miniRelIsoNeutral = _miniisolation[i][0] - _miniisolationCharged[i][0];
-    LepGood_jetPtRelv2 = _ptrel[i];
-    LepGood_jetPtRatio = TMath::Min(_ptratio[i],1.5);
-    LepGood_jetBTagCSV = TMath::Max(_closeJetCSVAll[i],0.);
-    LepGood_sip3d = _3dIPsig[i]; 
-    LepGood_dxy = TMath::Log(fabs(_ipPV[i]));
-    LepGood_dz = TMath::Log(fabs(_ipZPV[i]));
-    LepGood_mvaIdSpring15 = _mvaValue[i];
-*/
-
   }
 
   // convert into ValueMap and store
@@ -356,9 +366,9 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
   Store(iEvent, probes, passMultiIso, "passMultiIso");
   Store(iEvent, probes, And(passMultiIso, passISOEmu), "passMultiIsoEmu");
+  Store(iEvent, probes, passLeptonMVA, "passLeptonMVA");
 }
 
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-    std::cout << "!!!" << std::endl; 
 DEFINE_FWK_MODULE(MyElectronVariableHelper);
