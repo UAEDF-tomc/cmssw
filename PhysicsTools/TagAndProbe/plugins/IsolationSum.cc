@@ -19,6 +19,7 @@ public:
 
 private:
   virtual void produce(edm::Event &event, const edm::EventSetup &setup) override;
+  template <typename T> void putInEvent(std::string, const edm::Handle<CandView>&, std::vector<T>&, edm::Event&);
 
   EffectiveAreas effectiveAreas_;
   edm::EDGetTokenT<CandView> probesToken_;
@@ -47,6 +48,8 @@ IsolationSum::IsolationSum(const edm::ParameterSet &pset):
   activityRadius_(pset.existsAs<double>("actRadius") ? pset.getParameter<double>("actRadius") : -1.),
   isRelativeIso_(pset.getParameter<bool>("isRelativeIso")){
   produces<edm::ValueMap<float> >("sum");
+  produces<edm::ValueMap<float> >("charged");
+  produces<edm::ValueMap<float> >("neutral");
 }
 
 IsolationSum::~IsolationSum(){
@@ -69,6 +72,8 @@ void IsolationSum::produce(edm::Event &event, const edm::EventSetup &setup){
   const auto &phoMap = static_cast<edm::ValueMap<float> >(*phoHandle);
 
   std::vector<float> isos(probesHandle->size());
+  std::vector<float> chargedIsos(probesHandle->size());
+  std::vector<float> neutralIsos(probesHandle->size());
 
   for(size_t iprobe = 0; iprobe < probesHandle->size(); ++iprobe){
     auto cand = probesHandle->ptrAt(iprobe);
@@ -96,15 +101,27 @@ void IsolationSum::produce(edm::Event &event, const edm::EventSetup &setup){
     double nhad = nhadMap[cand];
     double pho = phoMap[cand];
 
-    isos.at(iprobe) = chad + std::max(0., nhad+pho-rho*effectiveArea);
-    if(isRelativeIso_) isos.at(iprobe) /= cand->pt();
+    isos.at(iprobe)        = chad + std::max(0., nhad+pho-rho*effectiveArea);
+    chargedIsos.at(iprobe) = chad;
+    neutralIsos.at(iprobe) = std::max(0., nhad+pho-rho*effectiveArea);
+
+    for(auto i : {isos, chargedIsos, neutralIsos}){
+      if(isRelativeIso_) i.at(iprobe) /= cand->pt();
+    }
   }
 
-  std::auto_ptr<edm::ValueMap<float> > isosValMap(new edm::ValueMap<float>());
-  edm::ValueMap<float>::Filler isosFiller(*isosValMap);
-  isosFiller.insert(probesHandle, isos.begin(), isos.end());
-  isosFiller.fill();
-  event.put(isosValMap, "sum");
+  putInEvent("sum",     probesHandle, isos,        event);
+  putInEvent("charged", probesHandle, chargedIsos, event);
+  putInEvent("neutral", probesHandle, neutralIsos, event);
+}
+
+/// Function to put product into event
+template <typename T> void IsolationSum::putInEvent(std::string name, const edm::Handle<CandView>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
+  std::auto_ptr<edm::ValueMap<T>> out(new edm::ValueMap<T>());
+  typename edm::ValueMap<T>::Filler filler(*out);
+  filler.insert(probesHandle, product.begin(), product.end());
+  filler.fill();
+  iEvent.put(out, name);
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
