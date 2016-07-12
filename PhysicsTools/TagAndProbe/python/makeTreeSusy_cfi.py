@@ -432,6 +432,7 @@ def AddMiniIso(process, options, varOptions):
             process.iso_sums +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
             process.jetConverter + 
+            process.jetAwareCleaner +
             process.AddLeptonJetRelatedVariables +
             process.MyEleVars +
             process.my_ele_sequence + 

@@ -127,7 +127,7 @@ void TagProbeFitter::setWeightVar(const std::string &var) {
 }
 
 string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<string>& effCats,const std::vector<string>& effStates, vector<string>& unbinnedVariables, map<string, vector<double> >& binnedReals, map<string, std::vector<string> >& binnedCats, vector<string>& binToPDFmap) {
-  
+
   //go to home directory
   outputDirectory->cd();
   //make a directory corresponding to this efficiency binning
