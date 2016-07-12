@@ -1,13 +1,14 @@
+#!/usr/bin/env python
 import ROOT
 from optparse import OptionParser
-import sys
+import sys, os, glob
 
 def makeTable(h, tablefilename):
     nX = h.GetNbinsX()
     nY = h.GetNbinsY()
   
     print "Writing...", tablefilename
-    f = open(tablefilename, "w+")
+    f = open(os.path.join(options.output, tablefilename), "w+")
 
     for i in xrange(1, nX+1):
     
@@ -28,8 +29,12 @@ def makeTable(h, tablefilename):
 def main(options):
     ROOT.gStyle.SetPaintTextFormat("1.4f")
     print "##################################################   "
-    f = ROOT.TFile(options.input)
-    f.cd(options.directory+"/"+options.name)
+    print "Opening file: " + options.input
+    f      = ROOT.TFile(options.input)
+    topDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+    f.cd(ROOT.gDirectory.GetListOfKeys()[0].GetName())
+    subDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+    f.cd(os.path.join(topDir, subDir))
     
     keyList = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
 
@@ -48,11 +53,12 @@ def main(options):
         if (obj.ClassName() == "TCanvas"):
             for p in obj.GetListOfPrimitives():
                 if (p.ClassName() == "TH2F" and not tableDone):
-                    makeTable(p, options.name+".txt")
+                    obj.SetLogx()
+                    makeTable(p, subDir +".txt")
                     tableDone = True
             obj.Draw()
             innername = innername.replace("&", "")            
-            plotname = innername + ".png"
+            plotname = os.path.join(options.output, innername + ".png")
             obj.SaveAs(plotname)
 
     if (options.dumpPlots and not options.cc):
@@ -66,7 +72,7 @@ def main(options):
             ROOT.gDirectory.cd(innername)
             c = ROOT.gDirectory.Get("fit_canvas")
             c.Draw()
-            plotname = "fit" + options.name + "_" + innername + ".png"
+            plotname = os.path.join(options.output, "fit_" + subDir + "_" + innername + ".png")
             #plotname = plotname.replace("probe_sc_", "")
             plotname = plotname.replace("&", "")
             plotname = plotname.replace("__pdfSignalPlusBackground", "")
@@ -76,17 +82,20 @@ def main(options):
 if (__name__ == "__main__"):
     parser = OptionParser()
     parser.add_option("-i", "--input", default="efficiency-mc-GsfElectronToId.root", help="Input filename")
-    parser.add_option("-d", "--directory", default="GsfElectronToRECO", help="Directory with workspace")
-    parser.add_option("-c", dest="cc", action="store_true", help="Is simple Cut and Count", default=False)
-    parser.add_option("-b", dest="batch", action="store_true", help="ROOT batch mode", default=False)
-    parser.add_option("-m", "--name", help="Subdirectory with results", default="xxx")
-    parser.add_option("-p", "--dump-plot", dest="dumpPlots", action="store_true", help="Dump fit plots", default=False)
+    parser.add_option("-d", "--directory", default="GsfElectronToID", help="Directory with workspace")
+    parser.add_option("-p", "--dump-plot", dest="dumpPlots", action="store_true", help="Dump fit plots", default=True)
 
     (options, arg) = parser.parse_args()
 
-    if (options.batch):
-        ROOT.gROOT.SetBatch(True)
+    for file in glob.glob("../eff*.root"):
+      options.input  = file
+      options.output = file.split('.root')[0].split('/')[-1]
+      options.cc     = file.count("mc")
+      try:
+	os.makedirs(options.output)
+      except:
+	pass
 
-    main(options)
 
-
+      ROOT.gROOT.SetBatch(True)
+      main(options)
