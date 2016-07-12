@@ -277,7 +277,7 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     InputFileNames = cms.vstring("mc.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
-    OutputFileName = cms.string("eff_mc_veto.root"),
+    OutputFileName = cms.string("eff_mc_Veto.root"),
     NumCPU = cms.uint32(6),
     SaveWorkspace = cms.bool(False), #VERY TIME CONSUMING FOR MC
     doCutAndCount = cms.bool(True),
@@ -317,7 +317,7 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
 
 process.McGsfElectronToLoose = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToLoose.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToLoose.OutputFileName = cms.string("eff_mc_loose.root")
+process.McGsfElectronToLoose.OutputFileName = cms.string("eff_mc_Loose.root")
 process.McGsfElectronToLoose.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingLoose = cms.vstring("passingLoose", "dummy[pass=1,fail=0]"),
@@ -331,7 +331,7 @@ process.McGsfElectronToLoose.Efficiencies = cms.PSet(
 
 process.McGsfElectronToMedium = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToMedium.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToMedium.OutputFileName = cms.string("eff_mc_medium.root")
+process.McGsfElectronToMedium.OutputFileName = cms.string("eff_mc_Medium.root")
 process.McGsfElectronToMedium.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingMedium = cms.vstring("passingMedium", "dummy[pass=1,fail=0]"),
@@ -345,7 +345,7 @@ process.McGsfElectronToMedium.Efficiencies = cms.PSet(
 
 process.McGsfElectronToTight = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToTight.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToTight.OutputFileName = cms.string("eff_mc_tight.root")
+process.McGsfElectronToTight.OutputFileName = cms.string("eff_mc_Tight.root")
 process.McGsfElectronToTight.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingTight = cms.vstring("passingTight", "dummy[pass=1,fail=0]"),
@@ -359,7 +359,7 @@ process.McGsfElectronToTight.Efficiencies = cms.PSet(
 
 process.McGsfElectronToLoose2D = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToLoose2D.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToLoose2D.OutputFileName = cms.string("eff_mc_loose2d.root")
+process.McGsfElectronToLoose2D.OutputFileName = cms.string("eff_mc_Loose2D.root")
 process.McGsfElectronToLoose2D.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingLoose2D = cms.vstring("passingLoose2D", "dummy[pass=1,fail=0]"),
@@ -373,7 +373,7 @@ process.McGsfElectronToLoose2D.Efficiencies = cms.PSet(
 
 process.McGsfElectronToFOID2D = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToFOID2D.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToFOID2D.OutputFileName = cms.string("eff_mc_foid2d.root")
+process.McGsfElectronToFOID2D.OutputFileName = cms.string("eff_mc_FOID2D3D.root")
 process.McGsfElectronToFOID2D.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingFOID2D = cms.vstring("passingFOID2D", "dummy[pass=1,fail=0]"),
@@ -387,7 +387,7 @@ process.McGsfElectronToFOID2D.Efficiencies = cms.PSet(
 
 process.McGsfElectronToTight2D3D = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToTight2D3D.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToTight2D3D.OutputFileName = cms.string("eff_mc_tight2d3d.root")
+process.McGsfElectronToTight2D3D.OutputFileName = cms.string("eff_mc_Tight2D3D.root")
 process.McGsfElectronToTight2D3D.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingTight2D3D = cms.vstring("passingTight2D3D", "dummy[pass=1,fail=0]"),
@@ -401,7 +401,7 @@ process.McGsfElectronToTight2D3D.Efficiencies = cms.PSet(
 
 process.McGsfElectronToTightID2D3D = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToTightID2D3D.InputDirectoryName = cms.string("GsfElectronToID")
-process.McGsfElectronToTightID2D3D.OutputFileName = cms.string("eff_mc_tightid2d3d.root")
+process.McGsfElectronToTightID2D3D.OutputFileName = cms.string("eff_mc_TightID2D3D.root")
 process.McGsfElectronToTightID2D3D.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingTightID2D3D = cms.vstring("passingTightID2D3D", "dummy[pass=1,fail=0]"),
@@ -415,7 +415,7 @@ process.McGsfElectronToTightID2D3D.Efficiencies = cms.PSet(
 
 process.McMVAVLooseElectronToMini = process.McGsfElectronToMedium.clone()
 process.McMVAVLooseElectronToMini.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.McMVAVLooseElectronToMini.OutputFileName = cms.string("eff_mc_mvavloosemini_"+trail+".root")
+process.McMVAVLooseElectronToMini.OutputFileName = cms.string("eff_mc_mvavLoosemini_"+trail+".root")
 process.McMVAVLooseElectronToMini.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"),
@@ -429,7 +429,7 @@ process.McMVAVLooseElectronToMini.Efficiencies = cms.PSet(
 
 process.McMVAVLooseElectronToMini4 = process.McMVAVLooseElectronToMini.clone()
 process.McMVAVLooseElectronToMini4.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.McMVAVLooseElectronToMini4.OutputFileName = cms.string("eff_mc_mvavloosemini4_"+trail+".root")
+process.McMVAVLooseElectronToMini4.OutputFileName = cms.string("eff_mc_mvavLoosemini4_"+trail+".root")
 process.McMVAVLooseElectronToMini4.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingMini4 = cms.vstring("passingMini4", "dummy[pass=1,fail=0]"),
@@ -443,7 +443,7 @@ process.McMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
 
 process.McMVAVLooseElectronToConvIHit1 = process.McMVAVLooseElectronToMini.clone()
 process.McMVAVLooseElectronToConvIHit1.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.McMVAVLooseElectronToConvIHit1.OutputFileName = cms.string("eff_mc_mvavlooseconvihit1_"+trail+".root")
+process.McMVAVLooseElectronToConvIHit1.OutputFileName = cms.string("eff_mc_mvavLooseconvihit1_"+trail+".root")
 process.McMVAVLooseElectronToConvIHit1.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingConvIHit1 = cms.vstring("passingConvIHit1", "dummy[pass=1,fail=0]"),
@@ -457,7 +457,7 @@ process.McMVAVLooseElectronToConvIHit1.Efficiencies = cms.PSet(
 
 process.McMVATightElectronToConvIHit0Chg = process.McMVAVLooseElectronToMini.clone()
 process.McMVATightElectronToConvIHit0Chg.InputDirectoryName = cms.string("MVATightElectronToIso")
-process.McMVATightElectronToConvIHit0Chg.OutputFileName = cms.string("eff_mc_mvatightconvihit0chg_"+trail+".root")
+process.McMVATightElectronToConvIHit0Chg.OutputFileName = cms.string("eff_mc_mvaTightconvihit0chg_"+trail+".root")
 process.McMVATightElectronToConvIHit0Chg.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingConvIHit0Chg = cms.vstring("passingConvIHit0Chg", "dummy[pass=1,fail=0]"),
@@ -471,7 +471,7 @@ process.McMVATightElectronToConvIHit0Chg.Efficiencies = cms.PSet(
 
 process.McMVATightElectronToMulti = process.McMVAVLooseElectronToMini.clone()
 process.McMVATightElectronToMulti.InputDirectoryName = cms.string("MVATightElectronToIso")
-process.McMVATightElectronToMulti.OutputFileName = cms.string("eff_mc_mvatightmulti_"+trail+".root")
+process.McMVATightElectronToMulti.OutputFileName = cms.string("eff_mc_mvaTightmulti_"+trail+".root")
 process.McMVATightElectronToMulti.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"),
@@ -485,7 +485,7 @@ process.McMVATightElectronToMulti.Efficiencies = cms.PSet(
 
 process.McMVATightElectronToMultiEmu = process.McMVAVLooseElectronToMini.clone()
 process.McMVATightElectronToMultiEmu.InputDirectoryName = cms.string("MVATightElectronToIso")
-process.McMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_mc_mvatightmultiemu_"+trail+".root")
+process.McMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_mc_mvaTightmultiemu_"+trail+".root")
 process.McMVATightElectronToMultiEmu.Categories = cms.PSet(
     mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
     passingMultiIsoEmu = cms.vstring("passingMultiIsoEmu", "dummy[pass=1,fail=0]"),
@@ -500,7 +500,7 @@ process.McMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
 process.DataGsfElectronToVeto = process.McGsfElectronToVeto.clone()
 process.DataGsfElectronToVeto.InputFileNames = cms.vstring("data.root")
 process.DataGsfElectronToVeto.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToVeto.OutputFileName = cms.string("eff_data_veto.root")
+process.DataGsfElectronToVeto.OutputFileName = cms.string("eff_data_Veto.root")
 process.DataGsfElectronToVeto.doCutAndCount = cms.bool(False)
 delattr(process.DataGsfElectronToVeto, "WeightVariable")
 process.DataGsfElectronToVeto.Variables = cms.PSet(
@@ -521,7 +521,7 @@ process.DataGsfElectronToVeto.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToLoose = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToLoose.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToLoose.OutputFileName = cms.string("eff_data_loose.root")
+process.DataGsfElectronToLoose.OutputFileName = cms.string("eff_data_Loose.root")
 process.DataGsfElectronToLoose.Categories = cms.PSet(passingLoose = cms.vstring("passingLoose", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToLoose.Efficiencies = cms.PSet(
     Loose = cms.PSet(
@@ -532,7 +532,7 @@ process.DataGsfElectronToLoose.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToMedium = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToMedium.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToMedium.OutputFileName = cms.string("eff_data_medium.root")
+process.DataGsfElectronToMedium.OutputFileName = cms.string("eff_data_Medium.root")
 process.DataGsfElectronToMedium.Categories = cms.PSet(passingMedium = cms.vstring("passingMedium", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToMedium.Efficiencies = cms.PSet(
     Medium = cms.PSet(
@@ -543,7 +543,7 @@ process.DataGsfElectronToMedium.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToTight = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToTight.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToTight.OutputFileName = cms.string("eff_data_tight.root")
+process.DataGsfElectronToTight.OutputFileName = cms.string("eff_data_Tight.root")
 process.DataGsfElectronToTight.Categories = cms.PSet(passingTight = cms.vstring("passingTight", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToTight.Efficiencies = cms.PSet(
     Tight = cms.PSet(
@@ -554,7 +554,7 @@ process.DataGsfElectronToTight.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToLoose2D = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToLoose2D.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToLoose2D.OutputFileName = cms.string("eff_data_loose2d.root")
+process.DataGsfElectronToLoose2D.OutputFileName = cms.string("eff_data_Loose2D.root")
 process.DataGsfElectronToLoose2D.Categories = cms.PSet(passingLoose2D = cms.vstring("passingLoose2D", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToLoose2D.Efficiencies = cms.PSet(
     Loose2D = cms.PSet(
@@ -565,7 +565,7 @@ process.DataGsfElectronToLoose2D.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToFOID2D = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToFOID2D.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToFOID2D.OutputFileName = cms.string("eff_data_foid2d.root")
+process.DataGsfElectronToFOID2D.OutputFileName = cms.string("eff_data_FOID2D3D.root")
 process.DataGsfElectronToFOID2D.Categories = cms.PSet(passingFOID2D = cms.vstring("passingFOID2D", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToFOID2D.Efficiencies = cms.PSet(
     FOID2D = cms.PSet(
@@ -576,7 +576,7 @@ process.DataGsfElectronToFOID2D.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToTight2D3D = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToTight2D3D.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToTight2D3D.OutputFileName = cms.string("eff_data_tight2d3d.root")
+process.DataGsfElectronToTight2D3D.OutputFileName = cms.string("eff_data_Tight2D3D.root")
 process.DataGsfElectronToTight2D3D.Categories = cms.PSet(passingTight2D3D = cms.vstring("passingTight2D3D", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToTight2D3D.Efficiencies = cms.PSet(
     Tight2D3D = cms.PSet(
@@ -587,7 +587,7 @@ process.DataGsfElectronToTight2D3D.Efficiencies = cms.PSet(
 
 process.DataGsfElectronToTightID2D3D = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToTightID2D3D.InputDirectoryName = cms.string("GsfElectronToID")
-process.DataGsfElectronToTightID2D3D.OutputFileName = cms.string("eff_data_tightid2d3d.root")
+process.DataGsfElectronToTightID2D3D.OutputFileName = cms.string("eff_data_TightID2D3D.root")
 process.DataGsfElectronToTightID2D3D.Categories = cms.PSet(passingTightID2D3D = cms.vstring("passingTightID2D3D", "dummy[pass=1,fail=0]"))
 process.DataGsfElectronToTightID2D3D.Efficiencies = cms.PSet(
     TightID2D3D = cms.PSet(
@@ -598,7 +598,7 @@ process.DataGsfElectronToTightID2D3D.Efficiencies = cms.PSet(
 
 process.DataMVAVLooseElectronToMini = process.DataGsfElectronToVeto.clone()
 process.DataMVAVLooseElectronToMini.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.DataMVAVLooseElectronToMini.OutputFileName = cms.string("eff_data_mvavloosemini_"+trail+".root")
+process.DataMVAVLooseElectronToMini.OutputFileName = cms.string("eff_data_mvavLoosemini_"+trail+".root")
 process.DataMVAVLooseElectronToMini.Categories = cms.PSet(passingMini = cms.vstring("passingMini", "dummy[pass=1,fail=0]"))
 process.DataMVAVLooseElectronToMini.Efficiencies = cms.PSet(
     Mini = cms.PSet(
@@ -609,7 +609,7 @@ process.DataMVAVLooseElectronToMini.Efficiencies = cms.PSet(
 
 process.DataMVAVLooseElectronToMini4 = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVAVLooseElectronToMini4.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.DataMVAVLooseElectronToMini4.OutputFileName = cms.string("eff_data_mvavloosemini4_"+trail+".root")
+process.DataMVAVLooseElectronToMini4.OutputFileName = cms.string("eff_data_mvavLoosemini4_"+trail+".root")
 process.DataMVAVLooseElectronToMini4.Categories = cms.PSet(passingMini4 = cms.vstring("passingMini4", "dummy[pass=1,fail=0]"))
 process.DataMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
     Mini4 = cms.PSet(
@@ -620,7 +620,7 @@ process.DataMVAVLooseElectronToMini4.Efficiencies = cms.PSet(
 
 process.DataMVAVLooseElectronToConvIHit1 = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVAVLooseElectronToConvIHit1.InputDirectoryName = cms.string("MVAVLooseElectronToIso")
-process.DataMVAVLooseElectronToConvIHit1.OutputFileName = cms.string("eff_data_mvavlooseconvihit1_"+trail+".root")
+process.DataMVAVLooseElectronToConvIHit1.OutputFileName = cms.string("eff_data_mvavLooseconvihit1_"+trail+".root")
 process.DataMVAVLooseElectronToConvIHit1.Categories = cms.PSet(passingConvIHit1 = cms.vstring("passingConvIHit1", "dummy[pass=1,fail=0]"))
 process.DataMVAVLooseElectronToConvIHit1.Efficiencies = cms.PSet(
     ConvIHit1 = cms.PSet(
@@ -631,7 +631,7 @@ process.DataMVAVLooseElectronToConvIHit1.Efficiencies = cms.PSet(
 
 process.DataMVATightElectronToConvIHit0Chg = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVATightElectronToConvIHit0Chg.InputDirectoryName = cms.string("MVATightElectronToIso")
-process.DataMVATightElectronToConvIHit0Chg.OutputFileName = cms.string("eff_data_mvatightconvihit0chg_"+trail+".root")
+process.DataMVATightElectronToConvIHit0Chg.OutputFileName = cms.string("eff_data_mvaTightconvihit0chg_"+trail+".root")
 process.DataMVATightElectronToConvIHit0Chg.Categories = cms.PSet(passingConvIHit0Chg = cms.vstring("passingConvIHit0Chg", "dummy[pass=1,fail=0]"))
 process.DataMVATightElectronToConvIHit0Chg.Efficiencies = cms.PSet(
     ConvIHit0Chg = cms.PSet(
@@ -642,7 +642,7 @@ process.DataMVATightElectronToConvIHit0Chg.Efficiencies = cms.PSet(
 
 process.DataMVATightElectronToMulti = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVATightElectronToMulti.InputDirectoryName = cms.string("MVATightElectronToIso")
-process.DataMVATightElectronToMulti.OutputFileName = cms.string("eff_data_mvatightmulti_"+trail+".root")
+process.DataMVATightElectronToMulti.OutputFileName = cms.string("eff_data_mvaTightmulti_"+trail+".root")
 process.DataMVATightElectronToMulti.Categories = cms.PSet(passingMultiIso = cms.vstring("passingMultiIso", "dummy[pass=1,fail=0]"))
 process.DataMVATightElectronToMulti.Efficiencies = cms.PSet(
     Multi = cms.PSet(
@@ -653,7 +653,7 @@ process.DataMVATightElectronToMulti.Efficiencies = cms.PSet(
 
 process.DataMVATightElectronToMultiEmu = process.DataMVAVLooseElectronToMini.clone()
 process.DataMVATightElectronToMultiEmu.InputDirectoryName = cms.string("MVATightElectronToIso")
-process.DataMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_data_mvatightmultiemu_"+trail+".root")
+process.DataMVATightElectronToMultiEmu.OutputFileName = cms.string("eff_data_mvaTightmultiemu_"+trail+".root")
 process.DataMVATightElectronToMultiEmu.Categories = cms.PSet(passingMultiIsoEmu = cms.vstring("passingMultiIsoEmu", "dummy[pass=1,fail=0]"))
 process.DataMVATightElectronToMultiEmu.Efficiencies = cms.PSet(
     MultiEmu = cms.PSet(
@@ -666,13 +666,13 @@ process.seq = cms.Sequence()
 
 if (not options.noMC) and (not options.noID):
     process.seq += process.McGsfElectronToVeto
-#    process.seq += process.McGsfElectronToLoose
-#    process.seq += process.McGsfElectronToMediu
+    process.seq += process.McGsfElectronToLoose
+    process.seq += process.McGsfElectronToMedium
     process.seq += process.McGsfElectronToTight
-#    process.seq += process.McGsfElectronToLoose2D
-#    process.seq += process.McGsfElectronToFOID2D
-#    process.seq += process.McGsfElectronToTight2D3D
-#    process.seq += process.McGsfElectronToTightID2D3D
+    process.seq += process.McGsfElectronToLoose2D
+    process.seq += process.McGsfElectronToFOID2D
+    process.seq += process.McGsfElectronToTight2D3D
+    process.seq += process.McGsfElectronToTightID2D3D
 
 if (not options.noMC) and (not options.noIso):
     process.seq += process.McMVAVLooseElectronToMini
