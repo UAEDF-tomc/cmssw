@@ -231,8 +231,8 @@ void MyElectronVariableHelper::beginJob(){
     readerEle->AddVariable( "log(abs(LepGood_dxy))", &LepGood_dxy );  
     readerEle->AddVariable( "log(abs(LepGood_dz))", &LepGood_dz );  
     readerEle->AddVariable( "LepGood_mvaIdSpring15", &LepGood_mvaIdSpring15 );
- //   edm::FileInPath *fp = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond16_el_sigTTZ_bkgTT_BDTG.weights.xml");
-    readerEle->BookMVA( "BDTG method", "/user/tomc/tagAndProbe/CMSSW_8_0_10/src/PhysicsTools/TagAndProbe/data/forMoriond16_el_sigTTZ_bkgTT_BDTG.weights.xml" ); 
+    edm::FileInPath *fip = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond16_el_sigTTZ_bkgTT_BDTG.weights.xml");
+    readerEle->BookMVA( "BDTG method", fip->fullPath().c_str());
 }
 
 
