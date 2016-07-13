@@ -1,5 +1,6 @@
-import ROOT
-import math
+#!/usr/bin/env python
+import ROOT, os, glob
+import math, numpy
 from optparse import OptionParser
 
 def makeTable(hnum, hden, tablefilename):
@@ -27,54 +28,69 @@ def makeTable(hnum, hden, tablefilename):
     f.close()
 
 def main(options):
-    fData = ROOT.TFile(options.data)
-    fMC   = ROOT.TFile(options.mc)
     hData = ""
     hMC = ""
 
-    temp = "%s/%s/fit_eff_plots/" % (options.directory, options.name)
-    #if("ToHLT" in temp):
-    #    temp = "%s/%s/cnt_eff_plots/" %(options.directory, options.name)
-    fData.cd(temp)
+    print "##################################################   "
+    print "Opening files: " + options.data + " and " + options.mc
+    fData  = ROOT.TFile(options.data)
+    topDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+    fData.cd(ROOT.gDirectory.GetListOfKeys()[0].GetName())
+    subDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+    fData.cd(os.path.join(topDir, subDir, "fit_eff_plots"))
 
+    outFile = "scaleFactors/ScaleFactor_%s_%s.txt"%(topDir, subDir)
+
+    theCanvas = None
     keyList = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
     for k in  keyList:
         obj = ROOT.gDirectory.GetKey(k).ReadObj();
         innername = obj.GetName()
         if (obj.ClassName() == "TCanvas"):
             for p in obj.GetListOfPrimitives():
-                if (p.ClassName() == "TH2F"):
+                if (p.ClassName() == "TH2F" and p.GetName().count("probe_Ele_pt_probe_sc_abseta_PLOT")):
+                    theCanvas = obj
                     hData = p
 
-    temp = "%s/MCtruth_%s/fit_eff_plots/" % (options.directory, options.name)
-    fMC.cd(temp)
+    fMC    = ROOT.TFile(options.mc)
+    topDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+    fMC.cd(ROOT.gDirectory.GetListOfKeys()[0].GetName())
+    subDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+    fMC.cd(os.path.join(topDir, subDir, "cnt_eff_plots"))
+
     keyList = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
     for k in  keyList:
         obj = ROOT.gDirectory.GetKey(k).ReadObj();
         innername = obj.GetName()
         if (obj.ClassName() == "TCanvas"):
             for p in obj.GetListOfPrimitives():
-                if (p.ClassName() == "TH2F"):
+                if (p.ClassName() == "TH2F" and p.GetName().count("probe_Ele_pt_probe_sc_abseta_PLOT")):
                     hMC = p
 
-    temp = "ScaleFactor_%s_%s.txt"%(options.directory, options.name)
-    #hData.Divide(hMC)
-    makeTable(hData, hMC, temp)
+    makeTable(hData, hMC, outFile)
     
+    hData.Divide(hMC)
+    hData.SetContour(13, numpy.array([0,0.5,0.75,0.85,0.9,0.95,1,1.05,1.10,1.15,1.25,1.50,2]))
+    hData.GetZaxis().SetRangeUser(0,2)
+    theCanvas.SetLogx()
+    theCanvas.Draw()
+    theCanvas.SaveAs(outFile.replace(".txt",".png"))     
+
     fData.Close()
     fMC.Close()
 
 if (__name__ == "__main__"):
     parser = OptionParser()
-    parser.add_option("", "--mc", default="efficiency-mc-GsfElectronToId.root", help="Input filename for MC")
-    parser.add_option("", "--data", default="efficiency-data-GsfElectronToId.root", help="Input filename for data")
-    parser.add_option("-d", "--directory", default="GsfElectronToRECO", help="Directory with workspace")
-    parser.add_option("-n", "--name", default="Medium", help="Subdirectory with results")
-    parser.add_option("-b", dest="batch", action="store_true", help="ROOT batch mode", default=False)
     
     (options, arg) = parser.parse_args()
 
-    if (options.batch):
-        ROOT.gROOT.SetBatch(True)
+    for file in glob.glob("../eff_data*.root"):
+      options.data   = file
+      options.mc     = file.replace('data','mc')
+  #    try:
+#	os.makedirs(options.output)
+#      except:
+#	pass
 
-    main(options)
+      ROOT.gROOT.SetBatch(True)
+      main(options)
