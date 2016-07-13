@@ -156,7 +156,11 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_passTightID2D3D = cms.InputTag("MyEleVars:passTightID2D3D"),
         probe_ele_passConvIHit1 = cms.InputTag("MyEleVars:passConvIHit1"),
         probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
-        probe_ele_passMultiIso = cms.InputTag("MyEleVars:passMultiIso"),
+        probe_ele_passMultiIsoVL = cms.InputTag("MyEleVars:passMultiIsoVL"),
+        probe_ele_passMultiIsoL = cms.InputTag("MyEleVars:passMultiIsoL"),
+        probe_ele_passMultiIsoM = cms.InputTag("MyEleVars:passMultiIsoM"),
+        probe_ele_passMultiIsoT = cms.InputTag("MyEleVars:passMultiIsoT"),
+        probe_ele_passMultiIsoVT = cms.InputTag("MyEleVars:passMultiIsoVT"),
         probe_ele_passMultiIsoEmu = cms.InputTag("MyEleVars:passMultiIsoEmu"),
         probe_ele_passLeptonMvaVL = cms.InputTag("MyEleVars:passLeptonMvaVL"),
         probe_ele_passLeptonMvaL = cms.InputTag("MyEleVars:passLeptonMvaL"),
@@ -274,8 +278,16 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBEConvIHit1.selection = cms.InputTag("MyEleVars:passConvIHit1")
     process.goodElectronsPROBEConvIHit0Chg = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEConvIHit0Chg.selection = cms.InputTag("MyEleVars:passConvIHit0Chg")
-    process.goodElectronsPROBEMultiIso = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBEMultiIso.selection = cms.InputTag("MyEleVars:passMultiIso")
+    process.goodElectronsPROBEMultiIsoVL = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIsoVL.selection = cms.InputTag("MyEleVars:passMultiIsoVL")
+    process.goodElectronsPROBEMultiIsoL = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIsoL.selection = cms.InputTag("MyEleVars:passMultiIsoL")
+    process.goodElectronsPROBEMultiIsoM = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIsoM.selection = cms.InputTag("MyEleVars:passMultiIsoM")
+    process.goodElectronsPROBEMultiIsoT = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIsoT.selection = cms.InputTag("MyEleVars:passMultiIsoT")
+    process.goodElectronsPROBEMultiIsoVT = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIsoVT.selection = cms.InputTag("MyEleVars:passMultiIsoVT")
     process.goodElectronsPROBEMultiIsoEmu = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEMultiIsoEmu.selection = cms.InputTag("MyEleVars:passMultiIsoEmu")
     process.goodElectronsPROBELeptonMvaVL = process.goodElectronsPROBECutBasedVeto.clone()
@@ -322,7 +334,11 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsPROBEConvIHit0Chg
     process.my_ele_sequence += process.goodElectronsProbeMVAVLoose
     process.my_ele_sequence += process.goodElectronsProbeMVATight
-    process.my_ele_sequence += process.goodElectronsPROBEMultiIso
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIsoVL
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIsoL
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIsoM
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIsoT
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIsoVT
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoEmu
     process.my_ele_sequence += process.goodElectronsPROBELeptonMvaVL
     process.my_ele_sequence += process.goodElectronsPROBELeptonMvaL
@@ -380,7 +396,11 @@ def AddMiniIso(process, options, varOptions):
     process.MVATightElectronToIso.variables = MiniIsoProbeVars
     process.MVATightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVATight")
     process.MVATightElectronToIso.flags = cms.PSet(
-        passingMultiIso = cms.InputTag("goodElectronsPROBEMultiIso"),
+        passingMultiIsoVL = cms.InputTag("goodElectronsPROBEMultiIsoVL"),
+        passingMultiIsoL = cms.InputTag("goodElectronsPROBEMultiIsoL"),
+        passingMultiIsoM = cms.InputTag("goodElectronsPROBEMultiIsoM"),
+        passingMultiIsoT = cms.InputTag("goodElectronsPROBEMultiIsoT"),
+        passingMultiIsoVT = cms.InputTag("goodElectronsPROBEMultiIsoVT"),
         passingMultiIsoEmu = cms.InputTag("goodElectronsPROBEMultiIsoEmu"),
         passingConvIHit0Chg = cms.InputTag("goodElectronsPROBEConvIHit0Chg"),
     )
