@@ -92,6 +92,30 @@ namespace{
     }
   }
 
+  bool PassMVAWP80(double mva, double abssceta){
+    if(abssceta<0.8){
+      return mva > 0.988153;
+    }else if(abssceta<1.479){
+      return mva > 0.967910;
+    }else if(abssceta<2.5){
+      return mva > 0.841729;
+    }else{
+      return false;
+    }
+  }
+
+  bool PassMVAWP90(double mva, double abssceta){
+    if(abssceta<0.8){
+      return mva >  0.972153;
+    }else if(abssceta<1.479){
+      return mva >  0.922126;
+    }else if(abssceta<2.5){
+      return mva >  0.610764;
+    }else{
+      return false;
+    }
+  }
+
   bool PassTightIP2D(double dxy, double dz){
     return fabs(dxy) < 0.05 && fabs(dz) < 0.1;
   }
@@ -190,6 +214,8 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passMVAVLooseMini");
   produces<edm::ValueMap<MyBool> >("passMVAVLooseMini4");
   produces<edm::ValueMap<MyBool> >("passMVATight");
+  produces<edm::ValueMap<MyBool> >("passMVAWP80");
+  produces<edm::ValueMap<MyBool> >("passMVAWP90");
   produces<edm::ValueMap<MyBool> >("passTightIP2D");
   produces<edm::ValueMap<MyBool> >("passTightIP3D");
   produces<edm::ValueMap<MyBool> >("passIDEmu");
@@ -346,6 +372,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passMVAVLooseMini.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())) && mini_iso<0.1);
     passMVAVLooseMini4.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())) && mini_iso<0.4);
     passMVATight.push_back(PassMVATight(mva, fabs(probe.superCluster()->eta())));
+    passMVATWP80.push_back(PassMVAWP80(mva, fabs(probe.superCluster()->eta())));
+    passMVAWP90.push_back(PassMVAWP90(mva, fabs(probe.superCluster()->eta())));
     passTightIP2D.push_back(PassTightIP2D(dxy, dz));
     passTightIP3D.push_back(fabs(sip3d < 4.));
     passIDEmu.push_back(PassIDEmu(probe));
@@ -379,6 +407,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, passMVAVLooseMini, "passMVAVLooseMini");
   Store(iEvent, probes, passMVAVLooseMini4, "passMVAVLooseMini4");
   Store(iEvent, probes, passMVATight, "passMVATight");
+  Store(iEvent, probes, passMVAWP80, "passMVAWP80");
+  Store(iEvent, probes, passMVAWP90, "passMVAWP90");
   Store(iEvent, probes, passTightIP2D, "passTightIP2D");
   Store(iEvent, probes, passTightIP3D, "passTightIP3D");
   Store(iEvent, probes, passIDEmu, "passIDEmu");
