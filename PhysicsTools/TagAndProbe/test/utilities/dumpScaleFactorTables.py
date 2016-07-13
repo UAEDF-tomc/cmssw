@@ -27,7 +27,7 @@ def makeTable(hnum, hden, tablefilename):
             
     f.close()
 
-def main(options):
+def main(options, outRootFile):
     hData = ""
     hMC = ""
 
@@ -38,6 +38,7 @@ def main(options):
     fData.cd(ROOT.gDirectory.GetListOfKeys()[0].GetName())
     subDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
     fData.cd(os.path.join(topDir, subDir, "fit_eff_plots"))
+    name = subDir
 
     outFile = "scaleFactors/ScaleFactor_%s_%s.txt"%(topDir, subDir)
 
@@ -79,10 +80,23 @@ def main(options):
     fData.Close()
     fMC.Close()
 
+    if name == "Tight":         name = "CutBasedTight"
+    if name == "Medium":        name = "CutBasedMedium"
+    if name == "Loose":         name = "CutBasedLoose"
+    if name == "Veto":          name = "CutBasedVeto"
+    if name == "LeptonMvaVT":   name = "LeptonMvaVeryTight"
+    if name == "LeptonMvaM":    name = "LeptonMvaMedium"
+
+
+    outRootFile.cd()
+    hData.GetZaxis().SetTitle("")
+    hData.Write(name)
+
 if (__name__ == "__main__"):
     parser = OptionParser()
     
     (options, arg) = parser.parse_args()
+    outRootFile  = ROOT.TFile("scaleFactors.root","RECREATE")
 
     for file in glob.glob("../eff_data*.root"):
       options.data   = file
@@ -93,4 +107,5 @@ if (__name__ == "__main__"):
 #	pass
 
       ROOT.gROOT.SetBatch(True)
-      main(options)
+      main(options, outRootFile)
+    outRootFile.Close()
