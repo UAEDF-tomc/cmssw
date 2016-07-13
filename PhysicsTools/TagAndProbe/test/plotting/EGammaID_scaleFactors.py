@@ -11,8 +11,9 @@ import efficiencyUtils as effUtil
 
 tdrstyle.setTDRStyle()
 
+rt.gROOT.SetBatch(True)
 
-CMS_lumi.lumi_13TeV = "2.2 fb^{-1}"
+CMS_lumi.lumi_13TeV = "2.6 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.lumi_sqrtS = "13 TeV"
 
@@ -114,9 +115,10 @@ def EffiGraph1D(effDataList, sfList ,etaPlot,nameout):
     igr = 0
     listOfTGraph1 = []
     listOfTGraph2 = []
-    xMin = 5
+    xMin = 10
     xMax = 200
     if etaPlot:
+        xMin = 0.0
         xMin = -2.60
         xMax = +2.60
     
@@ -143,10 +145,10 @@ def EffiGraph1D(effDataList, sfList ,etaPlot,nameout):
         grBinsEffData.GetHistogram().SetMinimum(effiMin)
         grBinsEffData.GetHistogram().SetMaximum(effiMax)
 
-        if not etaPlot:
+#        if not etaPlot:
             ### for pT 1D plot, use the actual TGraph range
-            xMin = grBinsEffData.GetHistogram().GetXaxis().GetXmin()
-            xMax = grBinsEffData.GetHistogram().GetXaxis().GetXmax()
+#            xMin = grBinsEffData.GetHistogram().GetXaxis().GetXmin()
+#            xMax = grBinsEffData.GetHistogram().GetXaxis().GetXmax()
             
             #            if grBinsEffData.GetHistogram().GetXaxis().GetXmin() < xMin:
             #    xMin = grBinsEffData.GetHistogram().GetXaxis().GetXmin()
@@ -234,22 +236,45 @@ def EffiGraph1D(effDataList, sfList ,etaPlot,nameout):
     #################################################    
 
 
+def diagnosticErrorPlot( effgr, ierror, nameout ):
+    errorNames = efficiency.getSystematicNames()
+    c2D_Err = rt.TCanvas('canScaleFactor_%s' % errorNames[ierror] ,'canScaleFactor: %s' % errorNames[ierror],1000,600)    
+    c2D_Err.Divide(2,1)
+    c2D_Err.GetPad(1).SetLogy()
+    c2D_Err.GetPad(2).SetLogy()
+    c2D_Err.GetPad(1).SetRightMargin(0.15)
+    c2D_Err.GetPad(1).SetLeftMargin( 0.15)
+    c2D_Err.GetPad(1).SetTopMargin(  0.10)
+    c2D_Err.GetPad(2).SetRightMargin(0.15)
+    c2D_Err.GetPad(2).SetLeftMargin( 0.15)
+    c2D_Err.GetPad(2).SetTopMargin(  0.10)
+
+    h2_sfErrorAbs = effgr.ptEtaScaleFactor_2DHisto(ierror+1, False )
+    h2_sfErrorRel = effgr.ptEtaScaleFactor_2DHisto(ierror+1, True  )
+    h2_sfErrorAbs.SetMinimum(0)
+    h2_sfErrorAbs.SetMaximum(min(h2_sfErrorAbs.GetMaximum(),0.2))
+    h2_sfErrorRel.SetMinimum(0)
+    h2_sfErrorRel.SetMaximum(1)
+    h2_sfErrorAbs.SetTitle('e/#gamma absolute SF syst: %s ' % errorNames[ierror])
+    h2_sfErrorRel.SetTitle('e/#gamma relative SF syst: %s ' % errorNames[ierror])
+    c2D_Err.cd(1)
+    h2_sfErrorAbs.DrawCopy("colz TEXT45")
+    c2D_Err.cd(2)
+    h2_sfErrorRel.DrawCopy("colz TEXT45")
     
+    c2D_Err.Print(nameout)
 
 
 filein = sys.argv[1]
 print " Opening file: ", filein
 
-nameOutBase = filein 
+nameOutBase = "./output/" + filein.split('/')[-1] 
 if not os.path.exists( filein ) :
     print 'file %s does not exist' % filein
     sys.exit(1)
 
 
 fileWithEff = open(filein, 'r')
-
-from efficiencyUtils import efficiency
-from efficiencyUtils import efficiencyList
 
 
 effGraph = efficiencyList()
@@ -286,18 +311,22 @@ customEtaBining.append( (2.000,2.500))
 
 
 pdfout = nameOutBase + '_egammaPlots.pdf'
+pdfout2 = nameOutBase + '_eff_vs_pt.pdf'
+pdfout3 = nameOutBase + '_eff_vs_eta.pdf'
 cDummy = rt.TCanvas()
 cDummy.Print( pdfout + "[" )
 
 
-EffiGraph1D( effGraph.pt_1DGraph_list(False) , effGraph.pt_1DGraph_list(True) , False, pdfout )
-EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,False) , 
-             effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,True)   , False, pdfout )
-EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), True , pdfout )
+EffiGraph1D( effGraph.pt_1DGraph_list(False) , effGraph.pt_1DGraph_list(True) , False, pdfout2 )
+#EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,False) , 
+#             effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,True)   , False, pdfout )
+EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), True , pdfout3 )
 
+#cDummy.Print( pdfout + "]" )
+#sys.exit(0)
 
-h2SF    = effGraph.ptEtaScaleFactor_2DHisto(False)
-h2Error = effGraph.ptEtaScaleFactor_2DHisto(True )  ## only error bars
+h2SF    = effGraph.ptEtaScaleFactor_2DHisto(-1)
+h2Error = effGraph.ptEtaScaleFactor_2DHisto( 0)  ## only error bars
 rt.gStyle.SetPalette(1)
 rt.gStyle.SetPaintTextFormat('1.3f');
 rt.gStyle.SetOptTitle(1)
@@ -310,6 +339,8 @@ c2D.GetPad(1).SetTopMargin(  0.10)
 c2D.GetPad(2).SetRightMargin(0.15)
 c2D.GetPad(2).SetLeftMargin( 0.15)
 c2D.GetPad(2).SetTopMargin(  0.10)
+c2D.GetPad(1).SetLogy()
+c2D.GetPad(2).SetLogy()
 
 c2D.cd(1)
 dmin = 1.0 - h2SF.GetMinimum()
@@ -320,6 +351,9 @@ h2SF.SetMaximum(1+dall)
 h2SF.DrawCopy("colz TEXT45")
 
 c2D.cd(2)
+h2Error.SetMinimum(0)
+h2Error.SetMaximum(min(h2Error.GetMaximum(),0.2))
+
 h2Error.DrawCopy("colz TEXT45")
 
 c2D.Print( pdfout )
@@ -329,5 +363,8 @@ rootout.cd()
 h2SF.Write('EGamma_SF2D',rt.TObject.kOverwrite)
 rootout.Close()
 
+for isyst in range(len(efficiency.getSystematicNames())):
+    diagnosticErrorPlot( effGraph, isyst, pdfout )
 
 cDummy.Print( pdfout + "]" )
+
