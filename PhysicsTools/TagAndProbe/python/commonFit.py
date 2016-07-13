@@ -897,14 +897,398 @@ MVATightMultiEmu_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
 "efficiency[0.5,0,1]",
 "signalFractionInPassing[1.0]"
 ),
+LeptonMvaVL_alleta_10p0To20p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_alleta_20p0To30p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_alleta_30p0To40p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_alleta_40p0To50p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaL_alleta_10p0To20p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_alleta_20p0To30p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_alleta_30p0To40p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_alleta_40p0To50p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaM_alleta_10p0To20p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_alleta_20p0To30p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_alleta_30p0To40p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_alleta_40p0To50p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaT_alleta_10p0To20p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_alleta_20p0To30p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_alleta_30p0To40p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_alleta_40p0To50p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaVT_alleta_10p0To20p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_alleta_20p0To30p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_alleta_30p0To40p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_alleta_40p0To50p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaET_alleta_10p0To20p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_10.0To20.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_alleta_20p0To30p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_20.0To30.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_alleta_30p0To40p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_30.0To40.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_alleta_40p0To50p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_40.0To50.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_alleta_50p0To200p0_0p0To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_alleta.root\", \"hMass_50.0To200.0_0.0To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
 )
 
 barrel = cms.PSet(
-Veto_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
+Veto_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -913,11 +1297,11 @@ Veto_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Veto_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Veto_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -926,11 +1310,11 @@ Veto_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Veto_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Veto_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -939,11 +1323,11 @@ Veto_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Veto_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Veto_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -952,23 +1336,11 @@ Veto_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Veto_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Veto_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-Loose_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -977,11 +1349,11 @@ Loose_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Veto_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -990,11 +1362,11 @@ Loose_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Veto_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1003,11 +1375,11 @@ Loose_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Veto_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1016,23 +1388,11 @@ Loose_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Veto_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-Medium_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1041,11 +1401,23 @@ Medium_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Medium_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Veto_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToVeto_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+Loose_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1054,11 +1426,11 @@ Medium_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Medium_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Loose_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1067,11 +1439,11 @@ Medium_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Medium_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Loose_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1080,23 +1452,11 @@ Medium_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Medium_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Loose_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-Tight_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1105,11 +1465,11 @@ Tight_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Loose_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1118,11 +1478,11 @@ Tight_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Loose_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1131,11 +1491,11 @@ Tight_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Loose_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1144,23 +1504,11 @@ Tight_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Loose_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-Loose2D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1169,11 +1517,11 @@ Loose2D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose2D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Loose_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1182,11 +1530,23 @@ Loose2D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose2D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Loose_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+Medium_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1195,11 +1555,11 @@ Loose2D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose2D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Medium_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1208,23 +1568,11 @@ Loose2D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Loose2D_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Medium_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-FOID2D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1233,11 +1581,11 @@ FOID2D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-FOID2D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Medium_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1246,11 +1594,11 @@ FOID2D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-FOID2D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Medium_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1259,11 +1607,11 @@ FOID2D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-FOID2D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Medium_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1272,23 +1620,11 @@ FOID2D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-FOID2D_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Medium_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-Tight2D3D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1297,11 +1633,11 @@ Tight2D3D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight2D3D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Medium_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1310,11 +1646,11 @@ Tight2D3D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight2D3D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Medium_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1323,11 +1659,23 @@ Tight2D3D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight2D3D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Medium_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToMedium_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+Tight_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1336,23 +1684,11 @@ Tight2D3D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-Tight2D3D_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Tight_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-TightID2D3D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1361,11 +1697,11 @@ TightID2D3D_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-TightID2D3D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Tight_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1374,11 +1710,11 @@ TightID2D3D_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-TightID2D3D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Tight_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1387,11 +1723,11 @@ TightID2D3D_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-TightID2D3D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Tight_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1400,23 +1736,11 @@ TightID2D3D_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-TightID2D3D_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Tight_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-MVAVLooseMini_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1425,11 +1749,11 @@ MVAVLooseMini_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Tight_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1438,11 +1762,11 @@ MVAVLooseMini_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Tight_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1451,11 +1775,11 @@ MVAVLooseMini_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Tight_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1464,11 +1788,11 @@ MVAVLooseMini_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Tight_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1476,24 +1800,11 @@ MVAVLooseMini_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
 "efficiency[0.5,0,1]",
 "signalFractionInPassing[1.0]"
 ),
-MVAVLooseMini4_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-
-MVAVLooseMini4_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1502,11 +1813,11 @@ MVAVLooseMini4_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini4_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1515,11 +1826,11 @@ MVAVLooseMini4_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini4_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1528,23 +1839,11 @@ MVAVLooseMini4_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseMini4_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-MVAVLooseConvIHit1_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1553,11 +1852,11 @@ MVAVLooseConvIHit1_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseConvIHit1_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1566,11 +1865,11 @@ MVAVLooseConvIHit1_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseConvIHit1_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1579,11 +1878,11 @@ MVAVLooseConvIHit1_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseConvIHit1_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1592,23 +1891,11 @@ MVAVLooseConvIHit1_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVAVLooseConvIHit1_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-MVATightConvIHit0Chg_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1617,11 +1904,11 @@ MVATightConvIHit0Chg_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightConvIHit0Chg_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1630,11 +1917,23 @@ MVATightConvIHit0Chg_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightConvIHit0Chg_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+Loose2D_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLoose2D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+FOID2D_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1643,11 +1942,11 @@ MVATightConvIHit0Chg_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightConvIHit0Chg_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1656,23 +1955,11 @@ MVATightConvIHit0Chg_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightConvIHit0Chg_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-MVATightMulti_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1681,11 +1968,11 @@ MVATightMulti_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMulti_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1694,11 +1981,11 @@ MVATightMulti_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMulti_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1707,11 +1994,11 @@ MVATightMulti_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMulti_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1720,23 +2007,11 @@ MVATightMulti_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMulti_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
-"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
-"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
-"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
-"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
-"efficiency[0.5,0,1]",
-"signalFractionInPassing[1.0]"
-),
-MVATightMultiEmu_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
-"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
-"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_10.0To20.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1745,11 +2020,11 @@ MVATightMultiEmu_barrel_10p0To20p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMultiEmu_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_20.0To30.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1758,11 +2033,11 @@ MVATightMultiEmu_barrel_20p0To30p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMultiEmu_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_30.0To40.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1771,11 +2046,23 @@ MVATightMultiEmu_barrel_30p0To40p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMultiEmu_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
+FOID2D_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_40.0To50.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToFOID2D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+Tight2D3D_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -1784,11 +2071,1792 @@ MVATightMultiEmu_barrel_40p0To50p0_0p0To1p442 = cms.vstring(
 "signalFractionInPassing[1.0]"
 ),
 
-MVATightMultiEmu_barrel_50p0To200p0_0p0To1p442 = cms.vstring(
+Tight2D3D_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
 "RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
-"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Pass\")",
-"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_50.0To200.0_0.0To1.442_Fail\")",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+Tight2D3D_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTight2D3D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+TightID2D3D_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+TightID2D3D_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToTightID2D3D_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+MVAVLooseMini_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+MVAVLooseMini4_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseMini4_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToMini4_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+MVAVLooseConvIHit1_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVAVLooseConvIHit1_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVAVLooseElectronToConvIHit1_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+MVATightConvIHit0Chg_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightConvIHit0Chg_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToConvIHit0Chg_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+MVATightMulti_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMulti_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMulti_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+MVATightMultiEmu_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+MVATightMultiEmu_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaVL_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaL_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaM_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0, 70, 80])", # modified
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaT_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaVT_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaET_barrel_10p0To20p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_10.0To20.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_10p0To20p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_10.0To20.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_20p0To30p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_20.0To30.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_20p0To30p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_20.0To30.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_30p0To40p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_30.0To40.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_30p0To40p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_30.0To40.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_40p0To50p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_40.0To50.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_40p0To50p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_40.0To50.0_0.8To1.442_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_50p0To200p0_0p0To0p8 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_50.0To200.0_0.0To0.8_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_barrel_50p0To200p0_0p8To1p442 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_barrel.root\", \"hMass_50.0To200.0_0.8To1.442_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
@@ -2695,6 +4763,390 @@ MVATightMultiEmu_crack_50p0To200p0_1p442To1p566 = cms.vstring(
 "efficiency[0.5,0,1]",
 "signalFractionInPassing[1.0]"
 ),
+LeptonMvaVL_crack_10p0To20p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_crack_20p0To30p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_crack_30p0To40p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_crack_40p0To50p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_crack_50p0To200p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaL_crack_10p0To20p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_crack_20p0To30p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_crack_30p0To40p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_crack_40p0To50p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_crack_50p0To200p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaM_crack_10p0To20p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_crack_20p0To30p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_crack_30p0To40p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_crack_40p0To50p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_crack_50p0To200p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaT_crack_10p0To20p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_crack_20p0To30p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_crack_30p0To40p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_crack_40p0To50p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_crack_50p0To200p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaVT_crack_10p0To20p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_crack_20p0To30p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_crack_30p0To40p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_crack_40p0To50p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_crack_50p0To200p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaET_crack_10p0To20p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_10.0To20.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_crack_20p0To30p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_20.0To30.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_crack_30p0To40p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_30.0To40.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_crack_40p0To50p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_40.0To50.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_crack_50p0To200p0_1p442To1p566 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_crack.root\", \"hMass_50.0To200.0_1.442To1.566_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
 )
 
 endcap = cms.PSet(
@@ -3587,6 +6039,390 @@ MVATightMultiEmu_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
 "RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
 "ZGeneratorLineShape::signalPhyPass(mass,\"../data/MVATightElectronToMultiEmu_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
 "ZGeneratorLineShape::signalPhyFail(mass,\"../data/MVATightElectronToMultiEmu_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaVL_endcap_10p0To20p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_endcap_20p0To30p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_endcap_30p0To40p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_endcap_40p0To50p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVL_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVL_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaL_endcap_10p0To20p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_endcap_20p0To30p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_endcap_30p0To40p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_endcap_40p0To50p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaL_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaL_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaM_endcap_10p0To20p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_endcap_20p0To30p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_endcap_30p0To40p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_endcap_40p0To50p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaM_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaM_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaT_endcap_10p0To20p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_endcap_20p0To30p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_endcap_30p0To40p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_endcap_40p0To50p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaT_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaT_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaVT_endcap_10p0To20p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_endcap_20p0To30p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_endcap_30p0To40p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_endcap_40p0To50p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaVT_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaVT_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+LeptonMvaET_endcap_10p0To20p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_10.0To20.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_endcap_20p0To30p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_20.0To30.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_endcap_30p0To40p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_30.0To40.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_endcap_40p0To50p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_40.0To50.0_1.566To2.5_Fail\")",
+"RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
+"RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
+"FCONV::signalPass(mass, signalPhyPass, signalResPass)",
+"FCONV::signalFail(mass, signalPhyFail, signalResFail)",
+"efficiency[0.5,0,1]",
+"signalFractionInPassing[1.0]"
+),
+
+LeptonMvaET_endcap_50p0To200p0_1p566To2p5 = cms.vstring(
+"RooGaussian::signalResPass(mass, meanP[0.0,-10.000,10.000],sigmaP[1.0,0.001,10.000])",
+"RooGaussian::signalResFail(mass, meanF[0.0,-10.000,10.000],sigmaF[1.0,0.001,10.000])",
+"ZGeneratorLineShape::signalPhyPass(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Pass\")",
+"ZGeneratorLineShape::signalPhyFail(mass,\"../data/GsfElectronToLeptonMvaET_endcap.root\", \"hMass_50.0To200.0_1.566To2.5_Fail\")",
 "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.1, 0, 1], peakPass[90.0, 70, 80])",
 "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.1, 0, 1], peakFail[90.0, 70, 80])",
 "FCONV::signalPass(mass, signalPhyPass, signalResPass)",
