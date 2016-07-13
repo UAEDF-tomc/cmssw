@@ -120,11 +120,11 @@ namespace{
       && ele.dr03TkSumPt() / ele.pt() < 0.2;
   }
 
-  bool PassMultiIso(double mini_iso,
-		    double jetPtRatio,
-		    double jetPtRel){
-    return mini_iso < 0.12 && (jetPtRatio > 0.80 || jetPtRel > 7.2);
-  }
+  bool PassMultiIsoVL(double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.25 && (jetPtRatio > 0.67 || jetPtRel > 4.4);}
+  bool PassMultiIsoL( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.20 && (jetPtRatio > 0.69 || jetPtRel > 6.0);}
+  bool PassMultiIsoM( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.16 && (jetPtRatio > 0.76 || jetPtRel > 7.2);}
+  bool PassMultiIsoT( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.12 && (jetPtRatio > 0.80 || jetPtRel > 7.2);}
+  bool PassMultiIsoVT(double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.09 && (jetPtRatio > 0.84 || jetPtRel > 7.2);}
 
   bool PassLeptonMvaVL(double mva){ return mva > -0.3;}
   bool PassLeptonMvaL(double mva){  return mva > 0.25;}
@@ -203,7 +203,11 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   produces<edm::ValueMap<MyBool> >("passTightID2D3D");
   produces<edm::ValueMap<MyBool> >("passConvIHit1");
   produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
-  produces<edm::ValueMap<MyBool> >("passMultiIso");
+  produces<edm::ValueMap<MyBool> >("passMultiIsoVL");
+  produces<edm::ValueMap<MyBool> >("passMultiIsoL");
+  produces<edm::ValueMap<MyBool> >("passMultiIsoM");
+  produces<edm::ValueMap<MyBool> >("passMultiIsoT");
+  produces<edm::ValueMap<MyBool> >("passMultiIsoVT");
   produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
   produces<edm::ValueMap<MyBool> >("passLeptonMvaVL");
   produces<edm::ValueMap<MyBool> >("passLeptonMvaL");
@@ -282,7 +286,11 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passCharge;
   std::vector<MyBool> passIHit0;
   std::vector<MyBool> passIHit1;
-  std::vector<MyBool> passMultiIso;
+  std::vector<MyBool> passMultiIsoVL;
+  std::vector<MyBool> passMultiIsoL;
+  std::vector<MyBool> passMultiIsoM;
+  std::vector<MyBool> passMultiIsoT;
+  std::vector<MyBool> passMultiIsoVT;
   std::vector<MyBool> passLeptonMvaVL;
   std::vector<MyBool> passLeptonMvaL;
   std::vector<MyBool> passLeptonMvaM;
@@ -345,7 +353,11 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passCharge.push_back(probe.isGsfCtfScPixChargeConsistent());
     passIHit0.push_back(missingInnerHits == 0);
     passIHit1.push_back(missingInnerHits <= 1);
-    passMultiIso.push_back(PassMultiIso(mini_iso, jetPtRatio, jetPtRel));
+    passMultiIsoVL.push_back(PassMultiIsoVL(mini_iso, jetPtRatio, jetPtRel));
+    passMultiIsoL.push_back(PassMultiIsoL(mini_iso, jetPtRatio, jetPtRel));
+    passMultiIsoM.push_back(PassMultiIsoM(mini_iso, jetPtRatio, jetPtRel));
+    passMultiIsoT.push_back(PassMultiIsoT(mini_iso, jetPtRatio, jetPtRel));
+    passMultiIsoVT.push_back(PassMultiIsoVT(mini_iso, jetPtRatio, jetPtRel));
     passLeptonMvaVL.push_back(PassLeptonMvaVL(leptonMva));
     passLeptonMvaL.push_back(PassLeptonMvaL(leptonMva));
     passLeptonMvaM.push_back(PassLeptonMvaM(leptonMva));
@@ -382,8 +394,12 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
 	"passTightID2D3D");
   Store(iEvent, probes, And(passConversionVeto, passIHit1), "passConvIHit1");
   Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
-  Store(iEvent, probes, passMultiIso, "passMultiIso");
-  Store(iEvent, probes, And(passMultiIso, passISOEmu), "passMultiIsoEmu");
+  Store(iEvent, probes, passMultiIsoVL, "passMultiIsoVL");
+  Store(iEvent, probes, passMultiIsoL, "passMultiIsoL");
+  Store(iEvent, probes, passMultiIsoM, "passMultiIsoM");
+  Store(iEvent, probes, passMultiIsoT, "passMultiIsoT");
+  Store(iEvent, probes, passMultiIsoVT, "passMultiIsoVT");
+  Store(iEvent, probes, And(passMultiIsoT, passISOEmu), "passMultiIsoEmu");
   Store(iEvent, probes, passLeptonMvaVL, "passLeptonMvaVL");
   Store(iEvent, probes, passLeptonMvaL, "passLeptonMvaL");
   Store(iEvent, probes, passLeptonMvaM, "passLeptonMvaM");
