@@ -305,6 +305,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passMVAVLooseMini;
   std::vector<MyBool> passMVAVLooseMini4;
   std::vector<MyBool> passMVATight;
+  std::vector<MyBool> passMVAWP80;
+  std::vector<MyBool> passMVAWP90;
   std::vector<MyBool> passTightIP2D;
   std::vector<MyBool> passTightIP3D;
   std::vector<MyBool> passIDEmu;
@@ -372,7 +374,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passMVAVLooseMini.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())) && mini_iso<0.1);
     passMVAVLooseMini4.push_back(PassMVAVLoose(mva, fabs(probe.superCluster()->eta())) && mini_iso<0.4);
     passMVATight.push_back(PassMVATight(mva, fabs(probe.superCluster()->eta())));
-    passMVATWP80.push_back(PassMVAWP80(mva, fabs(probe.superCluster()->eta())));
+    passMVAWP80.push_back(PassMVAWP80(mva, fabs(probe.superCluster()->eta())));
     passMVAWP90.push_back(PassMVAWP90(mva, fabs(probe.superCluster()->eta())));
     passTightIP2D.push_back(PassTightIP2D(dxy, dz));
     passTightIP3D.push_back(fabs(sip3d < 4.));
