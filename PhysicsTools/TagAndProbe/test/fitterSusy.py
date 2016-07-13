@@ -5,16 +5,16 @@ import PhysicsTools.TagAndProbe.commonFit as common
 def BinSpec(name):
     return cms.vstring(
         "ERROR_TEMPLATE_NOT_FOUND_ERROR",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin0*",name+"_barrel_10p0To20p0_0p0To1p442",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin0*",name+"_barrel_20p0To30p0_0p0To1p442",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin0*",name+"_barrel_30p0To40p0_0p0To1p442",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin0*",name+"_barrel_40p0To50p0_0p0To1p442",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin0*",name+"_barrel_50p0To200p0_0p0To1p442",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin1*",name+"_barrel_10p0To20p0_0p0To1p442",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin1*",name+"_barrel_20p0To30p0_0p0To1p442",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin1*",name+"_barrel_30p0To40p0_0p0To1p442",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin1*",name+"_barrel_40p0To50p0_0p0To1p442",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin1*",name+"_barrel_50p0To200p0_0p0To1p442",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin0*",name+"_barrel_10p0To20p0_0p0To0p8",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin0*",name+"_barrel_20p0To30p0_0p0To0p8",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin0*",name+"_barrel_30p0To40p0_0p0To0p8",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin0*",name+"_barrel_40p0To50p0_0p0To0p8",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin0*",name+"_barrel_50p0To200p0_0p0To0p8",
+        "*probe_Ele_pt_bin0*probe_sc_abseta_bin1*",name+"_barrel_10p0To20p0_0p8To1p442",
+        "*probe_Ele_pt_bin1*probe_sc_abseta_bin1*",name+"_barrel_20p0To30p0_0p8To1p442",
+        "*probe_Ele_pt_bin2*probe_sc_abseta_bin1*",name+"_barrel_30p0To40p0_0p8To1p442",
+        "*probe_Ele_pt_bin3*probe_sc_abseta_bin1*",name+"_barrel_40p0To50p0_0p8To1p442",
+        "*probe_Ele_pt_bin4*probe_sc_abseta_bin1*",name+"_barrel_50p0To200p0_0p8To1p442",
         "*probe_Ele_pt_bin0*probe_sc_abseta_bin2*",name+"_crack_10p0To20p0_1p442To1p566",
         "*probe_Ele_pt_bin1*probe_sc_abseta_bin2*",name+"_crack_20p0To30p0_1p442To1p566",
         "*probe_Ele_pt_bin2*probe_sc_abseta_bin2*",name+"_crack_30p0To40p0_1p442To1p566",
@@ -199,6 +199,24 @@ McTight2D3DBinningSpecification.BinToPDFmap = BinSpec("Tight2D3D")
 McTightID2D3DBinningSpecification = McVetoBinningSpecification.clone()
 McTightID2D3DBinningSpecification.BinToPDFmap = BinSpec("TightID2D3D")
 
+McLeptonMvaVLBinningSpecification = McVetoBinningSpecification.clone()
+McLeptonMvaVLBinningSpecification.BinToPDFmap = BinSpec("LeptonMvaVL")
+
+McLeptonMvaLBinningSpecification = McVetoBinningSpecification.clone()
+McLeptonMvaLBinningSpecification.BinToPDFmap = BinSpec("LeptonMvaL")
+
+McLeptonMvaMBinningSpecification = McVetoBinningSpecification.clone()
+McLeptonMvaMBinningSpecification.BinToPDFmap = BinSpec("LeptonMvaM")
+
+McLeptonMvaTBinningSpecification = McVetoBinningSpecification.clone()
+McLeptonMvaTBinningSpecification.BinToPDFmap = BinSpec("LeptonMvaT")
+
+McLeptonMvaVTBinningSpecification = McVetoBinningSpecification.clone()
+McLeptonMvaVTBinningSpecification.BinToPDFmap = BinSpec("LeptonMvaVT")
+
+McLeptonMvaETBinningSpecification = McVetoBinningSpecification.clone()
+McLeptonMvaETBinningSpecification.BinToPDFmap = BinSpec("LeptonMvaET")
+
 McMVAVLooseMiniBinningSpecification = cms.PSet(
 #    UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     UnbinnedVariables = cms.vstring("mass", "totWeight"),
@@ -264,6 +282,29 @@ DataMVATightMultiEmuBinningSpecification = McMVATightMultiEmuBinningSpecificatio
 DataMVATightMultiEmuBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataMVATightMultiEmuBinningSpecification.BinnedVariables = cms.PSet(IsoEfficiencyBins)
 
+DataLeptonMvaVLBinningSpecification = McLeptonMvaVLBinningSpecification.clone()
+DataLeptonMvaVLBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLeptonMvaVLBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
+
+DataLeptonMvaLBinningSpecification = McLeptonMvaLBinningSpecification.clone()
+DataLeptonMvaLBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLeptonMvaLBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
+
+DataLeptonMvaMBinningSpecification = McLeptonMvaMBinningSpecification.clone()
+DataLeptonMvaMBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLeptonMvaMBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
+
+DataLeptonMvaTBinningSpecification = McLeptonMvaTBinningSpecification.clone()
+DataLeptonMvaTBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLeptonMvaTBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
+
+DataLeptonMvaVTBinningSpecification = McLeptonMvaVTBinningSpecification.clone()
+DataLeptonMvaVTBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLeptonMvaVTBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
+
+DataLeptonMvaETBinningSpecification = McLeptonMvaETBinningSpecification.clone()
+DataLeptonMvaETBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataLeptonMvaETBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 
 ############################################################################################
 ############################################################################################
@@ -356,6 +397,100 @@ process.McGsfElectronToTight.Efficiencies = cms.PSet(
         EfficiencyCategoryAndState = cms.vstring("passingTight", "pass"),
         ),
     )
+
+
+process.McGsfElectronToLeptonMvaVL = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToLeptonMvaVL.InputDirectoryName = cms.string("GsfElectronToID")
+process.McGsfElectronToLeptonMvaVL.OutputFileName = cms.string("eff_mc_LeptonMvaVL.root")
+process.McGsfElectronToLeptonMvaVL.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingLeptonMvaVL = cms.vstring("passingLeptonMvaVL", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToLeptonMvaVL.Efficiencies = cms.PSet(
+    MCtruth_LeptonMvaVL = cms.PSet(
+        McLeptonMvaVLBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaVL", "pass"),
+        ),
+    )
+
+
+process.McGsfElectronToLeptonMvaL = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToLeptonMvaL.InputDirectoryName = cms.string("GsfElectronToID")
+process.McGsfElectronToLeptonMvaL.OutputFileName = cms.string("eff_mc_LeptonMvaL.root")
+process.McGsfElectronToLeptonMvaL.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingLeptonMvaL = cms.vstring("passingLeptonMvaL", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToLeptonMvaL.Efficiencies = cms.PSet(
+    MCtruth_LeptonMvaL = cms.PSet(
+        McLeptonMvaLBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaL", "pass"),
+        ),
+    )
+
+
+process.McGsfElectronToLeptonMvaM = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToLeptonMvaM.InputDirectoryName = cms.string("GsfElectronToID")
+process.McGsfElectronToLeptonMvaM.OutputFileName = cms.string("eff_mc_LeptonMvaM.root")
+process.McGsfElectronToLeptonMvaM.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingLeptonMvaM = cms.vstring("passingLeptonMvaM", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToLeptonMvaM.Efficiencies = cms.PSet(
+    MCtruth_LeptonMvaM = cms.PSet(
+        McLeptonMvaMBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaM", "pass"),
+        ),
+    )
+
+
+process.McGsfElectronToLeptonMvaT = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToLeptonMvaT.InputDirectoryName = cms.string("GsfElectronToID")
+process.McGsfElectronToLeptonMvaT.OutputFileName = cms.string("eff_mc_LeptonMvaT.root")
+process.McGsfElectronToLeptonMvaT.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingLeptonMvaT = cms.vstring("passingLeptonMvaT", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToLeptonMvaT.Efficiencies = cms.PSet(
+    MCtruth_LeptonMvaT = cms.PSet(
+        McLeptonMvaTBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaT", "pass"),
+        ),
+    )
+
+
+process.McGsfElectronToLeptonMvaVT = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToLeptonMvaVT.InputDirectoryName = cms.string("GsfElectronToID")
+process.McGsfElectronToLeptonMvaVT.OutputFileName = cms.string("eff_mc_LeptonMvaVT.root")
+process.McGsfElectronToLeptonMvaVT.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingLeptonMvaVT = cms.vstring("passingLeptonMvaVT", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToLeptonMvaVT.Efficiencies = cms.PSet(
+    MCtruth_LeptonMvaVT = cms.PSet(
+        McLeptonMvaVTBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaVT", "pass"),
+        ),
+    )
+
+
+process.McGsfElectronToLeptonMvaET = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToLeptonMvaET.InputDirectoryName = cms.string("GsfElectronToID")
+process.McGsfElectronToLeptonMvaET.OutputFileName = cms.string("eff_mc_LeptonMvaET.root")
+process.McGsfElectronToLeptonMvaET.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingLeptonMvaET = cms.vstring("passingLeptonMvaET", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToLeptonMvaET.Efficiencies = cms.PSet(
+    MCtruth_LeptonMvaET = cms.PSet(
+        McLeptonMvaETBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaET", "pass"),
+        ),
+    )
+
+
+
+
 
 process.McGsfElectronToLoose2D = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToLoose2D.InputDirectoryName = cms.string("GsfElectronToID")
@@ -552,6 +687,82 @@ process.DataGsfElectronToTight.Efficiencies = cms.PSet(
         ),
     )
 
+
+process.DataGsfElectronToLeptonMvaVL = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToLeptonMvaVL.InputDirectoryName = cms.string("GsfElectronToID")
+process.DataGsfElectronToLeptonMvaVL.OutputFileName = cms.string("eff_data_LeptonMvaVL.root")
+process.DataGsfElectronToLeptonMvaVL.Categories = cms.PSet(passingLeptonMvaVL = cms.vstring("passingLeptonMvaVL", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToLeptonMvaVL.Efficiencies = cms.PSet(
+    LeptonMvaVL = cms.PSet(
+        DataLeptonMvaVLBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaVL", "pass"),
+        ),
+    )
+
+
+process.DataGsfElectronToLeptonMvaL = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToLeptonMvaL.InputDirectoryName = cms.string("GsfElectronToID")
+process.DataGsfElectronToLeptonMvaL.OutputFileName = cms.string("eff_data_LeptonMvaL.root")
+process.DataGsfElectronToLeptonMvaL.Categories = cms.PSet(passingLeptonMvaL = cms.vstring("passingLeptonMvaL", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToLeptonMvaL.Efficiencies = cms.PSet(
+    LeptonMvaL = cms.PSet(
+        DataLeptonMvaLBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaL", "pass"),
+        ),
+    )
+
+
+process.DataGsfElectronToLeptonMvaM = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToLeptonMvaM.InputDirectoryName = cms.string("GsfElectronToID")
+process.DataGsfElectronToLeptonMvaM.OutputFileName = cms.string("eff_data_LeptonMvaM.root")
+process.DataGsfElectronToLeptonMvaM.Categories = cms.PSet(passingLeptonMvaM = cms.vstring("passingLeptonMvaM", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToLeptonMvaM.Efficiencies = cms.PSet(
+    LeptonMvaM = cms.PSet(
+        DataLeptonMvaMBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaM", "pass"),
+        ),
+    )
+
+
+process.DataGsfElectronToLeptonMvaT = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToLeptonMvaT.InputDirectoryName = cms.string("GsfElectronToID")
+process.DataGsfElectronToLeptonMvaT.OutputFileName = cms.string("eff_data_LeptonMvaT.root")
+process.DataGsfElectronToLeptonMvaT.Categories = cms.PSet(passingLeptonMvaT = cms.vstring("passingLeptonMvaT", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToLeptonMvaT.Efficiencies = cms.PSet(
+    LeptonMvaT = cms.PSet(
+        DataLeptonMvaTBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaT", "pass"),
+        ),
+    )
+
+
+process.DataGsfElectronToLeptonMvaVT = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToLeptonMvaVT.InputDirectoryName = cms.string("GsfElectronToID")
+process.DataGsfElectronToLeptonMvaVT.OutputFileName = cms.string("eff_data_LeptonMvaVT.root")
+process.DataGsfElectronToLeptonMvaVT.Categories = cms.PSet(passingLeptonMvaVT = cms.vstring("passingLeptonMvaVT", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToLeptonMvaVT.Efficiencies = cms.PSet(
+    LeptonMvaVT = cms.PSet(
+        DataLeptonMvaVTBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaVT", "pass"),
+        ),
+    )
+
+process.DataGsfElectronToLeptonMvaET = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToLeptonMvaET.InputDirectoryName = cms.string("GsfElectronToID")
+process.DataGsfElectronToLeptonMvaET.OutputFileName = cms.string("eff_data_LeptonMvaET.root")
+process.DataGsfElectronToLeptonMvaET.Categories = cms.PSet(passingLeptonMvaET = cms.vstring("passingLeptonMvaET", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToLeptonMvaET.Efficiencies = cms.PSet(
+    LeptonMvaET = cms.PSet(
+        DataLeptonMvaETBinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingLeptonMvaET", "pass"),
+        ),
+    )
+
+
+
+
+
+
 process.DataGsfElectronToLoose2D = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToLoose2D.InputDirectoryName = cms.string("GsfElectronToID")
 process.DataGsfElectronToLoose2D.OutputFileName = cms.string("eff_data_Loose2D.root")
@@ -669,6 +880,12 @@ if (not options.noMC) and (not options.noID):
     process.seq += process.McGsfElectronToLoose
     process.seq += process.McGsfElectronToMedium
     process.seq += process.McGsfElectronToTight
+#    process.seq += process.McGsfElectronToLeptonMvaVL
+#    process.seq += process.McGsfElectronToLeptonMvaL
+    process.seq += process.McGsfElectronToLeptonMvaM
+#    process.seq += process.McGsfElectronToLeptonMvaT
+    process.seq += process.McGsfElectronToLeptonMvaVT
+#    process.seq += process.McGsfElectronToLeptonMvaET
     process.seq += process.McGsfElectronToLoose2D
     process.seq += process.McGsfElectronToFOID2D
     process.seq += process.McGsfElectronToTight2D3D
@@ -687,6 +904,12 @@ if (not options.noData) and (not options.noID):
     process.seq += process.DataGsfElectronToLoose
     process.seq += process.DataGsfElectronToMedium
     process.seq += process.DataGsfElectronToTight
+#    process.seq += process.DataGsfElectronToLeptonMvaVL
+#    process.seq += process.DataGsfElectronToLeptonMvaL
+    process.seq += process.DataGsfElectronToLeptonMvaM
+#    process.seq += process.DataGsfElectronToLeptonMvaT
+    process.seq += process.DataGsfElectronToLeptonMvaVT
+#    process.seq += process.DataGsfElectronToLeptonMvaET
     process.seq += process.DataGsfElectronToLoose2D
     process.seq += process.DataGsfElectronToFOID2D
     process.seq += process.DataGsfElectronToTight2D3D
