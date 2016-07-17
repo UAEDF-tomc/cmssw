@@ -10,7 +10,7 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "test_v2"
+submitVersion = "80X_v7"
 
 if os.environ["USER"] in ['tomc']:
   mainOutputDir = '/store/user/tomc/tnp/80X/%s' % submitVersion
@@ -54,16 +54,20 @@ if __name__ == '__main__':
     ##### submit MC
     config.Data.outLFNDirBase = '%s/%s/' % (mainOutputDir,'mc')
     config.Data.splitting     = 'FileBased'
-    config.Data.unitsPerJob   = 20
+    config.Data.unitsPerJob   = 5
     config.JobType.pyCfgParams  = ['isMC=True']
     config.JobType.allowUndistributedCMSSW = True 
     
-#    config.General.requestName  = 'DYToLL_mcAtNLO'
-#    config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
-#    submit(config)
+    config.General.requestName  = 'DYToLL_mcAtNLO'
+    config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
+    submit(config)
 
     config.General.requestName  = 'DYToLL_madgraph'
     config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/MINIAODSIM'
+    submit(config)
+
+    config.General.requestName  = 'DYToLL_powheg'
+    config.Data.inputDataset    = '/DYToEE_NNPDF30_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
     submit(config)
 
 #    config.General.requestName  = 'WJets_madgraph'
@@ -79,7 +83,7 @@ if __name__ == '__main__':
     ##### now submit DATA
     config.Data.outLFNDirBase = '%s/%s/' % (mainOutputDir,'data')
     config.Data.splitting     = 'LumiBased'
-    config.Data.lumiMask      = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275125_13TeV_PromptReco_Collisions16_JSON.txt  '
+    config.Data.lumiMask      = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275783_13TeV_PromptReco_Collisions16_JSON.txt'
     config.Data.unitsPerJob   = 50
     config.JobType.pyCfgParams  = ['isMC=False']
 
