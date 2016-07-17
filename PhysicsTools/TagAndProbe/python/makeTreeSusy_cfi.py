@@ -114,6 +114,7 @@ def AddMiniIso(process, options, varOptions):
         jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRel"),
         jetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
         jetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
+        eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-medium"),
     )
 
     MiniIsoProbeVars = cms.PSet(
@@ -170,6 +171,8 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_passLeptonMvaT = cms.InputTag("MyEleVars:passLeptonMvaT"),
         probe_ele_passLeptonMvaVT = cms.InputTag("MyEleVars:passLeptonMvaVT"),
         probe_ele_passLeptonMvaET = cms.InputTag("MyEleVars:passLeptonMvaET"),
+        probe_ele_passCutBasedTTZ = cms.InputTag("MyEleVars:passCutBasedTTZ"),
+        probe_ele_passCutBasedIllia = cms.InputTag("MyEleVars:passCutBasedIllia"),
     )
 
     setupAllVIDIdsInModule(process,
@@ -308,6 +311,10 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBELeptonMvaVT.selection = cms.InputTag("MyEleVars:passLeptonMvaVT")
     process.goodElectronsPROBELeptonMvaET = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBELeptonMvaET.selection = cms.InputTag("MyEleVars:passLeptonMvaET")
+    process.goodElectronsPROBECutBasedTTZ = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBECutBasedTTZ.selection = cms.InputTag("MyEleVars:passCutBasedTTZ")
+    process.goodElectronsPROBECutBasedIllia = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBECutBasedIllia.selection = cms.InputTag("MyEleVars:passCutBasedIllia")
 
     #Applies trigger matching (denominators need to be listed here)
     process.goodElectronsProbeMediumNoIso = process.goodElectronsTagHLT.clone()
@@ -360,6 +367,8 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsPROBELeptonMvaT
     process.my_ele_sequence += process.goodElectronsPROBELeptonMvaVT
     process.my_ele_sequence += process.goodElectronsPROBELeptonMvaET
+    process.my_ele_sequence += process.goodElectronsPROBECutBasedTTZ
+    process.my_ele_sequence += process.goodElectronsPROBECutBasedIllia
 
     process.tagTightID = process.tagTightEleID.clone()
     process.tagTightID.decay = cms.string("goodElectronsTagHLT@+ goodElectrons@-")
@@ -395,6 +404,8 @@ def AddMiniIso(process, options, varOptions):
         passingLeptonMvaT = cms.InputTag("goodElectronsPROBELeptonMvaT"),
         passingLeptonMvaVT = cms.InputTag("goodElectronsPROBELeptonMvaVT"),
         passingLeptonMvaET = cms.InputTag("goodElectronsPROBELeptonMvaET"),
+        passingCutBasedTTZ = cms.InputTag("goodElectronsPROBECutBasedTTZ"),
+        passingCutBasedIllia = cms.InputTag("goodElectronsPROBECutBasedIllia"),
     )
     process.GsfElectronToID.allProbes = cms.InputTag("goodElectronsProbeHLT")
     process.MVAVLooseElectronToIso = process.GsfElectronToEleID.clone()

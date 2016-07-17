@@ -120,6 +120,11 @@ namespace{
     return fabs(dxy) < 0.05 && fabs(dz) < 0.1;
   }
 
+  // On request of Illia
+  bool Pass3Charge(const pat::Electron &ele){
+    return ele.isGsfCtfScPixChargeConsistent();
+  }
+
   bool PassIDEmu(const pat::Electron &ele){
     if(ele.isEB()){
       return ele.sigmaIetaIeta() < 0.011
@@ -142,6 +147,30 @@ namespace{
     return ele.ecalPFClusterIso() / ele.pt() < 0.45
       && ele.hcalPFClusterIso() / ele.pt() < 0.25
       && ele.dr03TkSumPt() / ele.pt() < 0.2;
+  }
+
+  // On request of Deniz for her TTZ analysis, based on the (as usual to CMS standards) horrible code given here: https://github.com/peruzzim/cmgtools-lite/blob/76X_for2016basis/TTHAnalysis/python/tools/functionsTTH.py#L10-L20
+  bool PassCutBasedTTZ(const pat::Electron &ele, bool passedCutBasedM){
+    if(!passedCutBasedM) return false; // This is on top of the medium working point
+    float eInvMinusPInv = ele.ecalEnergy() > 0 ? (1.0/ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) : 9e9;
+    if(ele.isEB()){
+      if (ele.hadronicOverEm() >= 0.10)                    return false;
+      if (abs(ele.deltaEtaSuperClusterTrackAtVtx())>=0.01) return false;
+      if (abs(ele.deltaPhiSuperClusterTrackAtVtx())>=0.04) return false;
+      if (eInvMinusPInv<=-0.05)                            return false;
+      if (eInvMinusPInv>=0.01)                             return false;
+      if (ele.full5x5_sigmaIetaIeta()>=0.011)              return false;
+      return true;
+
+    } else if(ele.isEE()){
+      if (ele.hadronicOverEm() >= 0.07)                     return false;
+      if (abs(ele.deltaEtaSuperClusterTrackAtVtx())>=0.008) return false;
+      if (abs(ele.deltaPhiSuperClusterTrackAtVtx())>=0.07)  return false;
+      if (eInvMinusPInv<=-0.05)                             return false;
+      if (eInvMinusPInv>=0.005)                             return false;
+      if (ele.full5x5_sigmaIetaIeta()>=0.03)                return false;
+      return true;
+    } else return false;
   }
 
   bool PassMultiIsoVL(double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.25 && (jetPtRatio > 0.67 || jetPtRel > 4.4);}
@@ -179,7 +208,7 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > jetPtRelToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetNDauChargedToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetBTagCSVToken_;
-
+  edm::EDGetTokenT<edm::ValueMap<bool>> eleMediumIdMapToken_;
   Float_t LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel,
     LepGood_miniRelIsoCharged, LepGood_miniRelIsoNeutral,
     LepGood_jetPtRelv2, LepGood_jetPtRatio,
@@ -202,45 +231,49 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   jetPtRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
   jetPtRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRel"))),
   jetNDauChargedToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
-  jetBTagCSVToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetBTagCSV"))){  
-  produces<edm::ValueMap<float> >("sip3d");
-  produces<edm::ValueMap<float> >("ecalIso");
-  produces<edm::ValueMap<float> >("hcalIso");
-  produces<edm::ValueMap<float> >("trackIso");
-  produces<edm::ValueMap<int> >("missIHits");
-  produces<edm::ValueMap<MyBool> >("passConvVeto");
-  produces<edm::ValueMap<MyBool> >("passMVAVLooseFO");
-  produces<edm::ValueMap<MyBool> >("passMVAVLoose");
-  produces<edm::ValueMap<MyBool> >("passMVAVLooseMini");
-  produces<edm::ValueMap<MyBool> >("passMVAVLooseMini4");
-  produces<edm::ValueMap<MyBool> >("passMVATight");
-  produces<edm::ValueMap<MyBool> >("passMVAWP80");
-  produces<edm::ValueMap<MyBool> >("passMVAWP90");
-  produces<edm::ValueMap<MyBool> >("passTightIP2D");
-  produces<edm::ValueMap<MyBool> >("passTightIP3D");
-  produces<edm::ValueMap<MyBool> >("passIDEmu");
-  produces<edm::ValueMap<MyBool> >("passISOEmu");
-  produces<edm::ValueMap<MyBool> >("passCharge");
-  produces<edm::ValueMap<MyBool> >("passIHit0");
-  produces<edm::ValueMap<MyBool> >("passIHit1");
-  produces<edm::ValueMap<MyBool> >("passLoose2D");
-  produces<edm::ValueMap<MyBool> >("passFOID2D");
-  produces<edm::ValueMap<MyBool> >("passTight2D3D");
-  produces<edm::ValueMap<MyBool> >("passTightID2D3D");
-  produces<edm::ValueMap<MyBool> >("passConvIHit1");
-  produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
-  produces<edm::ValueMap<MyBool> >("passMultiIsoVL");
-  produces<edm::ValueMap<MyBool> >("passMultiIsoL");
-  produces<edm::ValueMap<MyBool> >("passMultiIsoM");
-  produces<edm::ValueMap<MyBool> >("passMultiIsoT");
-  produces<edm::ValueMap<MyBool> >("passMultiIsoVT");
-  produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
-  produces<edm::ValueMap<MyBool> >("passLeptonMvaVL");
-  produces<edm::ValueMap<MyBool> >("passLeptonMvaL");
-  produces<edm::ValueMap<MyBool> >("passLeptonMvaM");
-  produces<edm::ValueMap<MyBool> >("passLeptonMvaT");
-  produces<edm::ValueMap<MyBool> >("passLeptonMvaVT");
-  produces<edm::ValueMap<MyBool> >("passLeptonMvaET");
+  jetBTagCSVToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetBTagCSV"))),
+  eleMediumIdMapToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumIdMap"))){
+  
+    produces<edm::ValueMap<float> >("sip3d");
+    produces<edm::ValueMap<float> >("ecalIso");
+    produces<edm::ValueMap<float> >("hcalIso");
+    produces<edm::ValueMap<float> >("trackIso");
+    produces<edm::ValueMap<int> >("missIHits");
+    produces<edm::ValueMap<MyBool> >("passConvVeto");
+    produces<edm::ValueMap<MyBool> >("passMVAVLooseFO");
+    produces<edm::ValueMap<MyBool> >("passMVAVLoose");
+    produces<edm::ValueMap<MyBool> >("passMVAVLooseMini");
+    produces<edm::ValueMap<MyBool> >("passMVAVLooseMini4");
+    produces<edm::ValueMap<MyBool> >("passMVATight");
+    produces<edm::ValueMap<MyBool> >("passMVAWP80");
+    produces<edm::ValueMap<MyBool> >("passMVAWP90");
+    produces<edm::ValueMap<MyBool> >("passTightIP2D");
+    produces<edm::ValueMap<MyBool> >("passTightIP3D");
+    produces<edm::ValueMap<MyBool> >("passIDEmu");
+    produces<edm::ValueMap<MyBool> >("passISOEmu");
+    produces<edm::ValueMap<MyBool> >("passCharge");
+    produces<edm::ValueMap<MyBool> >("passIHit0");
+    produces<edm::ValueMap<MyBool> >("passIHit1");
+    produces<edm::ValueMap<MyBool> >("passLoose2D");
+    produces<edm::ValueMap<MyBool> >("passFOID2D");
+    produces<edm::ValueMap<MyBool> >("passTight2D3D");
+    produces<edm::ValueMap<MyBool> >("passTightID2D3D");
+    produces<edm::ValueMap<MyBool> >("passConvIHit1");
+    produces<edm::ValueMap<MyBool> >("passConvIHit0Chg");
+    produces<edm::ValueMap<MyBool> >("passMultiIsoVL");
+    produces<edm::ValueMap<MyBool> >("passMultiIsoL");
+    produces<edm::ValueMap<MyBool> >("passMultiIsoM");
+    produces<edm::ValueMap<MyBool> >("passMultiIsoT");
+    produces<edm::ValueMap<MyBool> >("passMultiIsoVT");
+    produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
+    produces<edm::ValueMap<MyBool> >("passLeptonMvaVL");
+    produces<edm::ValueMap<MyBool> >("passLeptonMvaL");
+    produces<edm::ValueMap<MyBool> >("passLeptonMvaM");
+    produces<edm::ValueMap<MyBool> >("passLeptonMvaT");
+    produces<edm::ValueMap<MyBool> >("passLeptonMvaVT");
+    produces<edm::ValueMap<MyBool> >("passLeptonMvaET");
+    produces<edm::ValueMap<MyBool> >("passCutBasedTTZ");
+    produces<edm::ValueMap<MyBool> >("passCutBasedIllia");
 }
 
 MyElectronVariableHelper::~MyElectronVariableHelper(){
@@ -292,6 +325,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   iEvent.getByToken(jetNDauChargedToken_, jetNDauChargeds);
   edm::Handle<edm::ValueMap<float> > jetBTagCSVs;
   iEvent.getByToken(jetBTagCSVToken_, jetBTagCSVs);
+  edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
+  iEvent.getByToken(eleMediumIdMapToken_,medium_id_decisions);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
@@ -325,6 +360,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passLeptonMvaT;
   std::vector<MyBool> passLeptonMvaVT;
   std::vector<MyBool> passLeptonMvaET;
+  std::vector<MyBool> passCutBasedTTZ;
+  std::vector<MyBool> pass3Charge;
 
   size_t i = 0;
   for(const auto &probe: *probes){
@@ -343,6 +380,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     float jetPtRel         = (*jetPtRels)[pp];
     float jetNDauCharged   = (*jetNDauChargeds)[pp];
     float jetBTagCSV       = (*jetBTagCSVs)[pp];
+    float passCutBasedM    = (*medium_id_decisions)[pp];
     float ecalIso          = probe.ecalPFClusterIso();
     float hcalIso          = probe.hcalPFClusterIso();
     float trackIso         = probe.dr03TkSumPt();
@@ -394,6 +432,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passLeptonMvaT.push_back(PassLeptonMvaT(leptonMva));
     passLeptonMvaVT.push_back(PassLeptonMvaVT(leptonMva));
     passLeptonMvaET.push_back(PassLeptonMvaET(leptonMva));
+    passCutBasedTTZ.push_back(PassCutBasedTTZ(probe, passCutBasedM));
+    pass3Charge.push_back(Pass3Charge(probe));
     ++i;
   }
 
@@ -438,6 +478,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, passLeptonMvaT, "passLeptonMvaT");
   Store(iEvent, probes, passLeptonMvaVT, "passLeptonMvaVT");
   Store(iEvent, probes, passLeptonMvaET, "passLeptonMvaET");
+  Store(iEvent, probes, And(passCutBasedTTZ, passTightIP2D, passTightIP3D), "passCutBasedTTZ");
+  Store(iEvent, probes, And(And(passCutBasedTTZ, passTightIP2D), pass3Charge), "passCutBasedIllia");
 }
 
 
