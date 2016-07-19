@@ -11,14 +11,17 @@ cmsRun fitterSusy.py onlyMC=True   onlyId=True &> mc_id.log &
 cmsRun fitterSusy.py onlyData=True onlyIso=True &> data_eta.log &
 cmsRun fitterSusy.py onlyMC=True   onlyIso=True &> mc_eta.log &
 
-cmsRun fitterSusy.py onlyMC=True onlyId=True sysMC=True &> mc_id_sysMC.log &
-cmsRun fitterSusy.py onlyMC=True onlyIso=True sysMC=True &> mc_eta_sysMC.log &
+cmsRun fitterSusy.py onlyMC=True onlyId=True altMC=True &> mc_id_altMC.log &
+cmsRun fitterSusy.py onlyMC=True onlyIso=True altMC=True &> mc_eta_altMC.log &
 
-cmsRun fitterSusy.py onlyData=True onlyId=True sysTag=True &> data_id_sysTag.log &
-cmsRun fitterSusy.py onlyData=True onlyIso=True sysTag=True &> data_eta_sysTag.log &
+cmsRun fitterSusy.py onlyData=True onlyId=True altTag=True &> data_id_altTag.log &
+cmsRun fitterSusy.py onlyData=True onlyIso=True altTag=True &> data_eta_altTag.log &
 
-cmsRun fitterSusy.py onlyData=True onlyId=True sysBackShape=True &> data_id_sysBackShape.log &
-cmsRun fitterSusy.py onlyData=True onlyIso=True sysBackShape=True &> data_eta_sysBackShape.log &
+cmsRun fitterSusy.py onlyData=True onlyId=True altBkg=True &> data_id_altBkg.log &
+cmsRun fitterSusy.py onlyData=True onlyIso=True altBkg=True &> data_eta_altBkg.log &
+
+cmsRun fitterSusy.py onlyData=True onlyId=True altSig=True &> data_id_altSig.log &
+cmsRun fitterSusy.py onlyData=True onlyIso=True altSig=True &> data_eta_altSig.log &
 
 wait
 rm -r temp*

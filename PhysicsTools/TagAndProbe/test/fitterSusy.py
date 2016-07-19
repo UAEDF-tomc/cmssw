@@ -1,7 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
-import PhysicsTools.TagAndProbe.commonFitSusy as common
-import PhysicsTools.TagAndProbe.commonFitSusy as common
 import os
 
 dataFile  = "../crab/crab_projects_80X_v8/data.root"
@@ -14,22 +12,26 @@ options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, Va
 options.register("onlyId",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
 options.register("onlyIso",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
 options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
-options.register("sysMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
-options.register("sysTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
-options.register("sysBackShape",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative background shape")
+options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
+options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
+options.register("altBkg",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative background shape")
+options.register("altSig",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative signal shape")
 options.parseArguments()
 
-if options.sysMC:
+if options.altMC:
   mcFile    = "../crab/crab_projects_80X_v8/DYToLL_mcAtNLO.root"
  # mcFile    = "../crab/crab_projects_80X_v8/DYToEE_Powheg.root"
-  outputDir = "./alternativeMC"
+  outputDir = "./altMC"
 
-if options.sysTag:
-  outputDir = "./alternativeTag"
+if options.altTag:
+  outputDir = "./altTag"
 
-if options.sysBackShape:
+if options.altBkg:
   import PhysicsTools.TagAndProbe.commonFitSusy_exponential as common
-  outputDir = "./alternativeBackgroudShape"
+  outputDir = "./altBkg"
+elif options.altSig:
+  import PhysicsTools.TagAndProbe.commonFitSusy_CB as common
+  outputDir = "./altSig"
 else:
   import PhysicsTools.TagAndProbe.commonFitSusy as common
 
@@ -47,8 +49,8 @@ def BinSpec(name):
       if ptBin == 2: ptRange = "30p0To40p0"
       if ptBin == 3: ptRange = "40p0To50p0"
       if ptBin == 4: ptRange = "50p0To100p0"
-      if ptBin == 4: ptRange = "100p0To200p0"
-      if ptBin == 4: ptRange = "200p0To2000p0"
+      if ptBin == 5: ptRange = "100p0To200p0"
+      if ptBin == 6: ptRange = "200p0To2000p0"
       for etaBin in range(4):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
@@ -171,7 +173,7 @@ def getAnalyzer(wp, dir, isData, isIso):
       Efficiencies             = getEfficiencies(wp, dir, isData, isIso),
     )
     if not isData:     analyzer.WeightVariable  = cms.string("totWeight")
-    if options.sysTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
+    if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
     return analyzer
 
 # MC
