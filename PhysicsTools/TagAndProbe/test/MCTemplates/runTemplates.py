@@ -1,11 +1,12 @@
 #! /usr/bin/env python
 import getTemplatesFromMC
 import makeConfigForTemplates
-import os
+import os, glob
 
+tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
 templateProduction = "templatesSusy"
 try:
-  os.makedirs(os.path.join('..', '..', 'data', templateProduction))
+  os.makedirs(os.path.join(tnpPackage, 'data', templateProduction))
 except:
   pass
 
@@ -42,12 +43,12 @@ def runGetTemplatesFromMC(args):
     if region == "endcap":     options.var2Bins = "1.566,2.5"
 
     myOptions.idLabel      = getIdLabel(args)
-    myOptions.output       = os.path.join('..', '..', 'data', templateProduction, myOptions.idLabel + ".root")
+    myOptions.output       = os.path.join(tnpPackage, 'data', templateProduction, myOptions.idLabel + ".root")
     myOptions.directory    = directory
     myOptions.idprobe      = "passing" + idProbe
     getTemplatesFromMC.main(myOptions)
 
-    myOptions.outputFile   = os.path.join('..', '..', 'python', "commonFit_" + myOptions.idLabel + ".py")
+    myOptions.outputFile   = os.path.join(tnpPackage, 'python', "commonFit_" + myOptions.idLabel + ".py")
     myOptions.templateFile = myOptions.output
     makeConfigForTemplates.main(myOptions)
 
@@ -84,19 +85,19 @@ for region in ["alleta","barrel","crack","endcap"]:
 
   jobs.append(("MultiIsoVT",                                      "CutBasedTightElectronToIso",     region))
 
-#from multiprocessing import Pool
-#pool = Pool(processes=16)
-#pool.map(runGetTemplatesFromMC, jobs)
-#pool.close()
-#pool.join()
+from multiprocessing import Pool
+pool = Pool(processes=16)
+pool.map(runGetTemplatesFromMC, jobs)
+pool.close()
+pool.join()
 
 # Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
-with open('../../python/commonFitSusy.py', 'w') as f:
+with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'w') as f:
   f.write('import FWCore.ParameterSet.Config as cms\n\n')
 
   for args in jobs:
     f.write('pdfs_' + getIdLabel(args) + ' = cms.PSet(\n')
-    with open(os.path.join('..','..','python', "commonFit_" + getIdLabel(args) + ".py"), "r") as r:
+    with open(os.path.join(tnpPackage, 'python', "commonFit_" + getIdLabel(args) + ".py"), "r") as r:
       f.writelines(r.readlines()[3:-2])
     f.write(')\n\n')
 
@@ -105,4 +106,5 @@ with open('../../python/commonFitSusy.py', 'w') as f:
     f.write('  pdfs_' + getIdLabel(args) + ',\n')
   f.write(')')
 
-#os.system('rm ../../python/commonFit_*.py')
+import glob, os
+map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', 'commonFit_*.p*')))
