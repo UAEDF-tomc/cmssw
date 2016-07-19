@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-import argparse
 import os
 import ROOT
 
@@ -29,26 +28,27 @@ def Histo(parent, isfit):
                     return prim
     return None
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-n","--nominal")
-parser.add_argument("-s","--altSig")
-parser.add_argument("-b","--altBkg")
-parser.add_argument("-m","--altMC")
-parser.add_argument("-t","--altTag")
-args = parser.parse_args()
 
-flist = (f for f in os.listdir(args.nominal) if f in os.listdir(args.altSig) and f in os.listdir(args.altBkg) and f in os.listdir(args.altMC) and f in os.listdir(args.altTag) and "_data_" in f and "_act.root" not in f)
+tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
+nominal    = os.path.join(tnpPackage, 'test', 'nominal')
+altSig     = os.path.join(tnpPackage, 'test', 'alternativeSignalShape')
+altBkg     = os.path.join(tnpPackage, 'test', 'alternativeBackShape')
+altMC      = os.path.join(tnpPackage, 'test', 'alternativeMC')
+altTag     = os.path.join(tnpPackage, 'test', 'alternativeTag')
+
+flist = (f for f in os.listdir(nominal) if f in os.listdir(altSig) and f in os.listdir(altBkg) and f.replace("_data_", "_mc_") in os.listdir(altMC) and f in os.listdir(altTag) and "_data_" in f and "_act.root" not in f)
 
 for f in flist:
+    if not f.count("eff_data"): continue
     print f.replace("eff_data_","").replace(".root","")
     fmc = f.replace("_data_","_mc_")
 
-    fdat = ROOT.TFile(args.nominal+"/"+f)
-    fnmc = ROOT.TFile(args.nominal+"/"+fmc)
-    fsig = ROOT.TFile(args.altSig+"/"+f)
-    fbkg = ROOT.TFile(args.altBkg+"/"+f)
-    famc = ROOT.TFile(args.altMC+"/"+fmc)
-    ftag = ROOT.TFile(args.altTag+"/"+f)
+    fdat = ROOT.TFile(nominal+"/"+ f)
+    fnmc = ROOT.TFile(nominal+"/"+ fmc)
+    fsig = ROOT.TFile(altSig +"/"+ f)
+    fbkg = ROOT.TFile(altBkg +"/"+ f)
+    famc = ROOT.TFile(altMC  +"/"+ fmc)
+    ftag = ROOT.TFile(altTag +"/"+ f)
 
     fout = open(f.replace("_data_","_all_").replace(".root",".txt"), "w")
 
