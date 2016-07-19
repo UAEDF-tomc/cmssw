@@ -113,4 +113,16 @@ map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', 'commonFit_*.p*')))
 with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_exponential.py'), 'w') as f:
   with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
     for line in r:
-      if not line.count('RooCMSShape'): f.write(line)
+      if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -1, 0])"\n')
+      elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -1, 0])"\n')
+      else:                                           f.write(line)
+
+# For signal shape systematic, use Crystal ball convoluted with Gaussian
+with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_CB.py'), 'w') as f:
+  with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
+    for line in r:
+      if   line.count('RooGaussian::signalResPass'):         f.write('"RooCBExGaussShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,15.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000],sigmaP_2[1.000,0.500,15.00])"\n')
+      elif line.count('RooGaussian::signalResFail'):         f.write('"RooCBExGaussShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,15.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00], sigmaF_2[1.675,0.500,12.000])"\n')
+      elif line.count('ZGeneratorLineShape::signalPhyPass'): f.write('"ZGeneratorLineShape::signalPhyPass(mass)"\n')
+      elif line.count('ZGeneratorLineShape::signalPhyFail'): f.write('"ZGeneratorLineShape::signalPhyFail(mass)"\n')
+      else:                                                  f.write(line)
