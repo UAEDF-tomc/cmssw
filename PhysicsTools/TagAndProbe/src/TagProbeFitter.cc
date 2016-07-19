@@ -42,7 +42,7 @@
 using namespace std;
 using namespace RooFit;
 
-TagProbeFitter::TagProbeFitter(const std::vector<std::string>& inputFileNames, string inputDirectoryName, string inputTreeName, string outputFileName, int numCPU_, bool saveWorkspace_, bool docutandcount_, bool floatShapeParameters_, const std::vector<std::string>& fixVars_):
+TagProbeFitter::TagProbeFitter(std::string tempDir_, const std::vector<std::string>& inputFileNames, string inputDirectoryName, string inputTreeName, string outputFileName, int numCPU_, bool saveWorkspace_, bool docutandcount_, bool floatShapeParameters_, const std::vector<std::string>& fixVars_):
   numCPU(numCPU_),
   saveWorkspace(saveWorkspace_),
   docutandcount(docutandcount_),
@@ -52,6 +52,7 @@ TagProbeFitter::TagProbeFitter(const std::vector<std::string>& inputFileNames, s
   fixVars(fixVars_), 
   floatShapeParameters(floatShapeParameters_),
   quiet(false) {
+  tempDir = tempDir_;
 
   inputTree = new TChain((inputDirectoryName+"/"+inputTreeName).c_str());
   for(size_t i=0; i<inputFileNames.size(); i++){
@@ -274,7 +275,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
     std::map<std::string, double> treeVarsD;
     std::map<std::string, int> treeVarsI;
     
-    inputTree->SetBranchStatus("*", 0);
+  //  inputTree->SetBranchStatus("*", 0);
     TIterator* vit = dataVars.createIterator();
     for(RooRealVar* v = (RooRealVar*)vit->Next(); v!=0; v = (RooRealVar*)vit->Next() ){
       inputTree->SetBranchStatus(v->GetName(), 1);
@@ -288,8 +289,9 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
 	inputTree->SetBranchAddress(v->GetName(), &(treeVarsI[v->GetName()]));
     }
 
-    mkdir(treeDirectory.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
-    outputTemp = new TFile((treeDirectory+std::string("/temp.root")).c_str(), "recreate");
+    mkdir(tempDir.c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
+    mkdir((tempDir + std::string("/")+treeDirectory).c_str(), S_IRUSR | S_IWUSR | S_IXUSR);
+    outputTemp = new TFile((tempDir + std::string("/") + treeDirectory+std::string("/temp.root")).c_str(), "recreate");
     for (int category=0; category<nCats; category++) {
       trees.push_back(inputTree->CloneTree(0));
       sprintf(aChar, "formula%d", category);
@@ -323,7 +325,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
     outputTemp->Close();
   }
   
-  outputTemp = TFile::Open((treeDirectory+std::string("/temp.root")).c_str());
+  outputTemp = TFile::Open((tempDir +std::string("/") + treeDirectory+std::string("/temp.root")).c_str());
   outputTemp->cd();
   trees.resize(0);
   for (int i=0; i<nCats; i++) {

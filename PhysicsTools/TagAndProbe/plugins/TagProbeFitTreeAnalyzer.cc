@@ -23,7 +23,8 @@ class TagProbeFitTreeAnalyzer : public edm::EDAnalyzer{
 };
 
 TagProbeFitTreeAnalyzer::TagProbeFitTreeAnalyzer(const edm::ParameterSet& pset):
-  fitter( pset.getParameter<vector<string> >("InputFileNames"),
+  fitter( pset.getParameter<string>("TempDirectory"),
+          pset.getParameter<vector<string> >("InputFileNames"),
           pset.getParameter<string>("InputDirectoryName"),
           pset.getParameter<string>("InputTreeName"),
           pset.getParameter<string>("OutputFileName"),

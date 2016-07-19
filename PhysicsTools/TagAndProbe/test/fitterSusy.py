@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 import PhysicsTools.TagAndProbe.commonFitSusy as common
+import PhysicsTools.TagAndProbe.commonFitSusy as common
 import os
 
 dataFile  = "../crab/crab_projects_80X_v8/data.root"
@@ -8,18 +9,30 @@ mcFile    = "../crab/crab_projects_80X_v8/DYToLL_Madgraph.root"
 outputDir = "./nominal"
 
 options = VarParsing('analysis')
-options.register("onlyData", False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
-options.register("onlyMC",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
-options.register("onlyId",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
-options.register("onlyIso",  False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
-options.register("doAct",    False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
-options.register("sysMC",    False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
+options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
+options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
+options.register("onlyId",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
+options.register("onlyIso",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
+options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
+options.register("sysMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
+options.register("sysTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
+options.register("sysBackShape",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative background shape")
 options.parseArguments()
 
 if options.sysMC:
   mcFile    = "../crab/crab_projects_80X_v8/DYToLL_mcAtNLO.root"
-  #mcFile    = "../crab/crab_projects_80X_v8/DYToEE_Powheg.root"
+ # mcFile    = "../crab/crab_projects_80X_v8/DYToEE_Powheg.root"
   outputDir = "./alternativeMC"
+
+if options.sysTag:
+  outputDir = "./alternativeTag"
+
+if options.sysBackShape:
+  import PhysicsTools.TagAndProbe.commonFitSusy_exponential as common
+  outputDir = "./alternativeBackgroudShape"
+else:
+  import PhysicsTools.TagAndProbe.commonFitSusy as common
+
 
 try:
   os.makedirs(outputDir)
@@ -33,7 +46,9 @@ def BinSpec(name):
       if ptBin == 1: ptRange = "20p0To30p0"
       if ptBin == 2: ptRange = "30p0To40p0"
       if ptBin == 3: ptRange = "40p0To50p0"
-      if ptBin == 4: ptRange = "50p0To200p0"
+      if ptBin == 4: ptRange = "50p0To100p0"
+      if ptBin == 4: ptRange = "100p0To200p0"
+      if ptBin == 4: ptRange = "200p0To2000p0"
       for etaBin in range(4):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
@@ -74,7 +89,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
-    probe_Ele_pt    = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+    probe_Ele_pt    = cms.vdouble(10. ,20. ,30. ,40. ,50., 100.,200., 2000.),
     #event_nPV      = cms.vdouble(0.,5.,10.,15.,20.,100.),
     probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
     )
@@ -84,7 +99,7 @@ if not options.doAct:
     trail = "eta"
 else:
     IsoEfficiencyBins = cms.PSet(
-        probe_Ele_pt = cms.vdouble(10. ,20. ,30. ,40. ,50. ,200.),
+        probe_Ele_pt = cms.vdouble(10. ,20. ,30. ,40. ,50. , 100., 200., 2000.),
         #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
         probe_ele_RelAct = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
         )
@@ -138,6 +153,7 @@ def getVariables(isData):
 
 def getAnalyzer(wp, dir, isData, isIso):
     analyzer = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
+      TempDirectory            = cms.string('temp_' + outputDir.split('./')[-1]),
       InputFileNames           = cms.vstring(dataFile if isData else mcFile),
       InputDirectoryName       = cms.string(dir),
       InputTreeName            = cms.string("fitter_tree"), 
@@ -154,7 +170,8 @@ def getAnalyzer(wp, dir, isData, isIso):
       PDFs                     = common.all_pdfs,
       Efficiencies             = getEfficiencies(wp, dir, isData, isIso),
     )
-    if not isData: analyzer.WeightVariable  = cms.string("totWeight")
+    if not isData:     analyzer.WeightVariable  = cms.string("totWeight")
+    if options.sysTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
     return analyzer
 
 # MC
@@ -252,7 +269,7 @@ if not options.onlyData and not options.onlyId:
     process.seq += process.McMVATightElectronToConvIHit1
     process.seq += process.McMVATightElectronToConvIHit0Chg
 
-    process.seq += process.McMVATightNoEMuElectronToConvIHit0
+#    process.seq += process.McMVATightNoEMuElectronToConvIHit0 # does not want to work yet
     process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
 
     process.seq += process.McCutBasedTightElectronToMultiIsoVT
@@ -274,7 +291,7 @@ if not options.onlyMC and not options.onlyIso:
     process.seq += process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
 
-if options.onlyMC and not options.onlyId:
+if not options.onlyMC and not options.onlyId:
     process.seq += process.DataMVAVLooseElectronToMini
     process.seq += process.DataMVAVLooseElectronToMini2
     process.seq += process.DataMVAVLooseElectronToMini4
@@ -286,7 +303,7 @@ if options.onlyMC and not options.onlyId:
     process.seq += process.DataMVATightElectronToConvIHit1
     process.seq += process.DataMVATightElectronToConvIHit0Chg
 
-    process.seq += process.DataMVATightNoEMuElectronToConvIHit0
+#    process.seq += process.DataMVATightNoEMuElectronToConvIHit0 # does not want to work yet
     process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
 
     process.seq += process.DataCutBasedTightElectronToMultiIsoVT
