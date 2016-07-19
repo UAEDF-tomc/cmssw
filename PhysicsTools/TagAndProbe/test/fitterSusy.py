@@ -7,6 +7,20 @@ dataFile  = "../crab/crab_projects_80X_v8/data.root"
 mcFile    = "../crab/crab_projects_80X_v8/DYToLL_Madgraph.root"
 outputDir = "./nominal"
 
+options = VarParsing('analysis')
+options.register("onlyData", False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
+options.register("onlyMC",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
+options.register("onlyId",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
+options.register("onlyIso",  False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
+options.register("doAct",    False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
+options.register("sysMC",    False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
+options.parseArguments()
+
+if options.sysMC:
+  mcFile    = "../crab/crab_projects_80X_v8/DYToLL_mcAtNLO.root"
+  #mcFile    = "../crab/crab_projects_80X_v8/DYToEE_Powheg.root"
+  outputDir = "./alternativeMC"
+
 try:
   os.makedirs(outputDir)
 except:
@@ -37,13 +51,7 @@ def BinSpec(name):
       bins.append(name + "_alleta_" + ptRange + "_0p0To2p5")
     return bins
 
-options = VarParsing('analysis')
-options.register("onlyData", False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
-options.register("onlyMC",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
-options.register("onlyId",   False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
-options.register("onlyIso",  False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
-options.register("doAct",    False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
-options.parseArguments()
+
 
 if not options.onlyMC:
     for pdf in common.all_pdfs.__dict__:
