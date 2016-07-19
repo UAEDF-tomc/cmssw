@@ -20,7 +20,7 @@ class options:
     output          = "mc_templates.root"
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
-    var1Bins        = "10,20,30,40,50,200"
+    var1Bins        = "10,20,30,40,50,100,200,2000"
     var2Bins        = "0.0,0.8,1.4442,1.566,,2.5"
     var1Name        = "probe_Ele_pt"
     var2Name        = "probe_sc_abseta"
@@ -108,3 +108,9 @@ with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'w') as f:
 
 import glob, os
 map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', 'commonFit_*.p*')))
+
+# For background shape systematic, remove lines with RooCMSShape
+with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_exponential.py'), 'w') as f:
+  with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
+    for line in r:
+      if not line.count('RooCMSShape'): f.write(line)
