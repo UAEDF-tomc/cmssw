@@ -170,16 +170,16 @@ process.McMVAVLooseElectronToMini2                                = getAnalyzer(
 process.McMVAVLooseElectronToMini4                                = getAnalyzer("Mini4",                                    "MVAVLooseElectronToIso",         False, True)
 process.McMVAVLooseElectronToConvIHit1                            = getAnalyzer("ConvIHit1",                                "MVAVLooseElectronToIso",         False, True)
 
-process.McMVATightElectronToMultIsoT                              = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToMultIsoVT                             = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToMultIsoEmu                            = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          False, True)
+process.McMVATightElectronToMultiIsoT                             = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          False, True)
+process.McMVATightElectronToMultiIsoVT                            = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          False, True)
+process.McMVATightElectronToMultiIsoEmu                           = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          False, True)
 process.McMVATightElectronToConvIHit1                             = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          False, True)
 process.McMVATightElectronToConvIHit0Chg                          = getAnalyzer("ConvIHit0Chg",                             "MVATightElectronToIso",          False, True)
 
 process.McMVATightNoEMuElectronToConvIHit0                        = getAnalyzer("ConvIHit0",                                "MVATightNoEMuElectronToIso",     False, True)
 process.McMVATightConvIHit0ElectronToConvIHit0Chg                 = getAnalyzer("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", False, True)
 
-process.McCutBasedTightElectronToMultIsoVT                        = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     False, True)
+process.McCutBasedTightElectronToMultiIsoVT                       = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     False, True)
 
 # Data
 process.DataGsfElectronToVeto                                     = getAnalyzer("Veto",                                     "GsfElectronToID",                True,  False)
@@ -202,16 +202,16 @@ process.DataMVAVLooseElectronToMini2                              = getAnalyzer(
 process.DataMVAVLooseElectronToMini4                              = getAnalyzer("Mini4",                                    "MVAVLooseElectronToIso",         True,  True)
 process.DataMVAVLooseElectronToConvIHit1                          = getAnalyzer("ConvIHit1",                                "MVAVLooseElectronToIso",         True,  True)
 
-process.DataMVATightElectronToMultIsoT                            = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToMultIsoVT                           = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToMultIsoEmu                          = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          True,  True)
+process.DataMVATightElectronToMultiIsoT                           = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          True,  True)
+process.DataMVATightElectronToMultiIsoVT                          = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          True,  True)
+process.DataMVATightElectronToMultiIsoEmu                         = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          True,  True)
 process.DataMVATightElectronToConvIHit1                           = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          True,  True)
 process.DataMVATightElectronToConvIHit0Chg                        = getAnalyzer("ConvIHit0Chg",                             "MVATightElectronToIso",          True,  True)
 
 process.DataMVATightNoEMuElectronToConvIHit0                      = getAnalyzer("ConvIHit0",                                "MVATightNoEMuElectronToIso",     True,  True)
 process.DataMVATightConvIHit0ElectronToConvIHit0Chg               = getAnalyzer("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", True,  True)
 
-process.DataCutBasedTightElectronToMultIsoVT                      = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     True,  True)
+process.DataCutBasedTightElectronToMultiIsoVT                     = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     True,  True)
 
 
 process.seq = cms.Sequence()
@@ -247,7 +247,7 @@ if not options.onlyData and not options.onlyId:
     process.seq += process.McMVATightNoEMuElectronToConvIHit0
     process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
 
-    process.seq += process.McCutBasedTightElectronToMultIsoVT
+    process.seq += process.McCutBasedTightElectronToMultiIsoVT
 
 if not options.onlyMC and not options.onlyIso:
     process.seq += process.DataGsfElectronToVeto
@@ -281,6 +281,6 @@ if options.onlyMC and not options.onlyId:
     process.seq += process.DataMVATightNoEMuElectronToConvIHit0
     process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
 
-    process.seq += process.DataCutBasedTightElectronToMultIsoVT
+    process.seq += process.DataCutBasedTightElectronToMultiIsoVT
 
 process.fit = cms.Path(process.seq)
