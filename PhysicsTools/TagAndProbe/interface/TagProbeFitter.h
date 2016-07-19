@@ -11,7 +11,7 @@
 class TagProbeFitter {
   public:
   ///construct the fitter with the inputFileName, inputDirectoryName, inputTreeName, outputFileName and specify wether to save the workspace with data for each bin 
-  TagProbeFitter(const std::vector<std::string>& inputFileNames, std::string inputDirectoryName, std::string inputTreeName, std::string outputFileName, int numCPU = 1, bool saveWorkspace = false, bool docutandcount = false, bool floatShapeParameters = true, const std::vector<std::string>& fixVars_ = std::vector<std::string>() );
+  TagProbeFitter(std::string tempDir, const std::vector<std::string>& inputFileNames, std::string inputDirectoryName, std::string inputTreeName, std::string outputFileName, int numCPU = 1, bool saveWorkspace = false, bool docutandcount = false, bool floatShapeParameters = true, const std::vector<std::string>& fixVars_ = std::vector<std::string>() );
 
   ///destructor closes the files
   ~TagProbeFitter();
@@ -59,6 +59,9 @@ class TagProbeFitter {
   protected:
   ///pointer to the input TTree Chain of data
   TChain* inputTree;
+
+  ///such that we can give parralel jobs each their own temporary directory, otherwise we get segfaults
+  std::string tempDir;
 
   ///pointer to the output file
   TFile* outputFile;
