@@ -9,6 +9,11 @@ try:
 except:
   pass
 
+def getIdLabel(args):
+    idProbe, directory, region = args
+    return directory.split('To')[0] + 'To' + idProbe + "_" + region
+
+
 class options:
     input           = "../../crab/crab_projects_80X_v8/DYToLL_Madgraph.root"
     output          = "mc_templates.root"
@@ -36,7 +41,7 @@ def runGetTemplatesFromMC(args):
     if region == "crack":      options.var2Bins = "1.442,1.566"
     if region == "endcap":     options.var2Bins = "1.566,2.5"
 
-    myOptions.idLabel      = directory.split('To')[0] + 'To' + idProbe + "_" + region
+    myOptions.idLabel      = getIdLabel(args)
     myOptions.output       = os.path.join('..', '..', 'data', templateProduction, myOptions.idLabel + ".root")
     myOptions.directory    = directory
     myOptions.idprobe      = "passing" + idProbe
@@ -64,7 +69,6 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",         "GsfElectronToID",                region))
 
   jobs.append(("Mini",                                            "MVAVLooseElectronToIso",         region))
-  jobs.append(("Mini",                                            "MVAVLooseElectronToIso",         region))
   jobs.append(("Mini2",                                           "MVAVLooseElectronToIso",         region))
   jobs.append(("Mini4",                                           "MVAVLooseElectronToIso",         region))
   jobs.append(("ConvIHit1",                                       "MVAVLooseElectronToIso",         region))
@@ -86,12 +90,19 @@ for region in ["alleta","barrel","crack","endcap"]:
 #pool.close()
 #pool.join()
 
-os.system('rm ../../python/commonFit.py')
-with open('../../python/commonFit.py', 'w') as f:
-  f.write('import FWCore.ParameterSet.Config as cms\n')
-  f.write('all_pdfs = cms.PSet(\n')
-  for (idProbe, dir, region) in jobs:
-    idLabel = dir.split('To')[0] + 'To' + idProbe + "_" + region
-    with open(os.path.join('..','..','python', "commonFit_" + idLabel + ".py"), "r") as r:
+# Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
+with open('../../python/commonFitSusy.py', 'w') as f:
+  f.write('import FWCore.ParameterSet.Config as cms\n\n')
+
+  for args in jobs:
+    f.write('pdfs_' + getIdLabel(args) + ' = cms.PSet(\n')
+    with open(os.path.join('..','..','python', "commonFit_" + getIdLabel(args) + ".py"), "r") as r:
       f.writelines(r.readlines()[3:-2])
-  f.write(')\n')
+    f.write(')\n\n')
+
+  f.write('all_pdfs = cms.PSet(\n')
+  for args in jobs:
+    f.write('  pdfs_' + getIdLabel(args) + ',\n')
+  f.write(')')
+
+#os.system('rm ../../python/commonFit_*.py')
