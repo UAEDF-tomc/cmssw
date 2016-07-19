@@ -11,11 +11,9 @@ cmsRun fitterSusy.py onlyMC=True   onlyId=True &> mc_id.log &
 cmsRun fitterSusy.py onlyData=True onlyIso=True &> data_eta.log &
 cmsRun fitterSusy.py onlyMC=True   onlyIso=True &> mc_eta.log &
 
-cmsRun fitterSusy.py onlyMC=True onlyId=True sysMC=True &> mc_id_sysMC.log &
+# TODO: due to bad design of this horrible TnP package you can only run those below after cleaning up the temp files from above, otherwise you end up with segFaults
+#cmsRun fitterSusy.py onlyMC=True onlyId=True sysMC=True &> mc_id_sysMC.log &
 #cmsRun fitterSusy.py onlyMC=True onlyIso=True doAct=True sysMC=True &> mc_act.log &
-cmsRun fitterSusy.py onlyMC=True onlyIso=True sysMC=True &> mc_eta_sysMC.log &
+#cmsRun fitterSusy.py onlyMC=True onlyIso=True sysMC=True &> mc_eta_sysMC.log &
 
 wait
-# Remove all those temporary directories which get created by the TagProbeFitter
-rm -r *probe_Ele*
-
