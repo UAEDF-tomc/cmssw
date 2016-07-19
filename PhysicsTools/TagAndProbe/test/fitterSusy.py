@@ -1,6 +1,9 @@
 import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
-import PhysicsTools.TagAndProbe.commonFit as common
+import PhysicsTools.TagAndProbe.commonFitSusy as common
+
+dataFile = "../crab/crab_projects_80X_v8/data.root"
+mcFile   = "../crab/crab_projects_80X_v8/DYToLL_Madgraph.root"
 
 def BinSpec(name):
     return cms.vstring(
@@ -30,46 +33,6 @@ def BinSpec(name):
         "*probe_Ele_pt_bin2*probe_sc_abseta_bin4*",name+"_endcap_30p0To40p0_1p566To2p5",
         "*probe_Ele_pt_bin3*probe_sc_abseta_bin4*",name+"_endcap_40p0To50p0_1p566To2p5",
         "*probe_Ele_pt_bin4*probe_sc_abseta_bin4*",name+"_endcap_50p0To200p0_1p566To2p5",
-        "*probe_Ele_pt_bin0*probe_ele_RelAct_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
-        "*probe_Ele_pt_bin1*probe_ele_RelAct_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
-        "*probe_Ele_pt_bin2*probe_ele_RelAct_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
-        "*probe_Ele_pt_bin3*probe_ele_RelAct_bin*",name+"_alleta_40p0To50p0_0p0To2p5",
-        "*probe_Ele_pt_bin4*probe_ele_RelAct_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
-        "*probe_Ele_pt_bin0*event_nPV_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
-        "*probe_Ele_pt_bin1*event_nPV_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
-        "*probe_Ele_pt_bin2*event_nPV_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
-        "*probe_Ele_pt_bin3*event_nPV_bin*",name+"_alleta_40p0To50p0_0p0To2p5",
-        "*probe_Ele_pt_bin4*event_nPV_bin*",name+"_alleta_50p0To200p0_0p0To2p5",
-        )
-
-def BinSpec2(name):
-    return cms.vstring(
-        "ERROR_TEMPLATE_NOT_FOUND_ERROR",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin0*",name+"_barrel_10p0To20p0_0p0To0p8",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin0*",name+"_barrel_20p0To30p0_0p0To0p8",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin0*",name+"_barrel_30p0To40p0_0p0To0p8",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin0*",name+"_barrel_40p0To50p0_0p0To0p8",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin0*",name+"_barrel_50p0To200p0_0p0To0p8",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin1*",name+"_barrel_10p0To20p0_0p8To1p442",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin1*",name+"_barrel_20p0To30p0_0p8To1p442",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin1*",name+"_barrel_30p0To40p0_0p8To1p442",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin1*",name+"_barrel_40p0To50p0_0p8To1p442",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin1*",name+"_barrel_50p0To200p0_0p8To1p442",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin2*",name+"_crack_10p0To20p0_1p442To1p566",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin2*",name+"_crack_20p0To30p0_1p442To1p566",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin2*",name+"_crack_30p0To40p0_1p442To1p566",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin2*",name+"_crack_40p0To50p0_1p442To1p566",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin2*",name+"_crack_50p0To200p0_1p442To1p566",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin3*",name+"_endcap_10p0To20p0_1p566To2p0",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin3*",name+"_endcap_20p0To30p0_1p566To2p0",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin3*",name+"_endcap_30p0To40p0_1p566To2p0",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin3*",name+"_endcap_40p0To50p0_1p566To2p0",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin3*",name+"_endcap_50p0To200p0_1p566To2p0",
-        "*probe_Ele_pt_bin0*probe_sc_abseta_bin4*",name+"_endcap_10p0To20p0_2p0To2p5",
-        "*probe_Ele_pt_bin1*probe_sc_abseta_bin4*",name+"_endcap_20p0To30p0_2p0To2p5",
-        "*probe_Ele_pt_bin2*probe_sc_abseta_bin4*",name+"_endcap_30p0To40p0_2p0To2p5",
-        "*probe_Ele_pt_bin3*probe_sc_abseta_bin4*",name+"_endcap_40p0To50p0_2p0To2p5",
-        "*probe_Ele_pt_bin4*probe_sc_abseta_bin4*",name+"_endcap_50p0To200p0_2p0To2p5",
         "*probe_Ele_pt_bin0*probe_ele_RelAct_bin*",name+"_alleta_10p0To20p0_0p0To2p5",
         "*probe_Ele_pt_bin1*probe_ele_RelAct_bin*",name+"_alleta_20p0To30p0_0p0To2p5",
         "*probe_Ele_pt_bin2*probe_ele_RelAct_bin*",name+"_alleta_30p0To40p0_0p0To2p5",
@@ -172,12 +135,30 @@ else:
         )
     trail = "act"
 
-McVetoBinningSpecification = cms.PSet(
-#    UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
-    UnbinnedVariables = cms.vstring("mass", "totWeight"),
-    BinnedVariables = cms.PSet(IDEfficiencyBins, mcTrue = cms.vstring("true")),
-    BinToPDFmap = BinSpec("Veto"),
-    )
+
+def getBinningSpecification(wp, isData):
+  return cms.PSet(
+#   UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
+    UnbinnedVariables = cms.vstring("mass") if isData else cms.vstring("mass", "totWeight"),
+    BinnedVariables = cms.PSet(IDEfficiencyBins, mcTrue = cms.vstring("false") if isData else cms.vstring("true")),
+    BinToPDFmap = BinSpec(wp),
+  )
+
+# defines a set of efficiency calculations, what PDF to use for fitting and how to bin the data;
+# there will be a separate output directory for each calculation that includes a
+# simultaneous fit, side band subtraction and counting.
+def getEfficiencies(wp, isData):
+   Efficiencies = cms.PSet()
+   setattr(Efficiencies, wp if isData else "MCtruth_" + wp, 
+     cms.PSet(getBinningSpecification(wp, False),
+              EfficiencyCategoryAndState = cms.vstring("passing" + wp, "pass"),
+     ),
+   )
+   return Efficiencies
+
+
+McVetoBinningSpecification = getBinningSpecification("Veto", False)
+
 McLooseBinningSpecification = McVetoBinningSpecification.clone()
 McLooseBinningSpecification.BinToPDFmap = BinSpec("Loose")
 
@@ -186,6 +167,9 @@ McMediumBinningSpecification.BinToPDFmap = BinSpec("Medium")
 
 McTightBinningSpecification = McVetoBinningSpecification.clone()
 McTightBinningSpecification.BinToPDFmap = BinSpec("Tight")
+
+McTight2BinningSpecification = McVetoBinningSpecification.clone()
+McTight2BinningSpecification.BinToPDFmap = BinSpec("Tight2")
 
 McLoose2DBinningSpecification = McVetoBinningSpecification.clone()
 McLoose2DBinningSpecification.BinToPDFmap = BinSpec("Loose2D")
@@ -239,8 +223,7 @@ McMVATightMultiBinningSpecification.BinToPDFmap = BinSpec("MVATightMulti")
 McMVATightMultiEmuBinningSpecification = McMVAVLooseMiniBinningSpecification.clone()
 McMVATightMultiEmuBinningSpecification.BinToPDFmap = BinSpec("MVATightMultiEmu")
 
-DataVetoBinningSpecification = McVetoBinningSpecification.clone()
-DataVetoBinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataVetoBinningSpecification = getBinningSpecification("Veto", True)
 DataVetoBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 DataLooseBinningSpecification = McLooseBinningSpecification.clone()
 DataLooseBinningSpecification.UnbinnedVariables = cms.vstring("mass")
@@ -251,6 +234,9 @@ DataMediumBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 DataTightBinningSpecification = McTightBinningSpecification.clone()
 DataTightBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataTightBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
+DataTight2BinningSpecification = McTightBinningSpecification.clone()
+DataTight2BinningSpecification.UnbinnedVariables = cms.vstring("mass")
+DataTight2BinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 DataLoose2DBinningSpecification = McLoose2DBinningSpecification.clone()
 DataLoose2DBinningSpecification.UnbinnedVariables = cms.vstring("mass")
 DataLoose2DBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
@@ -314,7 +300,6 @@ DataLeptonMvaETBinningSpecification.BinnedVariables = cms.PSet(IDEfficiencyBins)
 
 process.McGsfElectronToVeto = cms.EDAnalyzer(
     "TagProbeFitTreeAnalyzer",
-#    InputFileNames = cms.vstring("TnPTree_mc.root"),
     InputFileNames = cms.vstring("mc.root"),
     InputDirectoryName = cms.string("GsfElectronToID"),
     InputTreeName = cms.string("fitter_tree"), 
@@ -347,14 +332,61 @@ process.McGsfElectronToVeto = cms.EDAnalyzer(
     PDFs = common.all_pdfs,
     # defines a set of efficiency calculations, what PDF to use for fitting and how to bin the data;
     # there will be a separate output directory for each calculation that includes a
-    # simultaneous fit, side band subtraction and counting. 
-    Efficiencies = cms.PSet(
-        MCtruth_Veto = cms.PSet(
-            McVetoBinningSpecification,
-            EfficiencyCategoryAndState = cms.vstring("passingVeto", "pass"),
-            ),
-        )
+    # simultaneous fit, side band subtraction and counting.
+    Efficiencies = getEfficiencies("Veto", False),
+#    Efficiencies = cms.PSet(
+#        MCtruth_Veto = cms.PSet(
+#            getBinningSpecification("Veto", False),
+#            EfficiencyCategoryAndState = cms.vstring("passingVeto", "pass"),
+#            ),
+#        )
     )
+
+def getCategories(wp, isData):
+    categories = cms.PSet()
+    setattr(categories, "passing" + wp, cms.vstring("passing" + wp, "dummy[pass=1,fail=0]"))
+    if not isData: setattr(categories, "mcTrue", cms.vstring("MC true", "dummy[true=1,false=0]"))
+    return categories
+
+def getAnalyzer(wp, dir, isData):
+    analyzer = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
+      InputFileNames           = cms.vstring(dataFile if isData else mcFile),
+      InputDirectoryName       = cms.string(dir),
+      InputTreeName            = cms.string("fitter_tree"), 
+      OutputFileName           = cms.string("eff_" + ("data" if isData else "mc") + "_" + wp + ".root"),
+      NumCPU                   = cms.uint32(6),
+      SaveWorkspace            = cms.bool(False),       # Time comsuming/could cause crashes if set True
+      doCutAndCount            = cms.bool(not isData),  # Only for MC
+      floatShapeParameters     = cms.bool(True),
+  #   fixVars = cms.vstring("meanP","sigmaP","meanF","sigmaF"), # switch off fixed vars
+      binnedFit                = cms.bool(True),
+      binsForFit               = cms.uint32(60),
+      WeightVariable           = cms.string("totWeight"),
+
+      # defines all the real variables of the probes available in the input tree and intended for use in the efficiencies
+      Variables                = cms.PSet(
+				    mass             = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
+				    #event_nPV       = cms.vstring("Event N_{PV}", "0", "1000000", ""),
+				    probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
+				    probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
+				    probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
+				    #tag_Ele_pt      = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"),
+				    totWeight        = cms.vstring("totWeight", "0", "100000000", ""), 
+			            #Ele_dRTau       = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
+			            #probe_dRTau     = cms.vstring("probe_dRTau", "0.2", "100000", ""),
+      ),
+      # defines all the discrete variables of the probes available in the input tree and intended for use in the efficiency calculation
+      Categories               = getCategories(wp, isData),
+      PDFs                     = common.all_pdfs,
+      Efficiencies             = getEfficiencies("Veto", False),
+    )
+    if isData: 
+      delattr(analyzer,            "WeightVariable")
+      delattr(analyzer.Variables,  "totWeight")
+    return analyzer
+
+
+process.McGsfElectronToVeto = getAnalyzer("Veto", "GsfElectronToID", False)
 
 process.McGsfElectronToLoose = process.McGsfElectronToVeto.clone()
 process.McGsfElectronToLoose.InputDirectoryName = cms.string("GsfElectronToID")
@@ -397,6 +429,21 @@ process.McGsfElectronToTight.Efficiencies = cms.PSet(
         EfficiencyCategoryAndState = cms.vstring("passingTight", "pass"),
         ),
     )
+
+process.McGsfElectronToTight2 = process.McGsfElectronToVeto.clone()
+process.McGsfElectronToTight2.InputDirectoryName = cms.string("GsfElectronToEleID")
+process.McGsfElectronToTight2.OutputFileName = cms.string("eff_mc_Tight2.root")
+process.McGsfElectronToTight2.Categories = cms.PSet(
+    mcTrue = cms.vstring("MC true", "dummy[true=1,false=0]"),
+    passingTight = cms.vstring("passingTight", "dummy[pass=1,fail=0]"),
+    )
+process.McGsfElectronToTight2.Efficiencies = cms.PSet(
+    MCtruth_Tight = cms.PSet(
+        McTight2BinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingTight", "pass"),
+        ),
+    )
+
 
 
 process.McGsfElectronToLeptonMvaVL = process.McGsfElectronToVeto.clone()
@@ -687,6 +734,18 @@ process.DataGsfElectronToTight.Efficiencies = cms.PSet(
         ),
     )
 
+process.DataGsfElectronToTight2 = process.DataGsfElectronToVeto.clone()
+process.DataGsfElectronToTight2.InputDirectoryName = cms.string("GsfElectronToEleID")
+process.DataGsfElectronToTight2.OutputFileName = cms.string("eff_data_Tight2.root")
+process.DataGsfElectronToTight2.Categories = cms.PSet(passingTight = cms.vstring("passingTight", "dummy[pass=1,fail=0]"))
+process.DataGsfElectronToTight2.Efficiencies = cms.PSet(
+    Tight = cms.PSet(
+        DataTight2BinningSpecification,
+        EfficiencyCategoryAndState = cms.vstring("passingTight", "pass"),
+        ),
+    )
+
+
 
 process.DataGsfElectronToLeptonMvaVL = process.DataGsfElectronToVeto.clone()
 process.DataGsfElectronToLeptonMvaVL.InputDirectoryName = cms.string("GsfElectronToID")
@@ -880,6 +939,7 @@ if (not options.noMC) and (not options.noID):
     process.seq += process.McGsfElectronToLoose
     process.seq += process.McGsfElectronToMedium
     process.seq += process.McGsfElectronToTight
+#    process.seq += process.McGsfElectronToTight2 # this was attempt to check passingTight in GsfElectronToEleID but turned out to be the same as in GsfElectronToID
 #    process.seq += process.McGsfElectronToLeptonMvaVL
 #    process.seq += process.McGsfElectronToLeptonMvaL
     process.seq += process.McGsfElectronToLeptonMvaM
@@ -904,6 +964,7 @@ if (not options.noData) and (not options.noID):
     process.seq += process.DataGsfElectronToLoose
     process.seq += process.DataGsfElectronToMedium
     process.seq += process.DataGsfElectronToTight
+#    process.seq += process.DataGsfElectronToTight2
 #    process.seq += process.DataGsfElectronToLeptonMvaVL
 #    process.seq += process.DataGsfElectronToLeptonMvaL
     process.seq += process.DataGsfElectronToLeptonMvaM
