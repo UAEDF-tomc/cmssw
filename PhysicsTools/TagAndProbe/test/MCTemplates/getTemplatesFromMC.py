@@ -1,5 +1,6 @@
 import ROOT
 from optparse import OptionParser
+import cmath
 
 def removeNegativeBins(h):
     for i in xrange(h.GetNbinsX()):
@@ -46,7 +47,8 @@ def main(options):
             histos[hf] = ROOT.TH1D(hf, hf, 60, 60, 120)
             
             #binning = options.tagTauVarName+" > 0.2 && "+options.probeTauVarName+" > 0.2 && mcTrue == 1 && pair_mass60to120 && "+options.etVarName +">"+str(pts[binVar1])+" && "+options.etVarName +"<"+str(pts[binVar1+1])+" && "+options.etaVarName +">"+str(etas[binVar2])+" && "+options.etaVarName +"<"+str(etas[binVar2+1])            
-            binning = "mcTrue == 1 && pair_mass60to120 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
+            #binning = "mcTrue == 1 && pair_mass60to120 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
+            binning = "mc_probe_flag == 1 && pair_mass60to120 && "+options.var1Name +">"+str(var1s[binVar1])+" && "+options.var1Name +"<"+str(var1s[binVar1+1])+" && "+options.var2Name +">"+str(var2s[binVar2])+" && "+options.var2Name +"<"+str(var2s[binVar2+1])            
             cuts = "("
             if (options.addProbeCut != ""):
                 cuts = cuts + options.addProbeCut + " && "
@@ -68,7 +70,15 @@ def main(options):
             hpassInt = histos[hp].Integral()
             hfailInt = histos[hf].Integral()
             
-            print "%.2f %.2f %1.4f"%(hpassInt, hfailInt, hpassInt/(hpassInt+hfailInt))
+            #print "%.2f %.2f %1.4f"%(hpassInt, hfailInt, hpassInt/(hpassInt+hfailInt))
+
+            htotalInt = hpassInt+hfailInt
+            err1 = cmath.sqrt(hpassInt)
+            err2 = cmath.sqrt(hfailInt)
+            eff = hpassInt/(hpassInt+hfailInt)
+            finalerr = cmath.sqrt(eff*(1-eff)/htotalInt)
+            print ("%.3f" %eff),
+            print ("{0.real:.3f}".format(finalerr))
     
     outFile = ROOT.TFile(options.output, "RECREATE")
     for k in histos:
