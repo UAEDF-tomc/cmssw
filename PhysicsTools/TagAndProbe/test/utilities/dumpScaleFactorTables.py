@@ -27,7 +27,7 @@ def makeTable(hnum, hden, tablefilename):
             
     f.close()
 
-def main(options, outRootFile):
+def main(options, outRootFile, outDir):
     hData = ""
     hMC = ""
 
@@ -40,7 +40,7 @@ def main(options, outRootFile):
     fData.cd(os.path.join(topDir, subDir, "fit_eff_plots"))
     name = subDir
 
-    outFile = "scaleFactors/ScaleFactor_%s_%s.txt"%(topDir, subDir)
+    outFile = os.path.join(outDir, "ScaleFactor_%s_%s.txt"%(topDir, subDir))
 
     theCanvas = None
     keyList = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
@@ -93,19 +93,23 @@ def main(options, outRootFile):
     hData.Write(name)
 
 if (__name__ == "__main__"):
-    parser = OptionParser()
-    
-    (options, arg) = parser.parse_args()
-    outRootFile  = ROOT.TFile("scaleFactors.root","RECREATE")
+    tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
 
-    for file in glob.glob("../eff_data*.root"):
+    parser = OptionParser()
+    parser.add_option("-d", "--directory", default="nominal", help="Directory with eff*.root files")
+    (options, arg) = parser.parse_args()
+
+    outDir = os.path.join(tnpPackage, 'test', 'utilities', options.directory)
+    try:
+      os.makedirs(outDir)
+    except:
+      pass
+    outRootFile  = ROOT.TFile(os.path.join(outDir, "scaleFactors.root"),"RECREATE")
+
+    for file in glob.glob(os.path.join(tnpPackage, "test", options.directory, "eff_data*.root"):
       options.data   = file
       options.mc     = file.replace('data','mc')
-  #    try:
-#	os.makedirs(options.output)
-#      except:
-#	pass
 
       ROOT.gROOT.SetBatch(True)
-      main(options, outRootFile)
+      main(options, outRootFile, outDir)
     outRootFile.Close()

@@ -80,14 +80,16 @@ def main(options):
             ROOT.gDirectory.cd("../")
 
 if (__name__ == "__main__"):
+    tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
+
     parser = OptionParser()
     parser.add_option("-i", "--input", default="efficiency-mc-GsfElectronToId.root", help="Input filename")
-    parser.add_option("-d", "--directory", default="GsfElectronToID", help="Directory with workspace")
     parser.add_option("-p", "--dump-plot", dest="dumpPlots", action="store_true", help="Dump fit plots", default=True)
+    parser.add_option("-d", "--directory", default="nominal", help="Directory with eff*.root files")
 
     (options, arg) = parser.parse_args()
 
-    for file in glob.glob("../eff*.root"):
+    for file in glob.glob(os.path.join(tnpPackage, "test", options.directory, "eff_data*.root"):
       options.input  = file
       options.output = file.split('.root')[0].split('/')[-1]
       options.cc     = file.count("mc")
