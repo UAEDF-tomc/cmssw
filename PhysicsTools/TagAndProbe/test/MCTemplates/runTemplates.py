@@ -21,7 +21,7 @@ class options:
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
     var1Bins        = "10,20,30,40,50,100,200,2000"
-    var2Bins        = "0.0,0.8,1.4442,1.566,,2.5"
+    var2Bins        = "0.0,0.8,1.4442,1.566,2.0,2.5"
     var1Name        = "probe_Ele_pt"
     var2Name        = "probe_sc_abseta"
     addProbeCut     = ""
@@ -40,7 +40,7 @@ def runGetTemplatesFromMC(args):
     if region == "alleta":     options.var2Bins = "0,2.5"
     if region == "barrel":     options.var2Bins = "0,0.8,1.442"
     if region == "crack":      options.var2Bins = "1.442,1.566"
-    if region == "endcap":     options.var2Bins = "1.566,2.5"
+    if region == "endcap":     options.var2Bins = "1.566,2.0,2.5"
 
     myOptions.idLabel      = getIdLabel(args)
     myOptions.output       = os.path.join(tnpPackage, 'data', templateProduction, myOptions.idLabel + ".root")
@@ -113,16 +113,16 @@ map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', 'commonFit_*.p*')))
 with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_exponential.py'), 'w') as f:
   with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
     for line in r:
-      if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -1, 0])"\n')
-      elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -1, 0])"\n')
+      if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -1, 0])",\n')
+      elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -1, 0])",\n')
       else:                                           f.write(line)
 
 # For signal shape systematic, use Crystal ball convoluted with Gaussian
 with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_CB.py'), 'w') as f:
   with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
     for line in r:
-      if   line.count('RooGaussian::signalResPass'):         f.write('"RooCBExGaussShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,15.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000],sigmaP_2[1.000,0.500,15.00])"\n')
-      elif line.count('RooGaussian::signalResFail'):         f.write('"RooCBExGaussShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,15.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00], sigmaF_2[1.675,0.500,12.000])"\n')
-      elif line.count('ZGeneratorLineShape::signalPhyPass'): f.write('"ZGeneratorLineShape::signalPhyPass(mass)"\n')
-      elif line.count('ZGeneratorLineShape::signalPhyFail'): f.write('"ZGeneratorLineShape::signalPhyFail(mass)"\n')
+      if   line.count('RooGaussian::signalResPass'):         f.write('"RooCBExGaussShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,15.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000],sigmaP_2[1.000,0.500,15.00])",\n')
+      elif line.count('RooGaussian::signalResFail'):         f.write('"RooCBExGaussShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,15.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00], sigmaF_2[1.675,0.500,12.000])",\n')
+      elif line.count('ZGeneratorLineShape::signalPhyPass'): f.write('"ZGeneratorLineShape::signalPhyPass(mass)",\n')
+      elif line.count('ZGeneratorLineShape::signalPhyFail'): f.write('"ZGeneratorLineShape::signalPhyFail(mass)",\n')
       else:                                                  f.write(line)
