@@ -11,6 +11,7 @@ options.register("onlyData",       False,  VarParsing.multiplicity.singleton, Va
 options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
 options.register("onlyId",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
 options.register("onlyIso",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
+options.register("part2",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Do second part of Id->Iso efficiencies")
 options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
 options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
 options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
@@ -260,7 +261,7 @@ if not options.onlyData and not options.onlyIso:
     process.seq += process.McGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
     process.seq += process.McGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
-if not options.onlyData and not options.onlyId:
+if not options.onlyData and not options.onlyId and not options.part2:
     process.seq += process.McMVAVLooseElectronToMini
     process.seq += process.McMVAVLooseElectronToMini2
     process.seq += process.McMVAVLooseElectronToMini4
@@ -272,7 +273,8 @@ if not options.onlyData and not options.onlyId:
     process.seq += process.McMVATightElectronToConvIHit1
     process.seq += process.McMVATightElectronToConvIHit0Chg
 
-#    process.seq += process.McMVATightNoEMuElectronToConvIHit0 # does not want to work yet
+if not options.onlyData and not options.onlyId and options.part2: # For some strange ROOT unknown directory error we can't add those last three to the same sequence as the ones above, so we need to run them separately
+    process.seq += process.McMVATightNoEMuElectronToConvIHit0
     process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
 
     process.seq += process.McCutBasedTightElectronToMultiIsoVT
@@ -294,7 +296,7 @@ if not options.onlyMC and not options.onlyIso:
     process.seq += process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
 
-if not options.onlyMC and not options.onlyId:
+if not options.onlyMC and not options.onlyId and not options.part2:
     process.seq += process.DataMVAVLooseElectronToMini
     process.seq += process.DataMVAVLooseElectronToMini2
     process.seq += process.DataMVAVLooseElectronToMini4
@@ -306,7 +308,8 @@ if not options.onlyMC and not options.onlyId:
     process.seq += process.DataMVATightElectronToConvIHit1
     process.seq += process.DataMVATightElectronToConvIHit0Chg
 
-#    process.seq += process.DataMVATightNoEMuElectronToConvIHit0 # does not want to work yet
+if not options.onlyMC and not options.onlyId and options.part2:
+    process.seq += process.DataMVATightNoEMuElectronToConvIHit0
     process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
 
     process.seq += process.DataCutBasedTightElectronToMultiIsoVT
