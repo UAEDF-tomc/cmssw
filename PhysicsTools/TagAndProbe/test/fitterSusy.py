@@ -41,9 +41,10 @@ try:
 except:
   pass
 
+# Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):
     bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
-    for ptBin in range(5):
+    for ptBin in range(7):
       if ptBin == 0: ptRange = "10p0To20p0"
       if ptBin == 1: ptRange = "20p0To30p0"
       if ptBin == 2: ptRange = "30p0To40p0"
@@ -51,24 +52,23 @@ def BinSpec(name):
       if ptBin == 4: ptRange = "50p0To100p0"
       if ptBin == 5: ptRange = "100p0To200p0"
       if ptBin == 6: ptRange = "200p0To2000p0"
-      for etaBin in range(4):
+      for etaBin in range(5):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
-        if etaBin == 3: region = "endcap"
+        if etaBin >= 3: region = "endcap"
         if etaBin == 0: etaRange = "0p0To0p8"
         if etaBin == 1: etaRange = "0p8To1p442"
         if etaBin == 2: etaRange = "1p442To1p566"
-        if etaBin == 3: etaRange = "1p566To2p5"
-        bins.append("*probe_Ele_pt_bin" + str(ptBin) + "*probe_sc_abseta_bin" + str(etaBin) + "*")     # bin mapped to
-        bins.append(name+ "_" + region + "_" + ptRange + "_" + etaRange)                               # pdf
+        if etaBin == 3: etaRange = "1p566To2p0"
+        if etaBin == 4: etaRange = "2p0To2p5"
+        bins.append("probe_Ele_pt_bin" + str(ptBin) + "__probe_sc_abseta_bin" + str(etaBin))     # bin mapped to
+        bins.append(name+ "_" + region + "_" + ptRange + "_" + etaRange)                         # pdf
 
-      bins.append("*probe_Ele_pt_bin" + str(ptBin) + "*probe_ele_RelAct_bin*")
+      bins.append("probe_Ele_pt_bin" + str(ptBin) + "__probe_ele_RelAct_bin")
       bins.append(name + "_alleta_" + ptRange + "_0p0To2p5")
-      bins.append("*probe_Ele_pt_bin" + str(ptBin) + "*event_nPV_bin*")
+      bins.append("probe_Ele_pt_bin" + str(ptBin) + "__event_nPV_bin")
       bins.append(name + "_alleta_" + ptRange + "_0p0To2p5")
     return bins
-
-
 
 if not options.onlyMC:
     for pdf in common.all_pdfs.__dict__:
@@ -173,7 +173,7 @@ def getAnalyzer(wp, dir, isData, isIso):
       Efficiencies             = getEfficiencies(wp, dir, isData, isIso),
     )
     if not isData:     analyzer.WeightVariable  = cms.string("totWeight")
-    if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
+    if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above")) # unfortunately this simply does not work because this TnP package sucks
     return analyzer
 
 # MC

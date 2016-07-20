@@ -30,6 +30,8 @@
 #include "RooAbsDataStore.h"
 #include "RooEfficiency.h"
 #include "RooGaussian.h"
+#include "PhysicsTools/TagAndProbe/interface/RooCBExGaussShape.h"
+#include "RooExponential.h"
 #include "RooChebychev.h"
 #include "RooProdPdf.h"
 #include "RooGenericPdf.h"
@@ -244,17 +246,20 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
   int nCats = 0;
   for (unsigned int i=0; i<binnedCategories[0].size(); i++) {
     for (unsigned int j=0; j<binnedCategories[1].size(); j++) {
-      unsigned int pdfIndex = (j*binnedCategories[0].size()+i+1)*2;
-
-      if (pdfIndex > binToPDFmap.size())
-	pdfNames.push_back(binToPDFmap[0]);
-      else
-	pdfNames.push_back(binToPDFmap[pdfIndex]);
 
       categorySelection.push_back(binnedCategories[0][i]+" && " + binnedCategories[1][j]+ " && " + dynamicCutString);
       
       sprintf(aChar, "%s_bin%d__%s_bin%d", binnedVariableNames[0].c_str(), i, binnedVariableNames[1].c_str(), j);
       catNames.push_back(aChar);
+
+      // Code might need some improvement, but it as already much better than the horrible code from the default packaged
+      std::string pdfName = binToPDFmap[0]; // This is the default one
+      for(unsigned int k=0; k<binToPDFmap.size(); ++k){
+        if(std::string(aChar).find(binToPDFmap[k]) != std::string::npos){
+          pdfName = binToPDFmap[k+1];
+        }
+      }
+      pdfNames.push_back(pdfName);
 
       nCats++;
     }
@@ -275,7 +280,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
     std::map<std::string, double> treeVarsD;
     std::map<std::string, int> treeVarsI;
     
-  //  inputTree->SetBranchStatus("*", 0);
+ //   inputTree->SetBranchStatus("*", 0);
     TIterator* vit = dataVars.createIterator();
     for(RooRealVar* v = (RooRealVar*)vit->Next(); v!=0; v = (RooRealVar*)vit->Next() ){
       inputTree->SetBranchStatus(v->GetName(), 1);
