@@ -144,7 +144,8 @@ def getVariables(isData):
       probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
       probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
       probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
-      #tag_Ele_pt      = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"),
+      tag_Ele_pt       = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"), # Apparently you need to add the variables which you want to use in the cut, becuase why make it simple if you can do do something more complex?
+      tag_Ele_trigMVA  = cms.vstring("Tag trigMVA", "0.95", "1000000000", ""),
       #Ele_dRTau       = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
       #probe_dRTau     = cms.vstring("probe_dRTau", "0.2", "100000", ""),
     )
@@ -173,7 +174,7 @@ def getAnalyzer(wp, dir, isData, isIso):
       Efficiencies             = getEfficiencies(wp, dir, isData, isIso),
     )
     if not isData:     analyzer.WeightVariable  = cms.string("totWeight")
-    if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above")) # unfortunately this simply does not work because this TnP package sucks
+    if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
     return analyzer
 
 # MC
