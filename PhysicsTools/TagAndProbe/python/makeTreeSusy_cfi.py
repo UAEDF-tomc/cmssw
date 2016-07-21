@@ -430,7 +430,7 @@ def AddMiniIso(process, options, varOptions):
     process.MVATightElectronToIso.variables = MiniIsoProbeVars
     process.MVATightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVATight")
     process.MVATightElectronToIso.flags = cms.PSet(
-        passingMultiIsoT = cms.InputTag("goodElectronsPROBEMultiIsoM"),
+        passingMultiIsoM = cms.InputTag("goodElectronsPROBEMultiIsoM"),
         passingMultiIsoT = cms.InputTag("goodElectronsPROBEMultiIsoT"),
         passingMultiIsoVT = cms.InputTag("goodElectronsPROBEMultiIsoVT"),
         passingMultiIsoEmu = cms.InputTag("goodElectronsPROBEMultiIsoEmu"),
