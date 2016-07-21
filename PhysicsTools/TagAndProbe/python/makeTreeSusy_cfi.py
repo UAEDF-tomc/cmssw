@@ -293,6 +293,8 @@ def AddMiniIso(process, options, varOptions):
     process.goodElectronsPROBETightConvIHit0.selection = cms.InputTag("MyEleVars:passTightConvIHit0")
     process.goodElectronsPROBEConvIHit0Chg = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEConvIHit0Chg.selection = cms.InputTag("MyEleVars:passConvIHit0Chg")
+    process.goodElectronsPROBEMultiIsoM = process.goodElectronsPROBECutBasedVeto.clone()
+    process.goodElectronsPROBEMultiIsoM.selection = cms.InputTag("MyEleVars:passMultiIsoM")
     process.goodElectronsPROBEMultiIsoT = process.goodElectronsPROBECutBasedVeto.clone()
     process.goodElectronsPROBEMultiIsoT.selection = cms.InputTag("MyEleVars:passMultiIsoT")
     process.goodElectronsPROBEMultiIsoVT = process.goodElectronsPROBECutBasedVeto.clone()
@@ -357,6 +359,7 @@ def AddMiniIso(process, options, varOptions):
     process.my_ele_sequence += process.goodElectronsProbeMVATight2D3D
     process.my_ele_sequence += process.goodElectronsProbeCutBasedNoIsoTight
     process.my_ele_sequence += process.goodElectronsProbeTightConvIHit0
+    process.my_ele_sequence += process.goodElectronsPROBEMultiIsoM
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoT
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoVT
     process.my_ele_sequence += process.goodElectronsPROBEMultiIsoEmu
@@ -427,6 +430,7 @@ def AddMiniIso(process, options, varOptions):
     process.MVATightElectronToIso.variables = MiniIsoProbeVars
     process.MVATightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniMVATight")
     process.MVATightElectronToIso.flags = cms.PSet(
+        passingMultiIsoT = cms.InputTag("goodElectronsPROBEMultiIsoM"),
         passingMultiIsoT = cms.InputTag("goodElectronsPROBEMultiIsoT"),
         passingMultiIsoVT = cms.InputTag("goodElectronsPROBEMultiIsoVT"),
         passingMultiIsoEmu = cms.InputTag("goodElectronsPROBEMultiIsoEmu"),
