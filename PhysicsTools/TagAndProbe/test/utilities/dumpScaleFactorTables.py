@@ -69,10 +69,15 @@ def main(options, outRootFile, outDir):
                     hMC = p
 
     makeTable(hData, hMC, outFile)
-    
+
     hData.Divide(hMC)
     hData.SetContour(13, numpy.array([0,0.5,0.75,0.85,0.9,0.95,1,1.05,1.10,1.15,1.25,1.50,2]))
     hData.GetZaxis().SetRangeUser(0,2)
+    hData.GetXaxis().SetMoreLogLabels()
+
+    hTest = hData.Clone("test");
+    
+    hData.GetXaxis().SetRangeUser(10,100)
     theCanvas.SetLogx()
     theCanvas.Draw()
     theCanvas.SaveAs(outFile.replace(".txt",".png"))     
@@ -80,17 +85,10 @@ def main(options, outRootFile, outDir):
     fData.Close()
     fMC.Close()
 
-    if name == "Tight":         name = "CutBasedTight"
-    if name == "Medium":        name = "CutBasedMedium"
-    if name == "Loose":         name = "CutBasedLoose"
-    if name == "Veto":          name = "CutBasedVeto"
-    if name == "LeptonMvaVT":   name = "LeptonMvaVeryTight"
-    if name == "LeptonMvaM":    name = "LeptonMvaMedium"
-
-
     outRootFile.cd()
+    hData.GetXaxis().SetRangeUser(10,2000)
     hData.GetZaxis().SetTitle("")
-    hData.Write(name)
+    hData.Write(topDir.split('To')[0] + 'To' + name)
 
 if (__name__ == "__main__"):
     tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
@@ -106,7 +104,7 @@ if (__name__ == "__main__"):
       pass
     outRootFile  = ROOT.TFile(os.path.join(outDir, "scaleFactors.root"),"RECREATE")
 
-    for file in glob.glob(os.path.join(tnpPackage, "test", options.directory, "eff_data*.root"):
+    for file in glob.glob(os.path.join(tnpPackage, "test", options.directory, "eff_data*.root")):
       options.data   = file
       options.mc     = file.replace('data','mc')
 

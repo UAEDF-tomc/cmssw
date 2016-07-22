@@ -11,7 +11,6 @@ options.register("onlyData",       False,  VarParsing.multiplicity.singleton, Va
 options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
 options.register("onlyId",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
 options.register("onlyIso",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
-options.register("part2",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Do second part of Id->Iso efficiencies")
 options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
 options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
 options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
@@ -31,7 +30,8 @@ if options.altBkg:
   import PhysicsTools.TagAndProbe.commonFitSusy_exponential as common
   outputDir = "./altBkg"
 elif options.altSig:
-  import PhysicsTools.TagAndProbe.commonFitSusy_CB as common
+  if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFitSusy as common
+  else:              import PhysicsTools.TagAndProbe.commonFit_CB as common
   outputDir = "./altSig"
 else:
   import PhysicsTools.TagAndProbe.commonFitSusy as common
@@ -45,14 +45,13 @@ except:
 # Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):
     bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
-    for ptBin in range(7):
+    for ptBin in range(6):
       if ptBin == 0: ptRange = "10p0To20p0"
       if ptBin == 1: ptRange = "20p0To30p0"
       if ptBin == 2: ptRange = "30p0To40p0"
       if ptBin == 3: ptRange = "40p0To50p0"
       if ptBin == 4: ptRange = "50p0To100p0"
-      if ptBin == 5: ptRange = "100p0To200p0"
-      if ptBin == 6: ptRange = "200p0To2000p0"
+      if ptBin == 5: ptRange = "100p0To2000p0"
       for etaBin in range(5):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
@@ -92,7 +91,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
-    probe_Ele_pt    = cms.vdouble(10. ,20. ,30. ,40. ,50., 100.,200., 2000.),
+    probe_Ele_pt    = cms.vdouble(10. ,20. ,30. ,40. ,50., 100., 2000.),
     #event_nPV      = cms.vdouble(0.,5.,10.,15.,20.,100.),
     probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
     )
@@ -102,7 +101,7 @@ if not options.doAct:
     trail = "eta"
 else:
     IsoEfficiencyBins = cms.PSet(
-        probe_Ele_pt = cms.vdouble(10. ,20. ,30. ,40. ,50. , 100., 200., 2000.),
+        probe_Ele_pt = cms.vdouble(10. ,20. ,30. ,40. ,50. , 100., 2000.),
         #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
         probe_ele_RelAct = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
         )
@@ -142,11 +141,11 @@ def getVariables(isData):
     variables = cms.PSet(
       mass             = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
       #event_nPV       = cms.vstring("Event N_{PV}", "0", "1000000", ""),
-      probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "200", "GeV/c"),
+      probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "2000", "GeV/c"),
       probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
       probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
-      tag_Ele_pt       = cms.vstring("Tag p_{T}", "35.", "1000000000", "GeV/c"), # Apparently you need to add the variables which you want to use in the cut, becuase why make it simple if you can do do something more complex?
-      tag_Ele_trigMVA  = cms.vstring("Tag trigMVA", "0.95", "1000000000", ""),
+      tag_Ele_pt       = cms.vstring("Tag p_{T}", "0.", "1000000000", "GeV/c"), # Apparently you need to add the variables which you want to use in the cut, becuase why make it simple if you can do do something more complex?
+      tag_Ele_trigMVA  = cms.vstring("Tag trigMVA", "0.", "1000000000", ""),
       #Ele_dRTau       = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
       #probe_dRTau     = cms.vstring("probe_dRTau", "0.2", "100000", ""),
     )
@@ -161,10 +160,10 @@ def getAnalyzer(wp, dir, isData, isIso):
       InputFileNames           = cms.vstring(dataFile if isData else mcFile),
       InputDirectoryName       = cms.string(dir),
       InputTreeName            = cms.string("fitter_tree"), 
-      OutputFileName           = cms.string(os.path.join(outputDir, "eff_" + ("data" if isData else "mc") + "_" + wp + (("_" + trail) if isIso else "") + ".root")),
+      OutputFileName           = cms.string(os.path.join(outputDir, "eff_" + ("data" if isData else "mc") + "_" + dir.split('To')[0] + "To" + wp + (("_" + trail) if isIso else "") + ".root")),
       NumCPU                   = cms.uint32(6),
       SaveWorkspace            = cms.bool(False),       # Time comsuming/could cause crashes if set True
-      doCutAndCount            = cms.bool(not isData),  # Only for MC
+      doCutAndCount            = cms.bool(not (isData or options.altSig)),  # Only for MC, but now when we provide the altSig parameter because then we fit the MC
       floatShapeParameters     = cms.bool(True),
   #   fixVars                  = cms.vstring("meanP","sigmaP","meanF","sigmaF"), # switch off fixed vars
       binnedFit                = cms.bool(True),
@@ -175,6 +174,7 @@ def getAnalyzer(wp, dir, isData, isIso):
       Efficiencies             = getEfficiencies(wp, dir, isData, isIso),
     )
     if not isData:     analyzer.WeightVariable  = cms.string("totWeight")
+    if not isData:     analyzer.Cuts            = cms.PSet(mcTrue = cms.vstring("mcTrue", "0.99", "above"))
     if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
     return analyzer
 
@@ -202,7 +202,7 @@ process.McMVAVLooseElectronToConvIHit1                            = getAnalyzer(
 process.McMVATightElectronToMultiIsoT                             = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          False, True)
 process.McMVATightElectronToMultiIsoVT                            = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          False, True)
 process.McMVATightElectronToMultiIsoEmu                           = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToConvIHit1                             = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          False, True)
+process.McMVATightElectronToConvIHit0                             = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          False, True)
 process.McMVATightElectronToConvIHit0Chg                          = getAnalyzer("ConvIHit0Chg",                             "MVATightElectronToIso",          False, True)
 
 process.McMVATightNoEMuElectronToConvIHit0                        = getAnalyzer("ConvIHit0",                                "MVATightNoEMuElectronToIso",     False, True)
@@ -234,7 +234,7 @@ process.DataMVAVLooseElectronToConvIHit1                          = getAnalyzer(
 process.DataMVATightElectronToMultiIsoT                           = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          True,  True)
 process.DataMVATightElectronToMultiIsoVT                          = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          True,  True)
 process.DataMVATightElectronToMultiIsoEmu                         = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToConvIHit1                           = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          True,  True)
+process.DataMVATightElectronToConvIHit0                           = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          True,  True)
 process.DataMVATightElectronToConvIHit0Chg                        = getAnalyzer("ConvIHit0Chg",                             "MVATightElectronToIso",          True,  True)
 
 process.DataMVATightNoEMuElectronToConvIHit0                      = getAnalyzer("ConvIHit0",                                "MVATightNoEMuElectronToIso",     True,  True)
@@ -261,7 +261,7 @@ if not options.onlyData and not options.onlyIso:
     process.seq += process.McGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
     process.seq += process.McGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
-if not options.onlyData and not options.onlyId and not options.part2:
+if not options.onlyData and not options.onlyId:
     process.seq += process.McMVAVLooseElectronToMini
     process.seq += process.McMVAVLooseElectronToMini2
     process.seq += process.McMVAVLooseElectronToMini4
@@ -273,8 +273,7 @@ if not options.onlyData and not options.onlyId and not options.part2:
     process.seq += process.McMVATightElectronToConvIHit1
     process.seq += process.McMVATightElectronToConvIHit0Chg
 
-if not options.onlyData and not options.onlyId and options.part2: # For some strange ROOT unknown directory error we can't add those last three to the same sequence as the ones above, so we need to run them separately
-    process.seq += process.McMVATightNoEMuElectronToConvIHit0
+    process.seq += process.McMVATightNoEMuElectronToConvIHit1
     process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
 
     process.seq += process.McCutBasedTightElectronToMultiIsoVT
@@ -296,7 +295,7 @@ if not options.onlyMC and not options.onlyIso:
     process.seq += process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
 
-if not options.onlyMC and not options.onlyId and not options.part2:
+if not options.onlyMC and not options.onlyId:
     process.seq += process.DataMVAVLooseElectronToMini
     process.seq += process.DataMVAVLooseElectronToMini2
     process.seq += process.DataMVAVLooseElectronToMini4
@@ -308,8 +307,7 @@ if not options.onlyMC and not options.onlyId and not options.part2:
     process.seq += process.DataMVATightElectronToConvIHit1
     process.seq += process.DataMVATightElectronToConvIHit0Chg
 
-if not options.onlyMC and not options.onlyId and options.part2:
-    process.seq += process.DataMVATightNoEMuElectronToConvIHit0
+    process.seq += process.DataMVATightNoEMuElectronToConvIHit
     process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
 
     process.seq += process.DataCutBasedTightElectronToMultiIsoVT

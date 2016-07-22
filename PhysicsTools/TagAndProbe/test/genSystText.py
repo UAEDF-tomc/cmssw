@@ -31,10 +31,10 @@ def Histo(parent, isfit):
 
 tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
 nominal    = os.path.join(tnpPackage, 'test', 'nominal')
-altSig     = os.path.join(tnpPackage, 'test', 'alternativeSignalShape')
-altBkg     = os.path.join(tnpPackage, 'test', 'alternativeBackShape')
-altMC      = os.path.join(tnpPackage, 'test', 'alternativeMC')
-altTag     = os.path.join(tnpPackage, 'test', 'alternativeTag')
+altSig     = os.path.join(tnpPackage, 'test', 'altSig')
+altBkg     = os.path.join(tnpPackage, 'test', 'altBkg')
+altMC      = os.path.join(tnpPackage, 'test', 'altMC')
+altTag     = os.path.join(tnpPackage, 'test', 'altTag')
 
 flist = (f for f in os.listdir(nominal) if f in os.listdir(altSig) and f in os.listdir(altBkg) and f.replace("_data_", "_mc_") in os.listdir(altMC) and f in os.listdir(altTag) and "_data_" in f and "_act.root" not in f)
 
@@ -59,14 +59,17 @@ for f in flist:
     hamc = Histo(famc, False)
     htag = Histo(ftag, True)
 
+
     for ix in xrange(1, hdat.GetNbinsX()+1):
         xlo = hdat.GetXaxis().GetBinLowEdge(ix)
         xhi = hdat.GetXaxis().GetBinUpEdge(ix)
         for iy in xrange(1, hdat.GetNbinsY()+1):
             ylo = hdat.GetYaxis().GetBinLowEdge(iy)
             yhi = hdat.GetYaxis().GetBinUpEdge(iy)
-            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), hsig.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
-            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), hdat.GetBinError(ix,iy), hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), hsig.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            daterr = hdat.GetBinError(ix,iy)
+            if daterr < 0.0001: daterr = 0.0001
+            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), hsig.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), hsig.GetBinContent(ix,iy), hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
             print line1
             print line2
             fout.write(line1+"\n")

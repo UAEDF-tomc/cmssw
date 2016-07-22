@@ -20,7 +20,7 @@ class options:
     output          = "mc_templates.root"
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
-    var1Bins        = "10,20,30,40,50,100,200,2000"
+    var1Bins        = "10,20,30,40,50,100,2000"
     var2Bins        = "0.0,0.8,1.4442,1.566,2.0,2.5"
     var1Name        = "probe_Ele_pt"
     var2Name        = "probe_sc_abseta"
@@ -31,6 +31,7 @@ class options:
     idLabel         = ""
     failBkgPdf      = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0, 70, 80])"
     passBkgPdf      = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0, 70, 80])"
+    altSig          = False
 
 def runGetTemplatesFromMC(args):
     idProbe, directory, region = args
@@ -46,11 +47,22 @@ def runGetTemplatesFromMC(args):
     myOptions.output       = os.path.join(tnpPackage, 'data', templateProduction, myOptions.idLabel + ".root")
     myOptions.directory    = directory
     myOptions.idprobe      = "passing" + idProbe
-    getTemplatesFromMC.main(myOptions)
+#    getTemplatesFromMC.main(myOptions)
 
     myOptions.outputFile   = os.path.join(tnpPackage, 'python', "commonFit_" + myOptions.idLabel + ".py")
     myOptions.templateFile = myOptions.output
+
+    # Manual fix to avoid failed fits
+    if myOptions.idLabel == "GsfElectronToTight2D3D_barrel_20p0To30p0_0p0To0p8":  
+      myOptions.failBkgPdf = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0, 70, 80])"
+      myOptions.passBkgPdf = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0, 70, 80])"
+
     makeConfigForTemplates.main(myOptions)
+
+    myOptions.altSig       = True  # Also make templates for MC to be used for the altSig systematic
+    myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altSigFit_" + myOptions.idLabel + ".py")
+    makeConfigForTemplates.main(myOptions)
+    
 
 jobs = []
 for region in ["alleta","barrel","crack","endcap"]:
@@ -92,37 +104,38 @@ pool.close()
 pool.join()
 
 # Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
-with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'w') as f:
-  f.write('import FWCore.ParameterSet.Config as cms\n\n')
+for fit in ['commonFit', 'altSigFit']:
+  with open(os.path.join(tnpPackage, 'python', fit + 'Susy.py'), 'w') as f:
+    f.write('import FWCore.ParameterSet.Config as cms\n\n')
 
-  for args in jobs:
-    f.write('pdfs_' + getIdLabel(args) + ' = cms.PSet(\n')
-    with open(os.path.join(tnpPackage, 'python', "commonFit_" + getIdLabel(args) + ".py"), "r") as r:
-      f.writelines(r.readlines()[3:-2])
-    f.write(')\n\n')
+    for args in jobs:
+      f.write('pdfs_' + getIdLabel(args) + ' = cms.PSet(\n')
+      with open(os.path.join(tnpPackage, 'python', fit + "_" + getIdLabel(args) + ".py"), "r") as r:
+	f.writelines(r.readlines()[3:-2])
+      f.write(')\n\n')
 
-  f.write('all_pdfs = cms.PSet(\n')
-  for args in jobs:
-    f.write('  pdfs_' + getIdLabel(args) + ',\n')
-  f.write(')')
+    f.write('all_pdfs = cms.PSet(\n')
+    for args in jobs:
+      f.write('  pdfs_' + getIdLabel(args) + ',\n')
+    f.write(')')
 
-import glob, os
-map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', 'commonFit_*.p*')))
+  import glob, os
+  map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', fit + 'Susy_*.p*')))
 
 # For background shape systematic, remove lines with RooCMSShape
 with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_exponential.py'), 'w') as f:
   with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
     for line in r:
-      if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -1, 0])",\n')
-      elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -1, 0])",\n')
+      if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -.1, .1])",\n')
+      elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -.1, .1])",\n')
       else:                                           f.write(line)
 
 # For signal shape systematic, use Crystal ball convoluted with Gaussian
 with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_CB.py'), 'w') as f:
   with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
     for line in r:
-      if   line.count('RooGaussian::signalResPass'):         f.write('"RooCBExGaussShape::signalResPass(mass,meanP[-0.0,-5.000,5.000],sigmaP[0.956,0.00,15.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000],sigmaP_2[1.000,0.500,15.00])",\n')
-      elif line.count('RooGaussian::signalResFail'):         f.write('"RooCBExGaussShape::signalResFail(mass,meanF[-0.0,-5.000,5.000],sigmaF[3.331,0.00,15.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00], sigmaF_2[1.675,0.500,12.000])",\n')
+      if   line.count('RooGaussian::signalResPass'):         f.write('"RooDoubleCBFast::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP1[0.999, 0.0,50.0],nP1[1.405,0.000,50.000],alphaP2[0.999,0.0,50.0],nP2[1.405,0.000,50.000]",\n')
+      elif line.count('RooGaussian::signalResFail'):         f.write('"RooDoubleCBFast::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF1[1.586, 0.0,50.0],nF1[0.464,0.000,20.00],alphaF2[1.586,0.0,50.0],nF2[0.464,0.000,20.00])",\n')
       elif line.count('ZGeneratorLineShape::signalPhyPass'): f.write('"ZGeneratorLineShape::signalPhyPass(mass)",\n')
       elif line.count('ZGeneratorLineShape::signalPhyFail'): f.write('"ZGeneratorLineShape::signalPhyFail(mass)",\n')
       else:                                                  f.write(line)

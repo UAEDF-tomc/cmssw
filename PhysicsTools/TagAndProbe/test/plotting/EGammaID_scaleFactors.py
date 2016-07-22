@@ -9,11 +9,18 @@ from efficiencyUtils import efficiency
 from efficiencyUtils import efficiencyList
 import efficiencyUtils as effUtil
 
+outputDirectory = "output"
+
+try:
+  os.makedirs(outputDirectory)
+except:
+  pass
+
 tdrstyle.setTDRStyle()
 
 rt.gROOT.SetBatch(True)
 
-CMS_lumi.lumi_13TeV = "2.6 fb^{-1}"
+CMS_lumi.lumi_13TeV = "5.5 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.lumi_sqrtS = "13 TeV"
 
@@ -268,7 +275,7 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
 filein = sys.argv[1]
 print " Opening file: ", filein
 
-nameOutBase = "./output/" + filein.split('/')[-1] 
+nameOutBase = "./"+ outputDirectory + "/" + filein.split('/')[-1] 
 if not os.path.exists( filein ) :
     print 'file %s does not exist' % filein
     sys.exit(1)
