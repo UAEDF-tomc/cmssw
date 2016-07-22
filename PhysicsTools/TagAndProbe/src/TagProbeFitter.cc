@@ -280,7 +280,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
     std::map<std::string, double> treeVarsD;
     std::map<std::string, int> treeVarsI;
     
- //   inputTree->SetBranchStatus("*", 0);
+    inputTree->SetBranchStatus("*", 0);
     TIterator* vit = dataVars.createIterator();
     for(RooRealVar* v = (RooRealVar*)vit->Next(); v!=0; v = (RooRealVar*)vit->Next() ){
       inputTree->SetBranchStatus(v->GetName(), 1);
