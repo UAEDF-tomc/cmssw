@@ -1,52 +1,11 @@
+#! /usr/bin/env python
 import ROOT
 from optparse import OptionParser
 from os import listdir
 from os.path import isfile, join
+import os
 from string import replace
 
-def GetDirName(file_name):
-    if file_name == "eff_mc_foid2d.root":
-        return "GsfElectronToID/MCtruth_FOID2D"
-    elif file_name == "eff_mc_loose.root":
-        return "GsfElectronToID/MCtruth_Loose"
-    elif file_name == "eff_mc_loose2d.root":
-        return "GsfElectronToID/MCtruth_Loose2D"
-    elif file_name == "eff_mc_medium.root":
-        return "GsfElectronToID/MCtruth_Medium"
-    elif file_name == "eff_mc_mvatightconvihit0chg_act.root":
-        return "MVATightElectronToIso/MCtruth_ConvIHit0Chg"
-    elif file_name == "eff_mc_mvatightconvihit0chg_eta.root":
-        return "MVATightElectronToIso/MCtruth_ConvIHit0Chg"
-    elif file_name == "eff_mc_mvatightmulti_act.root":
-        return "MVATightElectronToIso/MCtruth_Multi"
-    elif file_name == "eff_mc_mvatightmulti_eta.root":
-        return "MVATightElectronToIso/MCtruth_Multi"
-    elif file_name == "eff_mc_mvatightmultiemu_act.root":
-        return "MVATightElectronToIso/MCtruth_MultiEmu"
-    elif file_name == "eff_mc_mvatightmultiemu_eta.root":
-        return "MVATightElectronToIso/MCtruth_MultiEmu"
-    elif file_name == "eff_mc_mvavlooseconvihit1_act.root":
-        return "MVAVLooseElectronToIso/MCtruth_ConvIHit1"
-    elif file_name == "eff_mc_mvavlooseconvihit1_eta.root":
-        return "MVAVLooseElectronToIso/MCtruth_ConvIHit1"
-    elif file_name == "eff_mc_mvavloosemini4_act.root":
-        return "MVAVLooseElectronToIso/MCtruth_Mini4"
-    elif file_name == "eff_mc_mvavloosemini4_eta.root":
-        return "MVAVLooseElectronToIso/MCtruth_Mini4"
-    elif file_name == "eff_mc_mvavloosemini_act.root":
-        return "MVAVLooseElectronToIso/MCtruth_Mini"
-    elif file_name == "eff_mc_mvavloosemini_eta.root":
-        return "MVAVLooseElectronToIso/MCtruth_Mini"
-    elif file_name == "eff_mc_tight.root":
-        return "GsfElectronToID/MCtruth_Tight"
-    elif file_name == "eff_mc_tight2d3d.root":
-        return "GsfElectronToID/MCtruth_Tight2D3D"
-    elif file_name == "eff_mc_tightid2d3d.root":
-        return "GsfElectronToID/MCtruth_TightID2D3D"
-    elif file_name == "eff_mc_veto.root":
-        return "GsfElectronToID/MCtruth_Veto"
-    else:
-        return None
 
 def GetFitName(filename, keyname):
     pos = keyname.rfind("__")
@@ -56,18 +15,6 @@ def GetFitName(filename, keyname):
         return None
     else:
         output = keyname[pos+2:]
-        if keyname.find("probe_sc_abseta_bin0") != -1:
-            output = replace(output, "0p0To1p442", "0p0To0p8")
-            output = replace(output, "0p0To2p5", "0p0To0p8")
-        elif keyname.find("probe_sc_abseta_bin1") != -1:
-            output = replace(output, "0p0To1p442", "0p8To1p442")
-            output = replace(output, "0p0To2p5", "0p8To1p442")
-        elif keyname.find("probe_sc_abseta_bin3") != -1:
-            output = replace(output, "1p566To2p5", "1p566To2p0")
-            output = replace(output, "0p0To2p5", "1p566To2p0")
-        elif keyname.find("probe_sc_abseta_bin4") != -1:
-            output = replace(output, "1p566To2p5", "2p0To2p5")
-            output = replace(output, "0p0To2p5", "2p0To2p5")
         return output
 
 def Fix(name, params):
@@ -92,7 +39,8 @@ def Float(name, params):
     return name+"["+str(mid)+","+str(elo)+","+str(ehi)+"]"
     
 def main(options):
-    with open("../python/commonFit.py", "w") as out:
+    tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
+    with open(os.path.join(tnpPackage, 'python', "commonFit_CB.py"), "w") as out:
         out.write("import FWCore.ParameterSet.Config as cms\n")
         out.write("\n")
         out.write("block_0 = cms.PSet(\n")
@@ -100,15 +48,20 @@ def main(options):
         entry = 0
         block = 0
 
-        files = [ filename for filename in listdir(options.input) if isfile(join(options.input,filename)) and "eff_mc_" in filename ]
+
+
+        altSigMC = os.path.join(tnpPackage, 'test', 'altSig')
+        files = [ filename for filename in listdir(altSigMC) if isfile(join(altSigMC,filename)) and "eff_mc_" in filename ]
         for filename in files:
-            f = ROOT.TFile(options.input+"/"+filename)
-            directory = f.Get(GetDirName(filename))
-            directory.cd()
+            f = ROOT.TFile(altSigMC +"/"+filename)
+	    topDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+	    f.cd(ROOT.gDirectory.GetListOfKeys()[0].GetName())
+	    subDir = ROOT.gDirectory.GetListOfKeys()[0].GetName()
+	    directory = f.Get(os.path.join(topDir, subDir))
+
             keys = directory.GetListOfKeys()
             for key in keys:
-                if "__" not in key.GetName():
-                    continue
+                if "__" not in key.GetName(): continue
                 subdirectory = directory.Get(key.GetName())
                 subdirectory.cd();
                 results = subdirectory.Get("fitresults")
@@ -123,7 +76,6 @@ def main(options):
                     entry += 1
                 if GetFitName(filename, key.GetName()) == None:
                     continue
-                print filename+" "+GetDirName(filename)+" "+key.GetName()+" "+GetFitName(filename, key.GetName())
                 out.write(GetFitName(filename, key.GetName())+" = cms.vstring(\n")
                 out.write("\"RooDoubleCBFast::signalResPass(mass,"+Float("meanP",params)+","+Float("sigmaP",params)+","+Constrain("alphaP1",params)+","+Constrain("nP1",params)+","+Constrain("alphaP2",params)+","+Constrain("nP2",params)+")\",\n")
                 out.write("\"RooDoubleCBFast::signalResFail(mass,"+Float("meanF",params)+","+Float("sigmaF",params)+","+Constrain("alphaF1",params)+","+Constrain("nF1",params)+","+Constrain("alphaF2",params)+","+Constrain("nF2",params)+")\",\n")
@@ -154,7 +106,6 @@ def main(options):
 
 if __name__ == "__main__":  
     parser = OptionParser()
-    parser.add_option("-i", "--input", default="2016_02_02_nominal", help="Input directory")
     (options, arg) = parser.parse_args()
      
     main(options)
