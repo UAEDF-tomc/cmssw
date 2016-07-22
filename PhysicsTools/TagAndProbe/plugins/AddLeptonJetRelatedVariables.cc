@@ -246,31 +246,6 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
   putInEvent("JetPtRel",       leptons, ptrel,            iEvent);
   putInEvent("JetNDauCharged", leptons, nchargeddaughers, iEvent);
   putInEvent("JetBTagCSV",     leptons, btagcsv,          iEvent);
-/*
-   std::auto_ptr<ValueMap<float> > JetPtRatio(new ValueMap<float>());
-   ValueMap<float>::Filler filler(*JetPtRatio);
-   filler.insert(leptons, ptratio.begin(), ptratio.end()); 
-   filler.fill();
-   iEvent.put(JetPtRatio,"JetPtRatio");
- 
-   std::auto_ptr<ValueMap<float> > JetPtRel(new ValueMap<float>());
-   ValueMap<float>::Filler filler1(*JetPtRel);
-   filler1.insert(leptons, ptrel.begin(), ptrel.end()); 
-   filler1.fill();
-   iEvent.put(JetPtRel,"JetPtRel");
-
-  std::auto_ptr<ValueMap<float> > JetNDauCharged(new ValueMap<float>());
-  ValueMap<float>::Filler filler2(*JetNDauCharged);
-  filler2.insert(leptons, nchargeddaughers.begin(), nchargeddaughers.end()); 
-  filler2.fill();
-  iEvent.put(JetNDauCharged,"JetNDauCharged");
-
-  std::auto_ptr<ValueMap<float> > JetBTagCSV(new ValueMap<float>());
-  ValueMap<float>::Filler filler3(*JetBTagCSV);
-  filler3.insert(leptons, btagcsv.begin(), btagcsv.end()); 
-  filler3.fill();
-  iEvent.put(JetBTagCSV,"JetBTagCSV");*/
-
 }
 
 /// Function to put product into event
