@@ -10,7 +10,7 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "80X_v7"
+submitVersion = "80X_v12"
 
 if os.environ["USER"] in ['tomc']:
   mainOutputDir = '/store/user/tomc/tnp/80X/%s' % submitVersion
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     ##### now submit DATA
     config.Data.outLFNDirBase = '%s/%s/' % (mainOutputDir,'data')
     config.Data.splitting     = 'LumiBased'
-    config.Data.lumiMask      = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-275783_13TeV_PromptReco_Collisions16_JSON.txt'
+    config.Data.lumiMask      = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt'
     config.Data.unitsPerJob   = 50
     config.JobType.pyCfgParams  = ['isMC=False']
 
