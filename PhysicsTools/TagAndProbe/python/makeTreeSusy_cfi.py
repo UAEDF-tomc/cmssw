@@ -161,6 +161,7 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
         probe_ele_passTightConvIHit0 = cms.InputTag("MyEleVars:passTightConvIHit0"),
         probe_ele_passMultiIsoM = cms.InputTag("MyEleVars:passMultiIsoM"),
+        probe_ele_passMultiIsoT = cms.InputTag("MyEleVars:passMultiIsoT"),
         probe_ele_passMultiIsoVT = cms.InputTag("MyEleVars:passMultiIsoVT"),
         probe_ele_passMultiIsoEmu = cms.InputTag("MyEleVars:passMultiIsoEmu"),
         probe_ele_passLeptonMvaVL = cms.InputTag("MyEleVars:passLeptonMvaVL"),
@@ -460,6 +461,10 @@ def AddMiniIso(process, options, varOptions):
     process.CutBasedTightElectronToIso.variables = MiniIsoProbeVars
     process.CutBasedTightElectronToIso.tagProbePairs = cms.InputTag("tagTightMiniCutBasedTight")
     process.CutBasedTightElectronToIso.flags = cms.PSet(
+        passingMini = cms.InputTag("goodElectronsPROBEMiniMVAVLoose"),
+        passingMini2 = cms.InputTag("goodElectronsPROBEMini2MVAVLoose"),
+        passingMini4 = cms.InputTag("goodElectronsPROBEMini4MVAVLoose"),
+        passingConvIHit1 = cms.InputTag("goodElectronsPROBEConvIHit1"),
         passingMultiIsoVT = cms.InputTag("goodElectronsPROBEMultiIsoVT"),
     )
     process.CutBasedTightElectronToIso.allProbes = cms.InputTag("goodElectronsProbeCutBasedNoIsoTight")
