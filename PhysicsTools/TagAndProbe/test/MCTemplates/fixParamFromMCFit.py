@@ -62,7 +62,7 @@ def main(alternative):
 
 
 
-        altSigMC = os.path.join(tnpPackage, 'test', 'altSig')
+        altSigMC = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig0')
         files = [ filename for filename in listdir(altSigMC) if isfile(join(altSigMC,filename)) and "eff_mc_" in filename ]
         for filename in files:
             f = ROOT.TFile(altSigMC +"/"+filename)
@@ -75,7 +75,7 @@ def main(alternative):
             for key in keys:
                 if "__" not in key.GetName(): continue
                 subdirectory = directory.Get(key.GetName())
-                subdirectory.cd();
+                subdirectory.cd()
                 results = subdirectory.Get("fitresults")
                 params = results.floatParsFinal()
                 if entry == 100:
