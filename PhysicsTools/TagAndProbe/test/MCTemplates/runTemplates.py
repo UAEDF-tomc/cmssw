@@ -107,7 +107,7 @@ pool.join()
 
 # Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
 for fit in ['nominalFit', 'altSigFit']:
-  with open(os.path.join(tnpPackage, 'python', fit + 'Susy.py'), 'w') as f:
+  with open(os.path.join(tnpPackage, 'python', fit + '.py'), 'w') as f:
     f.write('import FWCore.ParameterSet.Config as cms\n\n')
 
     for args in jobs:
