@@ -11,7 +11,7 @@ args = argParser.parse_args()
 def submitJobs(isData, extraParam = None):
   dataOrMC = "onlyData=True" if isData else "onlyMC=True"
   for jobId in range(28):
-      logfile = "log/data_" + ((extraParam + "_") if extraParam else "") + str(jobId) + ".log"
+      logfile = "log/" + dataOrMC.split('=')[0].split('only')[-1] + "_" + ((extraParam + "_") if extraParam else "") + str(jobId) + ".log"
       command = "qsub -v command=\"cmsRun fitterSusy.py " + dataOrMC + " " + (extraParam if extraParam else "") + " jobId="+ str(jobId) +"\" -q localgrid@cream02 -o " + logfile + " -e " + logfile + " -l walltime=1:00:00 runFits.sh"
       if args.dryRun: print command
       else:           os.system(command)
