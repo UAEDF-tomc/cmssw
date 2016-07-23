@@ -26,14 +26,14 @@ if options.altTag:
   outputDir = "./altTag"
 
 if options.altBkg:
-  import PhysicsTools.TagAndProbe.commonFitSusy_exponential as common
+  import PhysicsTools.TagAndProbe.altBkgFitSusy as common
   outputDir = "./altBkg"
 elif options.altSig >= 0:
-  if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFitSusy as common
+  if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFit as common
   else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit_alternative' + str(options.altSig), fromlist=['all_pdfs'])
   outputDir = "./altSig" + str(options.altSig)
 else:
-  import PhysicsTools.TagAndProbe.commonFitSusy as common
+  import PhysicsTools.TagAndProbe.nominalFit as common
 
 
 try:

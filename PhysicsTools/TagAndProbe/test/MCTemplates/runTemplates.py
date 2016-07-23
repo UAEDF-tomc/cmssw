@@ -49,7 +49,7 @@ def runGetTemplatesFromMC(args):
     myOptions.idprobe      = "passing" + idProbe
 #    getTemplatesFromMC.main(myOptions)
 
-    myOptions.outputFile   = os.path.join(tnpPackage, 'python', "commonFit_" + myOptions.idLabel + ".py")
+    myOptions.outputFile   = os.path.join(tnpPackage, 'python', "nominalFit_" + myOptions.idLabel + ".py")
     myOptions.templateFile = myOptions.output
 
     # Manual fix to avoid failed fits
@@ -74,8 +74,6 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("FOID2D",                                          "GsfElectronToID",                region))
   jobs.append(("Tight2D3D",                                       "GsfElectronToID",                region))
   jobs.append(("TightID2D3D",                                     "GsfElectronToID",                region))
-  jobs.append(("LeptonMvaM",                                      "GsfElectronToID",                region))
-  jobs.append(("LeptonMvaVT",                                     "GsfElectronToID",                region))
   jobs.append(("CutBasedTTZ",                                     "GsfElectronToID",                region))
   jobs.append(("CutBasedIllia",                                   "GsfElectronToID",                region))
   jobs.append(("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04",        "GsfElectronToID",                region))
@@ -86,6 +84,7 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("Mini4",                                           "MVAVLooseElectronToIso",         region))
   jobs.append(("ConvIHit1",                                       "MVAVLooseElectronToIso",         region))
 
+  jobs.append(("MultiIsoM",                                       "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoT",                                       "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoVT",                                      "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoEmu",                                     "MVATightElectronToIso",          region))
@@ -96,6 +95,9 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("ConvIHit0Chg",                                    "MVATightConvIHit0ElectronToIso", region))
 
   jobs.append(("MultiIsoVT",                                      "CutBasedTightElectronToIso",     region))
+  jobs.append(("Mini",                                            "CutBasedTightElectronToIso",     region))
+  jobs.append(("Mini2",                                           "CutBasedTightElectronToIso",     region))
+  jobs.append(("Mini3",                                           "CutBasedTightElectronToIso",     region))
 
 from multiprocessing import Pool
 pool = Pool(processes=16)
@@ -104,7 +106,7 @@ pool.close()
 pool.join()
 
 # Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
-for fit in ['commonFit', 'altSigFit']:
+for fit in ['nominalFit', 'altSigFit']:
   with open(os.path.join(tnpPackage, 'python', fit + 'Susy.py'), 'w') as f:
     f.write('import FWCore.ParameterSet.Config as cms\n\n')
 
@@ -120,22 +122,12 @@ for fit in ['commonFit', 'altSigFit']:
     f.write(')')
 
   import glob, os
-  map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', fit + 'Susy_*.p*')))
+  map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', fit + '_*.p*')))
 
 # For background shape systematic, remove lines with RooCMSShape
-with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_exponential.py'), 'w') as f:
-  with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
+with open(os.path.join(tnpPackage, 'python', 'altBkgFit.py'), 'w') as f:
+  with open(os.path.join(tnpPackage, 'python', 'nominalFit.py'), 'r') as r:
     for line in r:
       if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -.1, .1])",\n')
       elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -.1, .1])",\n')
       else:                                           f.write(line)
-
-# For signal shape systematic, use Crystal ball convoluted with Gaussian
-with open(os.path.join(tnpPackage, 'python', 'commonFitSusy_CB.py'), 'w') as f:
-  with open(os.path.join(tnpPackage, 'python', 'commonFitSusy.py'), 'r') as r:
-    for line in r:
-      if   line.count('RooGaussian::signalResPass'):         f.write('"RooDoubleCBFast::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP1[0.999, 0.0,50.0],nP1[1.405,0.000,50.000],alphaP2[0.999,0.0,50.0],nP2[1.405,0.000,50.000]",\n')
-      elif line.count('RooGaussian::signalResFail'):         f.write('"RooDoubleCBFast::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF1[1.586, 0.0,50.0],nF1[0.464,0.000,20.00],alphaF2[1.586,0.0,50.0],nF2[0.464,0.000,20.00])",\n')
-      elif line.count('ZGeneratorLineShape::signalPhyPass'): f.write('"ZGeneratorLineShape::signalPhyPass(mass)",\n')
-      elif line.count('ZGeneratorLineShape::signalPhyFail'): f.write('"ZGeneratorLineShape::signalPhyFail(mass)",\n')
-      else:                                                  f.write(line)
