@@ -55,6 +55,7 @@ TagProbeFitter::TagProbeFitter(std::string tempDir_, const std::vector<std::stri
   floatShapeParameters(floatShapeParameters_),
   quiet(false) {
   tempDir = tempDir_;
+  subDir = inputDirectoryName;
 
   inputTree = new TChain((inputDirectoryName+"/"+inputTreeName).c_str());
   for(size_t i=0; i<inputFileNames.size(); i++){
@@ -271,7 +272,7 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
   TString rootInputFile(inputTree->GetFile()->GetName());
   TObjArray *tx = rootInputFile.Tokenize("/");
   TString basename = ((TObjString *)(tx->Last()))->String().ReplaceAll(".root", "");
-  std::string treeDirectory = std::string(basename.Data())+"_"+effCats[0]+"_"+catNames.back();
+  std::string treeDirectory = subDir;
   
   struct stat sb;
   if (stat(treeDirectory.c_str(), &sb) != 0) { // && S_ISDIR(sb.st_mode)) {   
