@@ -61,7 +61,7 @@ def main(options):
             plotname = os.path.join(options.output, innername + ".png")
             obj.SaveAs(plotname)
 
-    if (options.dumpPlots and not options.cc):
+    if not options.cc:
         ROOT.gDirectory.cd("../")
         keyList = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
         for k in  keyList:
@@ -83,22 +83,19 @@ if (__name__ == "__main__"):
     tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
 
     parser = OptionParser()
-    parser.add_option("-i", "--input", default="efficiency-mc-GsfElectronToId.root", help="Input filename")
-    parser.add_option("-p", "--dump-plot", dest="dumpPlots", action="store_true", help="Dump fit plots", default=True)
-    parser.add_option("-d", "--directory", default="nominal", help="Directory with eff*.root files")
-
     (options, arg) = parser.parse_args()
 
     try:    os.makedirs('fits')
     except: pass
 
-    for file in glob.glob(os.path.join(tnpPackage, "test", "efficiencies", options.directory, "eff*.root")):
-      options.input  = file
-      options.output = os.path.join('fits', options.directory, file.split('.root')[0].split('/')[-1])
-      options.cc     = options.output.count("eff_mc") and not options.directory.count('altSig')
+    for directory in os.listdir(os.path.join(tnpPackage, "test", "efficiencies")):
+      for file in glob.glob(os.path.join(tnpPackage, "test", "efficiencies", directory, "eff*.root")):
+	options.input  = file
+	options.output = os.path.join('fits', directory, file.split('.root')[0].split('/')[-1])
+	options.cc     = options.output.count("eff_mc") and not directory.count('altSig')
 
-      try:    os.makedirs(options.output)
-      except: pass
+	try:    os.makedirs(options.output)
+	except: pass
 
-      ROOT.gROOT.SetBatch(True)
-      main(options)
+	ROOT.gROOT.SetBatch(True)
+	main(options)
