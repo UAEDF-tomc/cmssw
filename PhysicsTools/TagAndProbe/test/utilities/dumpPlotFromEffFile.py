@@ -89,16 +89,16 @@ if (__name__ == "__main__"):
 
     (options, arg) = parser.parse_args()
 
-    for file in glob.glob(os.path.join(tnpPackage, "test", options.directory, "eff*.root")):
-      options.input  = file
-      options.output = os.path.join(options.directory, file.split('.root')[0].split('/')[-1])
-      options.cc     = options.output.count("eff_mc") and not options.directory.count('altSig')
-      try:
-	os.makedirs(options.output)
-      except:
-	pass
+    try:    os.makedirs('fits')
+    except: pass
 
+    for file in glob.glob(os.path.join(tnpPackage, "test", "efficiencies", options.directory, "eff*.root")):
+      options.input  = file
+      options.output = os.path.join('fits', options.directory, file.split('.root')[0].split('/')[-1])
+      options.cc     = options.output.count("eff_mc") and not options.directory.count('altSig')
+
+      try:    os.makedirs(options.output)
+      except: pass
 
       ROOT.gROOT.SetBatch(True)
-      print options.cc
       main(options)
