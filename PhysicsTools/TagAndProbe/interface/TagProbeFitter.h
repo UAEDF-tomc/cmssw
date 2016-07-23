@@ -61,7 +61,7 @@ class TagProbeFitter {
   TChain* inputTree;
 
   ///such that we can give parralel jobs each their own temporary directory, otherwise we get segfaults
-  std::string tempDir;
+  std::string tempDir, subDir;
 
   ///pointer to the output file
   TFile* outputFile;
