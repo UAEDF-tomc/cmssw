@@ -4,6 +4,7 @@ import sys,os
 from math import sqrt
 import ROOT as rt
 import CMS_lumi, tdrstyle
+import numpy
 
 from efficiencyUtils import efficiency
 from efficiencyUtils import efficiencyList
@@ -20,7 +21,7 @@ tdrstyle.setTDRStyle()
 
 rt.gROOT.SetBatch(True)
 
-CMS_lumi.lumi_13TeV = "5.5 fb^{-1}"
+CMS_lumi.lumi_13TeV = "12.1 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.lumi_sqrtS = "13 TeV"
 
@@ -309,14 +310,6 @@ effGraph.combineSyst()
 
 print " ------------------------------- "
 
-customEtaBining = []
-customEtaBining.append( (0.000,0.800))
-customEtaBining.append( (0.800,1.444))
-customEtaBining.append( (1.444,1.566))
-customEtaBining.append( (1.566,2.000))
-customEtaBining.append( (2.000,2.500))
-
-
 pdfout = nameOutBase + '_egammaPlots.pdf'
 pdfout2 = nameOutBase + '_eff_vs_pt.pdf'
 pdfout3 = nameOutBase + '_eff_vs_eta.pdf'
@@ -325,8 +318,6 @@ cDummy.Print( pdfout + "[" )
 
 
 EffiGraph1D( effGraph.pt_1DGraph_list(False) , effGraph.pt_1DGraph_list(True) , False, pdfout2 )
-#EffiGraph1D( effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,False) , 
-#             effGraph.pt_1DGraph_list_customEtaBining(customEtaBining,True)   , False, pdfout )
 EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), True , pdfout3 )
 
 #cDummy.Print( pdfout + "]" )
@@ -365,9 +356,10 @@ h2Error.DrawCopy("colz TEXT45")
 
 c2D.Print( pdfout )
 
-rootout = rt.TFile(nameOutBase + '_SF2D.root','recreate')
-rootout.cd()
-h2SF.Write('EGamma_SF2D',rt.TObject.kOverwrite)
+rootout = rt.TFile(os.path.join(outputDirectory, "scaleFactors.root"),"UPDATE") # adding it to the same file
+h2SF.SetOption("colz TEXT45")
+h2SF.SetStats(0)
+h2SF.Write(nameOutBase.split('eff_all_')[-1].split('.txt')[0].split('_eta')[0] ,rt.TObject.kOverwrite)
 rootout.Close()
 
 for isyst in range(len(efficiency.getSystematicNames())):
