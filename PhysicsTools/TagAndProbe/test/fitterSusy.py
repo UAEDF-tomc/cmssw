@@ -4,7 +4,7 @@ import os
 
 dataFile  = "../crab/crab_projects_80X_v12/data.root"
 mcFile    = "../crab/crab_projects_80X_v12/DYToLL_Madgraph.root"
-outputDir = "./fits/nominal"
+outputDir = "./efficiencies/nominal"
 
 options = VarParsing('analysis')
 options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
@@ -26,7 +26,7 @@ if options.altTag:
   outputDir = "./efficiencies/altTag"
 
 if options.altBkg:
-  import PhysicsTools.TagAndProbe.altBkgFitSusy as common
+  import PhysicsTools.TagAndProbe.altBkgFit as common
   outputDir = "./efficiencies/altBkg"
 elif options.altSig >= 0:
   if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFit as common
@@ -158,14 +158,14 @@ def getVariables(isData):
 
 def getAnalyzer(wp, dir, isData, isIso):
     analyzer = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
-      TempDirectory            = cms.string('temp/' + outputDir.split('./')[-1]),
+      TempDirectory            = cms.string('temp/' + outputDir.split('/')[-1]),
       InputFileNames           = cms.vstring(dataFile if isData else mcFile),
       InputDirectoryName       = cms.string(dir),
       InputTreeName            = cms.string("fitter_tree"), 
       OutputFileName           = cms.string(os.path.join(outputDir, "eff_" + ("data" if isData else "mc") + "_" + dir.split('To')[0] + "To" + wp + (("_" + trail) if isIso else "") + ".root")),
       NumCPU                   = cms.uint32(6),
       SaveWorkspace            = cms.bool(False),       # Time comsuming/could cause crashes if set True
-      doCutAndCount            = cms.bool(not (isData or options.altSig)),  # Only for MC, but now when we provide the altSig parameter because then we fit the MC
+      doCutAndCount            = cms.bool(not (isData or options.altSig == 0)),  # Only for MC, but now when we provide the altSig parameter because then we fit the MC
       floatShapeParameters     = cms.bool(True),
   #   fixVars                  = cms.vstring("meanP","sigmaP","meanF","sigmaF"), # switch off fixed vars
       binnedFit                = cms.bool(True),
