@@ -2,9 +2,9 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 import os
 
-dataFile  = "../crab/crab_projects_80X_v8/data.root"
-mcFile    = "../crab/crab_projects_80X_v8/DYToLL_Madgraph.root"
-outputDir = "./nominal"
+dataFile  = "../crab/crab_projects_80X_v12/data.root"
+mcFile    = "../crab/crab_projects_80X_v12/DYToLL_Madgraph.root"
+outputDir = "./fits/nominal"
 
 options = VarParsing('analysis')
 options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
@@ -18,33 +18,31 @@ options.register("altSig",         -1,     VarParsing.multiplicity.singleton, Va
 options.parseArguments()
 
 if options.altMC:
-  mcFile    = "../crab/crab_projects_80X_v8/DYToLL_mcAtNLO.root"
- # mcFile    = "../crab/crab_projects_80X_v8/DYToEE_Powheg.root"
-  outputDir = "./altMC"
+  mcFile    = "../crab/crab_projects_80X_v12/DYToLL_mcAtNLO.root"
+ # mcFile    = "../crab/crab_projects_80X_v12/DYToEE_Powheg.root"
+  outputDir = "./efficiencies/altMC"
 
 if options.altTag:
-  outputDir = "./altTag"
+  outputDir = "./efficiencies/altTag"
 
 if options.altBkg:
   import PhysicsTools.TagAndProbe.altBkgFitSusy as common
-  outputDir = "./altBkg"
+  outputDir = "./efficiencies/altBkg"
 elif options.altSig >= 0:
   if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFit as common
   else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit_alternative' + str(options.altSig), fromlist=['all_pdfs'])
-  outputDir = "./altSig" + str(options.altSig)
+  outputDir = "./efficiencies/altSig" + str(options.altSig)
 else:
   import PhysicsTools.TagAndProbe.nominalFit as common
 
 
-try:
-  os.makedirs(outputDir)
-except:
-  pass
+def makeDirs(dir):
+  try:    os.makedirs(dir)
+  except: pass
 
-try:
-  os.makedirs('temp')
-except:
-  pass
+makeDirs('temp')
+makeDirs('efficiencies')
+makeDirs(outputDir)
 
 # Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):

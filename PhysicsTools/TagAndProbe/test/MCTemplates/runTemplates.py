@@ -16,7 +16,7 @@ def getIdLabel(args):
 
 
 class options:
-    input           = "../../crab/crab_projects_80X_v8/DYToLL_Madgraph.root"
+    input           = "../../crab/crab_projects_80X_v12/DYToLL_Madgraph.root"
     output          = "mc_templates.root"
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
@@ -47,15 +47,15 @@ def runGetTemplatesFromMC(args):
     myOptions.output       = os.path.join(tnpPackage, 'data', templateProduction, myOptions.idLabel + ".root")
     myOptions.directory    = directory
     myOptions.idprobe      = "passing" + idProbe
-#    getTemplatesFromMC.main(myOptions)
+    getTemplatesFromMC.main(myOptions)
 
     myOptions.outputFile   = os.path.join(tnpPackage, 'python', "nominalFit_" + myOptions.idLabel + ".py")
     myOptions.templateFile = myOptions.output
 
     # Manual fix to avoid failed fits
-    if myOptions.idLabel == "GsfElectronToTight2D3D_barrel_20p0To30p0_0p0To0p8":  
-      myOptions.failBkgPdf = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0, 70, 80])"
-      myOptions.passBkgPdf = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0, 70, 80])"
+    #if myOptions.idLabel == "GsfElectronToTight2D3D_barrel_20p0To30p0_0p0To0p8":  
+    #  myOptions.failBkgPdf = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0, 70, 80])"
+    #  myOptions.passBkgPdf = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0, 70, 80])"
 
     makeConfigForTemplates.main(myOptions)
 
