@@ -10,8 +10,6 @@ options = VarParsing('analysis')
 options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
 options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
 options.register("jobId",          -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "jobId")
-options.register("onlyId",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
-options.register("onlyIso",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
 options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
 options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
 options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
@@ -40,6 +38,11 @@ else:
 
 try:
   os.makedirs(outputDir)
+except:
+  pass
+
+try:
+  os.makedirs('temp')
 except:
   pass
 
@@ -157,7 +160,7 @@ def getVariables(isData):
 
 def getAnalyzer(wp, dir, isData, isIso):
     analyzer = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
-      TempDirectory            = cms.string('temp_' + outputDir.split('./')[-1]),
+      TempDirectory            = cms.string('temp/' + outputDir.split('./')[-1]),
       InputFileNames           = cms.vstring(dataFile if isData else mcFile),
       InputDirectoryName       = cms.string(dir),
       InputTreeName            = cms.string("fitter_tree"), 
@@ -179,138 +182,45 @@ def getAnalyzer(wp, dir, isData, isIso):
     if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
     return analyzer
 
-# MC
-process.McGsfElectronToVeto                                       = getAnalyzer("Veto",                                     "GsfElectronToID",                False, False)
-process.McGsfElectronToLoose                                      = getAnalyzer("Loose",                                    "GsfElectronToID",                False, False)
-process.McGsfElectronToMedium                                     = getAnalyzer("Medium",                                   "GsfElectronToID",                False, False)
-process.McGsfElectronToTight                                      = getAnalyzer("Tight",                                    "GsfElectronToID",                False, False)
-process.McGsfElectronToLoose2D                                    = getAnalyzer("Loose2D",                                  "GsfElectronToID",                False, False)
-process.McGsfElectronToFOID2D                                     = getAnalyzer("FOID2D",                                   "GsfElectronToID",                False, False)
-process.McGsfElectronToTight2D3D                                  = getAnalyzer("Tight2D3D",                                "GsfElectronToID",                False, False)
-process.McGsfElectronToTightID2D3D                                = getAnalyzer("TightID2D3D",                              "GsfElectronToID",                False, False)
-process.McGsfElectronToLeptonMvaM                                 = getAnalyzer("LeptonMvaM",                               "GsfElectronToID",                False, False)
-process.McGsfElectronToLeptonMvaVT                                = getAnalyzer("LeptonMvaVT",                              "GsfElectronToID",                False, False)
-process.McGsfElectronToCutBasedTTZ                                = getAnalyzer("CutBasedTTZ",                              "GsfElectronToID",                False, False)
-process.McGsfElectronToCutBasedIllia                              = getAnalyzer("CutBasedIllia",                            "GsfElectronToID",                False, False)
-process.McGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04   = getAnalyzer("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04", "GsfElectronToID",                False, False)
-process.McGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04    = getAnalyzer("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",  "GsfElectronToID",                False, False)
-
-process.McMVAVLooseElectronToMini                                 = getAnalyzer("Mini",                                     "MVAVLooseElectronToIso",         False, True)
-process.McMVAVLooseElectronToMini2                                = getAnalyzer("Mini2",                                    "MVAVLooseElectronToIso",         False, True)
-process.McMVAVLooseElectronToMini4                                = getAnalyzer("Mini4",                                    "MVAVLooseElectronToIso",         False, True)
-process.McMVAVLooseElectronToConvIHit1                            = getAnalyzer("ConvIHit1",                                "MVAVLooseElectronToIso",         False, True)
-
-process.McMVATightElectronToMultiIsoT                             = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToMultiIsoVT                            = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToMultiIsoEmu                           = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToConvIHit0                             = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          False, True)
-process.McMVATightElectronToConvIHit0Chg                          = getAnalyzer("ConvIHit0Chg",                             "MVATightElectronToIso",          False, True)
-
-process.McMVATightNoEMuElectronToConvIHit0                        = getAnalyzer("ConvIHit0",                                "MVATightNoEMuElectronToIso",     False, True)
-process.McMVATightConvIHit0ElectronToConvIHit0Chg                 = getAnalyzer("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", False, True)
-
-process.McCutBasedTightElectronToMultiIsoVT                       = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     False, True)
-
-# Data
-#process.DataGsfElectronToVeto                                     = getAnalyzer("Veto",                                     "GsfElectronToID",                True,  False)
-setattr(process, 'DataGsfElectronToVeto', getAnalyzer("Veto",                                     "GsfElectronToID",                True,  False))
-process.DataGsfElectronToLoose                                    = getAnalyzer("Loose",                                    "GsfElectronToID",                True,  False)
-process.DataGsfElectronToMedium                                   = getAnalyzer("Medium",                                   "GsfElectronToID",                True,  False)
-process.DataGsfElectronToTight                                    = getAnalyzer("Tight",                                    "GsfElectronToID",                True,  False)
-process.DataGsfElectronToLoose2D                                  = getAnalyzer("Loose2D",                                  "GsfElectronToID",                True,  False)
-process.DataGsfElectronToFOID2D                                   = getAnalyzer("FOID2D",                                   "GsfElectronToID",                True,  False)
-process.DataGsfElectronToTight2D3D                                = getAnalyzer("Tight2D3D",                                "GsfElectronToID",                True,  False)
-process.DataGsfElectronToTightID2D3D                              = getAnalyzer("TightID2D3D",                              "GsfElectronToID",                True,  False)
-process.DataGsfElectronToLeptonMvaM                               = getAnalyzer("LeptonMvaM",                               "GsfElectronToID",                True,  False)
-process.DataGsfElectronToLeptonMvaVT                              = getAnalyzer("LeptonMvaVT",                              "GsfElectronToID",                True,  False)
-process.DataGsfElectronToCutBasedTTZ                              = getAnalyzer("CutBasedTTZ",                              "GsfElectronToID",                True,  False)
-process.DataGsfElectronToCutBasedIllia                            = getAnalyzer("CutBasedIllia",                            "GsfElectronToID",                True,  False)
-process.DataGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04 = getAnalyzer("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04", "GsfElectronToID",                True,  False)
-process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04  = getAnalyzer("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",  "GsfElectronToID",                True,  False)
-
-process.DataMVAVLooseElectronToMini                               = getAnalyzer("Mini",                                     "MVAVLooseElectronToIso",         True,  True)
-process.DataMVAVLooseElectronToMini2                              = getAnalyzer("Mini2",                                    "MVAVLooseElectronToIso",         True,  True)
-process.DataMVAVLooseElectronToMini4                              = getAnalyzer("Mini4",                                    "MVAVLooseElectronToIso",         True,  True)
-process.DataMVAVLooseElectronToConvIHit1                          = getAnalyzer("ConvIHit1",                                "MVAVLooseElectronToIso",         True,  True)
-
-process.DataMVATightElectronToMultiIsoT                           = getAnalyzer("MultiIsoT",                                "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToMultiIsoVT                          = getAnalyzer("MultiIsoVT",                               "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToMultiIsoEmu                         = getAnalyzer("MultiIsoEmu",                              "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToConvIHit0                           = getAnalyzer("ConvIHit0",                                "MVATightElectronToIso",          True,  True)
-process.DataMVATightElectronToConvIHit0Chg                        = getAnalyzer("ConvIHit0Chg",                             "MVATightElectronToIso",          True,  True)
-
-process.DataMVATightNoEMuElectronToConvIHit0                      = getAnalyzer("ConvIHit0",                                "MVATightNoEMuElectronToIso",     True,  True)
-process.DataMVATightConvIHit0ElectronToConvIHit0Chg               = getAnalyzer("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", True,  True)
-
-process.DataCutBasedTightElectronToMultiIsoVT                     = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     True,  True)
-
-
 process.seq = cms.Sequence()
 
-if not options.onlyData and not options.onlyIso:
-    if options.jobId == 0:  process.seq += process.McGsfElectronToVeto
-    if options.jobId == 1:  process.seq += process.McGsfElectronToLoose
-    if options.jobId == 2:  process.seq += process.McGsfElectronToMedium
-    if options.jobId == 3:  process.seq += process.McGsfElectronToTight
-    if options.jobId == 4:  process.seq += process.McGsfElectronToLoose2D
-    if options.jobId == 5:  process.seq += process.McGsfElectronToFOID2D
-    if options.jobId == 6:  process.seq += process.McGsfElectronToTight2D3D
-    if options.jobId == 7:  process.seq += process.McGsfElectronToTightID2D3D
-    if options.jobId == 8:  process.seq += process.McGsfElectronToLeptonMvaM
-    if options.jobId == 9:  process.seq += process.McGsfElectronToLeptonMvaVT
-    if options.jobId == 10: process.seq += process.McGsfElectronToCutBasedTTZ
-    if options.jobId == 11: process.seq += process.McGsfElectronToCutBasedIllia
-    if options.jobId == 12: process.seq += process.McGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
-    if options.jobId == 13: process.seq += process.McGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
+def addToProcess(workingpoint, dir, isData, isIso):
+    moduleName = ("Data" if isData else "MC") + dir + workingpoint
+    setattr(process, moduleName, getAnalyzer(workingpoint, dir, isData, isIso))
+    process.seq += getattr(process, moduleName)
 
-if not options.onlyData and not options.onlyId:
-    if options.jobId == 0:  process.seq += process.McMVAVLooseElectronToMini
-    if options.jobId == 1:  process.seq += process.McMVAVLooseElectronToMini2
-    if options.jobId == 2:  process.seq += process.McMVAVLooseElectronToMini4
-    if options.jobId == 3:  process.seq += process.McMVAVLooseElectronToConvIHit1
+                                     # workingpoint                              # directory                       # data or MC       # isIso
+if options.jobId == 0:  addToProcess("Veto",                                     "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 1:  addToProcess("Loose",                                    "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 2:  addToProcess("Medium",                                   "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 3:  addToProcess("Tight",                                    "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 4:  addToProcess("Loose2D",                                  "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 5:  addToProcess("FOID2D",                                   "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 6:  addToProcess("Tight2D3D",                                "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 7:  addToProcess("TightID2D3D",                              "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 8:  addToProcess("CutBasedTTZ",                              "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 9:  addToProcess("CutBasedIllia",                            "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 10: addToProcess("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04", "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 11: addToProcess("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",  "GsfElectronToID",                options.onlyData, False)
 
-    if options.jobId == 4:  process.seq += process.McMVATightElectronToMultiIsoT
-    if options.jobId == 5:  process.seq += process.McMVATightElectronToMultiIsoVT
-    if options.jobId == 6:  process.seq += process.McMVATightElectronToMultiIsoEmu
-    if options.jobId == 7:  process.seq += process.McMVATightElectronToConvIHit0
-    if options.jobId == 8:  process.seq += process.McMVATightElectronToConvIHit0Chg
+if options.jobId == 12: addToProcess("Mini",                                     "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 13: addToProcess("Mini2",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 14: addToProcess("Mini4",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 15: addToProcess("ConvIHit1",                                "MVAVLooseElectronToIso",         options.onlyData, True)
 
-    if options.jobId == 9:  process.seq += process.McMVATightNoEMuElectronToConvIHit0
-    if options.jobId == 10: process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
+if options.jobId == 16: addToProcess("MultiIsoM",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 17: addToProcess("MultiIsoT",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 18: addToProcess("MultiIsoVT",                               "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 19: addToProcess("MultiIsoEmu",                              "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 20: addToProcess("ConvIHit0",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 21: addToProcess("ConvIHit0Chg",                             "MVATightElectronToIso",          options.onlyData, True)
 
-    if options.jobId == 11: process.seq += process.McCutBasedTightElectronToMultiIsoVT
+if options.jobId == 22: addToProcess("ConvIHit0",                                "MVATightNoEMuElectronToIso",     options.onlyData, True)
+if options.jobId == 23: addToProcess("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", options.onlyData, True)
 
-if not options.onlyMC and not options.onlyIso:
-    if options.jobId == 0:  process.seq += process.DataGsfElectronToVeto
-    if options.jobId == 1:  process.seq += process.DataGsfElectronToLoose
-    if options.jobId == 2:  process.seq += process.DataGsfElectronToMedium
-    if options.jobId == 3:  process.seq += process.DataGsfElectronToTight
-    if options.jobId == 4:  process.seq += process.DataGsfElectronToLoose2D
-    if options.jobId == 5:  process.seq += process.DataGsfElectronToFOID2D
-    if options.jobId == 6:  process.seq += process.DataGsfElectronToTight2D3D
-    if options.jobId == 7:  process.seq += process.DataGsfElectronToTightID2D3D
-    if options.jobId == 8:  process.seq += process.DataGsfElectronToLeptonMvaM
-    if options.jobId == 9:  process.seq += process.DataGsfElectronToLeptonMvaVT
-    if options.jobId == 10: process.seq += process.DataGsfElectronToCutBasedTTZ
-    if options.jobId == 11: process.seq += process.DataGsfElectronToCutBasedIllia
-    if options.jobId == 12: process.seq += process.DataGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
-    if options.jobId == 13: process.seq += process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
-
-if not options.onlyMC and not options.onlyId:
-    if options.jobId == 0:  process.seq += process.DataMVAVLooseElectronToMini
-    if options.jobId == 1:  process.seq += process.DataMVAVLooseElectronToMini2
-    if options.jobId == 2:  process.seq += process.DataMVAVLooseElectronToMini4
-    if options.jobId == 3:  process.seq += process.DataMVAVLooseElectronToConvIHit1
-
-    if options.jobId == 4:  process.seq += process.DataMVATightElectronToMultiIsoT
-    if options.jobId == 5:  process.seq += process.DataMVATightElectronToMultiIsoVT
-    if options.jobId == 6:  process.seq += process.DataMVATightElectronToMultiIsoEmu
-    if options.jobId == 7:  process.seq += process.DataMVATightElectronToConvIHit0
-    if options.jobId == 8:  process.seq += process.DataMVATightElectronToConvIHit0Chg
-
-    if options.jobId == 9:  process.seq += process.DataMVATightNoEMuElectronToConvIHit0
-    if options.jobId == 10: process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
-
-    if options.jobId == 11: process.seq += process.DataCutBasedTightElectronToMultiIsoVT
+if options.jobId == 24: addToProcess("MultiIsoVT",                               "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 25: addToProcess("Mini",                                     "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 26: addToProcess("Mini2",                                    "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 27: addToProcess("Mini4",                                    "CutBasedTightElectronToIso",     options.onlyData, True)
 
 process.fit = cms.Path(process.seq)
