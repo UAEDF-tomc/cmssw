@@ -16,7 +16,7 @@ def getIdLabel(args):
 
 
 class options:
-    input           = "../../crab/crab_projects_80X_v12/DYToLL_Madgraph.root"
+    input           = os.path.join(tnpPackage, 'crab', 'crab_projects_80X_v12', 'DYToLL_Madgraph.root')
     output          = "mc_templates.root"
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
@@ -97,7 +97,7 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("MultiIsoVT",                                      "CutBasedTightElectronToIso",     region))
   jobs.append(("Mini",                                            "CutBasedTightElectronToIso",     region))
   jobs.append(("Mini2",                                           "CutBasedTightElectronToIso",     region))
-  jobs.append(("Mini3",                                           "CutBasedTightElectronToIso",     region))
+  jobs.append(("Mini4",                                           "CutBasedTightElectronToIso",     region))
 
 from multiprocessing import Pool
 pool = Pool(processes=16)
