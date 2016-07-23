@@ -90,3 +90,11 @@ if __name__ == '__main__':
     config.General.requestName  = '2016_RunB'
     config.Data.inputDataset    = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
     submit(config)
+
+    config.General.requestName  = '2016_RunC'
+    config.Data.inputDataset    = '/SingleElectron/Run2016C-PromptReco-v2/MINIAOD'
+    submit(config)
+
+    config.General.requestName  = '2016_RunD'
+    config.Data.inputDataset    = '/SingleElectron/Run2016D-PromptReco-v2/MINIAOD'
+    submit(config)
