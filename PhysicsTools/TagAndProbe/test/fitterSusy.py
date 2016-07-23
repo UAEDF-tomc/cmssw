@@ -9,13 +9,14 @@ outputDir = "./nominal"
 options = VarParsing('analysis')
 options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
 options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
+options.register("jobId",          -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "jobId")
 options.register("onlyId",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Gsf->Id efficiencies")
 options.register("onlyIso",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute Id->Id+Iso efficiencies")
 options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
 options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
 options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
 options.register("altBkg",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative background shape")
-options.register("altSig",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative signal shape")
+options.register("altSig",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative signal shape")
 options.parseArguments()
 
 if options.altMC:
@@ -29,10 +30,10 @@ if options.altTag:
 if options.altBkg:
   import PhysicsTools.TagAndProbe.commonFitSusy_exponential as common
   outputDir = "./altBkg"
-elif options.altSig:
+elif options.altSig >= 0:
   if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFitSusy as common
-  else:              import PhysicsTools.TagAndProbe.commonFit_CB as common
-  outputDir = "./altSig"
+  else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit_alternative' + str(options.altSig), fromlist=['all_pdfs'])
+  outputDir = "./altSig" + str(options.altSig)
 else:
   import PhysicsTools.TagAndProbe.commonFitSusy as common
 
@@ -211,7 +212,8 @@ process.McMVATightConvIHit0ElectronToConvIHit0Chg                 = getAnalyzer(
 process.McCutBasedTightElectronToMultiIsoVT                       = getAnalyzer("MultiIsoVT",                               "CutBasedTightElectronToIso",     False, True)
 
 # Data
-process.DataGsfElectronToVeto                                     = getAnalyzer("Veto",                                     "GsfElectronToID",                True,  False)
+#process.DataGsfElectronToVeto                                     = getAnalyzer("Veto",                                     "GsfElectronToID",                True,  False)
+setattr(process, 'DataGsfElectronToVeto', getAnalyzer("Veto",                                     "GsfElectronToID",                True,  False))
 process.DataGsfElectronToLoose                                    = getAnalyzer("Loose",                                    "GsfElectronToID",                True,  False)
 process.DataGsfElectronToMedium                                   = getAnalyzer("Medium",                                   "GsfElectronToID",                True,  False)
 process.DataGsfElectronToTight                                    = getAnalyzer("Tight",                                    "GsfElectronToID",                True,  False)
@@ -246,70 +248,69 @@ process.DataCutBasedTightElectronToMultiIsoVT                     = getAnalyzer(
 process.seq = cms.Sequence()
 
 if not options.onlyData and not options.onlyIso:
-    process.seq += process.McGsfElectronToVeto
-    process.seq += process.McGsfElectronToLoose
-    process.seq += process.McGsfElectronToMedium
-    process.seq += process.McGsfElectronToTight
-    process.seq += process.McGsfElectronToLoose2D
-    process.seq += process.McGsfElectronToFOID2D
-    process.seq += process.McGsfElectronToTight2D3D
-    process.seq += process.McGsfElectronToTightID2D3D
-    process.seq += process.McGsfElectronToLeptonMvaM
-    process.seq += process.McGsfElectronToLeptonMvaVT
-    process.seq += process.McGsfElectronToCutBasedTTZ
-    process.seq += process.McGsfElectronToCutBasedIllia
-    process.seq += process.McGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
-    process.seq += process.McGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
+    if options.jobId == 0:  process.seq += process.McGsfElectronToVeto
+    if options.jobId == 1:  process.seq += process.McGsfElectronToLoose
+    if options.jobId == 2:  process.seq += process.McGsfElectronToMedium
+    if options.jobId == 3:  process.seq += process.McGsfElectronToTight
+    if options.jobId == 4:  process.seq += process.McGsfElectronToLoose2D
+    if options.jobId == 5:  process.seq += process.McGsfElectronToFOID2D
+    if options.jobId == 6:  process.seq += process.McGsfElectronToTight2D3D
+    if options.jobId == 7:  process.seq += process.McGsfElectronToTightID2D3D
+    if options.jobId == 8:  process.seq += process.McGsfElectronToLeptonMvaM
+    if options.jobId == 9:  process.seq += process.McGsfElectronToLeptonMvaVT
+    if options.jobId == 10: process.seq += process.McGsfElectronToCutBasedTTZ
+    if options.jobId == 11: process.seq += process.McGsfElectronToCutBasedIllia
+    if options.jobId == 12: process.seq += process.McGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
+    if options.jobId == 13: process.seq += process.McGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
 if not options.onlyData and not options.onlyId:
-    process.seq += process.McMVAVLooseElectronToMini
-    process.seq += process.McMVAVLooseElectronToMini2
-    process.seq += process.McMVAVLooseElectronToMini4
-    process.seq += process.McMVAVLooseElectronToConvIHit1
+    if options.jobId == 0:  process.seq += process.McMVAVLooseElectronToMini
+    if options.jobId == 1:  process.seq += process.McMVAVLooseElectronToMini2
+    if options.jobId == 2:  process.seq += process.McMVAVLooseElectronToMini4
+    if options.jobId == 3:  process.seq += process.McMVAVLooseElectronToConvIHit1
 
-    process.seq += process.McMVATightElectronToMultiIsoT
-    process.seq += process.McMVATightElectronToMultiIsoVT
-    process.seq += process.McMVATightElectronToMultiIsoEmu
-    process.seq += process.McMVATightElectronToConvIHit1
-    process.seq += process.McMVATightElectronToConvIHit0Chg
+    if options.jobId == 4:  process.seq += process.McMVATightElectronToMultiIsoT
+    if options.jobId == 5:  process.seq += process.McMVATightElectronToMultiIsoVT
+    if options.jobId == 6:  process.seq += process.McMVATightElectronToMultiIsoEmu
+    if options.jobId == 7:  process.seq += process.McMVATightElectronToConvIHit0
+    if options.jobId == 8:  process.seq += process.McMVATightElectronToConvIHit0Chg
 
-    process.seq += process.McMVATightNoEMuElectronToConvIHit1
-    process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
+    if options.jobId == 9:  process.seq += process.McMVATightNoEMuElectronToConvIHit0
+    if options.jobId == 10: process.seq += process.McMVATightConvIHit0ElectronToConvIHit0Chg
 
-    process.seq += process.McCutBasedTightElectronToMultiIsoVT
+    if options.jobId == 11: process.seq += process.McCutBasedTightElectronToMultiIsoVT
 
 if not options.onlyMC and not options.onlyIso:
-    process.seq += process.DataGsfElectronToVeto
-    process.seq += process.DataGsfElectronToLoose
-    process.seq += process.DataGsfElectronToMedium
-    process.seq += process.DataGsfElectronToTight
-    process.seq += process.DataGsfElectronToLoose2D
-    process.seq += process.DataGsfElectronToFOID2D
-    process.seq += process.DataGsfElectronToTight2D3D
-    process.seq += process.DataGsfElectronToTightID2D3D
-    process.seq += process.DataGsfElectronToLeptonMvaM
-    process.seq += process.DataGsfElectronToLeptonMvaVT
-    process.seq += process.DataGsfElectronToCutBasedTTZ
-    process.seq += process.DataGsfElectronToCutBasedIllia
-    process.seq += process.DataGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
-    process.seq += process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
-
+    if options.jobId == 0:  process.seq += process.DataGsfElectronToVeto
+    if options.jobId == 1:  process.seq += process.DataGsfElectronToLoose
+    if options.jobId == 2:  process.seq += process.DataGsfElectronToMedium
+    if options.jobId == 3:  process.seq += process.DataGsfElectronToTight
+    if options.jobId == 4:  process.seq += process.DataGsfElectronToLoose2D
+    if options.jobId == 5:  process.seq += process.DataGsfElectronToFOID2D
+    if options.jobId == 6:  process.seq += process.DataGsfElectronToTight2D3D
+    if options.jobId == 7:  process.seq += process.DataGsfElectronToTightID2D3D
+    if options.jobId == 8:  process.seq += process.DataGsfElectronToLeptonMvaM
+    if options.jobId == 9:  process.seq += process.DataGsfElectronToLeptonMvaVT
+    if options.jobId == 10: process.seq += process.DataGsfElectronToCutBasedTTZ
+    if options.jobId == 11: process.seq += process.DataGsfElectronToCutBasedIllia
+    if options.jobId == 12: process.seq += process.DataGsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04
+    if options.jobId == 13: process.seq += process.DataGsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04
 
 if not options.onlyMC and not options.onlyId:
-    process.seq += process.DataMVAVLooseElectronToMini
-    process.seq += process.DataMVAVLooseElectronToMini2
-    process.seq += process.DataMVAVLooseElectronToMini4
-    process.seq += process.DataMVAVLooseElectronToConvIHit1
+    if options.jobId == 0:  process.seq += process.DataMVAVLooseElectronToMini
+    if options.jobId == 1:  process.seq += process.DataMVAVLooseElectronToMini2
+    if options.jobId == 2:  process.seq += process.DataMVAVLooseElectronToMini4
+    if options.jobId == 3:  process.seq += process.DataMVAVLooseElectronToConvIHit1
 
-    process.seq += process.DataMVATightElectronToMultiIsoT
-    process.seq += process.DataMVATightElectronToMultiIsoVT
-    process.seq += process.DataMVATightElectronToMultiIsoEmu
-    process.seq += process.DataMVATightElectronToConvIHit1
-    process.seq += process.DataMVATightElectronToConvIHit0Chg
+    if options.jobId == 4:  process.seq += process.DataMVATightElectronToMultiIsoT
+    if options.jobId == 5:  process.seq += process.DataMVATightElectronToMultiIsoVT
+    if options.jobId == 6:  process.seq += process.DataMVATightElectronToMultiIsoEmu
+    if options.jobId == 7:  process.seq += process.DataMVATightElectronToConvIHit0
+    if options.jobId == 8:  process.seq += process.DataMVATightElectronToConvIHit0Chg
 
-    process.seq += process.DataMVATightNoEMuElectronToConvIHit
-    process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
+    if options.jobId == 9:  process.seq += process.DataMVATightNoEMuElectronToConvIHit0
+    if options.jobId == 10: process.seq += process.DataMVATightConvIHit0ElectronToConvIHit0Chg
 
-    process.seq += process.DataCutBasedTightElectronToMultiIsoVT
+    if options.jobId == 11: process.seq += process.DataCutBasedTightElectronToMultiIsoVT
 
 process.fit = cms.Path(process.seq)
