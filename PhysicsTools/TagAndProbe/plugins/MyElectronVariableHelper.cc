@@ -457,7 +457,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, And(passConversionVeto, passIHit1), "passConvIHit1");
   Store(iEvent, probes, And(passConversionVeto, passIHit0), "passConvIHit0");
   Store(iEvent, probes, And(And(And(And(passMVATight, passTightIP2D), passSIP3D4), passConversionVeto), passIHit0), "passTightConvIHit0");
-  Store(iEvent, probes, And(And(passConversionVeto, passIHit1), passCharge), "passConvIHit0Chg");
+  Store(iEvent, probes, And(And(passConversionVeto, passIHit0), passCharge), "passConvIHit0Chg");
   Store(iEvent, probes, passMultiIsoM, "passMultiIsoM");
   Store(iEvent, probes, passMultiIsoT, "passMultiIsoT");
   Store(iEvent, probes, passMultiIsoVT, "passMultiIsoVT");
