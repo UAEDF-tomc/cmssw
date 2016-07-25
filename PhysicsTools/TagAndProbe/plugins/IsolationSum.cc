@@ -13,10 +13,10 @@
 
 typedef edm::View<reco::Candidate> CandView;
 
-class IsolationSum2 : public edm::EDProducer{
+class IsolationSum : public edm::EDProducer{
 public:
-  explicit IsolationSum2(const edm::ParameterSet &pset);
-  ~IsolationSum2();
+  explicit IsolationSum(const edm::ParameterSet &pset);
+  ~IsolationSum();
 
 private:
   virtual void produce(edm::Event &event, const edm::EventSetup &setup) override;
@@ -40,7 +40,7 @@ private:
   bool isRelativeIso_;
 };
 
-IsolationSum2::IsolationSum2(const edm::ParameterSet &pset):
+IsolationSum::IsolationSum(const edm::ParameterSet &pset):
   effectiveAreas_((pset.getParameter<edm::FileInPath>("effAreasConfigFile")).fullPath()),
   probesToken_(consumes<CandView>(pset.getParameter<edm::InputTag>("probes"))),
   candToken_(consumes<pat::PackedCandidateCollection>(pset.getParameter<edm::InputTag>("candidates"))),
@@ -59,11 +59,11 @@ IsolationSum2::IsolationSum2(const edm::ParameterSet &pset):
   produces<edm::ValueMap<float> >("neutral");
 }
 
-IsolationSum2::~IsolationSum2(){
+IsolationSum::~IsolationSum(){
 }
 
 
-double IsolationSum2::getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
+double IsolationSum::getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
                         auto ptcl,  
                         double r_iso_min, double r_iso_max, double kt_scale,
                         bool charged_only) {
@@ -138,7 +138,7 @@ double IsolationSum2::getPFIsolation(edm::Handle<pat::PackedCandidateCollection>
 
 
 
-void IsolationSum2::produce(edm::Event &event, const edm::EventSetup &setup){
+void IsolationSum::produce(edm::Event &event, const edm::EventSetup &setup){
   edm::Handle<double> rhoHandle;
   edm::Handle<edm::ValueMap<float> > chadHandle, nhadHandle, phoHandle;
   edm::Handle<CandView> probesHandle;
@@ -205,7 +205,7 @@ void IsolationSum2::produce(edm::Event &event, const edm::EventSetup &setup){
 }
 
 /// Function to put product into event
-template <typename T> void IsolationSum2::putInEvent(std::string name, const edm::Handle<CandView>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
+template <typename T> void IsolationSum::putInEvent(std::string name, const edm::Handle<CandView>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
   std::auto_ptr<edm::ValueMap<T>> out(new edm::ValueMap<T>());
   typename edm::ValueMap<T>::Filler filler(*out);
   filler.insert(probesHandle, product.begin(), product.end());
@@ -214,4 +214,4 @@ template <typename T> void IsolationSum2::putInEvent(std::string name, const edm
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(IsolationSum2);
+DEFINE_FWK_MODULE(IsolationSum);
