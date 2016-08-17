@@ -218,7 +218,86 @@ class efficiencyList:
                                 print "   eff[+] = ",  self.effList[ptBin][etaBinPlus ].altEff[isyst]
                                 print "   eff[-] = ",  self.effList[ptBin][etaBinMinus].altEff[isyst]
                                 
+    def etaPtScaleFactor_2DHisto(self, onlyError, relError = False):
+        self.symmetrizeSystVsEta()
+        self.combineSyst()
 
+        ### first define bining
+        xbins = []
+        ybins = []
+        for ptBin in self.effList.keys():
+            if not ptBin[0] in xbins:
+                xbins.append(ptBin[0])
+            if not ptBin[1] in xbins:
+                xbins.append(ptBin[1])
+
+            for etaBin in self.effList[ptBin].keys():
+                if not etaBin[0] in ybins:
+                    ybins.append(etaBin[0])
+                if not etaBin[1] in ybins:
+                    ybins.append(etaBin[1])
+        xbins.sort()
+        ybins.sort()
+        ## transform to numpy array for ROOT
+        xbinsTab = np.array(xbins)
+        ybinsTab = np.array(ybins)
+        htitle = 'e/#gamma scale factors'
+        hname  = 'h2_scaleFactorsEGamma'
+        if onlyError >= 0:
+            htitle = 'e/#gamma uncertainties'
+            hname  = 'h2_uncertaintiesEGamma'
+        h2 = rt.TH2F(hname,htitle,xbinsTab.size-1,xbinsTab,ybinsTab.size-1,ybinsTab)
+
+        ## init histogram efficiencies and errors to 100%
+        for ix in range(1,h2.GetXaxis().GetNbins()+1):
+            for iy in range(1,h2.GetYaxis().GetNbins()+1):
+                h2.SetBinContent(ix,iy, 1)
+                h2.SetBinError  (ix,iy, 1)
+
+
+        for ix in range(1,h2.GetXaxis().GetNbins()+1):
+            for iy in range(1,h2.GetYaxis().GetNbins()+1):
+
+                for ptBin in self.effList.keys():
+                    if h2.GetXaxis().GetBinLowEdge(ix) < ptBin[0] or h2.GetXaxis().GetBinUpEdge(ix) > ptBin[1]:
+                        continue
+                    for etaBin in self.effList[ptBin].keys():
+                        if h2.GetYaxis().GetBinLowEdge(iy) < etaBin[0] or h2.GetYaxis().GetBinUpEdge(iy) > etaBin[1]:
+                            continue
+
+                        ## average MC efficiency
+                        etaBinPlus  = etaBin
+                        etaBinMinus = (-etaBin[1],-etaBin[0])
+                    
+                        effPlus  = self.effList[ptBin][etaBinPlus]
+                        effMinus = None
+                        if self.effList[ptBin].has_key(etaBinMinus):
+                            effMinus =  self.effList[ptBin][etaBinMinus] 
+
+                        averageMC = None
+                        if effMinus is None:
+                            averageMC = effPlus.effMC
+                            print " ---- efficiencyList: I did not find -eta bin!!!"
+                        else:                        
+                            averageMC   = (effPlus.effMC   + effMinus.effMC  )/2.
+
+                        ### so this is h2D bin is inside the bining used by e/gamma POG
+                        h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].effData      / self.effList[ptBin][etaBin].effMC)
+                        h2.SetBinError  (ix,iy, self.effList[ptBin][etaBin].systCombined / averageMC )
+                        if onlyError   == 0 :
+                            h2.SetBinContent(ix,iy, self.effList[ptBin][etaBin].systCombined      / averageMC  )
+                        elif onlyError >= 1 and onlyError <= 6:
+                            denominator = averageMC
+                            if relError:
+                                denominator = self.effList[ptBin][etaBin].systCombined
+                            h2.SetBinContent(ix,iy, abs(self.effList[ptBin][etaBin].syst[onlyError-1]) / denominator )
+
+        h2.GetYaxis().SetRangeUser(0,2.5) # Only show abseta
+        h2.GetYaxis().SetTitle("SuperCluster |#eta|")
+        h2.GetXaxis().SetTitle("p_{T} [GeV]")
+        
+        return h2
+ 
 
 
     def ptEtaScaleFactor_2DHisto(self, onlyError, relError = False):
@@ -230,7 +309,7 @@ class efficiencyList:
         ybins = []
         for ptBin in self.effList.keys():
             if not ptBin[0] in ybins:
-                ybins.append(ptBin[0])                
+                ybins.append(ptBin[0])
             if not ptBin[1] in ybins:
                 ybins.append(ptBin[1])
                 
@@ -245,10 +324,10 @@ class efficiencyList:
         xbinsTab = np.array(xbins)
         ybinsTab = np.array(ybins)
         htitle = 'e/#gamma scale factors'
-        hname  = 'h2_scaleFactorsEGamma' 
+        hname  = 'h2_scaleFactorsEGamma'
         if onlyError >= 0:
             htitle = 'e/#gamma uncertainties'
-            hname  = 'h2_uncertaintiesEGamma'             
+            hname  = 'h2_uncertaintiesEGamma'
         h2 = rt.TH2F(hname,htitle,xbinsTab.size-1,xbinsTab,ybinsTab.size-1,ybinsTab)
 
         ## init histogram efficiencies and errors to 100%
@@ -256,8 +335,7 @@ class efficiencyList:
             for iy in range(1,h2.GetYaxis().GetNbins()+1):
                 h2.SetBinContent(ix,iy, 1)
                 h2.SetBinError  (ix,iy, 1)
-        
-        
+
         for ix in range(1,h2.GetXaxis().GetNbins()+1):
             for iy in range(1,h2.GetYaxis().GetNbins()+1):
 
@@ -271,11 +349,11 @@ class efficiencyList:
                         ## average MC efficiency
                         etaBinPlus  = etaBin
                         etaBinMinus = (-etaBin[1],-etaBin[0])
-                    
+
                         effPlus  = self.effList[ptBin][etaBinPlus]
                         effMinus = None
                         if self.effList[ptBin].has_key(etaBinMinus):
-                            effMinus =  self.effList[ptBin][etaBinMinus] 
+                            effMinus =  self.effList[ptBin][etaBinMinus]
 
                         averageMC = None
                         if effMinus is None:

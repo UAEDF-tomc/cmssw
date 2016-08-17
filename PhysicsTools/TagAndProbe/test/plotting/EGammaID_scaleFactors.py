@@ -323,8 +323,8 @@ EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), 
 #cDummy.Print( pdfout + "]" )
 #sys.exit(0)
 
-h2SF    = effGraph.ptEtaScaleFactor_2DHisto(-1)
-h2Error = effGraph.ptEtaScaleFactor_2DHisto( 0)  ## only error bars
+h2SF    = effGraph.etaPtScaleFactor_2DHisto(-1)
+h2Error = effGraph.etaPtScaleFactor_2DHisto( 0)  ## only error bars
 rt.gStyle.SetPalette(1)
 rt.gStyle.SetPaintTextFormat('1.3f');
 rt.gStyle.SetOptTitle(1)
@@ -361,6 +361,12 @@ h2SF.SetOption("colz TEXT45")
 h2SF.SetStats(0)
 h2SF.Write(nameOutBase.split('eff_all_')[-1].split('.txt')[0].split('_eta')[0] ,rt.TObject.kOverwrite)
 rootout.Close()
+
+canvas = rt.TCanvas('2DSF','2DSF', 1000, 700)
+canvas.SetRightMargin(.1)
+h2SF.SetTitle("")
+h2SF.DrawCopy("colz TEXT45")
+canvas.SaveAs(os.path.join(outputDirectory, nameOutBase.split('eff_all_')[-1].split('.txt')[0].split('_eta')[0] + ".pdf"))
 
 for isyst in range(len(efficiency.getSystematicNames())):
     diagnosticErrorPlot( effGraph, isyst, pdfout )

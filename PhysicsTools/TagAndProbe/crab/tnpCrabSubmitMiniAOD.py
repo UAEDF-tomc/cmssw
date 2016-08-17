@@ -10,7 +10,7 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "80X_v12"
+submitVersion = "80X_v15"
 
 if os.environ["USER"] in ['tomc']:
   mainOutputDir = '/store/user/tomc/tnp/80X/%s' % submitVersion

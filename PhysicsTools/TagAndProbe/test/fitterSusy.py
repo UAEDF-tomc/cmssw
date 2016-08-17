@@ -2,8 +2,8 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 import os
 
-dataFile  = "../crab/crab_projects_80X_v12/data.root"
-mcFile    = "../crab/crab_projects_80X_v12/DYToLL_Madgraph.root"
+dataFile  = "../crab/crab_projects_80X_v15/data.root"
+mcFile    = "../crab/crab_projects_80X_v15/DYToLL_Madgraph.root"
 outputDir = "./efficiencies/nominal"
 
 options = VarParsing('analysis')
@@ -13,21 +13,21 @@ options.register("jobId",          -1,     VarParsing.multiplicity.singleton, Va
 options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
 options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
 options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
-options.register("altBkg",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative background shape")
+options.register("altBkg",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative background shape")
 options.register("altSig",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative signal shape")
 options.parseArguments()
 
 if options.altMC:
-  mcFile    = "../crab/crab_projects_80X_v12/DYToLL_mcAtNLO.root"
+  mcFile    = "../crab/crab_projects_80X_v15/DYToLL_mcAtNLO.root"
  # mcFile    = "../crab/crab_projects_80X_v12/DYToEE_Powheg.root"
   outputDir = "./efficiencies/altMC"
 
 if options.altTag:
   outputDir = "./efficiencies/altTag"
-
-if options.altBkg:
-  import PhysicsTools.TagAndProbe.altBkgFit as common
-  outputDir = "./efficiencies/altBkg"
+  import PhysicsTools.TagAndProbe.altTagFit as common
+elif options.altBkg >= 0:
+  common = __import__('PhysicsTools.TagAndProbe.altBkgFit_alternative' + str(options.altBkg), fromlist=['all_pdfs'])
+  outputDir = "./efficiencies/altBkg" + str(options.altBkg)
 elif options.altSig >= 0:
   if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFit as common
   else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit_alternative' + str(options.altSig), fromlist=['all_pdfs'])
@@ -198,27 +198,31 @@ if options.jobId == 6:  addToProcess("Tight2D3D",                               
 if options.jobId == 7:  addToProcess("TightID2D3D",                              "GsfElectronToID",                options.onlyData, False)
 if options.jobId == 8:  addToProcess("CutBasedTTZ",                              "GsfElectronToID",                options.onlyData, False)
 if options.jobId == 9:  addToProcess("CutBasedIllia",                            "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 10: addToProcess("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04", "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 11: addToProcess("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",  "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 10: addToProcess("CutBasedStopsDilepton",                    "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 11: addToProcess("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04", "GsfElectronToID",                options.onlyData, False)
+if options.jobId == 12: addToProcess("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",  "GsfElectronToID",                options.onlyData, False)
 
-if options.jobId == 12: addToProcess("Mini",                                     "MVAVLooseElectronToIso",         options.onlyData, True)
-if options.jobId == 13: addToProcess("Mini2",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
-if options.jobId == 14: addToProcess("Mini4",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
-if options.jobId == 15: addToProcess("ConvIHit1",                                "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 13: addToProcess("Mini",                                     "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 14: addToProcess("Mini2",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 15: addToProcess("Mini4",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
+if options.jobId == 16: addToProcess("ConvIHit1",                                "MVAVLooseElectronToIso",         options.onlyData, True)
 
-if options.jobId == 16: addToProcess("MultiIsoM",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 17: addToProcess("MultiIsoT",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 18: addToProcess("MultiIsoVT",                               "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 19: addToProcess("MultiIsoEmu",                              "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 20: addToProcess("ConvIHit0",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 21: addToProcess("ConvIHit0Chg",                             "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 17: addToProcess("MultiIsoM",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 18: addToProcess("MultiIsoT",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 19: addToProcess("MultiIsoVT",                               "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 20: addToProcess("MultiIsoEmu",                              "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 21: addToProcess("ConvIHit0",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 22: addToProcess("ConvIHit0Chg",                             "MVATightElectronToIso",          options.onlyData, True)
 
-if options.jobId == 22: addToProcess("ConvIHit0",                                "MVATightNoEMuElectronToIso",     options.onlyData, True)
-if options.jobId == 23: addToProcess("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", options.onlyData, True)
+if options.jobId == 23: addToProcess("ConvIHit0",                                "MVATightNoEMuElectronToIso",     options.onlyData, True)
+if options.jobId == 24: addToProcess("ConvIHit0Chg",                             "MVATightConvIHit0ElectronToIso", options.onlyData, True)
 
-if options.jobId == 24: addToProcess("MultiIsoVT",                               "CutBasedTightElectronToIso",     options.onlyData, True)
-if options.jobId == 25: addToProcess("Mini",                                     "CutBasedTightElectronToIso",     options.onlyData, True)
-if options.jobId == 26: addToProcess("Mini2",                                    "CutBasedTightElectronToIso",     options.onlyData, True)
-if options.jobId == 27: addToProcess("Mini4",                                    "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 25: addToProcess("MultiIsoVT",                               "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 26: addToProcess("Mini",                                     "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 27: addToProcess("Mini2",                                    "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 28: addToProcess("Mini4",                                    "CutBasedTightElectronToIso",     options.onlyData, True)
+if options.jobId == 29: addToProcess("Mini",                                     "CutBasedMediumElectronToIso",    options.onlyData, True)
+if options.jobId == 30: addToProcess("Mini",                                     "CutBasedLooseElectronToIso",     options.onlyData, True)
+if options.jobId == 31: addToProcess("Mini",                                     "CutBasedVetoElectronToIso",      options.onlyData, True)
 
 process.fit = cms.Path(process.seq)

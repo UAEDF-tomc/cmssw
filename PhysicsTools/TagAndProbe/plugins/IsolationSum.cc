@@ -10,8 +10,9 @@
 #include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
 #include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
+#include "RecoEgamma/EgammaTools/interface/EffectiveAreas.h"
 
-typedef edm::View<reco::Candidate> CandView;
+#include <algorithm>
 
 class IsolationSum : public edm::EDProducer{
 public:
@@ -20,40 +21,28 @@ public:
 
 private:
   virtual void produce(edm::Event &event, const edm::EventSetup &setup) override;
-  template <typename T> void putInEvent(std::string, const edm::Handle<CandView>&, std::vector<T>&, edm::Event&);
+  template <typename T> void putInEvent(std::string, const edm::Handle<edm::View<reco::Candidate>>&, std::vector<T>&, edm::Event&);
   double getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
-                        auto ptcl,  
-                        double r_iso_min, double r_iso_max, double kt_scale,
+                        const reco::Candidate* ptcl,
+                        double r_iso_min, double r_iso_max, double kt_scale, double rho,
                         bool charged_only);
 
-  EffectiveAreas effectiveAreas_;
-  edm::EDGetTokenT<CandView> probesToken_;
+  EffectiveAreas                                   effectiveAreas_;
+  edm::EDGetTokenT<edm::View<reco::Candidate>>     probesToken_;
+  edm::EDGetTokenT<double>                         rhoToken_;
   edm::EDGetTokenT<pat::PackedCandidateCollection> candToken_;
-  edm::EDGetTokenT<double> rhoToken_;
-  edm::EDGetTokenT<edm::ValueMap<float> > chadToken_;
-  edm::EDGetTokenT<edm::ValueMap<float> > nhadToken_;
-  edm::EDGetTokenT<edm::ValueMap<float> > phoToken_;
   double minRadius_, maxRadius_;
   double ktScale_;
-  double radius_;
-  double activityRadius_;
-  bool isRelativeIso_;
 };
 
 IsolationSum::IsolationSum(const edm::ParameterSet &pset):
   effectiveAreas_((pset.getParameter<edm::FileInPath>("effAreasConfigFile")).fullPath()),
-  probesToken_(consumes<CandView>(pset.getParameter<edm::InputTag>("probes"))),
-  candToken_(consumes<pat::PackedCandidateCollection>(pset.getParameter<edm::InputTag>("candidates"))),
-  rhoToken_(consumes<double>(pset.getParameter<edm::InputTag>("rho"))),
-  chadToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("chadIso"))),
-  nhadToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("nhadIso"))),
-  phoToken_(consumes<edm::ValueMap<float> >(pset.getParameter<edm::InputTag>("phoIso"))),
-  minRadius_(pset.existsAs<double>("minRadius") ? pset.getParameter<double>("minRadius") : -1.),
-  maxRadius_(pset.existsAs<double>("maxRadius") ? pset.getParameter<double>("maxRadius") : -1.),
-  ktScale_(pset.existsAs<double>("ktScale")?pset.getParameter<double>("ktScale"):-1.),
-  radius_(pset.existsAs<double>("radius") ? pset.getParameter<double>("radius") : -1.),
-  activityRadius_(pset.existsAs<double>("actRadius") ? pset.getParameter<double>("actRadius") : -1.),
-  isRelativeIso_(pset.getParameter<bool>("isRelativeIso")){
+  probesToken_(   consumes<edm::View<reco::Candidate>>(    pset.getParameter<edm::InputTag>("probes"))),
+  rhoToken_(      consumes<double>(                        pset.getParameter<edm::InputTag>("rho"))),
+  candToken_(     consumes<pat::PackedCandidateCollection>(pset.getParameter<edm::InputTag>("candidates"))),
+  minRadius_(     pset.existsAs<double>("minRadius") ? pset.getParameter<double>("minRadius") : -1.),
+  maxRadius_(     pset.existsAs<double>("maxRadius") ? pset.getParameter<double>("maxRadius") : -1.),
+  ktScale_(       pset.existsAs<double>("ktScale")   ? pset.getParameter<double>("ktScale")   : -1.){
   produces<edm::ValueMap<float> >("sum");
   produces<edm::ValueMap<float> >("charged");
   produces<edm::ValueMap<float> >("neutral");
@@ -64,73 +53,49 @@ IsolationSum::~IsolationSum(){
 
 
 double IsolationSum::getPFIsolation(edm::Handle<pat::PackedCandidateCollection> pfcands,
-                        auto ptcl,  
-                        double r_iso_min, double r_iso_max, double kt_scale,
-                        bool charged_only) {
+                        const reco::Candidate* ptcl,
+                        double r_iso_min, double r_iso_max, double kt_scale, double rho,
+                        bool charged_only){
 
     if (ptcl->pt()<5.) return 99999.;
 
+    double absEta  = fabs(dynamic_cast<const pat::Electron *>(ptcl)->superCluster()->eta());
+
+
     double deadcone_nh(0.), deadcone_ch(0.), deadcone_ph(0.), deadcone_pu(0.);
-    if(ptcl->isElectron()) {
-      if (fabs(ptcl->eta())>1.479) {deadcone_ch = 0.015; deadcone_pu = 0.015; deadcone_ph = 0.08;}
-    } else if(ptcl->isMuon()) {
-      deadcone_ch = 0.0001; deadcone_pu = 0.01; deadcone_ph = 0.01;deadcone_nh = 0.01;  
-    } else {
-      //deadcone_ch = 0.0001; deadcone_pu = 0.01; deadcone_ph = 0.01;deadcone_nh = 0.01; // maybe use muon cones??
-    }
+    if(ptcl->isElectron() and absEta>1.479){ deadcone_ch = 0.015;  deadcone_pu = 0.015; deadcone_ph = 0.08; deadcone_nh = 0;}
+    else if(ptcl->isMuon())                { deadcone_ch = 0.0001; deadcone_pu = 0.01;  deadcone_ph = 0.01; deadcone_nh = 0.01;}
 
     double iso_nh(0.); double iso_ch(0.); 
     double iso_ph(0.); double iso_pu(0.);
-    double ptThresh(0.5);
-    if(ptcl->isElectron()) ptThresh = 0;
-//    double r_iso = max(r_iso_min,min(r_iso_max, kt_scale/ptcl->pt()));
-//
-    double r_iso = r_iso_max;
-    if (kt_scale/ptcl->pt() < r_iso) r_iso = kt_scale/ptcl->pt();
-    if (r_iso_min > r_iso) r_iso = r_iso_min;
+    double ptThresh = ptcl->isElectron()? 0. : 0.5;
 
-    for (const pat::PackedCandidate &pfc : *pfcands) {
-      if (abs(pfc.pdgId())<7) continue;
+    double max_pt = kt_scale/r_iso_min;
+    double min_pt = kt_scale/r_iso_max;
+    double r_iso  = kt_scale/std::max(std::min(ptcl->pt(), max_pt), min_pt);
+
+    for(const pat::PackedCandidate &pfc : *pfcands){
+      if(abs(pfc.pdgId())<7) continue;
 
       double dr = deltaR(pfc, *ptcl);
-      if (dr > r_iso) continue;
+      if(dr > r_iso) continue;
       
-      //////////////////  NEUTRALS  /////////////////////////
-      if (pfc.charge()==0){
-        if (pfc.pt()>ptThresh) {
-          /////////// PHOTONS ////////////
-          if (abs(pfc.pdgId())==22) {
-            if(dr < deadcone_ph) continue;
-            iso_ph += pfc.pt();
-	    /////////// NEUTRAL HADRONS ////////////
-          } else if (abs(pfc.pdgId())==130) {
-            if(dr < deadcone_nh) continue;
-            iso_nh += pfc.pt();
-          }
+      if(pfc.charge()==0){								// Neutral
+        if(pfc.pt()>ptThresh){
+          if(abs(pfc.pdgId())==22 and dr > deadcone_ph)        iso_ph += pfc.pt();	// Photons
+          else if (abs(pfc.pdgId())==130 and dr > deadcone_nh) iso_nh += pfc.pt();	// Neutral hadrons
         }
-        //////////////////  CHARGED from PV  /////////////////////////
       } else if (pfc.fromPV()>1){
-        if (abs(pfc.pdgId())==211) {
-          if(dr < deadcone_ch) continue;
-          iso_ch += pfc.pt();
-        }
-        //////////////////  CHARGED from PU  /////////////////////////
-      } else {
-        if (pfc.pt()>ptThresh){
-          if(dr < deadcone_pu) continue;
-          iso_pu += pfc.pt();
-        }
-      }
+        if(abs(pfc.pdgId())==211 and dr > deadcone_ch) iso_ch += pfc.pt();		// Charged from PV
+      } else if(pfc.pt()>ptThresh and dr > deadcone_pu) iso_pu += pfc.pt();		// Charged from PU
     }
-    double iso(0.);
-    if (charged_only){
-      iso = iso_ch;
-    } else {
-      iso = iso_ph + iso_nh;
-      iso -= 0.5*iso_pu;
-      if (iso>0) iso += iso_ch;
-      else iso = iso_ch;
-    }
+
+    double effArea = effectiveAreas_.getEffectiveArea(absEta);
+
+    double iso;
+    if(charged_only) iso = iso_ch;
+    else             iso = iso_ch + std::max(0., iso_ph + iso_nh - rho*effArea*(r_iso*r_iso)/(0.3*0.3));
+
     iso = iso/ptcl->pt();
 
     return iso;
@@ -139,63 +104,23 @@ double IsolationSum::getPFIsolation(edm::Handle<pat::PackedCandidateCollection> 
 
 
 void IsolationSum::produce(edm::Event &event, const edm::EventSetup &setup){
-  edm::Handle<double> rhoHandle;
-  edm::Handle<edm::ValueMap<float> > chadHandle, nhadHandle, phoHandle;
-  edm::Handle<CandView> probesHandle;
+  edm::Handle<double>                         rhoHandle;
+  edm::Handle<edm::View<reco::Candidate>>     probesHandle;
   edm::Handle<pat::PackedCandidateCollection> candHandle;
 
+  event.getByToken(rhoToken_,    rhoHandle);
   event.getByToken(probesToken_, probesHandle);
-  event.getByToken(candToken_, candHandle);
-  event.getByToken(rhoToken_, rhoHandle);
-  event.getByToken(chadToken_, chadHandle);
-  event.getByToken(nhadToken_, nhadHandle);
-  event.getByToken(phoToken_, phoHandle);
-
-  auto rho = static_cast<float>(*rhoHandle);
-  const auto &chadMap = static_cast<edm::ValueMap<float> >(*chadHandle);
-  const auto &nhadMap = static_cast<edm::ValueMap<float> >(*nhadHandle);
-  const auto &phoMap = static_cast<edm::ValueMap<float> >(*phoHandle);
+  event.getByToken(candToken_,   candHandle);
 
   std::vector<float> isos(probesHandle->size());
   std::vector<float> chargedIsos(probesHandle->size());
   std::vector<float> neutralIsos(probesHandle->size());
 
   for(size_t iprobe = 0; iprobe < probesHandle->size(); ++iprobe){
-    auto cand = probesHandle->ptrAt(iprobe);
-    reco::GsfElectronPtr gsf(cand);
-    double absEta = gsf->superCluster()->position().eta();
-    double area;
-    if(ktScale_>=0. && minRadius_>=0. && maxRadius_>=0.){
-      double the_radius = std::max(minRadius_,std::min(maxRadius_,ktScale_/gsf->pt()));
-      if(activityRadius_ >= 0.){
-	area = activityRadius_*activityRadius_ - the_radius*the_radius;
-      }else{
-	area = the_radius*the_radius;
-      }
-      area = std::max(minRadius_*minRadius_,
-		      std::min(maxRadius_*maxRadius_,
-			       std::pow(static_cast<double>(ktScale_/gsf->pt()),.2)));
-    }else if(radius_ >= 0.){
-      area = radius_*radius_;
-    }else{
-      //Give up and just use the standard PF eff. area
-      area = 0.3*0.3;
-    }
-    double effectiveArea = effectiveAreas_.getEffectiveArea(absEta)*area/(0.3*0.3);
-    double chad = chadMap[cand];
-    double nhad = nhadMap[cand];
-    double pho = phoMap[cand];
+    auto cand = &(probesHandle->at(iprobe));
 
-    isos.at(iprobe)        = chad + std::max(0., nhad+pho-rho*effectiveArea);
-    chargedIsos.at(iprobe) = chad;
-    neutralIsos.at(iprobe) = std::max(0., nhad+pho-rho*effectiveArea);
-
-    for(auto i : {isos, chargedIsos, neutralIsos}){
-      if(isRelativeIso_) i.at(iprobe) /= cand->pt();
-    }
-
-    isos.at(iprobe)        = getPFIsolation(candHandle, cand, minRadius_, maxRadius_, ktScale_, false);
-    chargedIsos.at(iprobe) = getPFIsolation(candHandle, cand, minRadius_, maxRadius_, ktScale_, true);
+    isos.at(iprobe)        = getPFIsolation(candHandle, cand, minRadius_, maxRadius_, ktScale_, static_cast<float>(*rhoHandle), false);
+    chargedIsos.at(iprobe) = getPFIsolation(candHandle, cand, minRadius_, maxRadius_, ktScale_, static_cast<float>(*rhoHandle), true);
     neutralIsos.at(iprobe) = isos.at(iprobe) - neutralIsos.at(iprobe);
   }
 
@@ -205,7 +130,7 @@ void IsolationSum::produce(edm::Event &event, const edm::EventSetup &setup){
 }
 
 /// Function to put product into event
-template <typename T> void IsolationSum::putInEvent(std::string name, const edm::Handle<CandView>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
+template <typename T> void IsolationSum::putInEvent(std::string name, const edm::Handle<edm::View<reco::Candidate>>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
   std::auto_ptr<edm::ValueMap<T>> out(new edm::ValueMap<T>());
   typename edm::ValueMap<T>::Filler filler(*out);
   filler.insert(probesHandle, product.begin(), product.end());

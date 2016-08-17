@@ -42,7 +42,9 @@ altSig0    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig0')
 altSig1    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig1')
 altSig2    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig2')
 altSig3    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig3')
-altBkg     = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg')
+altBkg0    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg0')
+altBkg1    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg1')
+altBkg2    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg2')
 altMC      = os.path.join(tnpPackage, 'test', 'efficiencies', 'altMC')
 altTag     = os.path.join(tnpPackage, 'test', 'efficiencies', 'altTag')
 
@@ -53,15 +55,17 @@ for f in flist:
     print f.replace("eff_data_","").replace(".root","")
     fmc = f.replace("_data_","_mc_")
 
-    fdat = ROOT.TFile(nominal+"/"+ f)
-    fnmc = ROOT.TFile(nominal+"/"+ fmc)
-    fsig = ROOT.TFile(altSig +"/"+ f)
+    fdat  = ROOT.TFile(nominal +"/"+ f)
+    fnmc  = ROOT.TFile(nominal +"/"+ fmc)
+    fsig0 = ROOT.TFile(altSig0 +"/"+ f)
+    fsig1 = ROOT.TFile(altSig1 +"/"+ f)
     fsig2 = ROOT.TFile(altSig2 +"/"+ f)
     fsig3 = ROOT.TFile(altSig3 +"/"+ f)
-    fsig4 = ROOT.TFile(altSig4 +"/"+ f)
-    fbkg = ROOT.TFile(altBkg +"/"+ f)
-    famc = ROOT.TFile(altMC  +"/"+ fmc)
-    ftag = ROOT.TFile(altTag +"/"+ f)
+    fbkg0 = ROOT.TFile(altBkg0  +"/"+ f)
+    fbkg1 = ROOT.TFile(altBkg1  +"/"+ f)
+    fbkg2 = ROOT.TFile(altBkg2  +"/"+ f)
+    famc  = ROOT.TFile(altMC   +"/"+ fmc)
+    ftag  = ROOT.TFile(altTag  +"/"+ f)
 
     fout = open(os.path.join(outDir, f.replace("_data_","_all_").replace(".root",".txt")), "w")
 
@@ -71,7 +75,9 @@ for f in flist:
     hsig1 = Histo(fsig1, True)
     hsig2 = Histo(fsig2, True)
     hsig3 = Histo(fsig3, True)
-    hbkg  = Histo(fbkg,  True)
+    hbkg0 = Histo(fbkg0, True)
+    hbkg1 = Histo(fbkg1, True)
+    hbkg2 = Histo(fbkg2, True)
     hamc  = Histo(famc,  False)
     htag  = Histo(ftag,  True)
 
@@ -92,12 +98,19 @@ for f in flist:
             sig2 = hsig2.GetBinContent(ix,iy)
             sig3 = hsig3.GetBinContent(ix,iy)
 
+            bkg  = hbkg0.GetBinContent(ix,iy)
+            bkg1 = hbkg1.GetBinContent(ix,iy)
+            bkg2 = hbkg2.GetBinContent(ix,iy)
+
             if(abs(sig-dat) > abs(sig1-dat)): sig = sig1  # To be sure we do not take failed fits, we check some slightly alternative fits too
             if(abs(sig-dat) > abs(sig2-dat)): sig = sig2
             if(abs(sig-dat) > abs(sig3-dat)): sig = sig3
 
-            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
-            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), hbkg.GetBinContent(ix,iy), sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            if(abs(bkg-dat) > abs(bkg1-dat)): bkg = bkg1
+            if(abs(bkg-dat) > abs(bkg2-dat)): bkg = bkg2
+
+            line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+            line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
             print line1
             print line2
             fout.write(line1+"\n")
