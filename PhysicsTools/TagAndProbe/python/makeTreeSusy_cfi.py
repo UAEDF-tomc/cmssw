@@ -113,58 +113,6 @@ def AddMiniIso(process, options, varOptions):
         jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRel"),
         jetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
         jetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
-        eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-medium"),
-        eleTightIdMap  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-tight"),
-    )
-
-    MiniIsoProbeVars = cms.PSet(
-        process.GsfElectronToEleID.variables,
-        probe_ele_Mini = cms.InputTag("relminiiso:sum"),
-        probe_ele_chargedMini = cms.InputTag("relminiiso:charged"),
-        probe_ele_neutralMini = cms.InputTag("relminiiso:neutral"),
-        probe_ele_JetPtRatio     = cms.InputTag("AddLeptonJetRelatedVariables:JetPtRatio"),
-        probe_ele_JetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables:JetPtRel"),
-        probe_ele_JetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables:JetNDauCharged"),
-        probe_ele_JetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables:JetBTagCSV"),
-        probe_ele_sip3d = cms.InputTag("MyEleVars:sip3d"),
-        probe_ele_ecalIso = cms.InputTag("MyEleVars:ecalIso"),
-        probe_ele_hcalIso = cms.InputTag("MyEleVars:hcalIso"),
-        probe_ele_trackIso = cms.InputTag("MyEleVars:trackIso"),
-        probe_ele_missIHits = cms.InputTag("MyEleVars:missIHits"),
-        probe_ele_passConvVeto = cms.InputTag("MyEleVars:passConvVeto"),
-        probe_ele_passMVAVLooseFO = cms.InputTag("MyEleVars:passMVAVLooseFO"),
-        probe_ele_passMVAVLoose = cms.InputTag("MyEleVars:passMVAVLoose"),
-        probe_ele_passMVATight = cms.InputTag("MyEleVars:passMVATight"),
-        probe_ele_passMVAWP80 = cms.InputTag("MyEleVars:passMVAWP80"),
-        probe_ele_passMVAWP90 = cms.InputTag("MyEleVars:passMVAWP90"),
-        probe_ele_passTightIP2D = cms.InputTag("MyEleVars:passTightIP2D"),
-        probe_ele_passTightIP3D = cms.InputTag("MyEleVars:passTightIP3D"),
-        probe_ele_passIDEmu = cms.InputTag("MyEleVars:passIDEmu"),
-        probe_ele_passISOEmu = cms.InputTag("MyEleVars:passISOEmu"),
-        probe_ele_passCharge = cms.InputTag("MyEleVars:passCharge"),
-        probe_ele_passIHit0 = cms.InputTag("MyEleVars:passIHit0"),
-        probe_ele_passIHit1 = cms.InputTag("MyEleVars:passIHit1"),
-        probe_ele_passLoose2D = cms.InputTag("MyEleVars:passLoose2D"),
-        probe_ele_passFOID2D = cms.InputTag("MyEleVars:passFOID2D"),
-        probe_ele_passTight2D3D = cms.InputTag("MyEleVars:passTight2D3D"),
-        probe_ele_passTightID2D3D = cms.InputTag("MyEleVars:passTightID2D3D"),
-        probe_ele_passConvIHit1 = cms.InputTag("MyEleVars:passConvIHit1"),
-        probe_ele_passConvIHit0 = cms.InputTag("MyEleVars:passConvIHit0"),
-        probe_ele_passTightConvIHit0 = cms.InputTag("MyEleVars:passTightConvIHit0"),
-        probe_ele_passMultiIsoM = cms.InputTag("MyEleVars:passMultiIsoM"),
-        probe_ele_passMultiIsoT = cms.InputTag("MyEleVars:passMultiIsoT"),
-        probe_ele_passMultiIsoVT = cms.InputTag("MyEleVars:passMultiIsoVT"),
-        probe_ele_passMultiIsoEmu = cms.InputTag("MyEleVars:passMultiIsoEmu"),
-        probe_ele_passLeptonMvaVL = cms.InputTag("MyEleVars:passLeptonMvaVL"),
-        probe_ele_passLeptonMvaL = cms.InputTag("MyEleVars:passLeptonMvaL"),
-        probe_ele_passLeptonMvaM = cms.InputTag("MyEleVars:passLeptonMvaM"),
-        probe_ele_passLeptonMvaT = cms.InputTag("MyEleVars:passLeptonMvaT"),
-        probe_ele_passLeptonMvaVT = cms.InputTag("MyEleVars:passLeptonMvaVT"),
-        probe_ele_passLeptonMvaET = cms.InputTag("MyEleVars:passLeptonMvaET"),
-        probe_ele_passCutBasedTTZ = cms.InputTag("MyEleVars:passCutBasedTTZ"),
-        probe_ele_passCutBasedIllia = cms.InputTag("MyEleVars:passCutBasedIllia"),
-        probe_ele_passLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04 = cms.InputTag("MyEleVars:passLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04"),
-        probe_ele_passLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04 = cms.InputTag("MyEleVars:passLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04"),
     )
 
     setupAllVIDIdsInModule(process,
@@ -181,9 +129,61 @@ def AddMiniIso(process, options, varOptions):
         ktScale            = cms.double(10.),
     )
 
-    process.iso_sums = cms.Sequence(
-        process.relminiiso
-    )                                   
+
+    MiniIsoProbeVars = cms.PSet(
+        process.GsfElectronToEleID.variables,
+        probe_ele_Mini               = cms.InputTag("relminiiso:sum"),
+        probe_ele_chargedMini        = cms.InputTag("relminiiso:charged"),
+        probe_ele_neutralMini        = cms.InputTag("relminiiso:neutral"),
+        probe_ele_JetPtRatio         = cms.InputTag("AddLeptonJetRelatedVariables:JetPtRatio"),
+        probe_ele_JetPtRel           = cms.InputTag("AddLeptonJetRelatedVariables:JetPtRel"),
+        probe_ele_JetNDauCharged     = cms.InputTag("AddLeptonJetRelatedVariables:JetNDauCharged"),
+        probe_ele_JetBTagCSV         = cms.InputTag("AddLeptonJetRelatedVariables:JetBTagCSV"),
+        probe_ele_sip3d              = cms.InputTag("MyEleVars:sip3d"),
+        probe_ele_ecalIso            = cms.InputTag("MyEleVars:ecalIso"),
+        probe_ele_hcalIso            = cms.InputTag("MyEleVars:hcalIso"),
+        probe_ele_trackIso           = cms.InputTag("MyEleVars:trackIso"),
+        probe_ele_missIHits          = cms.InputTag("MyEleVars:missIHits"),
+        probe_ele_passConvVeto       = cms.InputTag("MyEleVars:passConvVeto"),
+        probe_ele_passMVAVLooseFO    = cms.InputTag("MyEleVars:passMVAVLooseFO"),
+        probe_ele_passMVAVLoose      = cms.InputTag("MyEleVars:passMVAVLoose"),
+        probe_ele_passMVATight       = cms.InputTag("MyEleVars:passMVATight"),
+        probe_ele_passMVAWP80        = cms.InputTag("MyEleVars:passMVAWP80"),
+        probe_ele_passMVAWP90        = cms.InputTag("MyEleVars:passMVAWP90"),
+        probe_ele_passTightIP2D      = cms.InputTag("MyEleVars:passTightIP2D"),
+        probe_ele_passTightIP3D      = cms.InputTag("MyEleVars:passTightIP3D"),
+        probe_ele_passIDEmu          = cms.InputTag("MyEleVars:passIDEmu"),
+        probe_ele_passISOEmu         = cms.InputTag("MyEleVars:passISOEmu"),
+        probe_ele_passCharge         = cms.InputTag("MyEleVars:passCharge"),
+        probe_ele_passIHit0          = cms.InputTag("MyEleVars:passIHit0"),
+        probe_ele_passIHit1          = cms.InputTag("MyEleVars:passIHit1"),
+        probe_ele_passLoose2D        = cms.InputTag("MyEleVars:passLoose2D"),
+        probe_ele_passFOID2D         = cms.InputTag("MyEleVars:passFOID2D"),
+        probe_ele_passTight2D3D      = cms.InputTag("MyEleVars:passTight2D3D"),
+        probe_ele_passTightID2D3D    = cms.InputTag("MyEleVars:passTightID2D3D"),
+        probe_ele_passConvIHit1      = cms.InputTag("MyEleVars:passConvIHit1"),
+        probe_ele_passConvIHit0      = cms.InputTag("MyEleVars:passConvIHit0"),
+        probe_ele_passTightConvIHit0 = cms.InputTag("MyEleVars:passTightConvIHit0"),
+        probe_ele_passMultiIsoM      = cms.InputTag("MyEleVars:passMultiIsoM"),
+        probe_ele_passMultiIsoT      = cms.InputTag("MyEleVars:passMultiIsoT"),
+        probe_ele_passMultiIsoVT     = cms.InputTag("MyEleVars:passMultiIsoVT"),
+        probe_ele_passMultiIsoEmu    = cms.InputTag("MyEleVars:passMultiIsoEmu"),
+        probe_ele_passLeptonMvaVL    = cms.InputTag("MyEleVars:passLeptonMvaVL"),
+        probe_ele_passLeptonMvaL     = cms.InputTag("MyEleVars:passLeptonMvaL"),
+        probe_ele_passLeptonMvaM     = cms.InputTag("MyEleVars:passLeptonMvaM"),
+        probe_ele_passLeptonMvaT     = cms.InputTag("MyEleVars:passLeptonMvaT"),
+        probe_ele_passLeptonMvaVT    = cms.InputTag("MyEleVars:passLeptonMvaVT"),
+        probe_ele_passLeptonMvaET    = cms.InputTag("MyEleVars:passLeptonMvaET"),
+        probe_ele_passCutBasedVeto   = cms.InputTag("MyEleVars:passCutBasedVeto"),
+        probe_ele_passCutBasedLoose  = cms.InputTag("MyEleVars:passCutBasedLoose"),
+        probe_ele_passCutBasedMedium = cms.InputTag("MyEleVars:passCutBasedMedium"),
+        probe_ele_passCutBasedTight  = cms.InputTag("MyEleVars:passCutBasedTight"),
+        probe_ele_passCutBasedTTZ    = cms.InputTag("MyEleVars:passCutBasedTTZ"),
+        probe_ele_passCutBasedIllia  = cms.InputTag("MyEleVars:passCutBasedIllia"),
+        probe_ele_passLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04 = cms.InputTag("MyEleVars:passLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04"),
+        probe_ele_passLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04  = cms.InputTag("MyEleVars:passLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04"),
+    )
+
 
     process.my_ele_sequence = cms.Sequence()
 
@@ -194,12 +194,12 @@ def AddMiniIso(process, options, varOptions):
       process.my_ele_sequence += temp
 
     #Applies probe cuts and WP (numerators and denominators both need to be listed here)
-    getGoodElectronsPROBE('CutBasedNoIsoVeto', "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-noiso-veto")
-    getGoodElectronsPROBE('CutBasedNoIsoLoose', "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-noiso-loose")
-    getGoodElectronsPROBE('CutBasedNoIsoMedium', "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-noiso-medium")
-    getGoodElectronsPROBE('CutBasedNoIsoTight', "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-noiso-tight")
-    getGoodElectronsPROBE('CutBasedMiniMedium', "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini-V1-standalone-medium")
-    getGoodElectronsPROBE('CutBasedMini4Medium', "egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-Mini4-V1-standalone-medium")
+    getGoodElectronsPROBE('CutBasedNoIsoVeto', "MyEleVars:passCutBasedVeto")
+    getGoodElectronsPROBE('CutBasedNoIsoLoose', "MyEleVars:passCutBasedLoose")
+    getGoodElectronsPROBE('CutBasedNoIsoMedium', "MyEleVars:passCutBasedMedium")
+    getGoodElectronsPROBE('CutBasedNoIsoTight', "MyEleVars:passCutBasedTight")
+    getGoodElectronsPROBE('CutBasedMiniMedium', "MyEleVars:passCutBasedMediumMini")
+    getGoodElectronsPROBE('CutBasedMini4Medium', "MyEleVars:passCutBasedTightMini")
     getGoodElectronsPROBE('MVAVLooseFO', "MyEleVars:passMVAVLooseFO")
     getGoodElectronsPROBE('MVAVLoose', "MyEleVars:passMVAVLoose")
     getGoodElectronsPROBE('MVATight', "MyEleVars:passMVATight")
@@ -332,7 +332,7 @@ def AddMiniIso(process, options, varOptions):
             process.ElectronIsolation +
             process.cand_sequence +
             process.eleVarHelper +
-            process.iso_sums +
+            process.relminiiso +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
             process.jetConverter + 
             process.jetAwareCleaner +
@@ -355,7 +355,7 @@ def AddMiniIso(process, options, varOptions):
             process.ElectronIsolation +
             process.cand_sequence +
             process.eleVarHelper +
-            process.iso_sums +
+            process.relminiiso +
             process.ak4PFCHSL1FastL2L3CorrectorChain +
             process.jetConverter + 
             process.jetAwareCleaner +

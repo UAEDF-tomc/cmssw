@@ -47,73 +47,45 @@ namespace{
     }
     std::vector<bool> result(max_size);
     for(size_t i = 0; i < max_size; ++i){
-      if(i < min_size){
-	result.at(i) = a.at(i) && b.at(i);
-      }else{
-	result.at(i) = false;
-      }
+      if(i < min_size) result.at(i) = a.at(i) && b.at(i);
+      else             result.at(i) = false;
     }
     return result;
   }
 
   bool PassMVAVLooseFO(double mva, double abssceta){
-    if(abssceta<0.8){
-      return mva > -0.7;
-    }else if(abssceta<1.479){
-      return mva > -0.83;
-    }else if(abssceta<2.5){
-      return mva > -0.92;
-    }else{
-      return false;
-    }
+    if(abssceta<0.8)        return mva > -0.7;
+    else if(abssceta<1.479) return mva > -0.83;
+    else if(abssceta<2.5)   return mva > -0.92;
+    else                    return false;
   }
 
   bool PassMVAVLoose(double mva, double abssceta){
-    if(abssceta<0.8){
-      return mva > -0.16;
-    }else if(abssceta<1.479){
-      return mva > -0.65;
-    }else if(abssceta<2.5){
-      return mva > -0.74;
-    }else{
-      return false;
-    }
+    if(abssceta<0.8)        return mva > -0.16;
+    else if(abssceta<1.479) return mva > -0.65;
+    else if(abssceta<2.5)   return mva > -0.74;
+    else                    return false;
   }
 
   bool PassMVATight(double mva, double abssceta){
-    if(abssceta<0.8){
-      return mva > 0.87;
-    }else if(abssceta<1.479){
-      return mva > 0.60;
-    }else if(abssceta<2.5){
-      return mva > 0.17;
-    }else{
-      return false;
-    }
+    if(abssceta<0.8)        return mva > 0.87;
+    else if(abssceta<1.479) return mva > 0.60;
+    else if(abssceta<2.5)   return mva > 0.17;
+    else                    return false;
   }
 
   bool PassMVAWP80(double mva, double abssceta){
-    if(abssceta<0.8){
-      return mva > 0.988153;
-    }else if(abssceta<1.479){
-      return mva > 0.967910;
-    }else if(abssceta<2.5){
-      return mva > 0.841729;
-    }else{
-      return false;
-    }
+    if(abssceta<0.8)        return mva > 0.988153;
+    else if(abssceta<1.479) return mva > 0.967910;
+    else if(abssceta<2.5)   return mva > 0.841729;
+    else                    return false;
   }
 
   bool PassMVAWP90(double mva, double abssceta){
-    if(abssceta<0.8){
-      return mva >  0.972153;
-    }else if(abssceta<1.479){
-      return mva >  0.922126;
-    }else if(abssceta<2.5){
-      return mva >  0.610764;
-    }else{
-      return false;
-    }
+    if(abssceta<0.8)        return mva >  0.972153;
+    else if(abssceta<1.479) return mva >  0.922126;
+    else if(abssceta<2.5)   return mva >  0.610764;
+    else                    return false;
   }
 
   bool PassTightIP2D(double dxy, double dz){
@@ -144,6 +116,43 @@ namespace{
       && ele.dr03TkSumPt() / ele.pt() < 0.2;
   }
 
+  // CMS coding rule number 1: be careful with POG recommended packages, especially when they were able to transform something
+  // simple as a cut based id into a web of hundreds of python config files and are using bad coding standards
+  // Therefore, simply implement the cut based id in a much more transparant way in the following 30 lines
+  // Furthermore, we do not want the isolation cut, and you really don't want to mess with the EGamma code
+  // Cuts based on: https://twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2#Spring15_selection_25ns
+  // Spring15, 25ns		         Veto B    Loose B   Medium B  Tight B    Veto E   Loose E   Medium E  Tight E
+  std::vector<float> maxSigmaIetaIeta = {0.0114,   0.0103,   0.0101,   0.0101,    0.0352,  0.0301,   0.0283,   0.0279};
+  std::vector<float> maxDEtaIn        = {0.0152,   0.0105,   0.0103,   0.00926,   0.0113,  0.00814,  0.00733,  0.00724};
+  std::vector<float> maxDPhiIn        = {0.216,    0.115,    0.0336,   0.0336,    0.237,   0.182,    0.114,    0.0918};
+  std::vector<float> maxHOverE        = {0.181,    0.104,    0.0876,   0.0597,    0.116,   0.0897,   0.0678,   0.0615};
+  std::vector<float> maxOoEmooP       = {0.207,    0.102,    0.0174,   0.012,     0.174,   0.126,    0.0898,   0.00999};
+  std::vector<float> maxd0            = {0.0564,   0.0261,   0.0118,   0.0111,    0.222,   0.118,    0.0739,   0.0351};
+  std::vector<float> maxdz            = {0.472,    0.41,     0.373,    0.0466,    0.921,   0.822,    0.602,    0.417};
+  std::vector<int>   maxMissingHits   = {2,        2,        2,        2,         3,       1,        1,        1};
+  std::vector<bool>  convVeto         = {true,     true,     true,     true,      true,    true,     true,     true};
+
+  bool PassCutBased(const pat::Electron &ele, float dxy, float dz, int missingHits, int level){
+    if(ele.isEB())      level = level;
+    else if(ele.isEE()) level = level + 4;
+    else return false;
+
+    float eInvMinusPInv = std::abs(1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
+
+    if(ele.full5x5_sigmaIetaIeta()               >= maxSigmaIetaIeta[level]) return false;
+    if(abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= maxDEtaIn[level])        return false;
+    if(abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= maxDPhiIn[level])        return false;
+    if(ele.hadronicOverEm()                      >= maxHOverE[level])        return false;
+    if(eInvMinusPInv                             >= maxOoEmooP[level])       return false;
+    if(abs(dxy)                                  >= maxd0[level])            return false;
+    if(abs(dz)                                   >= maxdz[level])            return false;
+    if(missingHits                               >  maxMissingHits[level])   return false;
+    if(convVeto[level] and not ele.passConversionVeto())                     return false;
+
+    return true;
+  }
+
+
   // On request of Deniz for her TTZ analysis, based on the (as usual to CMS standards) horrible code given here: https://github.com/peruzzim/cmgtools-lite/blob/76X_for2016basis/TTHAnalysis/python/tools/functionsTTH.py#L10-L20
   bool PassCutBasedTTZ(const pat::Electron &ele, bool passedCutBasedM){
     if(!passedCutBasedM) return false; // This is on top of the medium working point
@@ -168,19 +177,21 @@ namespace{
     } else return false;
   }
 
-//  bool PassMultiIsoVL(double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.25 && (jetPtRatio > 0.67 || jetPtRel > 4.4);}
-//  bool PassMultiIsoL( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.20 && (jetPtRatio > 0.69 || jetPtRel > 6.0);}
+//bool PassMultiIsoVL(double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.25 && (jetPtRatio > 0.67 || jetPtRel > 4.4);}
+//bool PassMultiIsoL( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.20 && (jetPtRatio > 0.69 || jetPtRel > 6.0);}
   bool PassMultiIsoM( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.16 && (jetPtRatio > 0.76 || jetPtRel > 7.2);}
   bool PassMultiIsoT( double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.12 && (jetPtRatio > 0.80 || jetPtRel > 7.2);}
   bool PassMultiIsoVT(double mini_iso, double jetPtRatio, double jetPtRel){  return mini_iso < 0.09 && (jetPtRatio > 0.84 || jetPtRel > 7.2);}
 
-//  bool PassLeptonMvaVL(double mva){ return mva > -0.3;}
-//  bool PassLeptonMvaL(double mva){  return mva > 0.25;}
+//bool PassLeptonMvaVL(double mva){ return mva > -0.3;}
+//bool PassLeptonMvaL(double mva){  return mva > 0.25;}
   bool PassLeptonMvaM(double mva){  return mva > 0.5;}
-//  bool PassLeptonMvaT(double mva){  return mva > 0.65;}
+//bool PassLeptonMvaT(double mva){  return mva > 0.65;}
   bool PassLeptonMvaVT(double mva){ return mva > 0.75;}
-//  bool PassLeptonMvaET(double mva){ return mva > 0.85;}
+//bool PassLeptonMvaET(double mva){ return mva > 0.85;}
 }
+
+
 
 class MyElectronVariableHelper : public edm::EDProducer {
 public:
@@ -203,8 +214,6 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float> > jetPtRelToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetNDauChargedToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > jetBTagCSVToken_;
-  edm::EDGetTokenT<edm::ValueMap<bool>> eleMediumIdMapToken_;
-  edm::EDGetTokenT<edm::ValueMap<bool>> eleTightIdMapToken_;
   Float_t LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel,
     LepGood_miniRelIsoCharged, LepGood_miniRelIsoNeutral,
     LepGood_jetPtRelv2, LepGood_jetPtRatio,
@@ -216,20 +225,18 @@ private:
 };
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
-  probesToken_(consumes<std::vector<pat::Electron> >(iConfig.getParameter<edm::InputTag>("probes"))),
-  probesViewToken_(consumes<edm::View<reco::Candidate> >(iConfig.getParameter<edm::InputTag>("probes"))),
-  mvaToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("mvas"))),
-  dxyToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dxy"))),
-  dzToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("dz"))),
-  miniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("miniIso"))),
-  chargedMiniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("chargedMiniIso"))),
-  neutralMiniIsoToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("neutralMiniIso"))),
-  jetPtRatioToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
-  jetPtRelToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetPtRel"))),
-  jetNDauChargedToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
-  jetBTagCSVToken_(consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("jetBTagCSV"))),
-  eleMediumIdMapToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleMediumIdMap"))),
-  eleTightIdMapToken_(consumes<edm::ValueMap<bool> >(iConfig.getParameter<edm::InputTag>("eleTightIdMap"))){
+  probesToken_(        consumes<std::vector<pat::Electron>>(iConfig.getParameter<edm::InputTag>("probes"))),
+  probesViewToken_(    consumes<edm::View<reco::Candidate>>(iConfig.getParameter<edm::InputTag>("probes"))),
+  mvaToken_(           consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("mvas"))),
+  dxyToken_(           consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("dxy"))),
+  dzToken_(            consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("dz"))),
+  miniIsoToken_(       consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("miniIso"))),
+  chargedMiniIsoToken_(consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("chargedMiniIso"))),
+  neutralMiniIsoToken_(consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("neutralMiniIso"))),
+  jetPtRatioToken_(    consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
+  jetPtRelToken_(      consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetPtRel"))),
+  jetNDauChargedToken_(consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
+  jetBTagCSVToken_(    consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetBTagCSV"))){
   
     produces<edm::ValueMap<float> >("sip3d");
     produces<edm::ValueMap<float> >("ecalIso");
@@ -269,6 +276,12 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
     produces<edm::ValueMap<MyBool> >("passMultiIsoEmu");
     produces<edm::ValueMap<MyBool> >("passLeptonMvaM");
     produces<edm::ValueMap<MyBool> >("passLeptonMvaVT");
+    produces<edm::ValueMap<MyBool> >("passCutBasedVeto");
+    produces<edm::ValueMap<MyBool> >("passCutBasedLoose");
+    produces<edm::ValueMap<MyBool> >("passCutBasedMedium");
+    produces<edm::ValueMap<MyBool> >("passCutBasedTight");
+    produces<edm::ValueMap<MyBool> >("passCutBasedMediumMini");
+    produces<edm::ValueMap<MyBool> >("passCutBasedTightMini");
     produces<edm::ValueMap<MyBool> >("passCutBasedTTZ");
     produces<edm::ValueMap<MyBool> >("passCutBasedIllia");
     produces<edm::ValueMap<MyBool> >("passCutBasedStopsDilepton");
@@ -301,34 +314,18 @@ void MyElectronVariableHelper::beginJob(){
 
 void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetup & iSetup) {
   // read input
-  edm::Handle<std::vector<pat::Electron> > probes;
-  iEvent.getByToken(probesToken_,  probes);
-  edm::Handle<edm::View<reco::Candidate> > probes_view;
-  iEvent.getByToken(probesViewToken_, probes_view);
-  edm::Handle<edm::ValueMap<float> > mvas;
-  iEvent.getByToken(mvaToken_, mvas);
-  edm::Handle<edm::ValueMap<float> > dxys;
-  iEvent.getByToken(dxyToken_, dxys);
-  edm::Handle<edm::ValueMap<float> > dzs;
-  iEvent.getByToken(dzToken_, dzs);
-  edm::Handle<edm::ValueMap<float> > miniIsos;
-  iEvent.getByToken(miniIsoToken_, miniIsos);
-  edm::Handle<edm::ValueMap<float> > chargedMiniIsos;
-  iEvent.getByToken(chargedMiniIsoToken_, chargedMiniIsos);
-  edm::Handle<edm::ValueMap<float> > neutralMiniIsos;
-  iEvent.getByToken(neutralMiniIsoToken_, neutralMiniIsos);
-  edm::Handle<edm::ValueMap<float> > jetPtRatios;
-  iEvent.getByToken(jetPtRatioToken_, jetPtRatios);
-  edm::Handle<edm::ValueMap<float> > jetPtRels;
-  iEvent.getByToken(jetPtRelToken_, jetPtRels);
-  edm::Handle<edm::ValueMap<float> > jetNDauChargeds;
-  iEvent.getByToken(jetNDauChargedToken_, jetNDauChargeds);
-  edm::Handle<edm::ValueMap<float> > jetBTagCSVs;
-  iEvent.getByToken(jetBTagCSVToken_, jetBTagCSVs);
-  edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
-  iEvent.getByToken(eleMediumIdMapToken_,medium_id_decisions);
-  edm::Handle<edm::ValueMap<bool> > tight_id_decisions;
-  iEvent.getByToken(eleTightIdMapToken_,tight_id_decisions);
+  edm::Handle<std::vector<pat::Electron>> probes;      iEvent.getByToken(probesToken_,         probes);
+  edm::Handle<edm::View<reco::Candidate>> probes_view; iEvent.getByToken(probesViewToken_,     probes_view);
+  edm::Handle<edm::ValueMap<float>> mvas;              iEvent.getByToken(mvaToken_,            mvas);
+  edm::Handle<edm::ValueMap<float>> dxys;              iEvent.getByToken(dxyToken_,            dxys);
+  edm::Handle<edm::ValueMap<float>> dzs;               iEvent.getByToken(dzToken_,             dzs);
+  edm::Handle<edm::ValueMap<float>> miniIsos;          iEvent.getByToken(miniIsoToken_,        miniIsos);
+  edm::Handle<edm::ValueMap<float>> chargedMiniIsos;   iEvent.getByToken(chargedMiniIsoToken_, chargedMiniIsos);
+  edm::Handle<edm::ValueMap<float>> neutralMiniIsos;   iEvent.getByToken(neutralMiniIsoToken_, neutralMiniIsos);
+  edm::Handle<edm::ValueMap<float>> jetPtRatios;       iEvent.getByToken(jetPtRatioToken_,     jetPtRatios);
+  edm::Handle<edm::ValueMap<float>> jetPtRels;         iEvent.getByToken(jetPtRelToken_,       jetPtRels);
+  edm::Handle<edm::ValueMap<float>> jetNDauChargeds;   iEvent.getByToken(jetNDauChargedToken_, jetNDauChargeds);
+  edm::Handle<edm::ValueMap<float>> jetBTagCSVs;       iEvent.getByToken(jetBTagCSVToken_,     jetBTagCSVs);
 
   // prepare vector for output
   std::vector<float> sip3dValues;
@@ -361,8 +358,11 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   std::vector<MyBool> passMultiIsoVT;
   std::vector<MyBool> passLeptonMvaM;
   std::vector<MyBool> passLeptonMvaVT;
-  std::vector<MyBool> passCutBasedTTZ;
+  std::vector<MyBool> passCutBasedLoose;
+  std::vector<MyBool> passCutBasedMedium;
+  std::vector<MyBool> passCutBasedVeto;
   std::vector<MyBool> passCutBasedTight;
+  std::vector<MyBool> passCutBasedTTZ;
 
   size_t i = 0;
   for(const auto &probe: *probes){
@@ -381,8 +381,6 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     float jetPtRel         = (*jetPtRels)[pp];
     float jetNDauCharged   = (*jetNDauChargeds)[pp];
     float jetBTagCSV       = (*jetBTagCSVs)[pp];
-    float passCutBasedM    = (*medium_id_decisions)[pp];
-    float passCutBasedT    = (*tight_id_decisions)[pp];
     float ecalIso          = probe.ecalPFClusterIso();
     float hcalIso          = probe.hcalPFClusterIso();
     float trackIso         = probe.dr03TkSumPt();
@@ -402,6 +400,12 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     LepGood_mvaIdSpring15        = mva;
 
     float leptonMva             = readerEle->EvaluateMVA( "BDTG method" );
+
+    float passCutBasedV = PassCutBased(probe, dxy, dz, missingInnerHits, 0);
+    float passCutBasedL = PassCutBased(probe, dxy, dz, missingInnerHits, 1);
+    float passCutBasedM = PassCutBased(probe, dxy, dz, missingInnerHits, 2);
+    float passCutBasedT = PassCutBased(probe, dxy, dz, missingInnerHits, 3);
+
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
@@ -433,8 +437,11 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passMultiIsoVT.push_back(PassMultiIsoVT(mini_iso, jetPtRatio, jetPtRel));
     passLeptonMvaM.push_back(PassLeptonMvaM(leptonMva));
     passLeptonMvaVT.push_back(PassLeptonMvaVT(leptonMva));
-    passCutBasedTTZ.push_back(PassCutBasedTTZ(probe, passCutBasedM));
+    passCutBasedVeto.push_back(passCutBasedV);
+    passCutBasedLoose.push_back(passCutBasedL);
+    passCutBasedMedium.push_back(passCutBasedM);
     passCutBasedTight.push_back(passCutBasedT);
+    passCutBasedTTZ.push_back(PassCutBasedTTZ(probe, passCutBasedM));
     ++i;
   }
 
@@ -479,6 +486,12 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   Store(iEvent, probes, And(passMultiIsoT, passISOEmu), "passMultiIsoEmu");
   Store(iEvent, probes, passLeptonMvaM, "passLeptonMvaM");
   Store(iEvent, probes, passLeptonMvaVT, "passLeptonMvaVT");
+  Store(iEvent, probes, passCutBasedVeto, "passCutBasedVeto");
+  Store(iEvent, probes, passCutBasedMedium, "passCutBasedMedium");
+  Store(iEvent, probes, And(passCutBasedMedium, passMiniIso1), "passCutBasedMediumMini");
+  Store(iEvent, probes, passCutBasedLoose, "passCutBasedLoose");
+  Store(iEvent, probes, passCutBasedTight, "passCutBasedTight");
+  Store(iEvent, probes, And(passCutBasedTight, passMiniIso1), "passCutBasedTightMini");
   Store(iEvent, probes, And(And(passCutBasedTTZ, passTightIP2D), passSIP3D4), "passCutBasedTTZ");
   Store(iEvent, probes, And(And(And(passCutBasedTTZ, passTightIP2D), passSIP3D4), passCharge), "passCutBasedIllia");
   Store(iEvent, probes, And(And(And(And(passLeptonMvaVT, passIDEmu), passTightIP2D), passSIP3D8), passMiniIso4), "passLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04");
