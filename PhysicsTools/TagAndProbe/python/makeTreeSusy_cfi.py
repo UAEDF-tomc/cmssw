@@ -31,7 +31,11 @@ def AddMiniIso(process, options, varOptions):
     process.MyEleVars = cms.EDProducer(
         "MyElectronVariableHelper",
         probes         = cms.InputTag(options['ELECTRON_COLL']),
-        mvas           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
+        tight          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
+        mvasHZZ        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
+        mvas           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
+        mvaWP80        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp80"),
+        mvaWP90        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp90"),
         dxy            = cms.InputTag("eleVarHelper:dxy"),
         dz             = cms.InputTag("eleVarHelper:dz"),
         miniIso        = cms.InputTag("relminiiso:sum"),
@@ -41,6 +45,7 @@ def AddMiniIso(process, options, varOptions):
         jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRel"),
         jetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
         jetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
+        rho            = cms.InputTag("fixedGridRhoFastjetAll"),
     )
 
     process.relminiiso =  cms.EDProducer("IsolationSum",

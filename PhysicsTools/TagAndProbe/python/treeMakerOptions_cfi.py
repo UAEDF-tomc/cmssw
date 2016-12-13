@@ -11,7 +11,7 @@ def setModules(process, options):
                                           probes = cms.InputTag(options['ELECTRON_COLL']),
                                           vertexCollection = cms.InputTag("offlineSlimmedPrimaryVertices")
                                           )
-    
+
     from HLTrigger.HLTfilters.hltHighLevel_cfi import hltHighLevel
     process.hltFilter = hltHighLevel.clone()
     process.hltFilter.throw = cms.bool(True)

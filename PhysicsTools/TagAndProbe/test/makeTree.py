@@ -8,48 +8,11 @@ process = cms.Process("tnp")
 ## argument line options
 ###################################################################
 varOptions = VarParsing('analysis')
-varOptions.register(
-    "isMC", True,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "Compute MC efficiencies"
-    )
-
-varOptions.register(
-    "doEleID", True,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "Include tree for electron ID SF"
-    )
-
-varOptions.register(
-    "doPhoID", False,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "Include tree for photon ID SF"
-    )
-
-varOptions.register(
-    "doTrigger", True,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "Include tree for Trigger SF"
-    )
-
-varOptions.register(
-    "doRECO", True,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "Include tree for Reco SF"
-    )
-
-varOptions.register(
-    "isAOD", False,
-    VarParsing.multiplicity.singleton,
-    VarParsing.varType.bool,
-    "switch to run other AOD (for RECO SFs)"
-    )
-
+varOptions.register("isMC",      True,  VarParsing.multiplicity.singleton, VarParsing.varType.bool, "Compute MC efficiencies")
+varOptions.register("doEleID",   True,  VarParsing.multiplicity.singleton, VarParsing.varType.bool, "Include tree for electron ID SF")
+varOptions.register("doPhoID",   False, VarParsing.multiplicity.singleton, VarParsing.varType.bool, "Include tree for photon ID SF")
+varOptions.register("doTrigger", True,  VarParsing.multiplicity.singleton, VarParsing.varType.bool, "Include tree for Trigger SF")
+varOptions.register("doRECO",    True,  VarParsing.multiplicity.singleton, VarParsing.varType.bool, "Include tree for Reco SF")
 
 varOptions.parseArguments()
 
@@ -59,17 +22,12 @@ varOptions.parseArguments()
 ###################################################################
 
 options = dict()
-options['useAOD']               = cms.bool(varOptions.isAOD)
-
 options['HLTProcessName']       = "HLT"
 
 ### set input collections
 options['ELECTRON_COLL']        = "slimmedElectrons"
 options['PHOTON_COLL']          = "slimmedPhotons"
 options['SUPERCLUSTER_COLL']    = "reducedEgamma:reducedSuperClusters" ### not used in AOD
-if options['useAOD']:
-    options['ELECTRON_COLL']        = "gedGsfElectrons"
-
 
 options['ELECTRON_CUTS']        = "ecalEnergy*sin(superClusterPosition.theta)>5.0 &&  (abs(-log(tan(superClusterPosition.theta/2)))<2.5)"
 options['SUPERCLUSTER_CUTS']    = "abs(eta)<2.5 && !(1.4442< abs(eta) <1.566) && et>10.0"
@@ -111,9 +69,7 @@ susyOptions.AdjustOptions(options, varOptions)
 ## Inputs for test
 ###################################################################
 filesMC =  cms.untracked.vstring(
-    '/store/mc/RunIISpring16MiniAODv1/DYToEE_NNPDF30_13TeV-powheg-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/00271303-C80D-E611-A98C-0002C94D552A.root',
-    '/store/mc/RunIISpring16MiniAODv1/DYToEE_NNPDF30_13TeV-powheg-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/026FA9AF-DB0D-E611-9CFB-A0000420FE80.root',
-    '/store/mc/RunIISpring16MiniAODv1/DYToEE_NNPDF30_13TeV-powheg-pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/02FEA941-F10D-E611-BB9E-A0000420FE80.root',
+    '/store/mc/RunIISpring16MiniAODv2/DYJetsToEE_M-50_LTbinned_100To200_5f_LO_13TeV-madgraph_pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/90000/121F0BD7-5649-E611-BB18-6CC2173CEC30.root',
     )
 
 filesData =  cms.untracked.vstring( 
@@ -123,43 +79,19 @@ filesData =  cms.untracked.vstring(
     )
 
 
-if options['useAOD']:
-    filesMC = cms.untracked.vstring(
-        '/store/mc/RunIISpring16DR80/DYToEE_NNPDF30_13TeV-powheg-pythia8/AODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/000AB373-AD0C-E611-8261-0002C94CD120.root',
-        '/store/mc/RunIISpring16DR80/DYToEE_NNPDF30_13TeV-powheg-pythia8/AODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/0020B9BE-D20C-E611-AD17-A0369F310374.root',
-        '/store/mc/RunIISpring16DR80/DYToEE_NNPDF30_13TeV-powheg-pythia8/AODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/00000/004A2D66-D30C-E611-A844-0CC47A009258.root',
-        )
-    filesData = cms.untracked.vstring(
-       '/store/data/Run2016B/SingleElectron/AOD/PromptReco-v2/000/273/158/00000/100B4FC6-1D1A-E611-AADB-02163E0118D5.root',
-       '/store/data/Run2016B/SingleElectron/AOD/PromptReco-v2/000/273/158/00000/1032C8FE-211A-E611-BE71-02163E01387F.root',
-       '/store/data/Run2016B/SingleElectron/AOD/PromptReco-v2/000/273/158/00000/12E3D1D6-0A1A-E611-85A9-02163E011BF0.root',
-       '/store/data/Run2016B/SingleElectron/AOD/PromptReco-v2/000/273/158/00000/18C2A248-101A-E611-9906-02163E01414F.root',
-       '/store/data/Run2016B/SingleElectron/AOD/PromptReco-v2/000/273/158/00000/18CB30C7-181A-E611-BA7E-02163E014573.root',
-        )
-
-options['INPUT_FILE_NAME'] = filesData
-if varOptions.isMC:
-    options['INPUT_FILE_NAME'] = filesMC
+options['INPUT_FILE_NAME'] = filesMC if varOptions.isMC else filesData
 
 ###################################################################
 ## import TnP tree maker pythons and configure for AODs
 ###################################################################
-if options['useAOD']:
-    import PhysicsTools.TagAndProbe.treeMakerOptionsAOD_cfi as tnpTreeMaker
-else: 
-    import PhysicsTools.TagAndProbe.treeMakerOptions_cfi as tnpTreeMaker
-
+import PhysicsTools.TagAndProbe.treeMakerOptions_cfi as tnpTreeMaker
 tnpTreeMaker.setModules(process,options)
 
 import PhysicsTools.TagAndProbe.treeContent_cfi as tnpVars
-if options['useAOD']:
-    tnpVars.setupTnPVariablesForAOD()
-
 if not varOptions.isMC:
     tnpVars.mcTruthCommonStuff = cms.PSet(
         isMC = cms.bool(False)
         )
-
 
 ###################################################################
 ## Init and Load

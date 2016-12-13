@@ -17,19 +17,17 @@ def setIDs(process, options):
     switchOnVIDElectronIdProducer(process, dataFormat)
         
     # define which IDs we want to produce
-    my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Spring15_25ns_V1_cff',
-                     'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV60_cff',
-                     'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring15_25ns_nonTrig_V1_cff']
+    my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff',
+                     'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_HZZ_V1_cff',
+                     'RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff']
                  
     for idmod in my_id_modules:
         setupAllVIDIdsInModule(process, idmod, setupVIDElectronSelection)
 
-
-
     process.goodElectronsPROBECutBasedVeto = cms.EDProducer(eleProducer,
                                                             input     = cms.InputTag("goodElectrons"),
                                                             cut       = cms.string(options['ELECTRON_CUTS']),
-                                                            selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
+                                                            selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"),
                                                             id_cut    = cms.bool(True)
                                                             )
 
@@ -59,22 +57,22 @@ def setIDs(process, options):
     #                                                    )
     
     process.goodElectronsPROBECutBasedLoose = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose")
+    process.goodElectronsPROBECutBasedLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose")
     process.goodElectronsPROBECutBasedMedium = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium")
+    process.goodElectronsPROBECutBasedMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium")
     process.goodElectronsPROBECutBasedTight = process.goodElectronsPROBECutBasedVeto.clone()
-    process.goodElectronsPROBECutBasedTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight")
+    process.goodElectronsPROBECutBasedTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight")
     
     process.goodElectronsTAGCutBasedVeto = cms.EDProducer(eleProducer,
                                                           input     = cms.InputTag("goodElectrons"),
                                                           cut       = cms.string(options['ELECTRON_TAG_CUTS']),
-                                                          selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-veto"),
+                                                          selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-veto"),
                                                           id_cut    = cms.bool(True)
                                                           )
     
     process.goodElectronsTAGCutBasedLoose = process.goodElectronsTAGCutBasedVeto.clone()
-    process.goodElectronsTAGCutBasedLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-loose")
+    process.goodElectronsTAGCutBasedLoose.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose")
     process.goodElectronsTAGCutBasedMedium = process.goodElectronsTAGCutBasedVeto.clone()
-    process.goodElectronsTAGCutBasedMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-medium")
+    process.goodElectronsTAGCutBasedMedium.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium")
     process.goodElectronsTAGCutBasedTight = process.goodElectronsTAGCutBasedVeto.clone()
-    process.goodElectronsTAGCutBasedTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Spring15-25ns-V1-standalone-tight")
+    process.goodElectronsTAGCutBasedTight.selection = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight")

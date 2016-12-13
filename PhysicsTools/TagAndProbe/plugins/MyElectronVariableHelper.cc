@@ -10,13 +10,8 @@
 #include "DataFormats/Candidate/interface/Candidate.h"
 
 #include "DataFormats/PatCandidates/interface/Electron.h"
-#include "DataFormats/VertexReco/interface/Vertex.h"
-#include "DataFormats/VertexReco/interface/VertexFwd.h"
 
-#include "DataFormats/L1Trigger/interface/L1EmParticle.h"
-#include "DataFormats/L1Trigger/interface/L1EmParticleFwd.h"
 
-#include "DataFormats/Math/interface/deltaR.h"
 #include "TMVA/Reader.h"
 
 #include "FWCore/ParameterSet/interface/FileInPath.h"
@@ -33,58 +28,49 @@ namespace{
       iEvent.put(valMap, name);
   }
 
-  bool PassMVAVLooseFO(double mva, double abssceta){
-    if(abssceta<0.8)        return mva > -0.7;
-    else if(abssceta<1.479) return mva > -0.83;
-    else if(abssceta<2.5)   return mva > -0.92;
+  float slidingCut(float pt, float low, float high){
+    float slope = (high - low)/10.;
+    return std::min(low, std::max(high, low + slope*(pt-15)));
+  }
+
+  bool PassMVAVLooseFOIDEmu(double pt, double mva, double abssceta){
+    if(abssceta<0.8)        return mva > (pt < 10 ? -0.30 : slidingCut(pt, -0.86, -0.96));
+    else if(abssceta<1.479) return mva > (pt < 10 ? -0.36 : slidingCut(pt, -0.85, -0.96));
+    else if(abssceta<2.5)   return mva > (pt < 10 ? -0.63 : slidingCut(pt, -0.81, -0.95));
     else                    return false;
   }
 
-  bool PassMVAVLoose(double mva, double abssceta){
-    if(abssceta<0.8)        return mva > -0.16;
-    else if(abssceta<1.479) return mva > -0.65;
-    else if(abssceta<2.5)   return mva > -0.74;
+  bool PassMVAVLoose(double pt, double mva, double abssceta){
+    if(abssceta<0.8)        return mva > (pt < 10 ?  0.46 : slidingCut(pt, -0.48, -0.85));
+    else if(abssceta<1.479) return mva > (pt < 10 ? -0.03 : slidingCut(pt, -0.67, -0.91));
+    else if(abssceta<2.5)   return mva > (pt < 10 ?  0.06 : slidingCut(pt, -0.49, -0.83));
     else                    return false;
   }
 
-  bool PassMVATight(double mva, double abssceta){
-    if(abssceta<0.8)        return mva > 0.87;
-    else if(abssceta<1.479) return mva > 0.60;
-    else if(abssceta<2.5)   return mva > 0.17;
-    else                    return false;
-  }
-
-  bool PassMVAWP80(double mva, double abssceta){
-    if(abssceta<0.8)        return mva > 0.988153;
-    else if(abssceta<1.479) return mva > 0.967910;
-    else if(abssceta<2.5)   return mva > 0.841729;
-    else                    return false;
-  }
-
-  bool PassMVAWP90(double mva, double abssceta){
-    if(abssceta<0.8)        return mva >  0.972153;
-    else if(abssceta<1.479) return mva >  0.922126;
-    else if(abssceta<2.5)   return mva >  0.610764;
+  bool PassMVATight(double pt, double mva, double abssceta){
+    if(abssceta<0.8)        return mva > slidingCut(pt, 0.77,  0.52);
+    else if(abssceta<1.479) return mva > slidingCut(pt, 0.56,  0.11);
+    else if(abssceta<2.5)   return mva > slidingCut(pt, 0.48, -0.01);
     else                    return false;
   }
 
   bool PassTightIP2D(double dxy, double dz){
-    return fabs(dxy) < 0.05 && fabs(dz) < 0.1;
+    return std::abs(dxy) < 0.05 && std::abs(dz) < 0.1;
   }
 
   bool PassIDEmu(const pat::Electron &ele){
     if(ele.isEB()){
       return ele.sigmaIetaIeta() < 0.011
 	&& ele.hadronicOverEm() < 0.08
-	&& fabs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.01
-	&& fabs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.04
-	&& fabs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) < 0.01;
+	&& std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.01
+	&& std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.04
+	&& std::abs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) < 0.01;
     }else if(ele.isEE()){
       return ele.sigmaIetaIeta() < 0.031
 	&& ele.hadronicOverEm() < 0.08
-	&& fabs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.01
-	&& fabs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.08
-	&& fabs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) < 0.01;
+	&& std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.01
+	&& std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.08
+	&& std::abs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()) < 0.01;
     }else{
       return false;
     }
@@ -96,38 +82,39 @@ namespace{
       && ele.dr03TkSumPt() / ele.pt() < 0.2;
   }
 
-  // CMS coding rule number 1: be careful with POG recommended packages, especially when they were able to transform something
-  // simple as a cut based id into a web of hundreds of python config files and are using bad coding standards
-  // Therefore, simply implement the cut based id in a much more transparant way in the following 30 lines
-  // Furthermore, we do not want the isolation cut, and you really don't want to mess with the EGamma code
-  // Cuts based on: https://twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2#Spring15_selection_25ns
-  // Spring15, 25ns		         Veto B    Loose B   Medium B  Tight B    Veto E   Loose E   Medium E  Tight E
-  std::vector<float> maxSigmaIetaIeta = {0.0114,   0.0103,   0.0101,   0.0101,    0.0352,  0.0301,   0.0283,   0.0279};
-  std::vector<float> maxDEtaIn        = {0.0152,   0.0105,   0.0103,   0.00926,   0.0113,  0.00814,  0.00733,  0.00724};
-  std::vector<float> maxDPhiIn        = {0.216,    0.115,    0.0336,   0.0336,    0.237,   0.182,    0.114,    0.0918};
-  std::vector<float> maxHOverE        = {0.181,    0.104,    0.0876,   0.0597,    0.116,   0.0897,   0.0678,   0.0615};
-  std::vector<float> maxOoEmooP       = {0.207,    0.102,    0.0174,   0.012,     0.174,   0.126,    0.0898,   0.00999};
-  std::vector<float> maxd0            = {0.0564,   0.0261,   0.0118,   0.0111,    0.222,   0.118,    0.0739,   0.0351};
-  std::vector<float> maxdz            = {0.472,    0.41,     0.373,    0.0466,    0.921,   0.822,    0.602,    0.417};
-  std::vector<int>   maxMissingHits   = {2,        2,        2,        2,         3,       1,        1,        1};
+  // Cuts based on: https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2#Working_points_for_2016_data_for
+  // Spring16, 25ns		         Veto B    Loose B   Medium B  Tight B    Veto E   Loose E   Medium E  Tight E
+  std::vector<float> maxSigmaIetaIeta = {0.0115,   0.011,    0.00998,  0.00998,   0.037,   0.0314,   0.0298,   0.0292};
+  std::vector<float> maxDEtaIn        = {0.00749,  0.00477,  0.00311,  0.00308,   0.00895, 0.00868,  0.00609,  0.00605};
+  std::vector<float> maxDPhiIn        = {0.228,    0.222,    0.103,    0.0816,    0.213,   0.213,    0.045,    0.0394};
+  std::vector<float> maxHOverE        = {0.356,    0.298,    0.253,    0.0414,    0.211,   0.101,    0.0878,   0.0641};
+  std::vector<float> maxOoEmooP       = {0.299,    0.241,    0.134,    0.0129,    0.15,    0.14,     0.13,     0.0129};
+//std::vector<float> maxd0            = {0.0564,   0.0261,   0.0118,   0.0111,    0.222,   0.118,    0.0739,   0.0351};
+//std::vector<float> maxdz            = {0.472,    0.41,     0.373,    0.0466,    0.921,   0.822,    0.602,    0.417};
+  std::vector<int>   maxMissingHits   = {2,        1,        1,        1,         3,       1,        1,        1};
   std::vector<bool>  convVeto         = {true,     true,     true,     true,      true,    true,     true,     true};
 
+
+
+  float dEtaInSeed(const pat::Electron& ele){
+    if(ele.superCluster().isNonnull() and ele.superCluster()->seed().isNonnull()) return ele.deltaEtaSuperClusterTrackAtVtx() - ele.superCluster()->eta() + ele.superCluster()->seed()->eta();
+    else                                                                          return std::numeric_limits<float>::max();
+  }
+
   bool PassCutBased(const pat::Electron &ele, float dxy, float dz, int missingHits, int level){
-    if(ele.isEB())      level = level;
-    else if(ele.isEE()) level = level + 4;
+    if(ele.isEB())                                                    level = level;
+    else if(ele.isEE() and std::abs(ele.superCluster()->eta()) < 2.5) level = level + 4;
     else return false;
 
     float eInvMinusPInv = std::abs(1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
 
-    if(ele.full5x5_sigmaIetaIeta()               >= maxSigmaIetaIeta[level]) return false;
-    if(abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= maxDEtaIn[level])        return false;
-    if(abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= maxDPhiIn[level])        return false;
-    if(ele.hadronicOverEm()                      >= maxHOverE[level])        return false;
-    if(eInvMinusPInv                             >= maxOoEmooP[level])       return false;
-    if(abs(dxy)                                  >= maxd0[level])            return false;
-    if(abs(dz)                                   >= maxdz[level])            return false;
-    if(missingHits                               >  maxMissingHits[level])   return false;
-    if(convVeto[level] and not ele.passConversionVeto())                     return false;
+    if(ele.full5x5_sigmaIetaIeta()                    >= maxSigmaIetaIeta[level]) return false;
+    if(std::abs(dEtaInSeed(ele))                      >= maxDEtaIn[level])        return false;
+    if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= maxDPhiIn[level])        return false;
+    if(ele.hadronicOverEm()                           >= maxHOverE[level])        return false;
+    if(eInvMinusPInv                                  >= maxOoEmooP[level])       return false;
+    if(missingHits                                    >  maxMissingHits[level])   return false;
+    if(convVeto[level] and not ele.passConversionVeto())                          return false;
 
     return true;
   }
@@ -186,10 +173,16 @@ public:
   virtual void beginJob();
   bool combine(std::map<TString, std::vector<bool>>& passWorkingPoints, std::vector<TString> wps);
   virtual void produce(edm::Event & iEvent, const edm::EventSetup & iSetup) override;
+  void readEffAreas(std::string fileName, int pdgId);
+  double getEffArea(int pdgId, double eta);
   
 private:
   edm::EDGetTokenT<std::vector<pat::Electron>> probesToken_;
   edm::EDGetTokenT<edm::View<reco::Candidate>> probesViewToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool>> tightToken_;
+  edm::EDGetTokenT<edm::ValueMap<bool>> mvaWP80Token_;
+  edm::EDGetTokenT<edm::ValueMap<bool>> mvaWP90Token_;
+  edm::EDGetTokenT<edm::ValueMap<float>> mvaTokenHZZ_;
   edm::EDGetTokenT<edm::ValueMap<float>> mvaToken_;
   edm::EDGetTokenT<edm::ValueMap<float>> dxyToken_;
   edm::EDGetTokenT<edm::ValueMap<float>> dzToken_;
@@ -200,6 +193,7 @@ private:
   edm::EDGetTokenT<edm::ValueMap<float>> jetPtRelToken_;
   edm::EDGetTokenT<edm::ValueMap<float>> jetNDauChargedToken_;
   edm::EDGetTokenT<edm::ValueMap<float>> jetBTagCSVToken_;
+  edm::EDGetTokenT<double>               rhoToken_;
   float LepGood_pt, LepGood_eta, LepGood_jetNDauChargedMVASel,
     LepGood_miniRelIsoCharged, LepGood_miniRelIsoNeutral,
     LepGood_jetPtRelv2, LepGood_jetPtRatio,
@@ -211,11 +205,48 @@ private:
   TMVA::Reader *readerEle;
 
   std::vector<TString> workingPoints;
+
+  struct effAreaForRange{
+      double min;
+      double max;
+      double effArea;
+  };
+  std::map<int, std::vector<effAreaForRange>*> effAreas;
+
 };
+
+
+void MyElectronVariableHelper::readEffAreas(std::string fileName, int pdgId){
+  effAreas[pdgId] = new std::vector<effAreaForRange>();
+  std::ifstream file(fileName);
+  std::string line;
+  while(std::getline(file, line)){
+    if(line.find('#') == 0) continue;
+    std::stringstream linestream(line);
+    effAreaForRange ea;
+    linestream >> ea.min >> ea.max >> ea.effArea;
+    effAreas[pdgId]->push_back(ea);
+  }
+}
+
+double MyElectronVariableHelper::getEffArea(int pdgId, double eta){
+  for(auto ea : *effAreas[pdgId]){
+    if(ea.min < std::abs(eta) and ea.max > std::abs(eta)) return ea.effArea;
+  }
+  return 0;
+}
+
+
+
+
 
 MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iConfig) :
   probesToken_(        consumes<std::vector<pat::Electron>>(iConfig.getParameter<edm::InputTag>("probes"))),
   probesViewToken_(    consumes<edm::View<reco::Candidate>>(iConfig.getParameter<edm::InputTag>("probes"))),
+  tightToken_(         consumes<edm::ValueMap<bool>>(       iConfig.getParameter<edm::InputTag>("tight"))),
+  mvaWP80Token_(       consumes<edm::ValueMap<bool>>(       iConfig.getParameter<edm::InputTag>("mvaWP80"))),
+  mvaWP90Token_(       consumes<edm::ValueMap<bool>>(       iConfig.getParameter<edm::InputTag>("mvaWP90"))),
+  mvaTokenHZZ_(        consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("mvasHZZ"))),
   mvaToken_(           consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("mvas"))),
   dxyToken_(           consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("dxy"))),
   dzToken_(            consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("dz"))),
@@ -225,7 +256,8 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
   jetPtRatioToken_(    consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetPtRatio"))),
   jetPtRelToken_(      consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetPtRel"))),
   jetNDauChargedToken_(consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetNDauCharged"))),
-  jetBTagCSVToken_(    consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetBTagCSV"))){
+  jetBTagCSVToken_(    consumes<edm::ValueMap<float>>(      iConfig.getParameter<edm::InputTag>("jetBTagCSV"))),
+  rhoToken_(           consumes<double>(                    iConfig.getParameter<edm::InputTag>("rho"))){
 
     produces<edm::ValueMap<float> >("sip3d");
     produces<edm::ValueMap<float> >("ecalIso");
@@ -249,6 +281,8 @@ MyElectronVariableHelper::~MyElectronVariableHelper(){
 }
 
 void MyElectronVariableHelper::beginJob(){
+    readEffAreas(edm::FileInPath("RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt").fullPath(), 11);
+
     readerEle = new TMVA::Reader( "!Color:!Silent" );
 
     readerEle->AddVariable( "LepGood_pt",                    &LepGood_pt );
@@ -279,6 +313,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   // read input
   edm::Handle<std::vector<pat::Electron>> probes;      iEvent.getByToken(probesToken_,         probes);
   edm::Handle<edm::View<reco::Candidate>> probes_view; iEvent.getByToken(probesViewToken_,     probes_view);
+  edm::Handle<edm::ValueMap<bool>> tightBools;         iEvent.getByToken(tightToken_,          tightBools);
+  edm::Handle<edm::ValueMap<bool>> mvasWP80;           iEvent.getByToken(mvaWP80Token_,        mvasWP80);
+  edm::Handle<edm::ValueMap<bool>> mvasWP90;           iEvent.getByToken(mvaWP90Token_,        mvasWP90);
+  edm::Handle<edm::ValueMap<float>> mvasHZZ;           iEvent.getByToken(mvaTokenHZZ_,         mvasHZZ);
   edm::Handle<edm::ValueMap<float>> mvas;              iEvent.getByToken(mvaToken_,            mvas);
   edm::Handle<edm::ValueMap<float>> dxys;              iEvent.getByToken(dxyToken_,            dxys);
   edm::Handle<edm::ValueMap<float>> dzs;               iEvent.getByToken(dzToken_,             dzs);
@@ -289,6 +327,9 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
   edm::Handle<edm::ValueMap<float>> jetPtRels;         iEvent.getByToken(jetPtRelToken_,       jetPtRels);
   edm::Handle<edm::ValueMap<float>> jetNDauChargeds;   iEvent.getByToken(jetNDauChargedToken_, jetNDauChargeds);
   edm::Handle<edm::ValueMap<float>> jetBTagCSVs;       iEvent.getByToken(jetBTagCSVToken_,     jetBTagCSVs);
+  edm::Handle<double>               rhoHandle;         iEvent.getByToken(rhoToken_,            rhoHandle);
+
+  double rho = *rhoHandle;
 
   // prepare vector for output
   std::vector<float> sip3dValues;
@@ -307,7 +348,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     float ip3d             = probe.dB(pat::Electron::PV3D);
     float ip3d_err         = probe.edB(pat::Electron::PV3D);
     float sip3d            = ip3d/ip3d_err;
-    float mva              = (*mvas)[pp];
+    bool  tight            = (*tightBools)[pp];
+    bool  mvaWP80          = (*mvasWP80)[pp];
+    bool  mvaWP90          = (*mvasWP90)[pp];
+    float mva              = pp->pt() < 10 ? (*mvasHZZ)[pp] : (*mvas)[pp];
     float dxy              = (*dxys)[pp];
     float dz               = (*dzs)[pp];
     float mini_iso         = (*miniIsos)[pp];
@@ -331,11 +375,11 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     LepGood_jetPtRatio           = TMath::Min(jetPtRatio,(float)1.5);
     LepGood_jetBTagCSV           = TMath::Max(jetBTagCSV,(float)0.);
     LepGood_sip3d                = sip3d;
-    LepGood_dxy                  = TMath::Log(fabs(dxy));
-    LepGood_dz                   = TMath::Log(fabs(dz));
+    LepGood_dxy                  = TMath::Log(std::abs(dxy));
+    LepGood_dz                   = TMath::Log(std::abs(dz));
     LepGood_mvaIdSpring15        = mva;
 
-    float leptonMva             = readerEle->EvaluateMVA( "BDTG method" );
+    float leptonMva              = readerEle->EvaluateMVA( "BDTG method" );
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
@@ -343,16 +387,22 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     trackIsoValues.push_back(trackIso);
     missingInnerHitsValues.push_back(missingInnerHits);
 
+    double CorrectedTerm = rho*getEffArea(11, probe.superCluster()->eta());
+    double pfRelIso = (probe.pfIsolationVariables().sumChargedHadronPt + std::max(0.0, probe.pfIsolationVariables().sumNeutralHadronEt + probe.pfIsolationVariables().sumPhotonEt - CorrectedTerm))/probe.pt();
+
+    bool mytight = PassCutBased(probe, dxy, dz, missingInnerHits, 3) and pfRelIso < (probe.isEB()? 0.0588 :  0.0571 );
+    if(tight != mytight) std::cout << "WARNING: Cutbased-id is not up to date anymore, please check" << std::endl;
+
     passWorkingPoints["ConvVeto"].push_back(      probe.passConversionVeto());
-    passWorkingPoints["MVAVLooseFO"].push_back(   PassMVAVLooseFO(mva, fabs(probe.superCluster()->eta())));
-    passWorkingPoints["MVAVLoose"].push_back(     PassMVAVLoose(  mva, fabs(probe.superCluster()->eta())));
-    passWorkingPoints["MVATight"].push_back(      PassMVATight(   mva, fabs(probe.superCluster()->eta())));
-    passWorkingPoints["MVAWP80"].push_back(       PassMVAWP80(    mva, fabs(probe.superCluster()->eta())));
-    passWorkingPoints["MVAWP90"].push_back(       PassMVAWP90(    mva, fabs(probe.superCluster()->eta())));
+    passWorkingPoints["MVAVLooseFO"].push_back(   PassMVAVLooseFOIDEmu(pp->pt(), mva, std::abs(probe.superCluster()->eta())));
+    passWorkingPoints["MVAVLoose"].push_back(     PassMVAVLoose(       pp->pt(), mva, std::abs(probe.superCluster()->eta())));
+    passWorkingPoints["MVATight"].push_back(      PassMVATight(        pp->pt(), mva, std::abs(probe.superCluster()->eta())));
+    passWorkingPoints["MVAWP80"].push_back(       mvaWP80);
+    passWorkingPoints["MVAWP90"].push_back(       mvaWP90);
     passWorkingPoints["TightIP2D"].push_back(     PassTightIP2D(dxy, dz));
-    passWorkingPoints["TightIP3D"].push_back(     fabs(sip3d) < 4.);
-    passWorkingPoints["SIP3D4"].push_back(        fabs(sip3d) < 4.);
-    passWorkingPoints["SIP3D8"].push_back(        fabs(sip3d) < 8.);
+    passWorkingPoints["TightIP3D"].push_back(     std::abs(sip3d) < 4.);
+    passWorkingPoints["SIP3D4"].push_back(        std::abs(sip3d) < 4.);
+    passWorkingPoints["SIP3D8"].push_back(        std::abs(sip3d) < 8.);
     passWorkingPoints["Mini"].push_back(          mini_iso < 0.1);
     passWorkingPoints["Mini2"].push_back(         mini_iso < 0.2);
     passWorkingPoints["Mini4"].push_back(         mini_iso < 0.4);
