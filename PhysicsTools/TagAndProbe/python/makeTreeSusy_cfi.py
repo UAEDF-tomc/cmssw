@@ -27,30 +27,32 @@ def AddMiniIso(process, options, varOptions):
 	subLepFromJetForPtRel = cms.bool(True)
     )
 
-
     process.MyEleVars = cms.EDProducer(
         "MyElectronVariableHelper",
-        probes         = cms.InputTag(options['ELECTRON_COLL']),
-        tight          = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
-        mvasHZZ        = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
-        mvas           = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
-        mvaWP80        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp80"),
-        mvaWP90        = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp90"),
-        dxy            = cms.InputTag("eleVarHelper:dxy"),
-        dz             = cms.InputTag("eleVarHelper:dz"),
-        miniIso        = cms.InputTag("relminiiso:sum"),
-        chargedMiniIso = cms.InputTag("relminiiso:charged"),
-        neutralMiniIso = cms.InputTag("relminiiso:neutral"),
-        jetPtRatio     = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRatio"),
-        jetPtRel       = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRel"),
-        jetNDauCharged = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
-        jetBTagCSV     = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
-        rho            = cms.InputTag("fixedGridRhoFastjetAll"),
+        effAreasConfigFile = cms.FileInPath('RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt'),
+        probes             = cms.InputTag(options['ELECTRON_COLL']),
+        tight              = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
+        triggerEmu         = cms.InputTag("egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1"),
+        mvasHZZ            = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
+        mvas               = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
+        mvaWP80            = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp80"),
+        mvaWP90            = cms.InputTag("egmGsfElectronIDs:mvaEleID-Spring16-GeneralPurpose-V1-wp90"),
+        dxy                = cms.InputTag("eleVarHelper:dxy"),
+        dz                 = cms.InputTag("eleVarHelper:dz"),
+        miniIso            = cms.InputTag("relminiiso:sum"),
+        chargedMiniIso     = cms.InputTag("relminiiso:charged"),
+        neutralMiniIso     = cms.InputTag("relminiiso:neutral"),
+        jetPtRatio         = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRatio"),
+        jetPtRel           = cms.InputTag("AddLeptonJetRelatedVariables","JetPtRel"),
+        jetNDauCharged     = cms.InputTag("AddLeptonJetRelatedVariables","JetNDauCharged"),
+        jetBTagCSV         = cms.InputTag("AddLeptonJetRelatedVariables","JetBTagCSV"),
+        rho                = cms.InputTag("fixedGridRhoFastjetAll"),
     )
 
     process.relminiiso =  cms.EDProducer("IsolationSum",
         effAreasConfigFile = cms.FileInPath('RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt'),
-        rho                = cms.InputTag("fixedGridRhoFastjetAll"),
+       #effAreasConfigFile = cms.FileInPath('RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt'),
+        rho                = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
         candidates         = cms.InputTag("packedPFCandidates"),
         probes             = cms.InputTag("slimmedElectrons"),
         minRadius          = cms.double(0.05),
@@ -75,20 +77,22 @@ def AddMiniIso(process, options, varOptions):
         probe_ele_missIHits          = cms.InputTag("MyEleVars:missIHits"),
     )
 
-
     process.my_ele_sequence = cms.Sequence()
 
     # All workingpoints we need to probe
     # Note: cut based wp are without isolation
-    workingPoints = ['CutBasedVeto', 'CutBasedLoose', 'CutBasedMedium', 'CutBasedTight',
-		    'MVAVLooseFO', 'MVAVLoose', 'MVATight', 'MVAWP80', 'MVAWP90',
-		    'Mini', 'Mini2', 'Mini4', 'MVAVLooseMini', 'MVAVLooseMini2', 'MVAVLooseMini4',
-		    'Loose2D', 'FOID2D', 'Tight2D3D', 'TightID2D3D',
-		    'ConvIHit1', 'ConvIHit0', 'TightConvIHit0', 'ConvIHit0Chg',
-		    'MultiIsoM', 'MultiIsoT', 'MultiIsoVT', 'MultiIsoEmu',
-		    'LeptonMvaM', 'LeptonMvaVT', 
-		    'CutBasedTTZ', 'CutBasedIllia', 'CutBasedStopsDilepton',
-		    'LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04', 'LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04']
+    workingPoints = ["CutBasedV", "CutBasedVPOGIP2D", "CutBasedSpring15V",
+                     "CutBasedL", "CutBasedLPOGIP2D", "CutBasedSpring15L",
+                     "CutBasedM", "CutBasedMPOGIP2D", "CutBasedSpring15M",
+                     "CutBasedT", "CutBasedTPOGIP2D", "CutBasedSpring15T",
+                     "CutBasedStopsDilepton", "CutBasedTTZ", "CutBasedIllia",
+                     "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
+                     "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
+                     "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
+                     "Mini", "Mini2", "Mini4",
+                     "MultiIsoM", "MultiIsoT", "MultiIsoT", "MultiIsoTISOEmu",
+                     "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
+                     "triggerEmu"];
 
 
     # Applies probe cuts and WP (numerators and denominators both need to be listed here)
@@ -108,7 +112,7 @@ def AddMiniIso(process, options, varOptions):
       setattr(process, 'goodElectronsProbe' + name, temp)
       process.my_ele_sequence += temp
 
-    for wp in ['Loose2D', 'TightID2D3D', 'Tight2D3D', 'CutBasedVeto', 'CutBasedLoose', 'CutBasedMedium', 'CutBasedTight', 'TightConvIHit0']:
+    for wp in ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0']:
       getAllProbes(wp)
 
     # Tag and probe pairs
@@ -119,7 +123,7 @@ def AddMiniIso(process, options, varOptions):
       process.allTagsAndProbes *= temp
       return name
 
-    def getProducer(name, allProbes, pairsString):
+    def getProducer(name, allProbes, pairsString, workingPoints):
       producer = process.GsfElectronToEleID.clone()
       producer.jetCollection = cms.InputTag("slimmedJets")
       producer.jet_pt_cut    = cms.double(30.)
@@ -128,67 +132,25 @@ def AddMiniIso(process, options, varOptions):
       producer.variables     = MiniIsoProbeVars
       producer.tagProbePairs = cms.InputTag(getTagProbePairs(name + 'Pairs', pairsString))
       producer.allProbes     = cms.InputTag(allProbes)
+      producer.flags         = cms.PSet()
+      for wp in workingPoints: setattr(producer.flags, 'passing' + wp, cms.InputTag('probes' + wp))
+
       setattr(process, name, producer)
       process.tree_sequence *= producer
 
-    getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectronsTagHLT@+ goodElectrons@-")
-    process.GsfElectronToID.flags = cms.PSet(
-        passingVeto                                     = cms.InputTag("probesCutBasedVeto"),
-        passingLoose                                    = cms.InputTag("probesCutBasedLoose"),
-        passingMedium                                   = cms.InputTag("probesCutBasedMedium"),
-        passingTight                                    = cms.InputTag("probesCutBasedTight"),
-        passingLoose2D                                  = cms.InputTag("probesLoose2D"),
-        passingFOID2D                                   = cms.InputTag("probesFOID2D"),
-        passingTight2D3D                                = cms.InputTag("probesTight2D3D"),
-        passingTightID2D3D                              = cms.InputTag("probesTightID2D3D"),
-        passingLeptonMvaM                               = cms.InputTag("probesLeptonMvaM"),
-        passingLeptonMvaVT                              = cms.InputTag("probesLeptonMvaVT"),
-        passingCutBasedTTZ                              = cms.InputTag("probesCutBasedTTZ"),
-        passingCutBasedIllia                            = cms.InputTag("probesCutBasedIllia"),
-        passingCutBasedStopsDilepton                    = cms.InputTag("probesCutBasedStopsDilepton"),
-        passingLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04 = cms.InputTag("probesLeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04"),
-        passingLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04  = cms.InputTag("probesLeptonMvaMIDEmuTightIP2DSIP3D8miniIso04"),
-    )
+    getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectronsTagHLT@+ goodElectrons@-",
+                ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedStopsDilepton','CutBasedTTZ','CutBasedIllia',
+                 'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
+                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04'])
 
-    getProducer('MVAVLooseElectronToIso', "goodElectronsProbeLoose2D", "goodElectronsTagHLT@+ probesLoose2D@-")
-    process.MVAVLooseElectronToIso.flags = cms.PSet(
-        passingMini      = cms.InputTag("probesMVAVLooseMini"), 
-        passingMini2     = cms.InputTag("probesMVAVLooseMini2"),
-        passingMini4     = cms.InputTag("probesMVAVLooseMini4"),
-        passingConvIHit1 = cms.InputTag("probesConvIHit1"),
-    )
+    getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "goodElectronsTagHLT@+ probesMVAVLooseTightIP2D@-",
+                ['Mini','Mini2','Mini4','ConvVetoIHit1'])
 
-    getProducer('MVATightElectronToIso', "goodElectronsProbeTightID2D3D", "goodElectronsTagHLT@+ probesTightID2D3D@-")
-    process.MVATightElectronToIso.flags = cms.PSet(
-        passingMultiIsoM    = cms.InputTag("probesMultiIsoM"),
-        passingMultiIsoT    = cms.InputTag("probesMultiIsoT"),
-        passingMultiIsoVT   = cms.InputTag("probesMultiIsoVT"),
-        passingMultiIsoEmu  = cms.InputTag("probesMultiIsoEmu"),
-        passingConvIHit0    = cms.InputTag("probesConvIHit0"),
-        passingConvIHit0Chg = cms.InputTag("probesConvIHit0Chg"),
-    )
+    getProducer('MVATightElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4", "goodElectronsTagHLT@+ probesMVATightTightIP2DSIP3D4@-",
+                ['MultiIsoM','MultiIsoT','MultiIsoTISOEmu','ConvVetoIHit0'])
 
-    getProducer('MVATightNoEMuElectronToIso', 'goodElectronsProbeTight2D3D', "goodElectronsTagHLT@+ probesTight2D3D@-")
-    process.MVATightNoEMuElectronToIso.flags = cms.PSet(
-        passingConvIHit0 = cms.InputTag("probesConvIHit0"),
-    )
-
-    getProducer('MVATightConvIHit0ElectronToIso', "goodElectronsProbeTightConvIHit0","goodElectronsTagHLT@+ probesTightConvIHit0@-")
-    process.MVATightConvIHit0ElectronToIso.flags = cms.PSet(
-        passingConvIHit0Chg = cms.InputTag("probesConvIHit0Chg"),
-    )
-
-    for level in ['Veto', 'Loose', 'Medium', 'Tight']:
-      getProducer('CutBased' + level + 'ElectronToIso', "goodElectronsProbeCutBased" + level, "goodElectronsTagHLT@+ probesCutBased" + level + "@-")
-      temp = getattr(process, 'CutBased' + level + 'ElectronToIso')
-      temp.flags = cms.PSet(
-	  passingMini       = cms.InputTag("probesMini"),
-	  passingMini2      = cms.InputTag("probesMini2"),
-	  passingMini4      = cms.InputTag("probesMini4"),
-	  passingConvIHit1  = cms.InputTag("probesConvIHit1"),
-	  passingMultiIsoVT = cms.InputTag("probesMultiIsoVT"),
-      )
-
+    getProducer('MVATightConvIHit0ElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0","goodElectronsTagHLT@+ probesMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0@-",
+                ['Charge'])
 
     if varOptions.isMC:
         process.p = cms.Path(
