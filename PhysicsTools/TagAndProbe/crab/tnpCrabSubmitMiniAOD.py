@@ -10,19 +10,19 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "80X_v15"
+submitVersion = "Moriond2017_v1"
 
 if os.environ["USER"] in ['tomc']:
-  mainOutputDir = '/store/user/tomc/tnp/80X/%s' % submitVersion
+  mainOutputDir           = os.path.join('/store/user/tomc/tnp', submitVersion)
   config.Site.storageSite = 'T2_BE_IIHE'
-  config.User.voGroup = 'becms'
+  config.User.voGroup     = 'becms'
 else:
   raise Exception('User settings not known')
 
 
 config.General.transferLogs = False
 
-config.JobType.pluginName  = 'Analysis'
+config.JobType.pluginName = 'Analysis'
 
 # Name of the CMSSW configuration file
 config.JobType.psetName  = 'makeTree.py'
@@ -42,7 +42,9 @@ if __name__ == '__main__':
     # That's why we need to set this parameter (here or above in the configuration file, it does not matter, we will not overwrite it).
     config.General.workArea = 'crab_projects_%s' % submitVersion
 
-    def submit(config):
+    def submit(config, requestName, inputDataset):
+        config.General.requestName = requestName
+        config.Data.inputDataset   = inputDataset
         try:
             crabCommand('submit', config = config)
         except HTTPException as hte:
@@ -52,49 +54,31 @@ if __name__ == '__main__':
 
 
     ##### submit MC
-    config.Data.outLFNDirBase = '%s/%s/' % (mainOutputDir,'mc')
-    config.Data.splitting     = 'FileBased'
-    config.Data.unitsPerJob   = 5
-    config.JobType.pyCfgParams  = ['isMC=True']
+    config.Data.outLFNDirBase              = os.path.join(mainOutputDir, 'mc')
+    config.Data.splitting                  = 'FileBased'
+    config.Data.unitsPerJob                = 5
+    config.JobType.pyCfgParams             = ['isMC=True']
+    config.JobType.sendExternalFolder      = True
     config.JobType.allowUndistributedCMSSW = True 
     
-    config.General.requestName  = 'DYToLL_mcAtNLO'
-    config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
-    submit(config)
-
-    config.General.requestName  = 'DYToLL_madgraph'
-    config.Data.inputDataset    = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1/MINIAODSIM'
-    submit(config)
-
-    config.General.requestName  = 'DYToLL_powheg'
-    config.Data.inputDataset    = '/DYToEE_NNPDF30_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM'
-    submit(config)
-
-#    config.General.requestName  = 'WJets_madgraph'
-#    config.Data.inputDataset    = '/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v2/MINIAODSIM'
-#    submit(config)
-
-
- #   config.General.requestName  = 'ttbar_madgraph'
- #   config.Data.inputDataset    = '/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall15MiniAODv2-PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/MINIAODSIM'
- #   submit(config)
-
+    submit(config, 'DYToLL_mcAtNLO',  '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
+    submit(config, 'DYToLL_madgraph', '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM')
+#   submit(config, 'DYToLL_powheg',   '/DYToEE_NNPDF30_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM')
 
     ##### now submit DATA
-    config.Data.outLFNDirBase = '%s/%s/' % (mainOutputDir,'data')
-    config.Data.splitting     = 'LumiBased'
-    config.Data.lumiMask      = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON_NoL1T.txt'
-    config.Data.unitsPerJob   = 50
-    config.JobType.pyCfgParams  = ['isMC=False']
+    config.Data.outLFNDirBase  = os.path.join(mainOutputDir, 'data')
+    config.Data.splitting      = 'LumiBased'
+    config.Data.lumiMask       = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/ReReco/Final/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'
+    config.Data.unitsPerJob    = 50
+    config.JobType.pyCfgParams = ['isMC=False']
 
-    config.General.requestName  = '2016_RunB'
-    config.Data.inputDataset    = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
-    submit(config)
-
-    config.General.requestName  = '2016_RunC'
-    config.Data.inputDataset    = '/SingleElectron/Run2016C-PromptReco-v2/MINIAOD'
-    submit(config)
-
-    config.General.requestName  = '2016_RunD'
-    config.Data.inputDataset    = '/SingleElectron/Run2016D-PromptReco-v2/MINIAOD'
-    submit(config)
+    submit(config, 'Run2016B-v1', '/SingleElectron/Run2016B-23Sep2016-v2/MINIAOD')
+    submit(config, 'Run2016B-v2', '/SingleElectron/Run2016B-23Sep2016-v3/MINIAOD')
+    submit(config, 'Run2016C',    '/SingleElectron/Run2016C-23Sep2016-v1/MINIAOD')
+    submit(config, 'Run2016D',    '/SingleElectron/Run2016D-23Sep2016-v1/MINIAOD')
+    submit(config, 'Run2016E',    '/SingleElectron/Run2016E-23Sep2016-v1/MINIAOD')
+    submit(config, 'Run2016F',    '/SingleElectron/Run2016F-23Sep2016-v1/MINIAOD')
+    submit(config, 'Run2016G',    '/SingleElectron/Run2016G-23Sep2016-v1/MINIAOD')
+    submit(config, 'Run2016H-v1', '/SingleElectron/Run2016H-PromptReco-v1/MINIAOD')
+    submit(config, 'Run2016H-v2', '/SingleElectron/Run2016H-PromptReco-v2/MINIAOD')
+    submit(config, 'Run2016H-v3', '/SingleElectron/Run2016H-PromptReco-v3/MINIAOD')
