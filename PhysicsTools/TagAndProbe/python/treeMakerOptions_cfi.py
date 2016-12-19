@@ -1,5 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
+
 def setModules(process, options):
     
     process.sampleInfo = cms.EDProducer("tnp::SampleInfoTree",
@@ -9,6 +10,7 @@ def setModules(process, options):
     
     process.eleVarHelper = cms.EDProducer("PatElectronVariableHelper",
                                           probes = cms.InputTag(options['ELECTRON_COLL']),
+                                          l1EGColl = cms.InputTag('caloStage2Digis:EGamma'),
                                           vertexCollection = cms.InputTag("offlineSlimmedPrimaryVertices")
                                           )
 
