@@ -89,7 +89,7 @@ def AddMiniIso(process, options, varOptions):
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
-                     "Mini", "Mini2", "Mini4",
+                     "Mini", "Mini2", "Mini4","RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
                      "triggerEmu"];
@@ -112,7 +112,7 @@ def AddMiniIso(process, options, varOptions):
       setattr(process, 'goodElectronsProbe' + name, temp)
       process.my_ele_sequence += temp
 
-    for wp in ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0']:
+    for wp in ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0','CutBasedStopsDilepton']:
       getAllProbes(wp)
 
     # Tag and probe pairs
@@ -139,7 +139,8 @@ def AddMiniIso(process, options, varOptions):
       process.tree_sequence *= producer
 
     getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectronsTagHLT@+ goodElectrons@-",
-                ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedStopsDilepton','CutBasedTTZ','CutBasedIllia',
+                ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedSpring15V', 'CutBasedSpring15L', 'CutBasedSpring15M', 'CutBasedSpring15T',
+                 'CutBasedStopsDilepton','CutBasedTTZ','CutBasedIllia',
                  'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
                  'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04'])
 
@@ -151,6 +152,8 @@ def AddMiniIso(process, options, varOptions):
 
     getProducer('MVATightConvIHit0ElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0","goodElectronsTagHLT@+ probesMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0@-",
                 ['Charge'])
+
+    getProducer('CutBasedStopsDileptonToIso', 'goodElectronsProbeCutBasedStopsDilepton', 'goodElectronsTagHLT@+ probesCutBasedStopsDilepton@-', ['RelIso012'])
 
     if varOptions.isMC:
         process.p = cms.Path(
