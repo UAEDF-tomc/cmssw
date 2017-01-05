@@ -10,26 +10,8 @@ try:
 except:
   pass
 
-failedFits = ["GsfElectronToFOID2D_barrel_10p0To20p0_0p0To0p8",
-              "GsfElectronToLoose2D_endcap_20p0To30p0_2p0To2p5",
-              "GsfElectronToTight2D3D_endcap_20p0To30p0_1p566To2p0",
-             ]
-
-
-failedFitsAltSig = ["GsfElectronToMedium_crack_10p0To20p0_1p442To1p566",
-		    "GsfElectronToTight_endcap_10p0To20p0_1p566To2p0",
-		    "GsfElectronToVeto_barrel_10p0To20p0_0p0To0p8",
-		    "GsfElectronToVeto_endcap_10p0To20p0_1p566To2p0",
-		    "GsfElectronToVeto_barrel_10p0To20p0_0p8To1p442",
-		    "MVATightConvIHit0ElectronToConvIHit0Chg_barrel_10p0To20p0_0p0To0p8",
-		    "MVATightConvIHit0ElectronToConvIHit0Chg_barrel_10p0To20p0_0p8To1p442",
-		    "MVATightElectronToMultiIsoM_endcap_50p0To100p0_1p566To2p0",
-		    "CutBasedTightElectronToMini_barrel_10p0To20p0_0p0To0p8",
-		    "CutBasedTightElectronToMini_barrel_10p0To20p0_0p8To1p442",
-		    "GsfElectronToCutBasedIllia_crack_10p0To20p0_1p442To1p566",
-		    "GsfElectronToCutBasedTTZ_crack_10p0To20p0_1p442To1p566",
-		    "MVATightElectronToMultiIsoVT_barrel_100p0To2000p0_0p0To0p8",
-                   ]
+failedFits = []
+failedFitsAltSig = []
 
 def getIdLabel(args):
     idProbe, directory, region = args
@@ -37,11 +19,11 @@ def getIdLabel(args):
 
 
 class options:
-    input           = os.path.join(tnpPackage, 'crab', 'crab_projects_80X_v15', 'DYToLL_Madgraph.root')
+    input           = os.path.join(tnpPackage, 'crab', 'crab_projects_Moriond2017_v2', 'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M.root')
     output          = "mc_templates.root"
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
-    var1Bins        = "10,20,30,40,50,100,2000"
+    var1Bins        = "10,20,35,50,100,200,500,2000"
     var2Bins        = "0.0,0.8,1.4442,1.566,2.0,2.5"
     var1Name        = "probe_Ele_pt"
     var2Name        = "probe_sc_abseta"
@@ -92,42 +74,31 @@ def runGetTemplatesFromMC(args):
 
 jobs = []
 for region in ["alleta","barrel","crack","endcap"]:
-  jobs.append(("Veto",                                            "GsfElectronToID",                region))
-  jobs.append(("Loose",                                           "GsfElectronToID",                region))
-  jobs.append(("Medium",                                          "GsfElectronToID",                region))
-  jobs.append(("Tight",                                           "GsfElectronToID",                region))
-  jobs.append(("Loose2D",                                         "GsfElectronToID",                region))
-  jobs.append(("FOID2D",                                          "GsfElectronToID",                region))
-  jobs.append(("Tight2D3D",                                       "GsfElectronToID",                region))
-  jobs.append(("TightID2D3D",                                     "GsfElectronToID",                region))
-  jobs.append(("CutBasedTTZ",                                     "GsfElectronToID",                region))
-  jobs.append(("CutBasedIllia",                                   "GsfElectronToID",                region))
+  jobs.append(("CutBasedSpring15V",                               "GsfElectronToID",                region))
+  jobs.append(("CutBasedSpring15L",                               "GsfElectronToID",                region))
+  jobs.append(("CutBasedSpring15M",                               "GsfElectronToID",                region))
+  jobs.append(("CutBasedSpring15T",                               "GsfElectronToID",                region))
+  jobs.append(("MVAVLooseTightIP2D",                              "GsfElectronToID",                region))
+  jobs.append(("MVAVLooseFOIDEmuTightIP2D",                       "GsfElectronToID",                region))
+  jobs.append(("MVATightTightIP2DSIP3D4",                         "GsfElectronToID",                region))
+  jobs.append(("MVATightIDEmuTightIP2DSIP3D4",                    "GsfElectronToID",                region))
   jobs.append(("CutBasedStopsDilepton",                           "GsfElectronToID",                region))
-  jobs.append(("LeptonMvaVTIDEmuTightIP2DSIP3D8miniIso04",        "GsfElectronToID",                region))
-  jobs.append(("LeptonMvaMIDEmuTightIP2DSIP3D8miniIso04",         "GsfElectronToID",                region))
+  jobs.append(("LeptonMvaVTIDEmuTightIP2DSIP3D8mini04",           "GsfElectronToID",                region))
+  jobs.append(("LeptonMvaMIDEmuTightIP2DSIP3D8mini04",            "GsfElectronToID",                region))
 
   jobs.append(("Mini",                                            "MVAVLooseElectronToIso",         region))
   jobs.append(("Mini2",                                           "MVAVLooseElectronToIso",         region))
   jobs.append(("Mini4",                                           "MVAVLooseElectronToIso",         region))
-  jobs.append(("ConvIHit1",                                       "MVAVLooseElectronToIso",         region))
+  jobs.append(("ConvVetoIHit1",                                   "MVAVLooseElectronToIso",         region))
 
   jobs.append(("MultiIsoM",                                       "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoT",                                       "MVATightElectronToIso",          region))
-  jobs.append(("MultiIsoVT",                                      "MVATightElectronToIso",          region))
-  jobs.append(("MultiIsoEmu",                                     "MVATightElectronToIso",          region))
-  jobs.append(("ConvIHit0",                                       "MVATightElectronToIso",          region))
-  jobs.append(("ConvIHit0Chg",                                    "MVATightElectronToIso",          region))
+  jobs.append(("MultiIsoTISOEmu",                                 "MVATightElectronToIso",          region))
+  jobs.append(("ConvVetoIHit0",                                   "MVATightElectronToIso",          region))
 
-  jobs.append(("ConvIHit0",                                       "MVATightNoEMuElectronToIso",     region))
-  jobs.append(("ConvIHit0Chg",                                    "MVATightConvIHit0ElectronToIso", region))
+  jobs.append(("Charge",                                          "MVATightConvIHit0ElectronToIso", region))
 
-  jobs.append(("MultiIsoVT",                                      "CutBasedTightElectronToIso",     region))
-  jobs.append(("Mini",                                            "CutBasedTightElectronToIso",     region))
-  jobs.append(("Mini2",                                           "CutBasedTightElectronToIso",     region))
-  jobs.append(("Mini4",                                           "CutBasedTightElectronToIso",     region))
-  jobs.append(("Mini",                                            "CutBasedMediumElectronToIso",    region))
-  jobs.append(("Mini",                                            "CutBasedLooseElectronToIso",     region))
-  jobs.append(("Mini",                                            "CutBasedVetoElectronToIso",      region))
+  jobs.append(("RelIso012",                                       "CutBasedStopsDileptonToIso",     region))
 
 from multiprocessing import Pool
 pool = Pool(processes=16)
