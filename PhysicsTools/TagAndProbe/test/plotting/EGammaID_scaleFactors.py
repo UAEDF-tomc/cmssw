@@ -12,16 +12,14 @@ import efficiencyUtils as effUtil
 
 outputDirectory = "output"
 
-try:
-  os.makedirs(outputDirectory)
-except:
-  pass
+try:    os.makedirs(outputDirectory)
+except: pass
 
 tdrstyle.setTDRStyle()
 
 rt.gROOT.SetBatch(True)
 
-CMS_lumi.lumi_13TeV = "12.1 fb^{-1}"
+CMS_lumi.lumi_13TeV = "36.4 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.lumi_sqrtS = "13 TeV"
 
@@ -32,195 +30,130 @@ effiMax = 1.07
 sfMin = 0.78
 sfMax = 1.22
 
-def isFloat( myFloat ):
-    try:
-        float(myFloat)
-        return True
-    except:
-        return False
+graphColors = [rt.kGray+3, rt.kRed +1, rt.kAzure+2, rt.kSpring-1, rt.kYellow -2 , rt.kOrange, rt.kViolet, rt.kCyan, rt.kBlack, rt.kBlue] 
 
 
-
-graphColors = [rt.kGray+3, rt.kRed +1, rt.kAzure+2, rt.kSpring-1, rt.kYellow -2 , rt.kBlack, 
-               rt.kBlack, rt.kBlack, rt.kBlack, 
-               rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack, rt.kBlack ]
-
-
-
-
-def findMinMax( effis ):
+def findMinMax(effis):
     mini = +999
     maxi = -999
 
     for key in effis.keys():
-        for eff in effis[key]:
-            if eff['val'] - eff['err'] < mini:
-                mini = eff['val'] - eff['err']
-            if eff['val'] + eff['err'] > maxi:
-                maxi = eff['val'] + eff['err']
+      for eff in effis[key]:
+        mini = min(eff['val'] - eff['err'], mini)
+        maxi = max(eff['val'] + eff['err'], maxi)
 
-    if mini > 0.18 and mini < 0.28:
-        mini = 0.18
-    if mini > 0.28 and mini < 0.38:
-        mini = 0.28
-    if mini > 0.38 and mini < 0.48:
-        mini = 0.38
-    if mini > 0.48 and mini < 0.58:
-        mini = 0.48
-    if mini > 0.58 and mini < 0.68:
-        mini = 0.58
-    if mini > 0.68 and mini < 0.78:
-        mini = 0.68
-    if mini > 0.78 and mini < 1.0:
-        mini = 0.78
-
-
+    if mini > 0.18 and mini < 0.28: mini = 0.18 # This is to avoid the label cutoff at the bottom of the y-axis
+    if mini > 0.28 and mini < 0.38: mini = 0.28
+    if mini > 0.38 and mini < 0.48: mini = 0.38
+    if mini > 0.48 and mini < 0.58: mini = 0.48
+    if mini > 0.58 and mini < 0.68: mini = 0.58
+    if mini > 0.68 and mini < 0.78: mini = 0.68
+    if mini > 0.78 and mini < 1.0:  mini = 0.78
         
-    if  maxi > 0.95:
-        maxi = 1.17        
-    elif maxi < 0.87:
-        maxi = 0.87
-    else:
-        maxi = 1.07
+    if   maxi > 0.95: maxi = 1.17        
+    elif maxi < 0.87: maxi = 0.87
+    else:             maxi = 1.07
 
-    if maxi-mini > 0.5:
-        maxi = maxi + 0.2
+    if maxi-mini > 0.5: maxi = maxi + 0.2
         
     return (mini,maxi)
 
     
-
-def EffiGraph1D(effDataList, sfList ,etaPlot,nameout):
-            
-    W = 800
-    H = 800
-    yUp = 0.45
-    canName = 'totoPt'
-    if etaPlot:
-        canName = 'totoEta'
-    c = rt.TCanvas(canName,canName,50,50,H,W)
+# This function makes the 1D efficiency plots
+def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
+    W       = 800
+    H       = 800
+    yUp     = 0.45
+    canName = 'totoEta' if etaPlot else 'totoPt'
+    c       = rt.TCanvas(canName,canName,50,50,H,W)
     c.SetTopMargin(0.055)
     c.SetBottomMargin(0.10)
     c.SetLeftMargin(0.12)
-    
     
     p1 = rt.TPad( canName + '_up', canName + '_up', 0, yUp, 1,   1, 0,0,0)
     p2 = rt.TPad( canName + '_do', canName + '_do', 0,   0, 1, yUp, 0,0,0)
     p1.SetBottomMargin(0.0075)
     p1.SetTopMargin(   c.GetTopMargin()*1/(1-yUp))
     p2.SetTopMargin(   0.0075)
-    p2.SetBottomMargin( c.GetBottomMargin()*1/yUp)
-    p1.SetLeftMargin( c.GetLeftMargin() )
-    p2.SetLeftMargin( c.GetLeftMargin() )
+    p2.SetBottomMargin(c.GetBottomMargin()*1/yUp)
+    p1.SetLeftMargin(  c.GetLeftMargin() )
+    p2.SetLeftMargin(  c.GetLeftMargin() )
     firstGraph = True
     leg = rt.TLegend(0.5,0.80,0.95 ,0.92)
     leg.SetFillColor(0)
     leg.SetBorderSize(0)
-    if not etaPlot:
-        p1.SetLogx()
-        p2.SetLogx()
 
-    igr = 0
     listOfTGraph1 = []
     listOfTGraph2 = []
-    xMin = 10
-    xMax = 200
     if etaPlot:
-        xMin = 0.0
-        xMin = -2.60
-        xMax = +2.60
-    
+      xMin = -2.60
+      xMax = +2.60
+      zMin = 10
+      zMax = 500
+    else:
+      xMin = 10
+      xMax = 500
+      zMin = 0
+      zMax = 2.6
+      p1.SetLogx()
+      p2.SetLogx()
 
-    minmax =  findMinMax( effDataList )
-    effiMin = minmax[0]
-    effiMax = minmax[1]
-    
+    # Clean up entries we don't need
+    for list in [effDataList, sfList]:
+      for key in list.keys():
+	if zMax <= key[0] or zMin >= key[1]: del list[key] 
+	else:                                list[key] = [x for x in list[key] if x['min'] < xMax and x['max'] > xMin]
+
+    (effiMin, effiMax) = findMinMax(effDataList)
+
     for key in sorted(effDataList.keys()):
         grBinsEffData = effUtil.makeTGraphFromList(effDataList[key], 'min', 'max')
         grBinsSF      = effUtil.makeTGraphFromList(sfList[key]     , 'min', 'max')
 
-        if not etaPlot:
-            print key
-            grBinsEffData.Print()
-
-        grBinsSF     .SetMarkerColor( graphColors[igr] )
-        grBinsSF     .SetLineColor(   graphColors[igr] )
         grBinsSF     .SetLineWidth(2)
-        grBinsEffData.SetMarkerColor( graphColors[igr] )
-        grBinsEffData.SetLineColor(   graphColors[igr] )
         grBinsEffData.SetLineWidth(2) 
-                
-        grBinsEffData.GetHistogram().SetMinimum(effiMin)
-        grBinsEffData.GetHistogram().SetMaximum(effiMax)
 
-#        if not etaPlot:
-            ### for pT 1D plot, use the actual TGraph range
-#            xMin = grBinsEffData.GetHistogram().GetXaxis().GetXmin()
-#            xMax = grBinsEffData.GetHistogram().GetXaxis().GetXmax()
-            
-            #            if grBinsEffData.GetHistogram().GetXaxis().GetXmin() < xMin:
-            #    xMin = grBinsEffData.GetHistogram().GetXaxis().GetXmin()
-            #if grBinsEffData.GetHistogram().GetXaxis().GetXmax() > xMax:
-            #    xMax = grBinsEffData.GetHistogram().GetXaxis().GetXmax()
-        
+        grBinsSF.SetTitle("")
+        grBinsEffData.SetTitle("")
+                
         grBinsEffData.GetHistogram().GetXaxis().SetLimits(xMin,xMax)
         grBinsSF.GetHistogram()     .GetXaxis().SetLimits(xMin,xMax)
-        grBinsSF.GetHistogram().SetMinimum(sfMin)
-        grBinsSF.GetHistogram().SetMaximum(sfMax)
 
-
-        
         grBinsSF.GetHistogram().GetXaxis().SetTitleOffset(1)
-        if etaPlot:
-            grBinsSF.GetHistogram().GetXaxis().SetTitle("SuperCluster #eta")
-        else:
-            grBinsSF.GetHistogram().GetXaxis().SetTitle("p_{T}  [GeV]")  
+        grBinsSF.GetHistogram().GetXaxis().SetTitle("SuperCluster #eta" if etaPlot else "p_{T}  [GeV]")
             
-        grBinsSF.GetHistogram().GetYaxis().SetTitle("Data / MC " )
+        grBinsSF.GetHistogram().GetYaxis().SetTitle("Data / MC")
         grBinsSF.GetHistogram().GetYaxis().SetTitleOffset(1)
             
         grBinsEffData.GetHistogram().GetYaxis().SetTitleOffset(1)
         grBinsEffData.GetHistogram().GetYaxis().SetTitle("Data efficiency" )
         grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( effiMin, effiMax )
 
-            
         ### to avoid loosing the TGraph keep it in memory by adding it to a list
         listOfTGraph1.append( grBinsEffData )
         listOfTGraph2.append( grBinsSF ) 
 
-        if etaPlot:
-            leg.AddEntry( grBinsEffData, '%3.0f #leq p_{T} #leq  %3.0f GeV'   % (float(key[0]),float(key[1])), "PL")        
-        else:
-            leg.AddEntry( grBinsEffData, '%1.3f #leq | #eta | #leq  %1.3f' % (float(key[0]),float(key[1])), "PL")        
+        if etaPlot: leg.AddEntry( grBinsEffData, '%3.0f #leq p_{T} #leq  %3.0f GeV'   % (key[0], key[1]), "PL")        
+        else:       leg.AddEntry( grBinsEffData, '%1.3f #leq | #eta | #leq  %1.3f' % (key[0], key[1]), "PL")        
 
         
-    for igr in range(len(listOfTGraph1)+1):
+    for i in range(len(listOfTGraph1)):
+        listOfTGraph1[i].SetLineColor(graphColors[i])
+        listOfTGraph1[i].SetMarkerColor(graphColors[i])
 
-        option = "P"
-        if igr == 1:
-            option = "AP"
-
-        use_igr = igr
-        if use_igr == len(listOfTGraph1):
-            use_igr = 0
-            
-        listOfTGraph1[use_igr].SetLineColor(graphColors[use_igr])
-        listOfTGraph1[use_igr].SetMarkerColor(graphColors[use_igr])
-
-        listOfTGraph1[use_igr].GetHistogram().SetMinimum(effiMin)
-        listOfTGraph1[use_igr].GetHistogram().SetMaximum(effiMax)
+        listOfTGraph1[i].GetHistogram().SetMinimum(effiMin)
+        listOfTGraph1[i].GetHistogram().SetMaximum(effiMax)
         p1.cd()
-        listOfTGraph1[use_igr].Draw(option)
+        listOfTGraph1[i].Draw("AP" if i==0 else "P")
 
-        listOfTGraph2[use_igr].SetLineColor(graphColors[use_igr])
-        listOfTGraph2[use_igr].SetMarkerColor(graphColors[use_igr])
-        listOfTGraph2[use_igr].GetHistogram().SetMinimum(sfMin)
-        listOfTGraph2[use_igr].GetHistogram().SetMaximum(sfMax)
-        if not etaPlot:
-            listOfTGraph2[use_igr].GetHistogram().GetXaxis().SetMoreLogLabels()
-        listOfTGraph2[use_igr].GetHistogram().GetXaxis().SetNoExponent()
+        listOfTGraph2[i].SetLineColor(graphColors[i])
+        listOfTGraph2[i].SetMarkerColor(graphColors[i])
+        listOfTGraph2[i].GetHistogram().SetMinimum(sfMin)
+        listOfTGraph2[i].GetHistogram().SetMaximum(sfMax)
+        if not etaPlot: listOfTGraph2[i].GetHistogram().GetXaxis().SetMoreLogLabels()
+        listOfTGraph2[i].GetHistogram().GetXaxis().SetNoExponent()
         p2.cd()        
-        listOfTGraph2[use_igr].Draw(option)
+        listOfTGraph2[i].Draw("AP" if i == 0 else "P")
         
 
     lineAtOne = rt.TLine(xMin,1,xMax,1)
@@ -241,8 +174,6 @@ def EffiGraph1D(effDataList, sfList ,etaPlot,nameout):
 
 
 
-    #################################################    
-
 
 def diagnosticErrorPlot( effgr, ierror, nameout ):
     errorNames = efficiency.getSystematicNames()
@@ -257,8 +188,8 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
     c2D_Err.GetPad(2).SetLeftMargin( 0.15)
     c2D_Err.GetPad(2).SetTopMargin(  0.10)
 
-    h2_sfErrorAbs = effgr.ptEtaScaleFactor_2DHisto(ierror+1, False )
-    h2_sfErrorRel = effgr.ptEtaScaleFactor_2DHisto(ierror+1, True  )
+    h2_sfErrorAbs = effgr.histo2D(ierror+1, False, switchEtaPt=True)
+    h2_sfErrorRel = effgr.histo2D(ierror+1, True,  switchEtaPt=True)
     h2_sfErrorAbs.SetMinimum(0)
     h2_sfErrorAbs.SetMaximum(min(h2_sfErrorAbs.GetMaximum(),0.2))
     h2_sfErrorRel.SetMinimum(0)
@@ -274,39 +205,31 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
 
 
 filein = sys.argv[1]
-print " Opening file: ", filein
+if not os.path.exists( filein ) :
+  print 'file %s does not exist' % filein
+  sys.exit(1)
+else: print " Opening file: ", filein
 
 nameOutBase = "./"+ outputDirectory + "/" + filein.split('/')[-1] 
-if not os.path.exists( filein ) :
-    print 'file %s does not exist' % filein
-    sys.exit(1)
-
-
 fileWithEff = open(filein, 'r')
-
 
 effGraph = efficiencyList()
 
-for line in fileWithEff :
+for line in fileWithEff:
     modifiedLine = line.lstrip(' ').rstrip(' ').rstrip('\n')
-    numbers = modifiedLine.split('\t')
+    numbers = [float(i) for i in modifiedLine.split('\t')]
 
-
-    if len(numbers) > 0 and isFloat(numbers[0]):
-        etaKey = ( float(numbers[0]), float(numbers[1]) )
-        ptKey  = ( float(numbers[2]), min(200,float(numbers[3])) )
-        
-        myeff = efficiency(ptKey,etaKey,
-                           float(numbers[4]),float(numbers[5]),float(numbers[6] ),float(numbers[7] ),
-                           float(numbers[8]),float(numbers[9]),float(numbers[10]),float(numbers[11]) )
-
-        effGraph.addEfficiency(myeff)
+    if len(numbers) > 0:
+      etaKey = (numbers[0], numbers[1])
+      ptKey  = (numbers[2], numbers[3])
+      myeff = efficiency(ptKey,etaKey,numbers[4],numbers[5],numbers[6],numbers[7],numbers[8],numbers[9],numbers[10],numbers[11])
+      effGraph.addEfficiency(myeff)
 
 fileWithEff.close()
 
 ### massage the numbers a bit
-effGraph.symmetrizeSystVsEta()
 effGraph.combineSyst()
+
 
 print " ------------------------------- "
 
@@ -316,15 +239,8 @@ pdfout3 = nameOutBase + '_eff_vs_eta.pdf'
 cDummy = rt.TCanvas()
 cDummy.Print( pdfout + "[" )
 
-
-EffiGraph1D( effGraph.pt_1DGraph_list(False) , effGraph.pt_1DGraph_list(True) , False, pdfout2 )
-EffiGraph1D( effGraph.eta_1DGraph_list(False), effGraph.eta_1DGraph_list(True), True , pdfout3 )
-
-#cDummy.Print( pdfout + "]" )
-#sys.exit(0)
-
-h2SF    = effGraph.etaPtScaleFactor_2DHisto(-1)
-h2Error = effGraph.etaPtScaleFactor_2DHisto( 0)  ## only error bars
+h2SF    = effGraph.histo2D(-1, switchEtaPt = False)
+h2Error = effGraph.histo2D(0, switchEtaPt = False)  ## only error bars
 rt.gStyle.SetPalette(1)
 rt.gStyle.SetPaintTextFormat('1.3f');
 rt.gStyle.SetOptTitle(1)
@@ -337,8 +253,8 @@ c2D.GetPad(1).SetTopMargin(  0.10)
 c2D.GetPad(2).SetRightMargin(0.15)
 c2D.GetPad(2).SetLeftMargin( 0.15)
 c2D.GetPad(2).SetTopMargin(  0.10)
-c2D.GetPad(1).SetLogy()
-c2D.GetPad(2).SetLogy()
+c2D.GetPad(1).SetLogx()
+c2D.GetPad(2).SetLogx()
 
 c2D.cd(1)
 dmin = 1.0 - h2SF.GetMinimum()
@@ -370,6 +286,9 @@ canvas.SaveAs(os.path.join(outputDirectory, nameOutBase.split('eff_all_')[-1].sp
 
 for isyst in range(len(efficiency.getSystematicNames())):
     diagnosticErrorPlot( effGraph, isyst, pdfout )
+
+EffiGraph1D(effGraph.listOfGraphs(False, False) , effGraph.listOfGraphs(True, False) , False, pdfout2)
+EffiGraph1D(effGraph.listOfGraphs(False, True),   effGraph.listOfGraphs(True, True),   True,  pdfout3)
 
 cDummy.Print( pdfout + "]" )
 

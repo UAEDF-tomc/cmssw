@@ -69,7 +69,7 @@ susyOptions.AdjustOptions(options, varOptions)
 ## Inputs for test
 ###################################################################
 filesMC =  cms.untracked.vstring(
-    '/store/mc/RunIISpring16MiniAODv2/DYJetsToEE_M-50_LTbinned_100To200_5f_LO_13TeV-madgraph_pythia8/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/90000/121F0BD7-5649-E611-BB18-6CC2173CEC30.root',
+    '/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/627D54C8-16BE-E611-B81E-002590FD583A.root'
     )
 
 filesData =  cms.untracked.vstring( 
