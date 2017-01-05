@@ -143,6 +143,13 @@ def main(alternative):
             out.write("block_"+str(i)+",\n")
         out.write(")\n")
 
+    with open(os.path.join(tnpPackage, 'python', "altSigFit_alternative" + str(alternative) + ".py"), "r") as infile:
+      with open(os.path.join(tnpPackage, 'python', "altSigFit_alternative" + str(alternative) + ".py_"), "w") as outfile:
+        for line in infile:
+          line = line.replace('nan','0.0')
+          outfile.write(line)
+    
+    os.rename(os.path.join(tnpPackage, 'python', "altSigFit_alternative" + str(alternative) + ".py_"), os.path.join(tnpPackage, 'python', "altSigFit_alternative" + str(alternative) + ".py"))
 
 # This script extracts the parameters from the altSig fit on the MC
 # Because the altSig fits on data sometimes fail, we construct a few alternatives with more or less constrain to ensure we can pick out a working fit
