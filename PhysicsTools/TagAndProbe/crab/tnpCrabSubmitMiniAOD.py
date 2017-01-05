@@ -10,7 +10,7 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "Moriond2017_v1"
+submitVersion = "Moriond2017_v2"
 
 if os.environ["USER"] in ['tomc']:
   mainOutputDir           = os.path.join('/store/user/tomc/tnp', submitVersion)
@@ -61,8 +61,9 @@ if __name__ == '__main__':
     config.JobType.sendExternalFolder      = True
     config.JobType.allowUndistributedCMSSW = True 
     
-    submit(config, 'DYToLL_mcAtNLO',  '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
-    submit(config, 'DYToLL_madgraph', '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM')
+#    submit(config, 'DYToLL_mcAtNLO',           '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
+#    submit(config, 'DYToLL_madgraph_herwigpp', '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
+#    submit(config, 'DYToLL_madgraph',          '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM')
 #   submit(config, 'DYToLL_powheg',   '/DYToEE_NNPDF30_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM')
 
     ##### now submit DATA
