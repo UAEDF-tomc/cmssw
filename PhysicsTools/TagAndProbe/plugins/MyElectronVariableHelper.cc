@@ -252,7 +252,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
-                     "Mini", "Mini2", "Mini4",
+                     "Mini", "Mini2", "Mini4", "RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoVT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
                      "triggerEmu"};
@@ -391,6 +391,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["Mini"].push_back(             mini_iso < 0.1);
     passWorkingPoints["Mini2"].push_back(            mini_iso < 0.2);
     passWorkingPoints["Mini4"].push_back(            mini_iso < 0.4);
+    passWorkingPoints["RelIso012"].push_back(        pfRelIso < 0.12);
     passWorkingPoints["triggerEmu"].push_back(       triggerEmu);
     passWorkingPoints["IDEmuSpring15"].push_back(    PassIDEmu(probe));
     passWorkingPoints["ISOEmuSpring15"].push_back(   PassISOEmu(probe));
