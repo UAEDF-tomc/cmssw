@@ -65,13 +65,15 @@ def main(options):
         ROOT.gDirectory.cd("../")
         keyList = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
         for k in  keyList:
-            obj = ROOT.gDirectory.GetKey(k).ReadObj();
+            try:    obj = ROOT.gDirectory.GetKey(k).ReadObj();
+            except: continue
             innername = obj.GetName()
             if (not obj.IsA().InheritsFrom("TDirectory") or not "_bin" in innername):
                 continue
             ROOT.gDirectory.cd(innername)
             c = ROOT.gDirectory.Get("fit_canvas")
-            c.Draw()
+            try:    c.Draw()
+            except: continue
             plotname = os.path.join(options.output, "fit_" + subDir + "_" + innername + ".png")
             #plotname = plotname.replace("probe_sc_", "")
             plotname = plotname.replace("&", "")
@@ -90,6 +92,7 @@ if (__name__ == "__main__"):
 
     for directory in os.listdir(os.path.join(tnpPackage, "test", "efficiencies")):
       for file in glob.glob(os.path.join(tnpPackage, "test", "efficiencies", directory, "eff*.root")):
+        if directory.count('altSig'): continue
 	options.input  = file
 	options.output = os.path.join('fits', directory, file.split('.root')[0].split('/')[-1])
 	options.cc     = options.output.count("eff_mc") and not directory.count('altSig')

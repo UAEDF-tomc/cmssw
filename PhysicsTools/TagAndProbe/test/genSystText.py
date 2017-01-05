@@ -61,9 +61,9 @@ for f in flist:
     fsig1 = ROOT.TFile(altSig1 +"/"+ f)
     fsig2 = ROOT.TFile(altSig2 +"/"+ f)
     fsig3 = ROOT.TFile(altSig3 +"/"+ f)
-    fbkg0 = ROOT.TFile(altBkg0  +"/"+ f)
-    fbkg1 = ROOT.TFile(altBkg1  +"/"+ f)
-    fbkg2 = ROOT.TFile(altBkg2  +"/"+ f)
+    fbkg0 = ROOT.TFile(altBkg0 +"/"+ f)
+    fbkg1 = ROOT.TFile(altBkg1 +"/"+ f)
+    fbkg2 = ROOT.TFile(altBkg2 +"/"+ f)
     famc  = ROOT.TFile(altMC   +"/"+ fmc)
     ftag  = ROOT.TFile(altTag  +"/"+ f)
 
@@ -75,6 +75,7 @@ for f in flist:
     hsig1 = Histo(fsig1, True)
     hsig2 = Histo(fsig2, True)
     hsig3 = Histo(fsig3, True)
+    
     hbkg0 = Histo(fbkg0, True)
     hbkg1 = Histo(fbkg1, True)
     hbkg2 = Histo(fbkg2, True)
