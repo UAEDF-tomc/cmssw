@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys,os
+import sys,os,time
 from math import sqrt
 import ROOT as rt
 import CMS_lumi, tdrstyle
@@ -86,8 +86,8 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
     listOfTGraph1 = []
     listOfTGraph2 = []
     if etaPlot:
-      xMin = -2.60
-      xMax = +2.60
+      xMin = -2.50
+      xMax = +2.50
       zMin = 10
       zMax = 500
     else:
@@ -115,7 +115,7 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
 
         grBinsSF.SetTitle("")
         grBinsEffData.SetTitle("")
-                
+
         grBinsEffData.GetHistogram().GetXaxis().SetLimits(xMin,xMax)
         grBinsSF.GetHistogram()     .GetXaxis().SetLimits(xMin,xMax)
 
@@ -288,6 +288,7 @@ for isyst in range(len(efficiency.getSystematicNames())):
     diagnosticErrorPlot( effGraph, isyst, pdfout )
 
 EffiGraph1D(effGraph.listOfGraphs(False, False) , effGraph.listOfGraphs(True, False) , False, pdfout2)
+time.sleep(1) # dirty pyROOT may end up throwig segmentation faults because its memory structure sucks, waiting 1 second helps pyROOT to recover
 EffiGraph1D(effGraph.listOfGraphs(False, True),   effGraph.listOfGraphs(True, True),   True,  pdfout3)
 
 cDummy.Print( pdfout + "]" )

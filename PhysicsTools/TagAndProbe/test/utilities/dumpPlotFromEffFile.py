@@ -102,3 +102,5 @@ if (__name__ == "__main__"):
 
 	ROOT.gROOT.SetBatch(True)
 	main(options)
+
+    os.system("rsync fits tomc@lxplus.cern.ch:~/www/tagAndProbe/december2016/")
