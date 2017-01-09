@@ -112,7 +112,8 @@ def AddMiniIso(process, options, varOptions):
       setattr(process, 'goodElectronsProbe' + name, temp)
       process.my_ele_sequence += temp
 
-    for wp in ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0','CutBasedStopsDilepton']:
+    referenceWp = ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0','CutBasedStopsDilepton']
+    for wp in referenceWp:
       getAllProbes(wp)
 
     # Tag and probe pairs
@@ -123,14 +124,17 @@ def AddMiniIso(process, options, varOptions):
       process.allTagsAndProbes *= temp
       return name
 
-    def getProducer(name, allProbes, pairsString, workingPoints):
+    def getProducer(name, allProbes, ref, workingPoints):
+      if ref not in referenceWp + ['goodElectrons']:
+        print 'Unknown reference point: ' + ref
+        exit(1)
       producer = process.GsfElectronToEleID.clone()
       producer.jetCollection = cms.InputTag("slimmedJets")
       producer.jet_pt_cut    = cms.double(30.)
       producer.jet_eta_cut   = cms.double(2.5)
       producer.match_delta_r = cms.double(0.3)
       producer.variables     = MiniIsoProbeVars
-      producer.tagProbePairs = cms.InputTag(getTagProbePairs(name + 'Pairs', pairsString))
+      producer.tagProbePairs = cms.InputTag(getTagProbePairs(name + 'Pairs', 'goodElectronsTagHLT@+ ' + (ref if ref == 'goodElectrons' else ('probes' + ref)) + '@-'))
       producer.allProbes     = cms.InputTag(allProbes)
       producer.flags         = cms.PSet()
       for wp in workingPoints: setattr(producer.flags, 'passing' + wp, cms.InputTag('probes' + wp))
@@ -138,22 +142,22 @@ def AddMiniIso(process, options, varOptions):
       setattr(process, name, producer)
       process.tree_sequence *= producer
 
-    getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectronsTagHLT@+ goodElectrons@-",
+    getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectrons",
                 ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedSpring15V', 'CutBasedSpring15L', 'CutBasedSpring15M', 'CutBasedSpring15T',
                  'CutBasedStopsDilepton','CutBasedTTZ','CutBasedIllia',
                  'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
                  'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04'])
 
-    getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "goodElectronsTagHLT@+ probesMVAVLooseTightIP2D@-",
+    getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "MVAVLooseTightIP2D",
                 ['Mini','Mini2','Mini4','ConvVetoIHit1'])
 
-    getProducer('MVATightElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4", "goodElectronsTagHLT@+ probesMVATightTightIP2DSIP3D4@-",
+    getProducer('MVATightElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4",
                 ['MultiIsoM','MultiIsoT','MultiIsoTISOEmu','ConvVetoIHit0'])
 
-    getProducer('MVATightConvIHit0ElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0","goodElectronsTagHLT@+ probesMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0@-",
+    getProducer('MVATightConvIHit0ElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0","MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                 ['Charge'])
 
-    getProducer('CutBasedStopsDileptonToIso', 'goodElectronsProbeCutBasedStopsDilepton', 'goodElectronsTagHLT@+ probesCutBasedStopsDilepton@-', ['RelIso012'])
+    getProducer('CutBasedStopsDileptonToIso', 'goodElectronsProbeCutBasedStopsDilepton', 'CutBasedStopsDilepton', ['RelIso012'])
 
     if varOptions.isMC:
         process.p = cms.Path(
