@@ -2,8 +2,8 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 import os
 
-dataFile  = "../crab/crab_projects_Moriond2017_v2/data.root"
-mcFile    = "../crab/crab_projects_Moriond2017_v2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M.root"
+dataFile  = "../crab/crab_projects_Moriond2017_v3/data.root"
+mcFile    = "../crab/crab_projects_Moriond2017_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M.root"
 outputDir = "./efficiencies/nominal"
 
 options = VarParsing('analysis')
@@ -18,7 +18,7 @@ options.register("altSig",         -1,     VarParsing.multiplicity.singleton, Va
 options.parseArguments()
 
 if options.altMC:
-  mcFile    = "../crab/crab_projects_Moriond2017_v2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root"
+  mcFile    = "../crab/crab_projects_Moriond2017_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root"
   outputDir = "./efficiencies/altMC"
 
 if options.altTag:
@@ -46,14 +46,13 @@ makeDirs(outputDir)
 # Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):
     bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
-    for ptBin in range(7):
+    for ptBin in range(6):
       if ptBin == 0: ptRange = "10p0To20p0"
       if ptBin == 1: ptRange = "20p0To35p0"
       if ptBin == 2: ptRange = "35p0To50p0"
       if ptBin == 3: ptRange = "50p0To100p0"
       if ptBin == 4: ptRange = "100p0To200p0"
       if ptBin == 5: ptRange = "200p0To500p0"
-      if ptBin == 6: ptRange = "500p0To2000p0"
       for etaBin in range(5):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
@@ -93,7 +92,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
-    probe_Ele_pt    = cms.vdouble(10. ,20. ,35. ,50., 100., 200., 500., 2000.),
+    probe_Ele_pt    = cms.vdouble(10. ,20. ,35. ,50., 100., 200., 500.),
     #event_nPV      = cms.vdouble(0.,5.,10.,15.,20.,100.),
     probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
     )
@@ -103,7 +102,7 @@ if not options.doAct:
     trail = "eta"
 else:
     IsoEfficiencyBins = cms.PSet(
-        probe_Ele_pt    = cms.vdouble(10. ,20. ,35. ,50., 100., 200., 500., 2000.),
+        probe_Ele_pt    = cms.vdouble(10. ,20. ,35. ,50., 100., 200., 500.),
         #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
         probe_ele_RelAct = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
         )
@@ -143,7 +142,7 @@ def getVariables(isData):
     variables = cms.PSet(
       mass             = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
       #event_nPV       = cms.vstring("Event N_{PV}", "0", "1000000", ""),
-      probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "2000", "GeV/c"),
+      probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "500", "GeV/c"),
       probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
       probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
       tag_Ele_pt       = cms.vstring("Tag p_{T}", "0.", "1000000000", "GeV/c"), # Apparently you need to add the variables which you want to use in the cut, becuase why make it simple if you can do do something more complex?
