@@ -206,7 +206,7 @@ private:
     LepGood_jetPtRelv2, LepGood_jetPtRatio,
     LepGood_jetBTagCSV,
     LepGood_sip3d, LepGood_dxy, LepGood_dz,
-    LepGood_mvaIdSpring15;
+    LepGood_mvaIdSpring16;
 
 
   TMVA::Reader *readerEle;
@@ -251,7 +251,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
-                     "Mini", "Mini2", "Mini4", "RelIso012",
+                     "Mini", "Mini2", "Mini4", "RelIso010", "RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoVT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
                      "triggerEmu"};
@@ -276,9 +276,9 @@ void MyElectronVariableHelper::beginJob(){
     readerEle->AddVariable( "LepGood_sip3d",                 &LepGood_sip3d );
     readerEle->AddVariable( "log(abs(LepGood_dxy))",         &LepGood_dxy );
     readerEle->AddVariable( "log(abs(LepGood_dz))",          &LepGood_dz );
-    readerEle->AddVariable( "LepGood_mvaIdSpring15",         &LepGood_mvaIdSpring15 );
+    readerEle->AddVariable( "LepGood_mvaIdSpring16GP",       &LepGood_mvaIdSpring16 );
 
-    edm::FileInPath *fip = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond16_el_sigTTZ_bkgTT_BDTG.weights.xml");
+    edm::FileInPath *fip = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond17_el_BDTG.weights.xml");
     readerEle->BookMVA( "BDTG method", fip->fullPath().c_str());
 }
 
@@ -359,7 +359,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     LepGood_sip3d                = sip3d;
     LepGood_dxy                  = TMath::Log(std::abs(dxy));
     LepGood_dz                   = TMath::Log(std::abs(dz));
-    LepGood_mvaIdSpring15        = mva;
+    LepGood_mvaIdSpring16        = mva;
 
     float leptonMva              = readerEle->EvaluateMVA( "BDTG method" );
 
@@ -391,6 +391,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["Mini2"].push_back(            mini_iso < 0.2);
     passWorkingPoints["Mini4"].push_back(            mini_iso < 0.4);
     passWorkingPoints["RelIso012"].push_back(        pfRelIso < 0.12);
+    passWorkingPoints["RelIso010"].push_back(        pfRelIso < 0.10);
     passWorkingPoints["triggerEmu"].push_back(       triggerEmu);
     passWorkingPoints["IDEmuSpring15"].push_back(    PassIDEmu(probe));
     passWorkingPoints["ISOEmuSpring15"].push_back(   PassISOEmu(probe));
