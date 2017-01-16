@@ -54,10 +54,10 @@ if (varOptions.isMC):
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 else:
     options['OUTPUT_FILE_NAME']    = "TnPTree_data.root"
-    options['TnPPATHS']            = cms.vstring("HLT_Ele27_eta2p1_WPLoose_Gsf_v*")
-    options['TnPHLTTagFilters']    = cms.vstring("hltEle27erWPLooseGsfTrackIsoFilter")
+    options['TnPPATHS']            = cms.vstring("HLT_Ele27_eta2p1_WPTight_Gsf_v*")
+    options['TnPHLTTagFilters']    = cms.vstring("hltEle27erWPTightGsfTrackIsoFilter")
     options['TnPHLTProbeFilters']  = cms.vstring()
-    options['HLTFILTERTOMEASURE']  = cms.vstring("hltEle27erWPLooseGsfTrackIsoFilter")
+    options['HLTFILTERTOMEASURE']  = cms.vstring("hltEle27erWPTightGsfTrackIsoFilter")
     options['GLOBALTAG']           = 'auto:run2_data'
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 
