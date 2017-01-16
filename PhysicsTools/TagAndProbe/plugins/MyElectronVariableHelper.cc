@@ -70,12 +70,11 @@ namespace{
 
   bool PassIDEmu(const pat::Electron &ele){
     float eInvMinusPInv = std::abs(1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
-    if(ele.full5x5_sigmaIetaIeta()                    >= (ele.isEB() ? 0.011 : 0.030)) return false;
-    if(std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.04  : 0.07))  return false;
-    if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.01  : 0.008)) return false;
-    if(ele.hadronicOverEm()                           >= (ele.isEB() ? 0.10  : 0.07))  return false;
-    if(eInvMinusPInv                                  <= -0.05)                        return false;
-    if(eInvMinusPInv                                  >= (ele.isEB() ? 0.01  : 0.005)) return false;
+    if(ele.full5x5_sigmaIetaIeta()                    >= (ele.isEB() ? 0.011 : 0.031)) return false;
+    if(std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= 0.01)                         return false;
+    if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.04  : 0.08))  return false;
+    if(ele.hadronicOverEm()                           >= 0.08)                         return false;
+    if(eInvMinusPInv                                  >= 0.01)                         return false;
     return true;
   }
 
