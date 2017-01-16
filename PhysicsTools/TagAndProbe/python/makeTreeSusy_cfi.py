@@ -89,7 +89,7 @@ def AddMiniIso(process, options, varOptions):
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
-                     "Mini", "Mini2", "Mini4","RelIso012",
+                     "Mini", "Mini2", "Mini4","RelIso010","RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
                      "triggerEmu"];
@@ -152,7 +152,7 @@ def AddMiniIso(process, options, varOptions):
                 ['Mini','Mini2','Mini4','ConvVetoIHit1'])
 
     getProducer('MVATightElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4",
-                ['MultiIsoM','MultiIsoT','MultiIsoTISOEmu','ConvVetoIHit0'])
+                ['RelIso010','MultiIsoM','MultiIsoT','MultiIsoTISOEmu','ConvVetoIHit0'])
 
     getProducer('MVATightConvIHit0ElectronToIso', "goodElectronsProbeMVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0","MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                 ['Charge'])
