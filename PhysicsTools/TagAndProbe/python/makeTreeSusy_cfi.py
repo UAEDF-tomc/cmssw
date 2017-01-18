@@ -92,7 +92,7 @@ def AddMiniIso(process, options, varOptions):
                      "Mini", "Mini2", "Mini4","RelIso010","RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
-                     "triggerEmu"];
+                     "triggerEmu","TTZ"];
 
 
     # Applies probe cuts and WP (numerators and denominators both need to be listed here)
@@ -146,7 +146,7 @@ def AddMiniIso(process, options, varOptions):
                 ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedSpring15V', 'CutBasedSpring15L', 'CutBasedSpring15M', 'CutBasedSpring15T',
                  'CutBasedStopsDilepton','CutBasedTTZ','CutBasedIllia',
                  'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
-                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04'])
+                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04','TTZ'])
 
     getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "MVAVLooseTightIP2D",
                 ['Mini','Mini2','Mini4','ConvVetoIHit1'])

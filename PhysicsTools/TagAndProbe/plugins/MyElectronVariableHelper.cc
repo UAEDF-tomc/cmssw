@@ -78,6 +78,19 @@ namespace{
     return true;
   }
 
+  bool PassIDEmuTTZ(const pat::Electron &ele){ // For some reason they use some older trigger emulation
+    float eInvMinusPInv = std::abs(1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
+    if(ele.full5x5_sigmaIetaIeta()                    >= (ele.isEB() ? 0.011 : 0.030)) return false;
+    if(std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.04  : 0.07))  return false;
+    if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.01  : 0.008)) return false;
+    if(ele.hadronicOverEm()                           >= (ele.isEB() ? 0.10  : 0.07))  return false;
+    if(eInvMinusPInv                                  <= -0.05)                        return false;
+    if(eInvMinusPInv                                  >= (ele.isEB() ? 0.01  : 0.005)) return false;
+    return true;
+  }
+
+  }
+
   bool PassISOEmu(const pat::Electron &ele){
     return ele.ecalPFClusterIso()/ele.pt() < 0.45 and ele.hcalPFClusterIso()/ele.pt() < 0.25 and ele.dr03TkSumPt()/ele.pt() < 0.2;
   }
@@ -254,7 +267,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
                      "Mini", "Mini2", "Mini4", "RelIso010", "RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoVT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
-                     "triggerEmu"};
+                     "triggerEmu","TTZ"};
     for(TString wp : workingPoints) produces<edm::ValueMap<bool>>(("pass" + wp).Data());
 }
 
@@ -392,8 +405,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["Mini4"].push_back(            mini_iso < 0.4);
     passWorkingPoints["RelIso012"].push_back(        pfRelIso < 0.12);
     passWorkingPoints["RelIso010"].push_back(        pfRelIso < 0.10);
+    passWorkingPoints["RelIsoCBL"].push_back(        pfRelIso < (probe.isEB() ? 0.0994 : 0.107));
     passWorkingPoints["triggerEmu"].push_back(       triggerEmu);
     passWorkingPoints["IDEmuSpring15"].push_back(    PassIDEmu(probe));
+    passWorkingPoints["IDEmuTTZ"].push_back(         PassIDEmuTTZ(probe));
     passWorkingPoints["ISOEmuSpring15"].push_back(   PassISOEmu(probe));
     passWorkingPoints["Charge"].push_back(           probe.isGsfCtfScPixChargeConsistent());
     passWorkingPoints["IHit0"].push_back(            missingInnerHits == 0);
@@ -427,8 +442,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["ConvVetoIHit1"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit1"}));
     passWorkingPoints["ConvVetoIHit0"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit0"}));
     passWorkingPoints["MultiIsoTISOEmu"].push_back(                          combine(passWorkingPoints, {"MultiIsoT", "ISOEmuSpring15"}));
-    passWorkingPoints["CutBasedTTZ"].push_back(                              combine(passWorkingPoints, {"CutBasedM","IDEmuSpring15","TightIP2D", "SIP3D4"}));
-    passWorkingPoints["CutBasedIllia"].push_back(                            combine(passWorkingPoints, {"CutBasedTTZ", "Charge"}));
+    passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL","TightIP2D","SIP3D4"));
 
     ++i;
   }
