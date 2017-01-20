@@ -35,7 +35,7 @@ options['PHOTON_CUTS']          = "(abs(-log(tan(superCluster.position.theta/2))
 
 options['ELECTRON_TAG_CUTS']    = "(abs(-log(tan(superClusterPosition.theta/2))) <=2.1) && !(1.4442<=abs(-log(tan(superClusterPosition.theta/2)))<=1.566) && pt >= 30.0"
 
-options['MAXEVENTS']            = cms.untracked.int32(varOptions.maxEvents) 
+options['MAXEVENTS']            = cms.untracked.int32(15000)#varOptions.maxEvents) 
 options['DoTrigger']            = cms.bool( varOptions.doTrigger )
 options['DoRECO']               = cms.bool( varOptions.doRECO    )
 options['DoEleID']              = cms.bool( varOptions.doEleID   )
@@ -46,10 +46,10 @@ options['DEBUG']                = cms.bool(False)
 
 if (varOptions.isMC):
     options['OUTPUT_FILE_NAME']    = "TnPTree_mc.root"
-    options['TnPPATHS']            = cms.vstring("HLT*")
-    options['TnPHLTTagFilters']    = cms.vstring()
+    options['TnPPATHS']            = cms.vstring("HLT_Ele27_eta2p1_WPTight_Gsf_v*")
+    options['TnPHLTTagFilters']    = cms.vstring("hltEle27erWPTightGsfTrackIsoFilter")
     options['TnPHLTProbeFilters']  = cms.vstring()
-    options['HLTFILTERTOMEASURE']  = cms.vstring("")
+    options['HLTFILTERTOMEASURE']  = cms.vstring("hltEle27erWPTightGsfTrackIsoFilter")
     options['GLOBALTAG']           = 'auto:run2_mc'
     options['EVENTSToPROCESS']     = cms.untracked.VEventRange()
 else:
@@ -69,7 +69,7 @@ susyOptions.AdjustOptions(options, varOptions)
 ## Inputs for test
 ###################################################################
 filesMC =  cms.untracked.vstring(
-    '/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/50000/627D54C8-16BE-E611-B81E-002590FD583A.root'
+    '/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1//50000/2EC31DBD-0FBE-E611-9515-0025905B85CC.root'
     )
 
 filesData =  cms.untracked.vstring( 
@@ -118,7 +118,7 @@ process.source = cms.Source("PoolSource",
                             eventsToProcess = options['EVENTSToPROCESS']
                             )
 
-process.maxEvents = cms.untracked.PSet( input = options['MAXEVENTS'])
+#process.maxEvents = cms.untracked.PSet(15000) # input = options['MAXEVENTS'])
 
 ###################################################################
 ## ID
