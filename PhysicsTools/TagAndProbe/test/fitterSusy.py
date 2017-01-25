@@ -2,8 +2,9 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 import os
 
-dataFile  = "../crab/crab_projects_Moriond2017_v3/data.root"
-mcFile    = "../crab/crab_projects_Moriond2017_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M.root"
+
+dataFile  = "../crab/crab_projects_Moriond2017_v4h/data.root"
+mcFile    = "../crab/crab_projects_Moriond2017_v4h/DYToLL_madgraph.root"
 outputDir = "./efficiencies/nominal"
 
 options = VarParsing('analysis')
@@ -18,12 +19,12 @@ options.register("altSig",         -1,     VarParsing.multiplicity.singleton, Va
 options.parseArguments()
 
 if options.altMC:
-  mcFile    = "../crab/crab_projects_Moriond2017_v3/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8.root"
+  mcFile    = "../crab/crab_projects_Moriond2017_v4h/DYToLL_mcAtNLO.root"
   outputDir = "./efficiencies/altMC"
 
 if options.altTag:
   outputDir = "./efficiencies/altTag"
-  import PhysicsTools.TagAndProbe.nominalFit as common
+  import PhysicsTools.TagAndProbe.altTagFit as common
 elif options.altBkg >= 0:
   common = __import__('PhysicsTools.TagAndProbe.altBkgFit_alternative' + str(options.altBkg), fromlist=['all_pdfs'])
   outputDir = "./efficiencies/altBkg" + str(options.altBkg)
@@ -46,13 +47,14 @@ makeDirs(outputDir)
 # Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):
     bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
-    for ptBin in range(6):
+    for ptBin in range(7):
       if ptBin == 0: ptRange = "10p0To20p0"
-      if ptBin == 1: ptRange = "20p0To35p0"
-      if ptBin == 2: ptRange = "35p0To50p0"
-      if ptBin == 3: ptRange = "50p0To100p0"
-      if ptBin == 4: ptRange = "100p0To200p0"
-      if ptBin == 5: ptRange = "200p0To500p0"
+      if ptBin == 1: ptRange = "20p0To30p0"
+      if ptBin == 2: ptRange = "30p0To40p0"
+      if ptBin == 3: ptRange = "40p0To50p0"
+      if ptBin == 4: ptRange = "50p0To100p0"
+      if ptBin == 5: ptRange = "100p0To200p0"
+      if ptBin == 6: ptRange = "200p0To500p0"
       for etaBin in range(5):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
@@ -92,7 +94,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
 IDEfficiencyBins = cms.PSet(
-    probe_Ele_pt    = cms.vdouble(10. ,20. ,35. ,50., 100., 200., 500.),
+    probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
     #event_nPV      = cms.vdouble(0.,5.,10.,15.,20.,100.),
     probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
     )
@@ -102,7 +104,7 @@ if not options.doAct:
     trail = "eta"
 else:
     IsoEfficiencyBins = cms.PSet(
-        probe_Ele_pt    = cms.vdouble(10. ,20. ,35. ,50., 100., 200., 500.),
+        probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
         #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
         probe_ele_RelAct = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
         )
@@ -211,5 +213,7 @@ if options.jobId == 18: addToProcess("ConvVetoIHit0",                           
 
 if options.jobId == 19: addToProcess("Charge",                                   "MVATightConvIHit0ElectronToIso", options.onlyData, True)
 if options.jobId == 20: addToProcess("RelIso012",                                "CutBasedStopsDileptonToIso",     options.onlyData, True)
+if options.jobId == 21: addToProcess("RelIso010",                                "MVATightElectronToIso",          options.onlyData, True)
+if options.jobId == 22: addToProcess("TTZ",                                      "GsfElectronToID"                 options.onlyData, True)
 
 process.fit = cms.Path(process.seq)
