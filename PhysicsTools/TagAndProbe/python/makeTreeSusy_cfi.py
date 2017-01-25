@@ -85,7 +85,7 @@ def AddMiniIso(process, options, varOptions):
                      "CutBasedL", "CutBasedLPOGIP2D", "CutBasedSpring15L",
                      "CutBasedM", "CutBasedMPOGIP2D", "CutBasedSpring15M",
                      "CutBasedT", "CutBasedTPOGIP2D", "CutBasedSpring15T",
-                     "CutBasedStopsDilepton", "CutBasedTTZ", "CutBasedIllia",
+                     "CutBasedStopsDilepton","TTZ",
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
@@ -144,9 +144,9 @@ def AddMiniIso(process, options, varOptions):
 
     getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectrons",
                 ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedSpring15V', 'CutBasedSpring15L', 'CutBasedSpring15M', 'CutBasedSpring15T',
-                 'CutBasedStopsDilepton','CutBasedTTZ','CutBasedIllia',
+                 'CutBasedStopsDilepton','TTZ',
                  'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
-                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04','TTZ'])
+                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04'])
 
     getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "MVAVLooseTightIP2D",
                 ['Mini','Mini2','Mini4','ConvVetoIHit1'])

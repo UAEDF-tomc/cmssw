@@ -89,8 +89,6 @@ namespace{
     return true;
   }
 
-  }
-
   bool PassISOEmu(const pat::Electron &ele){
     return ele.ecalPFClusterIso()/ele.pt() < 0.45 and ele.hcalPFClusterIso()/ele.pt() < 0.25 and ele.dr03TkSumPt()/ele.pt() < 0.2;
   }
@@ -260,14 +258,14 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
                      "CutBasedL", "CutBasedLPOGIP2D", "CutBasedSpring15L",
                      "CutBasedM", "CutBasedMPOGIP2D", "CutBasedSpring15M",
                      "CutBasedT", "CutBasedTPOGIP2D", "CutBasedSpring15T",
-                     "CutBasedStopsDilepton", "CutBasedTTZ", "CutBasedIllia",
+                     "CutBasedStopsDilepton", "TTZ",
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
                      "Mini", "Mini2", "Mini4", "RelIso010", "RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoVT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
-                     "triggerEmu","TTZ"};
+                     "triggerEmu"};
     for(TString wp : workingPoints) produces<edm::ValueMap<bool>>(("pass" + wp).Data());
 }
 
@@ -442,7 +440,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["ConvVetoIHit1"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit1"}));
     passWorkingPoints["ConvVetoIHit0"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit0"}));
     passWorkingPoints["MultiIsoTISOEmu"].push_back(                          combine(passWorkingPoints, {"MultiIsoT", "ISOEmuSpring15"}));
-    passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL","TightIP2D","SIP3D4"));
+    passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL","TightIP2D","SIP3D4"}));
 
     ++i;
   }
