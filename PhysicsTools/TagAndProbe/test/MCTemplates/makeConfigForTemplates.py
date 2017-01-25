@@ -25,10 +25,8 @@ def main(options):
             outputFile.write(psetName)
 
             if options.altSig:
-              outputFile.write("\"RooDoubleCBFast::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP1[0.999, 0.0,50.0],nP1[1.405,0.000,50.000],alphaP2[0.999,0.0,50.0],nP2[1.405,0.000,50.000])\",\n")
-              outputFile.write("\"RooDoubleCBFast::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF1[1.586, 0.0,50.0],nF1[0.464,0.000,20.00],alphaF2[1.586,0.0,50.0],nF2[0.464,0.000,20.00])\",\n")
-              #outputFile.write("\"RooCBShape::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP[0.999, 0.0,50.0],nP[1.405,0.000,50.000])\",\n")
-              #outputFile.write("\"RooCBShape::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF[1.586, 0.0,50.0],nF[0.464,0.000,20.00])\",\n")
+	      outputFile.write("\"FAILSIGPDF"+psetName.split(' ')[0]+"\",\n")
+	      outputFile.write("\"PASSSIGPDF"+psetName.split(' ')[0]+"\",\n")
               outputFile.write("\"RooBreitWigner::signalPassBWZ(mass, mZpass[91.1876,80.,100.],sigmaZpass[2.4952,0.001,10.])\",\n")
               outputFile.write("\"RooBreitWigner::signalFailBWZ(mass, mZfail[91.1876,80.,100.],sigmaZfail[2.4952,0.001,10.])\",\n")
               outputFile.write("\"RooBreitWigner::signalPassBWtail(mass, mtailpass[70.,60.,80.],sigmatailpass[10.,0.001,30.])\",\n")
@@ -43,16 +41,20 @@ def main(options):
               outputFile.write("\"SUM::signalFail(cFail[0.7,0.0,1.0]*signalZFail,signalVoigtFail)\",\n")
  
             else:
-	      outputFile.write("\"RooGaussian::signalResPass(mass, meanP[0.1,0.100,10.000],sigmaP[1.0,0.001,10.000])\",\n")
-	      outputFile.write("\"RooGaussian::signalResFail(mass, meanF[0.1,0.100,10.000],sigmaF[1.0,0.001,10.000])\",\n")
+	      outputFile.write("\"FAILSIGPDF"+psetName.split(' ')[0]+"\",\n")
+	      outputFile.write("\"PASSSIGPDF"+psetName.split(' ')[0]+"\",\n")
+	      #outputFile.write("\"RooGaussian::signalResPass(mass, meanP[0.,-5.0,5.0],sigmaP[0.5,0.1,5])\",\n")
+	      #outputFile.write("\"RooGaussian::signalResFail(mass, meanF[0.,-5.0,5.0],sigmaF[0.5,0.1,5])\",\n")
 	      histNameSt = "hMass_"+str(var1s[binVar1])+"To"+str(var1s[binVar1+1])+"_"+str(var2s[binVar2])+"To"+str(var2s[binVar2+1])
 	      outputFile.write("\"ZGeneratorLineShape::signalPhyPass(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Pass\\\")\",\n"),
 	      outputFile.write("\"ZGeneratorLineShape::signalPhyFail(mass,\\\""+options.templateFile+"\\\", \\\""+histNameSt+"_Fail\\\")\",\n"),
 	      outputFile.write("\"FCONV::signalPass(mass, signalPhyPass, signalResPass)\",\n")
 	      outputFile.write("\"FCONV::signalFail(mass, signalPhyFail, signalResFail)\",\n")     
 
-	    outputFile.write("\""+options.passBkgPdf+"\",\n")
-	    outputFile.write("\""+options.failBkgPdf+"\",\n")
+#	    outputFile.write("\""+options.passBkgPdf+"\",\n")
+#	    outputFile.write("\""+options.failBkgPdf+"\",\n")
+	    outputFile.write("\"FAILBKGPDF"+psetName.split(' ')[0]+"\",\n")
+	    outputFile.write("\"PASSBKGPDF"+psetName.split(' ')[0]+"\",\n")
 	    outputFile.write("\"efficiency[0.5,0,1]\",\n")
 	    outputFile.write("\"signalFractionInPassing[1.0]\"\n")     
             outputFile.write("),\n")
@@ -68,8 +70,8 @@ if __name__ == "__main__":
     parser.add_option("-t", "--templateFile", default="templatesID.root", help="Output filename")
     parser.add_option("", "--var1Bins", default="20,30,40,50,200", help="Binning to use in var1")
     parser.add_option("", "--var2Bins", default="0.0,1.0,1.4442,1.566,2.0,2.5", help="Binning to use in var2")
-    parser.add_option("", "--failBkgPdf", default="RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0, 70, 80])", help="Background PDF for passing probes")
-    parser.add_option("", "--passBkgPdf", default="RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0, 70, 80])", help="Background PDF for failing probes")
+#    parser.add_option("", "--failBkgPdf", default="RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0, 70, 80])", help="Background PDF for passing probes")
+ #   parser.add_option("", "--passBkgPdf", default="RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0, 70, 80])", help="Background PDF for failing probes")
 
     (options, arg) = parser.parse_args()
     options.altSig = False

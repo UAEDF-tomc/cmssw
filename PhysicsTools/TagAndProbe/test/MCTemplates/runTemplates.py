@@ -10,145 +10,6 @@ try:
 except:
   pass
 
-failedFits = ["CutBasedStopsDileptonToRelIso012_barrel_10p0To20p0_0p0To0p8",
-              "CutBasedStopsDileptonToRelIso012_crack_10p0To20p0_1p442To1p566",
-              "CutBasedStopsDileptonToRelIso012_endcap_10p0To20p0_1p566To2p0",
-              "CutBasedStopsDileptonToRelIso012_barrel_20p0To35p0_0p0To0p8",
-              "CutBasedStopsDileptonToRelIso012_barrel_20p0To35p0_0p8To1p442",
-              "CutBasedStopsDileptonToRelIso012_crack_20p0To35p0_1p442To1p566",
-              "CutBasedStopsDileptonToRelIso012_endcap_20p0To35p0_1p566To2p0",
-              "CutBasedStopsDileptonToRelIso012_endcap_20p0To35p0_2p0To2p5",
-              "CutBasedStopsDileptonToRelIso012_barrel_35p0To50p0_0p0To0p8",
-              "CutBasedStopsDileptonToRelIso012_barrel_35p0To50p0_0p8To1p442",
-              "CutBasedStopsDileptonToRelIso012_crack_35p0To50p0_1p442To1p566",
-              "CutBasedStopsDileptonToRelIso012_crack_35p0To50p0_1p442To1p566",
-              "CutBasedStopsDileptonToRelIso012_barrel_50p0To100p0_0p0To0p8",
-              "CutBasedStopsDileptonToRelIso012_barrel_50p0To100p0_0p8To1p442",
-              "CutBasedStopsDileptonToRelIso012_barrel_100p0To200p0_0p0To0p8",
-              "CutBasedStopsDileptonToRelIso012_barrel_100p0To200p0_0p8To1p442",
-              "CutBasedStopsDileptonToRelIso012_crack_100p0To200p0_1p442To1p566",
-              "CutBasedStopsDileptonToRelIso012_endcap_200p0To500p0_1p566To2p0",
-              "GsfElectronToCutBasedSpring15L_crack_10p0To20p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15L_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15L_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15L_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15L_endcap_20p0To35p0_1p566To2p0",
-              "GsfElectronToCutBasedSpring15L_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15L_barrel_35p0To50p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15L_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15L_barrel_50p0To100p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15L_crack_100p0To200p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15M_crack_10p0To20p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15M_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15M_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15M_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15M_endcap_20p0To35p0_1p566To2p0",
-              "GsfElectronToCutBasedSpring15M_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15M_barrel_35p0To50p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15M_barrel_35p0To50p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15M_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15M_barrel_50p0To100p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15M_crack_100p0To200p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15T_crack_10p0To20p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15T_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15T_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15T_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15T_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15T_barrel_35p0To50p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15T_barrel_35p0To50p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15T_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15T_barrel_50p0To100p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15T_crack_100p0To200p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15T_barrel_200p0To500p0_0p0To0p8",
-              "GsfElectronToCutBasedSpring15T_barrel_200p0To500p0_0p8To1p442",
-              "GsfElectronToCutBasedSpring15T_endcap_200p0To500p0_1p566To2p0",
-              "GsfElectronToCutBasedSpring15V_crack_10p0To20p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15V_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToCutBasedSpring15V_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToCutBasedSpring15V_endcap_20p0To35p0_1p566To2p0",
-              "GsfElectronToCutBasedSpring15V_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToCutBasedStopsDilepton_crack_10p0To20p0_1p442To1p566",
-              "GsfElectronToCutBasedStopsDilepton_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToCutBasedStopsDilepton_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToCutBasedStopsDilepton_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToCutBasedStopsDilepton_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToCutBasedStopsDilepton_barrel_35p0To50p0_0p0To0p8",
-              "GsfElectronToCutBasedStopsDilepton_barrel_35p0To50p0_0p8To1p442",
-              "GsfElectronToCutBasedStopsDilepton_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_endcap_20p0To35p0_1p566To2p0",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToLeptonMvaMIDEmuTightIP2DSIP3D8mini04_barrel_200p0To500p0_0p0To0p8",
-              "GsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8mini04_crack_10p0To20p0_1p442To1p566",
-              "GsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8mini04_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8mini04_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8mini04_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8mini04_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToLeptonMvaVTIDEmuTightIP2DSIP3D8mini04_barrel_200p0To500p0_0p0To0p8",
-              "GsfElectronToMVATightIDEmuTightIP2DSIP3D4_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToMVATightIDEmuTightIP2DSIP3D4_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToMVATightIDEmuTightIP2DSIP3D4_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToMVATightIDEmuTightIP2DSIP3D4_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToMVATightIDEmuTightIP2DSIP3D4_barrel_200p0To500p0_0p0To0p8",
-              "GsfElectronToMVATightTightIP2DSIP3D4_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToMVATightTightIP2DSIP3D4_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToMVATightTightIP2DSIP3D4_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToMVATightTightIP2DSIP3D4_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToMVAVLooseFOIDEmuTightIP2D_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToMVAVLooseFOIDEmuTightIP2D_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToMVAVLooseFOIDEmuTightIP2D_barrel_50p0To100p0_0p0To0p8",
-              "GsfElectronToMVAVLooseTightIP2D_endcap_10p0To20p0_2p0To2p5",
-              "GsfElectronToMVAVLooseTightIP2D_barrel_20p0To35p0_0p0To0p8",
-              "GsfElectronToMVAVLooseTightIP2D_crack_20p0To35p0_1p442To1p566",
-              "GsfElectronToMVAVLooseTightIP2D_endcap_20p0To35p0_2p0To2p5",
-              "GsfElectronToMVAVLooseTightIP2D_barrel_50p0To100p0_0p0To0p8",
-              "MVATightConvIHit0ElectronToCharge_barrel_20p0To35p0_0p0To0p8",
-              "TightConvIHit0ElectronToCharge_barrel_35p0To50p0_0p8To1p442",
-              "MVATightElectronToConvVetoIHit0_barrel_20p0To35p0_0p0To0p8",
-              "MVATightElectronToConvVetoIHit0_barrel_50p0To100p0_0p0To0p8",
-              "MVATightElectronToMultiIsoM_barrel_20p0To35p0_0p0To0p8",
-              "MVATightElectronToMultiIsoM_barrel_20p0To35p0_0p8To1p442",
-              "MVATightElectronToMultiIsoM_crack_20p0To35p0_1p442To1p566",
-              "MVATightElectronToMultiIsoM_endcap_20p0To35p0_1p566To2p0",
-              "MVATightElectronToMultiIsoM_barrel_35p0To50p0_0p0To0p8",
-              "MVATightElectronToMultiIsoM_barrel_35p0To50p0_0p8To1p442",
-              "MVATightElectronToMultiIsoM_barrel_50p0To100p0_0p0To0p8",
-              "MVATightElectronToMultiIsoT_barrel_20p0To35p0_0p0To0p8",
-              "MVATightElectronToMultiIsoT_barrel_50p0To100p0_0p0To0p8",
-              "MVATightElectronToMultiIsoT_barrel_50p0To100p0_0p8To1p442",
-              "MVATightElectronToMultiIsoTISOEmu_barrel_20p0To35p0_0p0To0p8",
-              "MVATightElectronToMultiIsoTISOEmu_barrel_50p0To100p0_0p0To0p8",
-              "MVAVLooseElectronToConvVetoIHit1_barrel_10p0To20p0_0p0To0p8",
-              "MVAVLooseElectronToConvVetoIHit1_crack_10p0To20p0_1p442To1p566",
-              "MVAVLooseElectronToConvVetoIHit1_endcap_10p0To20p0_1p566To2p0",
-              "MVAVLooseElectronToConvVetoIHit1_barrel_20p0To35p0_0p0To0p8",
-              "MVAVLooseElectronToConvVetoIHit1_crack_20p0To35p0_1p442To1p566",
-              "MVAVLooseElectronToConvVetoIHit1_barrel_50p0To100p0_0p0To0p8",
-              "MVAVLooseElectronToMini2_barrel_20p0To35p0_0p0To0p8",
-              "MVAVLooseElectronToMini2_crack_20p0To35p0_1p442To1p566",
-              "MVAVLooseElectronToMini2_endcap_20p0To35p0_1p566To2p0",
-              "MVAVLooseElectronToMini2_endcap_20p0To35p0_2p0To2p5",
-              "MVAVLooseElectronToMini2_barrel_35p0To50p0_0p0To0p8",
-              "MVAVLooseElectronToMini2_barrel_50p0To100p0_0p0To0p8",
-              "MVAVLooseElectronToMini2_barrel_50p0To100p0_0p8To1p442",
-              "MVAVLooseElectronToMini2_crack_100p0To200p0_1p442To1p566",
-              "MVAVLooseElectronToMini2_endcap_100p0To200p0_2p0To2p5",
-              "MVAVLooseElectronToMini2_endcap_200p0To500p0_2p0To2p5",
-              "MVAVLooseElectronToMini4_barrel_20p0To35p0_0p0To0p8",
-              "MVAVLooseElectronToMini4_endcap_20p0To35p0_1p566To2p0",
-              "MVAVLooseElectronToMini4_barrel_50p0To100p0_0p8To1p442",
-              "MVAVLooseElectronToMini4_crack_100p0To200p0_1p442To1p566",
-              "MVAVLooseElectronToMini4_endcap_100p0To200p0_1p566To2p0",
-              "MVAVLooseElectronToMini4_endcap_100p0To200p0_2p0To2p5",
-              "MVAVLooseElectronToMini_barrel_20p0To35p0_0p0To0p8",
-              "MVAVLooseElectronToMini_crack_20p0To35p0_1p442To1p566",
-              "MVAVLooseElectronToMini_barrel_50p0To100p0_0p0To0p8",
-              "MVAVLooseElectronToMini_endcap_200p0To500p0_1p566To2p0"
-              ]
-failedFitsAltSig = []
 
 def getIdLabel(args):
     idProbe, directory, region = args
@@ -156,11 +17,11 @@ def getIdLabel(args):
 
 
 class options:
-    input           = os.path.join(tnpPackage, 'crab', 'crab_projects_Moriond2017_v3', 'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M.root')
+    input           = os.path.join(tnpPackage, 'crab', 'crab_projects_Moriond2017_v4g', 'DYToLL_madgraph.root')
     output          = "mc_templates.root"
     directory       = "GsfElectronToID"
     idprobe         = "passingMedium"
-    var1Bins        = "10,20,35,50,100,200,500"
+    var1Bins        = "10,20,30,40,50,100,200,500"
     var2Bins        = "0.0,0.8,1.4442,1.566,2.0,2.5"
     var1Name        = "probe_Ele_pt"
     var2Name        = "probe_sc_abseta"
@@ -169,9 +30,111 @@ class options:
     tagTauVarName   = "" # "tag_Ele_dRTau"
     probeTauVarName = "" # "probe_dRTau
     idLabel         = ""
-    failBkgPdf      = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0, 70, 80])"
-    passBkgPdf      = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0, 70, 80])"
+    failBkgPdf      = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0,70.0,80.0])"
+    passBkgPdf      = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0,70.0,80.0])"
     altSig          = False
+
+
+
+import importlib
+# Manual fix to avoid failed fits, we take a slightly different parameter
+def getBkgPdf(line, type, iteration):
+    label = line.split('BKGPDF')[-1].split('"')[0]
+    if iteration==0 or iteration==4 or iteration==5 or iteration==6: # First iteration: default
+      if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.05, 0, 1], peakFail[90.0,70.0,80.0])"
+      if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.05, 0, 1], peakPass[90.0,70.0,80.0])"
+    else:
+      listOfFailedFits = 'failedFits' + type + str(iteration)
+      failedFits = getattr(importlib.import_module('PhysicsTools.TagAndProbe.'+listOfFailedFits), listOfFailedFits)
+      if label in failedFits:
+	if iteration==1:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0,70.0,80.0])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0,70.0,80.0])"
+	elif iteration==2:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[50.,30.,100.], betaFail[0.05, 0.001,0.8], gammaFail[0.1, -2, 2], peakFail[90.0, 70, 100])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[50.,30.,100.], betaPass[0.05, 0.001,0.8], gammaPass[0.1, -2, 2], peakPass[90.0, 70, 100])"
+	elif iteration==3:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[55.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0,70.0,80.0])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[55.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0,70.0,80.0])"
+	elif iteration==7 or iteration==8:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,80.], betaFail[0.05, 0.01,0.08], gammaFail[0.1, -2, 2], peakFail[90.0,70.0,80.0])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,80.], betaPass[0.05, 0.01,0.08], gammaPass[0.1, -2, 2], peakPass[90.0,70.0,80.0])"
+	elif iteration==9:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[50.,30.,100.], betaFail[0.05, 0.001,0.8], gammaFail[0.1, -2, 2], peakFail[90.0, 70, 100])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[50.,30.,100.], betaPass[0.05, 0.001,0.8], gammaPass[0.1, -2, 2], peakPass[90.0, 70, 100])"
+	elif iteration==10 or iteration==11:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.05, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0,70.0,80.0])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.05, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0,70.0,80.0])"
+	elif iteration==12:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[60.,40.,80.], betaFail[0.001, 0.001,0.8], gammaFail[0.05, -2, 2], peakFail[90.0])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[60.,40.,80.], betaPass[0.001, 0.001,0.8], gammaPass[0.05, -2, 2], peakPass[90.0])"
+	elif iteration==13:
+	  if line.count('FAIL'): return "RooCMSShape::backgroundFail(mass, alphaFail[55.,40.,80.], betaFail[0.001, 0.001,0.8], gammaFail[0.02, -2, 2], peakFail[90.0])"
+	  if line.count('PASS'): return "RooCMSShape::backgroundPass(mass, alphaPass[55.,40.,80.], betaPass[0.001, 0.001,0.8], gammaPass[0.02, -2, 2], peakPass[90.0])"
+      else:
+        return getBkgPdf(line, type, iteration - 1)
+
+def getSigPdf(line, type, iteration):
+    label = line.split('SIGPDF')[-1].split('"')[0]
+    if iteration==0 or iteration==4 or iteration==7:
+      if type == "AltSig":
+        if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[0.0,-10.000,10.000],sigmaP[0.956,0.00,10.000],alphaP1[0.999, 0.0,50.0],nP1[1.405,0.000,50.000],alphaP2[0.999,0.0,50.0],nP2[1.405,0.000,50.000])"
+        if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[0.0,-10.000,10.000],sigmaF[3.331,0.00,10.000],alphaF1[1.586, 0.0,50.0],nF1[0.464,0.000,20.00],alphaF2[1.586,0.0,50.0],nF2[0.464,0.000,20.00])"
+      else:
+	if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[0.1,0.100,10.000],sigmaP[1.0,0.001,10.000])" 
+	if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[0.1,0.100,10.000],sigmaF[1.0,0.001,10.000])"
+    else:
+      listOfFailedFits = 'failedFits' + type + str(iteration)
+      failedFits = getattr(importlib.import_module('PhysicsTools.TagAndProbe.'+listOfFailedFits), listOfFailedFits)
+      if label in failedFits:
+        if type == "AltSig":
+	  if iteration==1:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[2.0,-10.000,10.000],sigmaP[5,0.00,10.000],alphaP1[4, 0.0,50.0],nP1[3,0.000,50.000],alphaP2[1.999,0.0,50.0],nP2[2.405,0.000,50.000])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[2.0,-10.000,10.000],sigmaF[5,0.00,10.000],alphaF1[4, 0.0,50.0],nF1[3,0.000,20.000],alphaF2[2.586,0.0,50.0],nF2[3.464,0.000,20.000])"
+	  elif iteration==5 or iteration==2:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[0.7,-5.000,5.000],sigmaP[0.4,0.00,10.000],alphaP1[0.8, 0.0,50.0],nP1[1.1,0.000,50.000],alphaP2[0.7,0.0,50.0],nP2[1.2,0.000,50.000])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[0.7,-5.000,5.000],sigmaF[0.4,0.00,10.000],alphaF1[1.3, 0.0,50.0],nF1[0.8,0.000,20.000],alphaF2[1.3,0.0,50.0],nF2[0.64,0.000,20.000])"
+	  elif iteration==6 or iteration==8:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[0.,-5.000,5.000],sigmaP[1,0.7,6.000],alphaP1[2., 1.2,3.5],nP1[3.,0.05,5.0],alphaP2[1.5,0.5,6.0],nP2[1.,0.5,5.])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[0.,-5.000,5.000],sigmaF[2,0.7,15.00],alphaF1[2., 1.2,3.5],nF1[3.,0.05,5.0],alphaF2[2.0,0.5,6.0],nF2[1.,0.5,5.])"
+	  elif iteration==9:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[0.2,-5.000,5.000],sigmaP[1,0.7,6.000],alphaP1[2., 0.2,5.5],nP1[3.,0.05,5.0],alphaP2[1.5,0.5,6.0],nP2[1.,0.5,5.])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[0.2,-5.000,5.000],sigmaF[2,0.7,15.00],alphaF1[2., 0.2,5.5],nF1[3.,0.05,5.0],alphaF2[2.0,0.5,6.0],nF2[1.,0.5,5.])"
+	  elif iteration==10 or iteration==11:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[-0.02,-10.000,10.000],sigmaP[1,0.7,6.000],alphaP1[2., 0.2,5.5],nP1[3.,0.05,5.0],alphaP2[1.5,0.5,6.0],nP2[1.,0.5,5.])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[-0.02,-10.000,10.000],sigmaF[2,0.7,15.00],alphaF1[2., 0.2,5.5],nF1[3.,0.05,5.0],alphaF2[2.0,0.5,6.0],nF2[1.,0.5,5.])"
+	  elif iteration==12 or iteration==3:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[-0.02,-5.000,5.000],sigmaP[1,0.7,6.000],alphaP1[3., 0.2,5.5],nP1[1.,0.05,5.0],alphaP2[4.5,0.5,6.0],nP2[3.,0.5,5.])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[-0.02,-5.000,5.000],sigmaF[2,0.7,15.00],alphaF1[3., 0.2,5.5],nF1[1.,0.05,5.0],alphaF2[4.0,0.5,6.0],nF2[3.,0.5,5.])"
+	  elif iteration==13:
+	    if line.count('FAIL'): return "RooDoubleCBFast::signalResPass(mass,meanP[0.06,-10.000,10.000],sigmaP[1.9,0.01,25.000],alphaP1[3., 0.01,15.5],nP1[1.,0.05,15.0],alphaP2[4.5,0.5,16.0],nP2[3.,0.5,15.])"
+	    if line.count('PASS'): return "RooDoubleCBFast::signalResFail(mass,meanF[0.06,-10.000,10.000],sigmaF[2.9,0.01,25.00],alphaF1[3., 0.01,15.5],nF1[1.,0.05,15.0],alphaF2[4.0,0.5,16.0],nF2[3.,0.5,15.])"
+        else:
+	  if iteration==1:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[-0.5,-10.000,10.000],sigmaP[2.0,0.001,10.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[-0.5,-10.000,10.000],sigmaF[2.0,0.001,10.000])"
+	  elif iteration==5 or iteration==2:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[0.7,-5.000,5.000],sigmaP[0.5,0.001,10.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[0.7,-5.000,5.000],sigmaF[0.5,0.001,10.000])"
+	  elif iteration==6 or iteration==8:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[0.,-5.000,5.000],sigmaP[0.9,0.5,5.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[0.,-5.000,5.000],sigmaF[0.9,0.5,5.000])"
+	  elif iteration==9 or iteration==3:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[0.2,-5.000,5.000],sigmaP[0.9,0.5,5.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[0.2,-5.000,5.000],sigmaF[0.9,0.5,5.000])"
+	  elif iteration==10 or iteration==11:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[-0.02,-10.000,10.000],sigmaP[0.7,0.5,5.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[-0.02,-10.000,10.000],sigmaF[0.7,0.5,5.000])"
+	  elif iteration==12:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[-0.06,-10.000,10.000],sigmaP[1.7,0.5,5.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[-0.06,-10.000,10.000],sigmaF[1.7,0.5,5.000])"
+	  elif iteration==13:
+	    if line.count('FAIL'): return "RooGaussian::signalResPass(mass, meanP[0.06,-10.000,10.000],sigmaP[0.3,0.001,10.000])" 
+	    if line.count('PASS'): return "RooGaussian::signalResFail(mass, meanF[0.06,-10.000,10.000],sigmaF[0.3,0.001,10.000])"
+      else:
+        return getSigPdf(line, type, iteration - 1)
+
+
 
 def runGetTemplatesFromMC(args):
     idProbe, directory, region = args
@@ -191,23 +154,14 @@ def runGetTemplatesFromMC(args):
 
     myOptions.outputFile   = os.path.join(tnpPackage, 'python', "nominalFit_" + myOptions.idLabel + ".py")
     myOptions.templateFile = myOptions.output
-
-    # Manual fix to avoid failed fits, we take a slightly different parameter
-    if myOptions.idLabel in failedFits:
-      myOptions.failBkgPdf = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0, 70, 80])"
-      myOptions.passBkgPdf = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0, 70, 80])"
-
     makeConfigForTemplates.main(myOptions)
 
-    # Also manual fix in the altSig MC case
-    if myOptions.idLabel in failedFitsAltSig:
-      myOptions.failBkgPdf = "RooCMSShape::backgroundFail(mass, alphaFail[60.,50.,70.], betaFail[0.001, 0.,0.1], gammaFail[0.02, 0, 1], peakFail[90.0, 70, 80])"
-      myOptions.passBkgPdf = "RooCMSShape::backgroundPass(mass, alphaPass[60.,50.,70.], betaPass[0.001, 0.,0.1], gammaPass[0.02, 0, 1], peakPass[90.0, 70, 80])"
+    myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altTagFit_" + myOptions.idLabel + ".py")
+    makeConfigForTemplates.main(myOptions)
 
     myOptions.altSig       = True  # Also make templates for MC to be used for the altSig systematic
     myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altSigFit_" + myOptions.idLabel + ".py")
     makeConfigForTemplates.main(myOptions)
-    
 
 jobs = []
 for region in ["alleta","barrel","crack","endcap"]:
@@ -215,6 +169,7 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("CutBasedSpring15L",                               "GsfElectronToID",                region))
   jobs.append(("CutBasedSpring15M",                               "GsfElectronToID",                region))
   jobs.append(("CutBasedSpring15T",                               "GsfElectronToID",                region))
+
   jobs.append(("MVAVLooseTightIP2D",                              "GsfElectronToID",                region))
   jobs.append(("MVAVLooseFOIDEmuTightIP2D",                       "GsfElectronToID",                region))
   jobs.append(("MVATightTightIP2DSIP3D4",                         "GsfElectronToID",                region))
@@ -228,6 +183,7 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("Mini4",                                           "MVAVLooseElectronToIso",         region))
   jobs.append(("ConvVetoIHit1",                                   "MVAVLooseElectronToIso",         region))
 
+  jobs.append(("RelIso010",                                       "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoM",                                       "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoT",                                       "MVATightElectronToIso",          region))
   jobs.append(("MultiIsoTISOEmu",                                 "MVATightElectronToIso",          region))
@@ -236,6 +192,7 @@ for region in ["alleta","barrel","crack","endcap"]:
   jobs.append(("Charge",                                          "MVATightConvIHit0ElectronToIso", region))
 
   jobs.append(("RelIso012",                                       "CutBasedStopsDileptonToIso",     region))
+  jobs.append(("TTZ",                                             "GsfElectronToID",                region))
 
 from multiprocessing import Pool
 pool = Pool(processes=16)
@@ -243,15 +200,22 @@ pool.map(runGetTemplatesFromMC, jobs)
 pool.close()
 pool.join()
 
+iteration=3
 # Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
-for fit in ['nominalFit', 'altSigFit']:
+for fit in ['nominalFit', 'altSigFit', 'altTagFit']:
+  if fit.count('nominal'): type = 'Nominal'
+  if fit.count('altSig'):  type = 'AltSig'
+  if fit.count('altTag'):  type = 'AltTag'
   with open(os.path.join(tnpPackage, 'python', fit + '.py'), 'w') as f:
     f.write('import FWCore.ParameterSet.Config as cms\n\n')
 
     for args in jobs:
       f.write('pdfs_' + getIdLabel(args) + ' = cms.PSet(\n')
       with open(os.path.join(tnpPackage, 'python', fit + "_" + getIdLabel(args) + ".py"), "r") as r:
-	f.writelines(r.readlines()[3:-2])
+        for line in r.readlines()[3:-2]:
+          if   line.count('BKGPDF'): f.write('"' + getBkgPdf(line, type, iteration) + '",\n')
+          elif line.count('SIGPDF'): f.write('"' + getSigPdf(line, type, iteration) + '",\n')
+          else:                      f.write(line)
       f.write(')\n\n')
 
     f.write('all_pdfs = cms.PSet(\n')
@@ -261,6 +225,7 @@ for fit in ['nominalFit', 'altSigFit']:
 
   import glob, os
   map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', fit + '_*.p*')))
+
 
 # For background shape systematic, replace RooCMSShape with RooExponetial (take three alternatives for initial parameters to be sure at least one fit succeeds)
 with open(os.path.join(tnpPackage, 'python', 'altBkgFit_alternative0.py'), 'w') as f:
