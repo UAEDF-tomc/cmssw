@@ -280,8 +280,11 @@ rootout.Close()
 
 canvas = rt.TCanvas('2DSF','2DSF', 1000, 700)
 canvas.SetRightMargin(.1)
+canvas.SetLogx()
+h2SF.GetXaxis().SetMoreLogLabels()
+h2SF.GetXaxis().SetNoExponent()
 h2SF.SetTitle("")
-h2SF.DrawCopy("colz TEXT45")
+h2SF.DrawCopy("colz TEXTE")
 canvas.SaveAs(os.path.join(outputDirectory, nameOutBase.split('eff_all_')[-1].split('.txt')[0].split('_eta')[0] + ".pdf"))
 
 for isyst in range(len(efficiency.getSystematicNames())):
