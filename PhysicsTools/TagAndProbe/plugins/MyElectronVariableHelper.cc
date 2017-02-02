@@ -81,8 +81,8 @@ namespace{
   bool PassIDEmuTTZ(const pat::Electron &ele){ // For some reason they use some older trigger emulation
     float eInvMinusPInv = std::abs(1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
     if(ele.full5x5_sigmaIetaIeta()                    >= (ele.isEB() ? 0.011 : 0.030)) return false;
-    if(std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.04  : 0.07))  return false;
-    if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.01  : 0.008)) return false;
+    if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.04  : 0.07))  return false;
+    if(std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.01  : 0.008)) return false;
     if(ele.hadronicOverEm()                           >= (ele.isEB() ? 0.10  : 0.07))  return false;
     if(eInvMinusPInv                                  <= -0.05)                        return false;
     if(eInvMinusPInv                                  >= (ele.isEB() ? 0.01  : 0.005)) return false;
@@ -258,7 +258,7 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
                      "CutBasedL", "CutBasedLPOGIP2D", "CutBasedSpring15L",
                      "CutBasedM", "CutBasedMPOGIP2D", "CutBasedSpring15M",
                      "CutBasedT", "CutBasedTPOGIP2D", "CutBasedSpring15T",
-                     "CutBasedStopsDilepton", "TTZ",
+                     "CutBasedStopsDilepton", "TTZ", "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90",
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
                      "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
@@ -441,7 +441,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["ConvVetoIHit0"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit0"}));
     passWorkingPoints["MultiIsoTISOEmu"].push_back(                          combine(passWorkingPoints, {"MultiIsoT", "ISOEmuSpring15"}));
     passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL","TightIP2D","SIP3D4"}));
-
+    passWorkingPoints["MVAWP90IDEMuTTZ"].push_back(                          combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ"}));
+    passWorkingPoints["MVAWP90IDEMuTTZRelIsoCBL"].push_back(                 combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL"}));
     ++i;
   }
 
