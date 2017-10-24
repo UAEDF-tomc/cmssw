@@ -77,9 +77,9 @@ class TagProbeFitTreeProducer : public edm::EDAnalyzer {
 
       //---- Unbiased MC truth information
       /// Do we have to compute this
-      bool makeMCUnbiasTree_;
+  //    bool makeMCUnbiasTree_;
       /// Check mother pdgId in unbiased inefficiency measurement
-      bool checkMotherInUnbiasEff_;
+  //    bool checkMotherInUnbiasEff_;
 
       /// InputTag to the collection of all probes
       edm::EDGetTokenT<reco::CandidateView> allProbesToken_;
@@ -107,8 +107,8 @@ class TagProbeFitTreeProducer : public edm::EDAnalyzer {
 //
 TagProbeFitTreeProducer::TagProbeFitTreeProducer(const edm::ParameterSet& iConfig) :
     isMC_(iConfig.getParameter<bool>("isMC")),
-    makeMCUnbiasTree_(isMC_ ? iConfig.getParameter<bool>("makeMCUnbiasTree") : false),
-    checkMotherInUnbiasEff_(makeMCUnbiasTree_ ? iConfig.getParameter<bool>("checkMotherInUnbiasEff") : false),
+  // makeMCUnbiasTree_(isMC_ ? iConfig.getParameter<bool>("makeMCUnbiasTree") : false),
+  // checkMotherInUnbiasEff_(makeMCUnbiasTree_ ? iConfig.getParameter<bool>("checkMotherInUnbiasEff") : false),
     tagProbePairMaker_(iConfig, consumesCollector()),
     treeFiller_(new tnp::TPTreeFiller(iConfig, consumesCollector())),
     oldTagFiller_((iConfig.existsAs<bool>("fillTagTree") && iConfig.getParameter<bool>("fillTagTree")) ? new tnp::BaseTreeFiller("tag_tree",iConfig, consumesCollector()) : 0)
@@ -136,10 +136,10 @@ TagProbeFitTreeProducer::TagProbeFitTreeProducer(const edm::ParameterSet& iConfi
         }
 
         // For unbiased efficiency we also need the collection of all probes
-        if (makeMCUnbiasTree_) {
+/*        if (makeMCUnbiasTree_) {
             allProbesToken_ = consumes<reco::CandidateView>(iConfig.getParameter<edm::InputTag>("allProbes"));
             mcUnbiasFiller_.reset(new tnp::BaseTreeFiller("mcUnbias_tree",iConfig, consumesCollector()));
-        }
+        }*/
     }
 
     edm::ParameterSet tagPSet;
