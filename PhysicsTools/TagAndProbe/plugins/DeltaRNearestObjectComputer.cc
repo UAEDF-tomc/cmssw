@@ -35,6 +35,7 @@
 #include "DataFormats/MuonReco/interface/Muon.h"
 #include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
 #include "DataFormats/EgammaCandidates/interface/Electron.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
 #include "DataFormats/JetReco/interface/Jet.h"
 #include "DataFormats/EgammaCandidates/interface/Photon.h"
 
@@ -116,6 +117,7 @@ typedef DeltaRNearestObjectComputer<reco::Electron>      DeltaRNearestElectronCo
 typedef DeltaRNearestObjectComputer<reco::GsfElectron>   DeltaRNearestGsfElectronComputer;
 typedef DeltaRNearestObjectComputer<reco::Photon>        DeltaRNearestPhotonComputer;
 typedef DeltaRNearestObjectComputer<reco::Jet>           DeltaRNearestJetComputer;
+typedef DeltaRNearestObjectComputer<reco::GenParticle>   DeltaRNearestGenPComputer;
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 DEFINE_FWK_MODULE(DeltaRNearestCandidateComputer);
@@ -124,3 +126,4 @@ DEFINE_FWK_MODULE(DeltaRNearestElectronComputer);
 DEFINE_FWK_MODULE(DeltaRNearestGsfElectronComputer);
 DEFINE_FWK_MODULE(DeltaRNearestPhotonComputer);
 DEFINE_FWK_MODULE(DeltaRNearestJetComputer);
+DEFINE_FWK_MODULE(DeltaRNearestGenPComputer);
