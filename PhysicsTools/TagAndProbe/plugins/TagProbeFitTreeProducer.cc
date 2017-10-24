@@ -35,15 +35,15 @@
 
 #include "DataFormats/Common/interface/Association.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "DataFormats/Common/interface/MergeableCounter.h"
 
 #include "PhysicsTools/TagAndProbe/interface/TPTreeFiller.h"
 #include "PhysicsTools/TagAndProbe/interface/TagProbePairMaker.h"
 
 #include <set>
+#include "FWCore/ParameterSet/interface/Registry.h"
 
-//
-// class decleration
-//
+#include <DataFormats/Math/interface/deltaR.h>
 
 class TagProbeFitTreeProducer : public edm::EDAnalyzer {
    public:
@@ -59,9 +59,19 @@ class TagProbeFitTreeProducer : public edm::EDAnalyzer {
       /// Is this sample MC?
       bool isMC_;
       /// Token foran edm::Association<reco::GenParticle> from tags & probes to MC truth
-      edm::EDGetTokenT<edm::Association<std::vector<reco::GenParticle> > > tagMatchesToken_, probeMatchesToken_;
+//    edm::EDGetTokenT<edm::Association<std::vector<reco::GenParticle> > > tagMatchesToken_, probeMatchesToken_;
+      edm::EDGetTokenT<std::vector<reco::GenParticle> > genParticleToken_;
+
       /// Possible pdgids for the mother. If empty, any truth-matched mu will be considered good
       std::set<int32_t> motherPdgId_;
+      bool useTauDecays_;
+      int pdgId_;
+      bool checkCharge_;
+
+      /// Return true if ref is not null and has an ancestor with pdgId inside 'motherPdgId_'
+      //bool checkMother(const reco::GenParticleRef &ref) const ;
+      std::pair<const reco::GenParticleRef, bool> checkStatus(const reco::CandidateBaseRef& ref, edm::Handle<std::vector<reco::GenParticle> > genP);
+   
       /// Return true if ref is not null and has an ancestor with pdgId inside 'motherPdgId_'
       bool checkMother(const reco::GenParticleRef &ref) const ;
 
@@ -70,8 +80,11 @@ class TagProbeFitTreeProducer : public edm::EDAnalyzer {
       bool makeMCUnbiasTree_;
       /// Check mother pdgId in unbiased inefficiency measurement
       bool checkMotherInUnbiasEff_;
+
       /// InputTag to the collection of all probes
       edm::EDGetTokenT<reco::CandidateView> allProbesToken_;
+      edm::EDGetTokenT<edm::MergeableCounter> totGenWeightToken_;
+      edm::EDGetTokenT<edm::MergeableCounter> totEventsToken_;
 
       /// The object that produces pairs of tags and probes, making any arbitration needed
       tnp::TagProbePairMaker tagProbePairMaker_;
@@ -83,6 +96,10 @@ class TagProbeFitTreeProducer : public edm::EDAnalyzer {
       std::unique_ptr<tnp::BaseTreeFiller> tagFiller_;
       std::unique_ptr<tnp::BaseTreeFiller> pairFiller_;
       std::unique_ptr<tnp::BaseTreeFiller> mcFiller_;
+
+
+      double totGenWeight_;
+      double totEvents_;
 };
 
 //
@@ -98,9 +115,19 @@ TagProbeFitTreeProducer::TagProbeFitTreeProducer(const edm::ParameterSet& iConfi
 {
     if (isMC_) {
         // For mc efficiency we need the MC matches for tags & probes
-        tagMatchesToken_ = consumes<edm::Association<std::vector<reco::GenParticle> > >(iConfig.getParameter<edm::InputTag>("tagMatches"));
-        probeMatchesToken_ = consumes<edm::Association<std::vector<reco::GenParticle> > >(iConfig.getParameter<edm::InputTag>("probeMatches"));
+        //tagMatchesToken_ = consumes<edm::Association<std::vector<reco::GenParticle> > >(iConfig.getParameter<edm::InputTag>("tagMatches"));
+        //probeMatchesToken_ = consumes<edm::Association<std::vector<reco::GenParticle> > >(iConfig.getParameter<edm::InputTag>("probeMatches"));
         //.. and the pdgids of the possible mothers
+        
+        totGenWeightToken_ = consumes<edm::MergeableCounter, edm::InLumi>(edm::InputTag("sampleInfo:totalGenWeight"));
+        totEventsToken_ = consumes<edm::MergeableCounter, edm::InLumi>(edm::InputTag("sampleInfo:totalEvent"));
+
+        genParticleToken_ = consumes<std::vector<reco::GenParticle> >(iConfig.getParameter<edm::InputTag>("genParticles"));
+        useTauDecays_ = iConfig.getParameter<bool>("useTauDecays");
+        pdgId_ = iConfig.getParameter<int>("pdgId");
+        checkCharge_ = iConfig.getParameter<bool>("checkCharge");
+
+
         if (iConfig.existsAs<int32_t>("motherPdgId")) {
             motherPdgId_.insert(iConfig.getParameter<int32_t>("motherPdgId"));
         } else {
@@ -145,7 +172,9 @@ TagProbeFitTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup
 {
     using namespace edm; using namespace std;
     Handle<reco::CandidateView> src, allProbes;
-    Handle<Association<vector<reco::GenParticle> > > tagMatches, probeMatches;
+    //Handle<Association<vector<reco::GenParticle> > > tagMatches, probeMatches;
+    Handle<vector<reco::GenParticle> > genParticlesH;
+
     treeFiller_->init(iEvent); // read out info from the event if needed (external vars, list of passing probes, ...)
     if (oldTagFiller_.get()) oldTagFiller_->init(iEvent);
     if (tagFiller_.get())    tagFiller_->init(iEvent);
@@ -154,8 +183,9 @@ TagProbeFitTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup
     
     // on mc we want to load also the MC match info
     if (isMC_) {
-        iEvent.getByToken(tagMatchesToken_, tagMatches);
-        iEvent.getByToken(probeMatchesToken_, probeMatches);
+      iEvent.getByToken(genParticleToken_, genParticlesH);
+      //iEvent.getByToken(tagMatchesToken_, tagMatches);
+      //iEvent.getByToken(probeMatchesToken_, probeMatches);
     }
 
     // get the list of (tag+probe) pairs, performing arbitration
@@ -164,22 +194,22 @@ TagProbeFitTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup
     for (tnp::TagProbePairs::const_iterator it = pairs.begin(), ed = pairs.end(); it != ed; ++it) {
         // on mc, fill mc info (on non-mc, let it to 'true', the treeFiller will ignore it anyway
         bool mcTrue = false;
-	float mcMass = 0.f;
         if (isMC_) {
-            reco::GenParticleRef mtag = (*tagMatches)[it->tag], mprobe = (*probeMatches)[it->probe];
-            mcTrue = checkMother(mtag) && checkMother(mprobe);
-	    if (mcTrue) {
-	      mcMass = (mtag->p4() + mprobe->p4()).mass();
-	      if (mcFiller_.get()) mcFiller_->fill(reco::CandidateBaseRef(mprobe));
-	    }
-	}
-        // fill in the variables for this t+p pair
-	if (tagFiller_.get())    tagFiller_->fill(it->tag);
-	if (oldTagFiller_.get()) oldTagFiller_->fill(it->tag);
-	if (pairFiller_.get())   pairFiller_->fill(it->pair);
-	treeFiller_->fill(it->probe, it->mass, mcTrue, mcMass);
+            //reco::GenParticleRef mtag = (*tagMatches)[it->tag], mprobe = (*probeMatches)[it->probe];
+            std::pair<reco::GenParticleRef,bool> mtag = checkStatus(it->tag, genParticlesH);
+            std::pair<reco::GenParticleRef,bool> mprobe = checkStatus(it->probe, genParticlesH);
+            //mcTrue = checkMother(mtag) && checkMother(mprobe);
+            mcTrue = mtag.second && mprobe.second;
+            if (mcTrue && mcFiller_.get()) mcFiller_->fill(reco::CandidateBaseRef(mprobe.first));
+	      }
+              // fill in the variables for this t+p pair
+        if (tagFiller_.get())    tagFiller_->fill(it->tag);
+        if (oldTagFiller_.get()) oldTagFiller_->fill(it->tag);
+        if (pairFiller_.get())   pairFiller_->fill(it->pair);
+        treeFiller_->fill(it->probe, it->mass, mcTrue);
     }
 
+    /*
     if (isMC_ && makeMCUnbiasTree_) {
         // read full collection of probes
         iEvent.getByToken(allProbesToken_, allProbes);
@@ -194,9 +224,34 @@ TagProbeFitTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup
             // fill the tree only for good ones
             if (probeOk) mcUnbiasFiller_->fill(probe);
         }
-    }
-
+    }*/
 }
+
+std::pair<const reco::GenParticleRef, bool> TagProbeFitTreeProducer::checkStatus(const reco::CandidateBaseRef& ref, edm::Handle<std::vector<reco::GenParticle> > genParticlesH) {
+  
+  if (ref.isNonnull()) { 
+    for (size_t gp=0; gp<genParticlesH->size(); gp++) {
+      const reco::GenParticleRef p(genParticlesH, gp);
+      if ((abs(p->pdgId()) == pdgId_ and !checkCharge_) or
+	  (p->pdgId() == pdgId_ and checkCharge_)) {
+
+	if (p->isPromptFinalState() or (p->isDirectPromptTauDecayProductFinalState() && useTauDecays_) or
+	    (p->status() == 23)) { // THIS ONE IS FOR FLASHGG
+
+	  if (motherPdgId_.empty()) { //or checkMother(p)
+	    float dR = deltaR(p->p4(), ref->p4());
+	    
+	    if (dR < 0.2) // FIXME MAKE IT CONFIGURABLE
+	      return std::pair<const reco::GenParticleRef, bool>(p, true);
+	  }
+	}
+      }
+    }
+  }
+  
+  return std::pair<const reco::GenParticleRef, bool>(reco::GenParticleRef(), false);
+}
+
 
 bool
 TagProbeFitTreeProducer::checkMother(const reco::GenParticleRef &ref) const {
