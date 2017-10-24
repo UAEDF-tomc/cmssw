@@ -129,7 +129,7 @@ void ElectronVariableHelper<T>::produce(edm::Event & iEvent, const edm::EventSet
   Store(iEvent, probes, dzVals,    "dz");
   Store(iEvent, probes, dxyVals,   "dxy");
   Store(iEvent, probes, mhVals,    "missinghits");
-  Store(iEvent, probes, mhVals,    "missinghits");
+  Store(iEvent, probes, l1EVals,   "l1e");
   Store(iEvent, probes, l1EtVals,  "l1et");
   Store(iEvent, probes, l1EtaVals, "l1eta");
   Store(iEvent, probes, l1PhiVals, "l1phi");
