@@ -67,7 +67,7 @@ class ProbeVariable {
 
         /// To be called at the beginning of the event (will fetch ValueMap if needed)
         void init(const edm::Event &iEvent) const {
-	  if (external_) iEvent.getByToken(srcToken_, handle_);
+          if (external_) iEvent.getByToken(srcToken_, handle_);
         }
 
         /// To be called for each item
@@ -159,7 +159,7 @@ class BaseTreeFiller : boost::noncopyable {
 
         /// To be called once per event, to load possible external variables
         void init(const edm::Event &iEvent) const ;
-	void initPerObject(const edm::Event &iEvent) const ;
+        void initPerObject(const edm::Event &iEvent) const ;
 
         /// To be called once per probe, to fill the values for this probe
         void fill(const reco::CandidateBaseRef &probe) const ;
@@ -167,7 +167,7 @@ class BaseTreeFiller : boost::noncopyable {
         /// Write a string dump of this PSet into the TTree header.
         /// see macro in test directory for how to retrieve it from the output root file
         void writeProvenance(const edm::ParameterSet &pset) const ;
-	void addTotWeightBranch(double totGenWeight, double totEvents);
+        void addTotWeightBranch(double totGenWeight, double totEvents);
 
     protected:
 
@@ -179,16 +179,16 @@ class BaseTreeFiller : boost::noncopyable {
         WeightMode weightMode_;
         edm::EDGetTokenT<GenEventInfoProduct> weightSrcToken_;
         edm::EDGetTokenT<reco::VertexCollection> recVtxsToken_;
-	edm::EDGetTokenT<pat::JetCollection> jetsToken_;
+        edm::EDGetTokenT<pat::JetCollection> jetsToken_;
         edm::EDGetTokenT<reco::CandidateView> probesToken_;
         edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
         edm::EDGetTokenT<pat::METCollection> pfmetToken_;
         edm::EDGetTokenT<reco::PFMETCollection> pfmetAODToken_;
-	edm::EDGetTokenT<double> rhoToken_;
+        edm::EDGetTokenT<double> rhoToken_;
         edm::EDGetTokenT<std::vector<PileupSummaryInfo> > pileupInfoToken_;
-	edm::EDGetTokenT<double> PUweightSrc_;
-	//edm::EDGetTokenT<edm::MeageableCounter> totGenWeightToken_;
-	bool storePUweight_;
+        edm::EDGetTokenT<double> PUweightSrc_;
+        //edm::EDGetTokenT<edm::MeageableCounter> totGenWeightToken_;
+        bool storePUweight_;
 
         /// Ignore exceptions when evaluating variables
         bool ignoreExceptions_;
@@ -197,28 +197,28 @@ class BaseTreeFiller : boost::noncopyable {
         bool addRunLumiInfo_;
 
         /// Add branches with event variables: met, sum ET, .. etc.
-	bool addEventVariablesInfo_;
-	bool addJetVariablesInfo_;
-	bool saveBeamSpot_;
-	bool saveMET_;
-	bool saveRho_;
+        bool addEventVariablesInfo_;
+        bool addJetVariablesInfo_;
+        bool saveBeamSpot_;
+        bool saveMET_;
+        bool saveRho_;
         void addBranches_(TTree *tree, const edm::ParameterSet &iConfig, edm::ConsumesCollector & iC, const std::string &branchNamePrefix="") ;
 
-	edm::Service<TFileService> fs;
+        edm::Service<TFileService> fs;
 
         //implementation notice: these two are 'mutable' because we will fill them from a 'const' method
         mutable TTree * tree_;
         mutable double weight_;
         mutable uint32_t run_, lumi_, mNPV_;
         mutable uint64_t event_;
-	mutable double PUweight_;
-	mutable std::vector<std::string> weightsToCombine_;
-	mutable double totWeight_;
-	mutable int truePU_;
-	
+        mutable double PUweight_;
+        mutable std::vector<std::string> weightsToCombine_;
+        mutable double totWeight_;
+        mutable int truePU_;
+        
         mutable float mPVx_,mPVy_,mPVz_,mBSx_,mBSy_,mBSz_;
-	mutable float mpfMET_,mpfSumET_,mpfPhi_;
-	mutable float rho_;
+        mutable float mpfMET_,mpfSumET_,mpfPhi_;
+        mutable float rho_;
         mutable float mht_, mnjets_;
 
         float jet_pt_cut_, jet_eta_cut_, match_delta_r_;

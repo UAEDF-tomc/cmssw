@@ -229,14 +229,14 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
     
     for(unsigned int ind=0;ind<recVtxs->size();ind++) {
       if (!((*recVtxs)[ind].isFake()) && ((*recVtxs)[ind].ndof()>4)
-	  && (fabs((*recVtxs)[ind].z())<=24.0) &&
-	  ((*recVtxs)[ind].position().Rho()<=2.0) ) {
-	mNPV_++;
-	if(mNPV_==1) { // store the first good primary vertex
-	  mPVx_ = (*recVtxs)[ind].x();
-	  mPVy_ = (*recVtxs)[ind].y();
-	  mPVz_ = (*recVtxs)[ind].z();
-	}
+          && (fabs((*recVtxs)[ind].z())<=24.0) &&
+          ((*recVtxs)[ind].position().Rho()<=2.0) ) {
+        mNPV_++;
+        if(mNPV_==1) { // store the first good primary vertex
+          mPVx_ = (*recVtxs)[ind].x();
+          mPVy_ = (*recVtxs)[ind].y();
+          mPVz_ = (*recVtxs)[ind].z();
+        }
       }
     }
     
@@ -254,17 +254,17 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
       edm::Handle<pat::METCollection> mets;
       iEvent.getByToken(pfmetToken_, mets);
       if (mets.isValid()) {
-	const pat::MET &met = mets->front();
-	mpfMET_ = met.pt();
-	mpfPhi_ = met.phi();
-	mpfSumET_ = met.sumEt();
+        const pat::MET &met = mets->front();
+        mpfMET_ = met.pt();
+        mpfPhi_ = met.phi();
+        mpfSumET_ = met.sumEt();
       } else {
-	edm::Handle<reco::PFMETCollection> recoMets;
-	iEvent.getByToken(pfmetAODToken_, recoMets);
-	const reco::PFMET &met = recoMets->front();
-	mpfMET_ = met.pt();
-	mpfPhi_ = met.phi();
-	mpfSumET_ = met.sumEt();
+        edm::Handle<reco::PFMETCollection> recoMets;
+        iEvent.getByToken(pfmetAODToken_, recoMets);
+        const reco::PFMET &met = recoMets->front();
+        mpfMET_ = met.pt();
+        mpfPhi_ = met.phi();
+        mpfSumET_ = met.sumEt();
       }
     }
     
@@ -274,29 +274,29 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
       rho_ = *rhos;
 
       if(addJetVariablesInfo_){
-	// stuff added by Adam
-	mnjets_ = 0.;
-	mht_ = 0.;
-	edm::Handle<reco::CandidateView> probes;
-	iEvent.getByToken(probesToken_, probes);
-	edm::Handle<pat::JetCollection> jets;
-	iEvent.getByToken(jetsToken_, jets);
+        // stuff added by Adam
+        mnjets_ = 0.;
+        mht_ = 0.;
+        edm::Handle<reco::CandidateView> probes;
+        iEvent.getByToken(probesToken_, probes);
+        edm::Handle<pat::JetCollection> jets;
+        iEvent.getByToken(jetsToken_, jets);
 
-	for(auto jet = jets->begin();
-	    jet != jets->end();
-	    ++jet){
-	  double pt = jet->pt();
-	  if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
-	  bool matched_to_electron = false;
-	  for(auto ele = probes->begin();
-	      ele != probes->end();
-	      ++ele){
-	    if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
-	  }
-	  if(matched_to_electron) continue;
-	  mnjets_ += 1.;
-	  mht_ += pt;
-	}
+        for(auto jet = jets->begin();
+            jet != jets->end();
+            ++jet){
+          double pt = jet->pt();
+          if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
+          bool matched_to_electron = false;
+          for(auto ele = probes->begin();
+              ele != probes->end();
+              ++ele){
+            if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
+          }
+          if(matched_to_electron) continue;
+          mnjets_ += 1.;
+          mht_ += pt;
+        }
       }
     }
   }
