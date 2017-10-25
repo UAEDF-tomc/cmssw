@@ -24,6 +24,7 @@
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/LuminosityBlock.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -42,8 +43,10 @@
 
 #include <set>
 #include "FWCore/ParameterSet/interface/Registry.h"
+#include "FWCore/ServiceRegistry/interface/Service.h"
 
 #include <DataFormats/Math/interface/deltaR.h>
+
 
 class TagProbeFitTreeProducer : public edm::EDAnalyzer {
    public:
@@ -54,6 +57,8 @@ class TagProbeFitTreeProducer : public edm::EDAnalyzer {
    private:
       virtual void analyze(const edm::Event&, const edm::EventSetup&) override;
       virtual void endJob() override ;
+      virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&) override;
+      virtual void beginLuminosityBlock(const edm::LuminosityBlock &, const edm::EventSetup&) override;
 
       //---- MC truth information
       /// Is this sample MC?
@@ -264,6 +269,27 @@ TagProbeFitTreeProducer::checkMother(const reco::GenParticleRef &ref) const {
     }
     return false;
 }
+
+void TagProbeFitTreeProducer::beginLuminosityBlock(const edm::LuminosityBlock& iLumi, const edm::EventSetup& iEventS) 
+{}
+  
+void TagProbeFitTreeProducer::endLuminosityBlock(edm::LuminosityBlock const& iLumi, edm::EventSetup const& iEventS) {
+
+  if (isMC_) {
+    edm::Handle<edm::MergeableCounter> totWeight;
+    iLumi.getByToken(totGenWeightToken_, totWeight);
+    if (totWeight.isValid()) 
+      totGenWeight_ += totWeight->value; 
+    
+    edm::Handle<edm::MergeableCounter> totEvents;
+    iLumi.getByToken(totEventsToken_, totEvents);
+    
+    if (totEvents.isValid())
+      totEvents_ += totEvents->value;
+  }
+}
+
+
 
 
 // ------------ method called once each job just after ending the event loop  ------------
