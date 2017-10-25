@@ -179,12 +179,12 @@ TagProbeFitTreeProducer::analyze(const edm::Event& iEvent, const edm::EventSetup
     Handle<reco::CandidateView> src, allProbes;
     //Handle<Association<vector<reco::GenParticle> > > tagMatches, probeMatches;
     Handle<vector<reco::GenParticle> > genParticlesH;
-
+ 
     treeFiller_->init(iEvent); // read out info from the event if needed (external vars, list of passing probes, ...)
     if (oldTagFiller_.get()) oldTagFiller_->init(iEvent);
-    if (tagFiller_.get())    tagFiller_->init(iEvent);
-    if (pairFiller_.get())   pairFiller_->init(iEvent);
-    if (mcFiller_.get())     mcFiller_->init(iEvent);
+    if (tagFiller_.get())    tagFiller_->initPerObject(iEvent);
+    if (pairFiller_.get())   pairFiller_->initPerObject(iEvent);
+    if (mcFiller_.get())     mcFiller_->initPerObject(iEvent);
     
     // on mc we want to load also the MC match info
     if (isMC_) {
