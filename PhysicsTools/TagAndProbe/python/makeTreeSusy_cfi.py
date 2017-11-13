@@ -85,14 +85,14 @@ def AddMiniIso(process, options, varOptions):
                      "CutBasedL", "CutBasedLPOGIP2D", "CutBasedSpring15L",
                      "CutBasedM", "CutBasedMPOGIP2D", "CutBasedSpring15M",
                      "CutBasedT", "CutBasedTPOGIP2D", "CutBasedSpring15T",
-                     "CutBasedStopsDilepton","TTZ",
+                     "CutBasedStopsDilepton","TTZ", "TTG", "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90", "TTZ2017", "TTZ2017TightCharge",
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
-                     "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
+                     "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04","LeptonMvaVLIDEmuTightIP2DSIP3D8mini04",
                      "Mini", "Mini2", "Mini4","RelIso010","RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
-                     "triggerEmu","TTZ"];
+                     "triggerEmu"];
 
 
     # Applies probe cuts and WP (numerators and denominators both need to be listed here)
@@ -144,9 +144,9 @@ def AddMiniIso(process, options, varOptions):
 
     getProducer('GsfElectronToID', "goodElectronsProbeHLT", "goodElectrons",
                 ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedSpring15V', 'CutBasedSpring15L', 'CutBasedSpring15M', 'CutBasedSpring15T',
-                 'CutBasedStopsDilepton','TTZ',
+                 'CutBasedStopsDilepton','TTZ', 'TTG', "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90", "TTZ2017", "TTZ2017TightCharge",
                  'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
-                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04'])
+                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04','LeptonMvaVLIDEmuTightIP2DSIP3D8mini04'])
 
     getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "MVAVLooseTightIP2D",
                 ['Mini','Mini2','Mini4','ConvVetoIHit1'])

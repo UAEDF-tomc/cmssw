@@ -19,12 +19,12 @@ def Histo(parent, isfit):
             subkeys = subdir.GetListOfKeys()
             for ikey in xrange(subkeys.GetSize()):
                 key = subkeys.At(ikey)
-                if "probe_sc_abseta_probe_Ele_pt_PLOT" not in key.GetName(): continue
+                if "probe_sc_abseta_probe_Ele_pt_PLOT" not in key.GetName() and "event_nPV_probe_Ele_pt_PLOT" not in key.GetName(): continue
                 canvas = subdir.Get(key.GetName())
                 prims = canvas.GetListOfPrimitives()
                 for iprim in xrange(prims.GetSize()):
                     prim = prims.At(iprim)
-                    if "probe_sc_abseta_probe_Ele_pt_PLOT" not in prim.GetName(): continue
+                    if "probe_sc_abseta_probe_Ele_pt_PLOT" not in prim.GetName() and  "event_nPV_probe_Ele_pt_PLOT" not in prim.GetName(): continue
                     return prim
     return None
 
@@ -57,10 +57,10 @@ for f in flist:
 
     fdat  = ROOT.TFile(nominal +"/"+ f)
     fnmc  = ROOT.TFile(nominal +"/"+ fmc)
-    fsig0 = ROOT.TFile(altSig0 +"/"+ f)
-    fsig1 = ROOT.TFile(altSig1 +"/"+ f)
-    fsig2 = ROOT.TFile(altSig2 +"/"+ f)
-    fsig3 = ROOT.TFile(altSig3 +"/"+ f)
+    fsig0 = ROOT.TFile(nominal +"/"+ f)
+    fsig1 = ROOT.TFile(nominal +"/"+ f)
+    fsig2 = ROOT.TFile(nominal +"/"+ f)
+    fsig3 = ROOT.TFile(nominal +"/"+ f)
     fbkg0 = ROOT.TFile(altBkg0 +"/"+ f)
     fbkg1 = ROOT.TFile(altBkg1 +"/"+ f)
     fbkg2 = ROOT.TFile(altBkg2 +"/"+ f)
@@ -70,7 +70,7 @@ for f in flist:
     fout = open(os.path.join(outDir, f.replace("_data_","_all_").replace(".root",".txt")), "w")
 
     hdat  = Histo(fdat,  True)
-    hnmc  = Histo(fnmc,  False)
+    hnmc  = Histo(famc,  False)
     hsig0 = Histo(fsig0, True)
     hsig1 = Histo(fsig1, True)
     hsig2 = Histo(fsig2, True)
@@ -79,7 +79,7 @@ for f in flist:
     hbkg0 = Histo(fbkg0, True)
     hbkg1 = Histo(fbkg1, True)
     hbkg2 = Histo(fbkg2, True)
-    hamc  = Histo(famc,  False)
+    hamc  = Histo(fnmc,  False)
     htag  = Histo(ftag,  True)
 
 

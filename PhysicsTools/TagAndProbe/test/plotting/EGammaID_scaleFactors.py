@@ -11,6 +11,7 @@ from efficiencyUtils import efficiencyList
 import efficiencyUtils as effUtil
 
 outputDirectory = "output"
+doAct = False
 
 try:    os.makedirs(outputDirectory)
 except: pass
@@ -19,7 +20,7 @@ tdrstyle.setTDRStyle()
 
 rt.gROOT.SetBatch(True)
 
-CMS_lumi.lumi_13TeV = "36.4 fb^{-1}"
+CMS_lumi.lumi_13TeV = "35.9 fb^{-1}"
 CMS_lumi.writeExtraText = 1
 CMS_lumi.lumi_sqrtS = "13 TeV"
 
@@ -27,8 +28,8 @@ CMS_lumi.lumi_sqrtS = "13 TeV"
 effiMin = 0.48
 effiMax = 1.07
 
-sfMin = 0.78
-sfMax = 1.22
+sfMin = 0.58
+sfMax = 1.28
 
 graphColors = [rt.kGray+3, rt.kRed +1, rt.kAzure+2, rt.kSpring-1, rt.kYellow -2 , rt.kOrange, rt.kViolet, rt.kCyan, rt.kBlack, rt.kBlue] 
 
@@ -55,6 +56,7 @@ def findMinMax(effis):
     else:             maxi = 1.07
 
     if maxi-mini > 0.5: maxi = maxi + 0.2
+    if maxi-mini > 0.8: maxi = maxi + 0.2
         
     return (mini,maxi)
 
@@ -64,7 +66,7 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
     W       = 800
     H       = 800
     yUp     = 0.45
-    canName = 'totoEta' if etaPlot else 'totoPt'
+    canName = ('totoPV' if doAct else 'totoEta') if etaPlot else 'totoPt'
     c       = rt.TCanvas(canName,canName,50,50,H,W)
     c.SetTopMargin(0.055)
     c.SetBottomMargin(0.10)
@@ -86,23 +88,23 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
     listOfTGraph1 = []
     listOfTGraph2 = []
     if etaPlot:
-      xMin = -2.50
-      xMax = +2.50
+      xMin = 0 if doAct else -2.50
+      xMax = 50 if doAct else +2.50
       zMin = 10
-      zMax = 500
+      zMax = 200 #500
     else:
       xMin = 10
-      xMax = 500
+      xMax = 200 #500
       zMin = 0
-      zMax = 2.6
+      zMax = 50 if doAct else 2.6
       p1.SetLogx()
       p2.SetLogx()
 
     # Clean up entries we don't need
     for list in [effDataList, sfList]:
       for key in list.keys():
-	if zMax <= key[0] or zMin >= key[1]: del list[key] 
-	else:                                list[key] = [x for x in list[key] if x['min'] < xMax and x['max'] > xMin]
+        if zMax <= key[0] or zMin >= key[1]: del list[key] 
+        else:                                list[key] = [x for x in list[key] if x['min'] < xMax and x['max'] > xMin]
 
     (effiMin, effiMax) = findMinMax(effDataList)
 
@@ -120,21 +122,21 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
         grBinsSF.GetHistogram()     .GetXaxis().SetLimits(xMin,xMax)
 
         grBinsSF.GetHistogram().GetXaxis().SetTitleOffset(1)
-        grBinsSF.GetHistogram().GetXaxis().SetTitle("SuperCluster #eta" if etaPlot else "p_{T}  [GeV]")
+        grBinsSF.GetHistogram().GetXaxis().SetTitle(("nPV" if doAct else "SuperCluster #eta") if etaPlot else "p_{T}  [GeV]")
             
         grBinsSF.GetHistogram().GetYaxis().SetTitle("Data / MC")
         grBinsSF.GetHistogram().GetYaxis().SetTitleOffset(1)
             
         grBinsEffData.GetHistogram().GetYaxis().SetTitleOffset(1)
         grBinsEffData.GetHistogram().GetYaxis().SetTitle("Data efficiency" )
-        grBinsEffData.GetHistogram().GetYaxis().SetRangeUser( effiMin, effiMax )
 
         ### to avoid loosing the TGraph keep it in memory by adding it to a list
         listOfTGraph1.append( grBinsEffData )
         listOfTGraph2.append( grBinsSF ) 
 
-        if etaPlot: leg.AddEntry( grBinsEffData, '%3.0f #leq p_{T} #leq  %3.0f GeV'   % (key[0], key[1]), "PL")        
-        else:       leg.AddEntry( grBinsEffData, '%1.3f #leq | #eta | #leq  %1.3f' % (key[0], key[1]), "PL")        
+        if etaPlot:  leg.AddEntry( grBinsEffData, '%3.0f #leq p_{T} #leq  %3.0f GeV'   % (key[0], key[1]), "PL")        
+        elif doAct:  leg.AddEntry( grBinsEffData, '%3.0f #leq nPV #leq  %3.0f' % (key[0], key[1]), "PL")        
+        else:        leg.AddEntry( grBinsEffData, '%1.3f #leq | #eta | #leq  %1.3f' % (key[0], key[1]), "PL")        
 
         
     for i in range(len(listOfTGraph1)):
@@ -235,7 +237,7 @@ print " ------------------------------- "
 
 pdfout = nameOutBase + '_egammaPlots.pdf'
 pdfout2 = nameOutBase + '_eff_vs_pt.pdf'
-pdfout3 = nameOutBase + '_eff_vs_eta.pdf'
+pdfout3 = nameOutBase + ('eff_vs_pv.pdf' if doAct else '_eff_vs_eta.pdf')
 cDummy = rt.TCanvas()
 cDummy.Print( pdfout + "[" )
 

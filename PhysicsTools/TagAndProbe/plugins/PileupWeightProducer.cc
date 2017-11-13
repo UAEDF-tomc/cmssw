@@ -57,7 +57,7 @@ PileupWeightProducer::PileupWeightProducer(const edm::ParameterSet& iConfig) {
   auto scl  = std::accumulate(pileupMC_.begin(), pileupMC_.end(), 0.)/std::accumulate(pileupData_.begin(), pileupData_.end(),0.);
   for(size_t ib = 0; ib<pileupData_.size(); ++ib) {
     pileupWeights_.push_back(pileupData_[ib] * scl / pileupMC_[ib]);
-    //std::cout << pileupWeights_.back() << std::endl;
+    std::cout << ib << "\t" << pileupWeights_.back() << std::endl;
     if( pileupMC_[ib] < 1e-6) pileupWeights_[pileupWeights_.size()-1] = 0;
   }
 
@@ -80,6 +80,7 @@ void PileupWeightProducer::produce(edm::Event& iEvent, const edm::EventSetup& iS
     //    *pileupWeight = pileupWeights_[nPUtrue+1]; // NOT 100% sure
     if(nPUtrue > pileupWeights_.size()-1) *pileupWeight = 0.;
     else                                  *pileupWeight = pileupWeights_[nPUtrue]; // most likely better estimate
+    if(*pileupWeight > 10) std::cout << "Large pileupWeight " << *pileupWeight << " for nPUtrue" << nPUtrue << std::endl;
   }
 
   iEvent.put(pileupWeight, "pileupWeights"); 

@@ -138,12 +138,13 @@ class efficiencyList:
         xbins = []
         ybins = []
         for ptBin in self.effList.keys():
-	  if not ptBin[0] in xbins: xbins.append(ptBin[0])
-	  if not ptBin[1] in xbins: xbins.append(ptBin[1])
+          if ptBin[1] > 200: continue
+          if not ptBin[0] in xbins: xbins.append(ptBin[0])
+          if not ptBin[1] in xbins: xbins.append(ptBin[1])
 
-	  for etaBin in self.effList[ptBin].keys():
-	    if not etaBin[0] in ybins: ybins.append(etaBin[0])
-	    if not etaBin[1] in ybins: ybins.append(etaBin[1])
+          for etaBin in self.effList[ptBin].keys():
+            if not etaBin[0] in ybins: ybins.append(etaBin[0])
+            if not etaBin[1] in ybins: ybins.append(etaBin[1])
 
         xbins.sort()
         ybins.sort()
@@ -160,13 +161,14 @@ class efficiencyList:
         hname  = 'h2_scaleFactorsEGamma'
 
         if onlyError >= 0:
-	  htitle = 'e/#gamma uncertainties'
-	  hname  = 'h2_uncertaintiesEGamma'
+          htitle = 'e/#gamma uncertainties'
+          hname  = 'h2_uncertaintiesEGamma'
 
         h2 = rt.TH2F(hname, htitle, len(xbins)-1, xbinsTab, len(ybins)-1, ybinsTab)
 
-	for ptBin in self.effList.keys():
-	  for etaBin in self.effList[ptBin].keys():
+        for ptBin in self.effList.keys():
+          if ptBin[1] > 200: continue
+          for etaBin in self.effList[ptBin].keys():
             ptCenter  = (ptBin[0]+ptBin[1])/2.
             etaCenter = (etaBin[0]+etaBin[1])/2.
             bin       = h2.FindBin(etaCenter if switchEtaPt else ptCenter, ptCenter if switchEtaPt else etaCenter)
@@ -174,13 +176,13 @@ class efficiencyList:
             eff = self.effList[ptBin][etaBin]
             if eff.effMC == 0 or eff.effData == 0: continue
 
-	    h2.SetBinContent(bin, eff.effData/eff.effMC)
-	    h2.SetBinError  (bin, eff.systCombined/eff.effMC)
-	    if onlyError == 0:  
-	      h2.SetBinContent(bin, eff.systCombined/eff.effMC)
-	    elif onlyError >= 1 and onlyError <= 6:
-	      denominator = eff.systCombined if relError else eff.effMC
-	      h2.SetBinContent(bin, abs(eff.syst[onlyError-1])/denominator)
+            h2.SetBinContent(bin, eff.effData/eff.effMC)
+            h2.SetBinError  (bin, eff.systCombined/eff.effMC)
+            if onlyError == 0:  
+              h2.SetBinContent(bin, eff.systCombined/eff.effMC)
+            elif onlyError >= 1 and onlyError <= 6:
+              denominator = eff.systCombined if relError else eff.effMC
+              h2.SetBinContent(bin, abs(eff.syst[onlyError-1])/denominator)
 
         if not switchEtaPt: h2.GetYaxis().SetRangeUser(0,2.5) # Only show abseta
         h2.GetYaxis().SetTitle("p_{T} [GeV]" if switchEtaPt else "SuperCluster |#eta|")
@@ -194,13 +196,13 @@ class efficiencyList:
         for ptBin in self.effList.keys():
           for etaBin in self.effList[ptBin].keys():
             groupKey = ptBin if doEta else etaBin
-	    eff = self.effList[ptBin][etaBin]
-	    if not listOfGraphs.has_key(groupKey): listOfGraphs[groupKey] = []
+            eff = self.effList[ptBin][etaBin]
+            if not listOfGraphs.has_key(groupKey): listOfGraphs[groupKey] = []
 
-	    value = eff.effData
-	    error = eff.systCombined 
-	    if doScaleFactor :
+            value = eff.effData
+            error = eff.systCombined 
+            if doScaleFactor :
                 value = eff.effData      / eff.effMC if eff.effMC != 0 else 0
-		error = eff.systCombined / eff.effMC if eff.effMC != 0 else 0
-	    listOfGraphs[groupKey].append({'min': etaBin[0] if doEta else ptBin[0], 'max': etaBin[1] if doEta else ptBin[1], 'val': value, 'err': error}) 
+                error = eff.systCombined / eff.effMC if eff.effMC != 0 else 0
+            listOfGraphs[groupKey].append({'min': etaBin[0] if doEta else ptBin[0], 'max': etaBin[1] if doEta else ptBin[1], 'val': value, 'err': error}) 
         return listOfGraphs

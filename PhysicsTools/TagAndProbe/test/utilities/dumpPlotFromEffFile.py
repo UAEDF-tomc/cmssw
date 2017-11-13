@@ -3,6 +3,9 @@ import ROOT
 from optparse import OptionParser
 import sys, os, glob
 
+tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
+
+
 def makeTable(h, tablefilename):
     nX = h.GetNbinsX()
     nY = h.GetNbinsY()
@@ -25,8 +28,14 @@ def makeTable(h, tablefilename):
   
     f.close()
 
+def getParam(name, params):
+    mid = params.at(params.index(name)).getVal()
+    err = params.at(params.index(name)).getError()
+    min = params.at(params.index(name)).getMin()
+    max = params.at(params.index(name)).getMax()
+    return (mid, err, min, max) 
 
-def main(options):
+def main(options, failedFitsNominal, failedFitsAltTag, failedFitsAltSig):
     ROOT.gStyle.SetPaintTextFormat("1.4f")
     print "##################################################   "
     print "Opening file: " + options.input
@@ -75,32 +84,62 @@ def main(options):
             try:    c.Draw()
             except: continue
             plotname = os.path.join(options.output, "fit_" + subDir + "_" + innername + ".png")
-            #plotname = plotname.replace("probe_sc_", "")
             plotname = plotname.replace("&", "")
             plotname = plotname.replace("__pdfSignalPlusBackground", "")
             c.SaveAs(plotname)
+
+            for (name, list) in [('nominal', failedFitsNominal), ('altSig0', failedFitsAltSig), ('altTag', failedFitsAltTag)]:
+              if options.input.count(name):
+                fitResults = ROOT.gDirectory.Get("fitresults").floatParsFinal()
+                init       = ROOT.gDirectory.Get("fitresults").floatParsInit()
+                for param in ['alphaPass','alphaFail','betaPass','betaFail','gammaPass','gammaFail','meanP','meanF']:
+                  (mid, err, min, max)  = getParam(param, fitResults)
+                  (i, erri, mini, maxi) = getParam(param, init)
+                  if err < 0.00001 and (abs(mid-max) < err or abs(mid-min) < err):
+                    failedFit = k.split('__')[-1]
+                    print failedFit, ' has probably a failed fit, adding to list'
+                    list.append(failedFit)
             ROOT.gDirectory.cd("../")
 
-if (__name__ == "__main__"):
-    tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
 
-    parser = OptionParser()
-    (options, arg) = parser.parse_args()
+def writeFailedFits(baseName, failedFits):
+    failedFits = [f for f in failedFits if failedFits.count(f) > 1]
+    outFile = os.path.join(tnpPackage, 'python', baseName + '1.py')
+    iteration = 1
+    while os.path.isfile(outFile):
+      iteration += 1
+      outFile = os.path.join(tnpPackage, 'python', baseName + str(iteration) + '.py')
+    with open(outFile, 'w') as f:
+      f.write(baseName + str(iteration) + ' = [\n') 
+      for failedFit in set(failedFits):
+        f.write('       "' + failedFit + '",\n')
+      f.write('       ]')
+
+if (__name__ == "__main__"):
+    import argparse
+    argParser = argparse.ArgumentParser(description = "Argument parser")
+    argParser.add_argument('--list', action='store_true', default=False, help='List failed fits')
+    options = argParser.parse_args()
 
     try:    os.makedirs('fits')
     except: pass
 
+    failedFitsNominal = []
+    failedFitsAltTag = []
+    failedFitsAltSig = []
     for directory in os.listdir(os.path.join(tnpPackage, "test", "efficiencies")):
       for file in glob.glob(os.path.join(tnpPackage, "test", "efficiencies", directory, "eff*.root")):
-        if directory.count('altSig'): continue
-	options.input  = file
-	options.output = os.path.join('fits', directory, file.split('.root')[0].split('/')[-1])
-	options.cc     = options.output.count("eff_mc") and not directory.count('altSig')
+        if not file.count('LeptonMvaVL'): continue
+        options.input  = file
+        options.output = os.path.join('fits', directory, file.split('.root')[0].split('/')[-1])
+        options.cc     = options.output.count("eff_mc") and not directory.count('altSig')
+        try:    os.makedirs(options.output)
+        except: pass
 
-	try:    os.makedirs(options.output)
-	except: pass
+        ROOT.gROOT.SetBatch(True)
+        main(options, failedFitsNominal, failedFitsAltTag, failedFitsAltSig)
 
-	ROOT.gROOT.SetBatch(True)
-	main(options)
-
-    os.system("rsync fits tomc@lxplus.cern.ch:~/www/tagAndProbe/december2016/")
+    if options.list: 
+      writeFailedFits('failedFitsNominal', failedFitsNominal)
+      writeFailedFits('failedFitsAltSig',  failedFitsAltSig)
+      writeFailedFits('failedFitsAltTag',  failedFitsAltTag)

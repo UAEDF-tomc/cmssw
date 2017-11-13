@@ -3,11 +3,9 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 import os
 
 
-dataFile  = "../crab/crab_projects_Moriond2017_v4h/data.root"
-mcFile    = "../crab/crab_projects_Moriond2017_v4h/DYToLL_madgraph.root"
-outputDir = "./efficiencies/nominal"
-
 options = VarParsing('analysis')
+options.register("runBToF",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute for run B To F")
+options.register("runGH",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute for run G and H")
 options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
 options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
 options.register("jobId",          -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "jobId")
@@ -18,20 +16,33 @@ options.register("altBkg",         -1,     VarParsing.multiplicity.singleton, Va
 options.register("altSig",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative signal shape")
 options.parseArguments()
 
+effDir    = 'efficiencies_PV' if options.doAct else 'efficiencies'
+dataFile  = "../crab/crab_projects_Moriond2017_ttg3/data.root"
+mcFile    = "../crab/crab_projects_Moriond2017_ttg3/DYToLL_madgraph.root"
+
+if options.runBToF:
+  effDir  += '_runBToF'
+  dataFile = dataFile.replace('data','runBToF')
+elif options.runGH:
+  effDir  += '_runGH'
+  dataFile = dataFile.replace('data','runGH')
+
+outputDir = "./" + effDir + "/nominal"
+
 if options.altMC:
-  mcFile    = "../crab/crab_projects_Moriond2017_v4h/DYToLL_mcAtNLO.root"
-  outputDir = "./efficiencies/altMC"
+  mcFile    = "../crab/crab_projects_Moriond2017_ttg3/DYToLL_mcAtNLO.root"
+  outputDir = "./" + effDir + "/altMC"
 
 if options.altTag:
-  outputDir = "./efficiencies/altTag"
+  outputDir = "./" + effDir + "/altTag"
   import PhysicsTools.TagAndProbe.altTagFit as common
 elif options.altBkg >= 0:
   common = __import__('PhysicsTools.TagAndProbe.altBkgFit_alternative' + str(options.altBkg), fromlist=['all_pdfs'])
-  outputDir = "./efficiencies/altBkg" + str(options.altBkg)
+  outputDir = "./" + effDir + "/altBkg" + str(options.altBkg)
 elif options.altSig >= 0:
   if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFit as common
   else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit_alternative' + str(options.altSig), fromlist=['all_pdfs'])
-  outputDir = "./efficiencies/altSig" + str(options.altSig)
+  outputDir = "./" + effDir + "/altSig" + str(options.altSig)
 else:
   import PhysicsTools.TagAndProbe.nominalFit as common
 
@@ -41,11 +52,11 @@ def makeDirs(dir):
   except: pass
 
 makeDirs('temp')
-makeDirs('efficiencies')
 makeDirs(outputDir)
 
 # Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):
+  if options.doAct:
     bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
     for ptBin in range(7):
       if ptBin == 0: ptRange = "10p0To20p0"
@@ -55,6 +66,21 @@ def BinSpec(name):
       if ptBin == 4: ptRange = "50p0To100p0"
       if ptBin == 5: ptRange = "100p0To200p0"
       if ptBin == 6: ptRange = "200p0To500p0"
+      for pvBin, pvRange in enumerate(['0p0To5p0','5p0To10p0','10p0To15p0','15p0To20p0','20p0To25p0','25p0To30p0','30p0To35p0','35p0To40p0','40p0To45p0','45p0To9999p0']):
+        bins.append("event_nPV_bin" + str(pvBin) + "__probe_Ele_pt_bin" + str(ptBin))     # bin mapped to
+        bins.append(name+ "_PV_" + ptRange + "_" + pvRange)                   # pdf
+    print bins
+    return bins
+  else:
+    bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
+    for ptBin in range(7):
+      if ptBin == 0: ptRange = "10p0To20p0"
+      if ptBin == 1: ptRange = "20p0To30p0"
+      if ptBin == 2: ptRange = "30p0To40p0"
+      if ptBin == 3: ptRange = "40p0To50p0"
+      if ptBin == 4: ptRange = "50p0To100p0"
+      if ptBin == 5: ptRange = "100p0To200p0"
+ #     if ptBin == 6: ptRange = "200p0To500p0"
       for etaBin in range(5):
         if etaBin <= 1: region = "barrel"
         if etaBin == 2: region = "crack"
@@ -72,6 +98,7 @@ def BinSpec(name):
       bins.append("probe_Ele_pt_bin" + str(ptBin) + "__event_nPV_bin")
       bins.append(name + "_alleta_" + ptRange + "_0p0To2p5")
     return bins
+
 
 if not options.onlyMC:
     for pdf in common.all_pdfs.__dict__:
@@ -93,23 +120,19 @@ process.MessageLogger.destinations               = ['cout', 'cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
-IDEfficiencyBins = cms.PSet(
+if options.doAct:
+  IDEfficiencyBins = cms.PSet(
     probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
-    #event_nPV      = cms.vdouble(0.,5.,10.,15.,20.,100.),
-    probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
+    event_nPV       = cms.vdouble(0.,5.,10.,15.,20.,25.,30.,35.,40.,45.,9999.),
     )
-
-if not options.doAct:
-    IsoEfficiencyBins = IDEfficiencyBins
-    trail = "eta"
 else:
-    IsoEfficiencyBins = cms.PSet(
-        probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
-        #event_nPV = cms.vdouble(0.,5.,10.,15.,20.,100.),
-        probe_ele_RelAct = cms.vdouble(0., 0.02, 0.05, 0.15, 1., 99999.),
-        )
-    trail = "act"
+  IDEfficiencyBins = cms.PSet(
+  #  probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
+    probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200.),
+    probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
+  )
 
+IsoEfficiencyBins = IDEfficiencyBins
 
 def getBinningSpecification(wp, dir, isData, isIso):
   return cms.PSet(
@@ -143,7 +166,7 @@ def getCategories(wp, isData):
 def getVariables(isData):
     variables = cms.PSet(
       mass             = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
-      #event_nPV       = cms.vstring("Event N_{PV}", "0", "1000000", ""),
+      event_nPV        = cms.vstring("Event N_{PV}", "0", "1000000", ""),
       probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "500", "GeV/c"),
       probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
       probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
@@ -163,7 +186,7 @@ def getAnalyzer(wp, dir, isData, isIso):
       InputFileNames           = cms.vstring(dataFile if isData else mcFile),
       InputDirectoryName       = cms.string(dir),
       InputTreeName            = cms.string("fitter_tree"), 
-      OutputFileName           = cms.string(os.path.join(outputDir, "eff_" + ("data" if isData else "mc") + "_" + dir.split('To')[0] + "To" + wp + (("_" + trail) if isIso else "") + ".root")),
+      OutputFileName           = cms.string(os.path.join(outputDir, "eff_" + ("data" if isData else "mc") + "_" + dir.split('To')[0] + "To" + wp + ".root")),
       NumCPU                   = cms.uint32(6),
       SaveWorkspace            = cms.bool(False),       # Time comsuming/could cause crashes if set True
       doCutAndCount            = cms.bool(not (isData or options.altSig == 0)),  # Only for MC, but now when we provide the altSig parameter because then we fit the MC
@@ -214,6 +237,10 @@ if options.jobId == 18: addToProcess("ConvVetoIHit0",                           
 if options.jobId == 19: addToProcess("Charge",                                   "MVATightConvIHit0ElectronToIso", options.onlyData, True)
 if options.jobId == 20: addToProcess("RelIso012",                                "CutBasedStopsDileptonToIso",     options.onlyData, True)
 if options.jobId == 21: addToProcess("RelIso010",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 22: addToProcess("TTZ",                                      "GsfElectronToID"                 options.onlyData, True)
+if options.jobId == 22: addToProcess("TTG",                                      "GsfElectronToID",                options.onlyData, True)
+if options.jobId == 23: addToProcess("MVAWP90",                                  "GsfElectronToID",                options.onlyData, True)
+if options.jobId == 24: addToProcess("MVAWP90IDEMuTTZ",                          "GsfElectronToID",                options.onlyData, True)
+if options.jobId == 25: addToProcess("MVAWP90IDEMuTTZRelIsoCBL",                 "GsfElectronToID",                options.onlyData, True)
+if options.jobId == 26: addToProcess("LeptonMvaVLIDEmuTightIP2DSIP3D8mini04",    "GsfElectronToID",                options.onlyData, False)
 
 process.fit = cms.Path(process.seq)

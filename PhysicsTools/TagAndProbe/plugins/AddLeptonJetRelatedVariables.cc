@@ -191,27 +191,7 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
       
       e   = icand->p4();
       jet = ijet->p4();
-
-      unsigned int ic=0;
-      for (auto pfcand = pfCandidates->begin(); pfcand !=pfCandidates->end(); ++pfcand){
-	ic++;
-	if (pfcand->charge()==0) continue;
-	if (deltaR(*ijet,*pfcand) > 0.4) continue;	
-	if (!pfcand->bestTrack()) continue;
-	if (!pfcand->bestTrack()->quality(reco::Track::highPurity)) continue;
-	if (pfcand->bestTrack()->pt()<1.) continue;
-	if (pfcand->bestTrack()->hitPattern().numberOfValidHits()<8) continue;
-	if (pfcand->bestTrack()->hitPattern().numberOfValidPixelHits()<2) continue;
-	if (pfcand->bestTrack()->normalizedChi2()>=5) continue;
-	
-	PV = reco::VertexRef(PVs, 0);
-	math::XYZPoint PVpos = PV->position();
-
-	if (std::fabs(pfcand->bestTrack()->dxy(PVpos)) > 0.2) continue;
-	if (std::fabs(pfcand->bestTrack()->dz(PVpos)) > 17) continue;
-	nchdaugthers++;
-      }
-    }    
+    }
 
     //
     //Fill the pt ratio and pt rel

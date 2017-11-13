@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 import sys
-import os
+import os,time
 os.system("eval `scramv1 runtime -sh`")
 
 # Always first copy the latest version of the makeTree.py
@@ -10,7 +10,7 @@ shutil.copyfile('../test/makeTree.py', 'makeTree.py')
 
 config = config()
 
-submitVersion = "Moriond2017_v4"
+submitVersion = "Moriond2017_ttg3"
 
 if os.environ["USER"] in ['tomc']:
   mainOutputDir           = os.path.join('/store/user/tomc/tnp', submitVersion)
@@ -51,6 +51,7 @@ if __name__ == '__main__':
             print "Failed submitting task: %s" % (hte.headers)
         except ClientException as cle:
             print "Failed submitting task: %s" % (cle)
+        time.sleep(30)
 
 
     ##### submit MC
@@ -62,8 +63,8 @@ if __name__ == '__main__':
     config.JobType.allowUndistributedCMSSW = True 
     
     submit(config, 'DYToLL_mcAtNLO',           '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_HCALDebug_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
-    submit(config, 'DYToLL_madgraph_herwigpp', '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
-    submit(config, 'DYToLL_madgraph',          '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM')
+#   submit(config, 'DYToLL_madgraph_herwigpp', '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-herwigpp_30M/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM')
+    submit(config, 'DYToLL_madgraph',          '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v2/MINIAODSIM')
 #   submit(config, 'DYToLL_powheg',   '/DYToEE_NNPDF30_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM')
 
     ##### now submit DATA
@@ -73,13 +74,14 @@ if __name__ == '__main__':
     config.Data.unitsPerJob    = 50
     config.JobType.pyCfgParams = ['isMC=False']
 
-    submit(config, 'Run2016B-v1', '/SingleElectron/Run2016B-23Sep2016-v2/MINIAOD')
-    submit(config, 'Run2016B-v2', '/SingleElectron/Run2016B-23Sep2016-v3/MINIAOD')
-    submit(config, 'Run2016C',    '/SingleElectron/Run2016C-23Sep2016-v1/MINIAOD')
-    submit(config, 'Run2016D',    '/SingleElectron/Run2016D-23Sep2016-v1/MINIAOD')
-    submit(config, 'Run2016E',    '/SingleElectron/Run2016E-23Sep2016-v1/MINIAOD')
-    submit(config, 'Run2016F',    '/SingleElectron/Run2016F-23Sep2016-v1/MINIAOD')
-    submit(config, 'Run2016G',    '/SingleElectron/Run2016G-23Sep2016-v1/MINIAOD')
-    submit(config, 'Run2016H-v1', '/SingleElectron/Run2016H-PromptReco-v1/MINIAOD')
-    submit(config, 'Run2016H-v2', '/SingleElectron/Run2016H-PromptReco-v2/MINIAOD')
-    submit(config, 'Run2016H-v3', '/SingleElectron/Run2016H-PromptReco-v3/MINIAOD')
+    submit(config, 'Run2016B-v1', '/SingleElectron/Run2016B-03Feb2017_ver1-v1/MINIAOD')
+    submit(config, 'Run2016B-v2', '/SingleElectron/Run2016B-03Feb2017_ver2-v2/MINIAOD')
+    submit(config, 'Run2016C',    '/SingleElectron/Run2016C-03Feb2017-v1/MINIAOD')
+    submit(config, 'Run2016D',    '/SingleElectron/Run2016D-03Feb2017-v1/MINIAOD')
+    submit(config, 'Run2016E',    '/SingleElectron/Run2016E-03Feb2017-v1/MINIAOD')
+    submit(config, 'Run2016F',    '/SingleElectron/Run2016F-03Feb2017-v1/MINIAOD')
+    submit(config, 'Run2016G',    '/SingleElectron/Run2016G-03Feb2017-v1/MINIAOD')
+    submit(config, 'Run2016H-v2', '/SingleElectron/Run2016H-03Feb2017_ver2-v1/MINIAOD')
+    submit(config, 'Run2016H-v3', '/SingleElectron/Run2016H-03Feb2017_ver3-v1/MINIAOD')
+
+

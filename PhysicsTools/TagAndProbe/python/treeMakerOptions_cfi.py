@@ -18,7 +18,7 @@ def setModules(process, options):
     process.hltFilter = hltHighLevel.clone()
     process.hltFilter.throw = cms.bool(True)
     process.hltFilter.HLTPaths = options['TnPPATHS']
-    
+
     from PhysicsTools.TagAndProbe.pileupConfiguration_cfi import pileupProducer
     process.pileupReweightingProducer = pileupProducer.clone()
 

@@ -206,14 +206,14 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
   if(storePUweight_) {
     edm::Handle<double> weightPU;
     bool isPresent = iEvent.getByToken(PUweightSrc_, weightPU);
-    if(isPresent) 
+    if(isPresent){ 
       PUweight_ = (*weightPU);
-    else 
+    } else 
       PUweight_ = 1.0;
 
-    if( TMath::IsNaN(PUweight_) == 1 || PUweight_ == TMath::Infinity() ) {
-      std::cerr << " Abnormal PU weight : PU weight = " << PUweight_ << "  -- corrected to 1 " << std::endl;
-      PUweight_ = 1;
+    if( TMath::IsNaN(PUweight_) == 1 || PUweight_ == TMath::Infinity() || PUweight_ > 10) {
+      std::cerr << " Abnormal PU weight : PU weight = " << PUweight_ << "  -- Ignoe " << std::endl;
+      PUweight_ = 0.;
     }
   }
   

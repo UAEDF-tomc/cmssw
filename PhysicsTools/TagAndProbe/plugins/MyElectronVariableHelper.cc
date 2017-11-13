@@ -78,8 +78,8 @@ namespace{
     return true;
   }
 
-  bool PassIDEmuTTZ(const pat::Electron &ele){ // For some reason they use some older trigger emulation
-    float eInvMinusPInv = std::abs(1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
+  bool PassIDEmuDoubleEG(const pat::Electron &ele){
+    float eInvMinusPInv = (1.0 - ele.eSuperClusterOverP())/ele.ecalEnergy();
     if(ele.full5x5_sigmaIetaIeta()                    >= (ele.isEB() ? 0.011 : 0.030)) return false;
     if(std::abs(ele.deltaPhiSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.04  : 0.07))  return false;
     if(std::abs(ele.deltaEtaSuperClusterTrackAtVtx()) >= (ele.isEB() ? 0.01  : 0.008)) return false;
@@ -179,6 +179,10 @@ namespace{
     if(level == "ET") return mva > 0.85;
     return false;
   }
+
+  bool PassLeptonMva2017(double mva){
+    return mva > 0.9;
+  }
 }
 
 
@@ -217,10 +221,11 @@ private:
     LepGood_jetPtRelv2, LepGood_jetPtRatio,
     LepGood_jetBTagCSV,
     LepGood_sip3d, LepGood_dxy, LepGood_dz,
-    LepGood_mvaIdSpring16;
+    LepGood_mvaIdSpring16, LepGood_mvaIdSpring16HZZ;
 
 
   TMVA::Reader *readerEle;
+  TMVA::Reader *readerEle2;
 
   std::vector<TString> workingPoints;
 };
@@ -258,10 +263,10 @@ MyElectronVariableHelper::MyElectronVariableHelper(const edm::ParameterSet & iCo
                      "CutBasedL", "CutBasedLPOGIP2D", "CutBasedSpring15L",
                      "CutBasedM", "CutBasedMPOGIP2D", "CutBasedSpring15M",
                      "CutBasedT", "CutBasedTPOGIP2D", "CutBasedSpring15T",
-                     "CutBasedStopsDilepton", "TTZ", "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90",
+                     "CutBasedStopsDilepton", "TTZ", "TTG", "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90", "TTZ2017", "TTZ2017TightCharge",
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
-                     "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04",
+                     "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04","LeptonMvaVLIDEmuTightIP2DSIP3D8mini04",
                      "Mini", "Mini2", "Mini4", "RelIso010", "RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoVT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
@@ -274,23 +279,29 @@ MyElectronVariableHelper::~MyElectronVariableHelper(){
 
 void MyElectronVariableHelper::beginJob(){
 
-    readerEle = new TMVA::Reader( "!Color:!Silent" );
+    readerEle  = new TMVA::Reader( "!Color:!Silent" );
+    readerEle2 = new TMVA::Reader( "!Color:!Silent" );
 
-    readerEle->AddVariable( "LepGood_pt",                    &LepGood_pt );
-    readerEle->AddVariable( "LepGood_eta",                   &LepGood_eta );
-    readerEle->AddVariable( "LepGood_jetNDauChargedMVASel",  &LepGood_jetNDauChargedMVASel );
-    readerEle->AddVariable( "LepGood_miniRelIsoCharged",     &LepGood_miniRelIsoCharged );
-    readerEle->AddVariable( "LepGood_miniRelIsoNeutral",     &LepGood_miniRelIsoNeutral );
-    readerEle->AddVariable( "LepGood_jetPtRelv2",            &LepGood_jetPtRelv2 );
-    readerEle->AddVariable( "min(LepGood_jetPtRatiov2,1.5)", &LepGood_jetPtRatio );
-    readerEle->AddVariable( "max(LepGood_jetBTagCSV,0)",     &LepGood_jetBTagCSV );
-    readerEle->AddVariable( "LepGood_sip3d",                 &LepGood_sip3d );
-    readerEle->AddVariable( "log(abs(LepGood_dxy))",         &LepGood_dxy );
-    readerEle->AddVariable( "log(abs(LepGood_dz))",          &LepGood_dz );
+    for(auto reader : {readerEle, readerEle2}){ 
+      reader->AddVariable( "LepGood_pt",                    &LepGood_pt );
+      reader->AddVariable( "LepGood_eta",                   &LepGood_eta );
+      reader->AddVariable( "LepGood_jetNDauChargedMVASel",  &LepGood_jetNDauChargedMVASel );
+      reader->AddVariable( "LepGood_miniRelIsoCharged",     &LepGood_miniRelIsoCharged );
+      reader->AddVariable( "LepGood_miniRelIsoNeutral",     &LepGood_miniRelIsoNeutral );
+      reader->AddVariable( "LepGood_jetPtRelv2",            &LepGood_jetPtRelv2 );
+      reader->AddVariable( "min(LepGood_jetPtRatiov2,1.5)", &LepGood_jetPtRatio );
+      reader->AddVariable( "max(LepGood_jetBTagCSV,0)",     &LepGood_jetBTagCSV );
+      reader->AddVariable( "LepGood_sip3d",                 &LepGood_sip3d );
+      reader->AddVariable( "log(abs(LepGood_dxy))",         &LepGood_dxy );
+      reader->AddVariable( "log(abs(LepGood_dz))",          &LepGood_dz );
+    }
     readerEle->AddVariable( "LepGood_mvaIdSpring16GP",       &LepGood_mvaIdSpring16 );
+    readerEle2->AddVariable( "LepGood_mvaIdSpring16HZZ",     &LepGood_mvaIdSpring16HZZ );
 
-    edm::FileInPath *fip = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond17_el_BDTG.weights.xml");
+    edm::FileInPath *fip  = new edm::FileInPath("PhysicsTools/TagAndProbe/data/forMoriond17_el_BDTG.weights.xml");
+    edm::FileInPath *fip2 = new edm::FileInPath("PhysicsTools/TagAndProbe/data/el_BDTG.weights.xml");
     readerEle->BookMVA( "BDTG method", fip->fullPath().c_str());
+    readerEle2->BookMVA("BDTG method", fip2->fullPath().c_str());
 }
 
 // Combine workingpoints
@@ -345,6 +356,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     bool  mvaWP80          = (*mvasWP80)[pp];
     bool  mvaWP90          = (*mvasWP90)[pp];
     float mva              = pp->pt() < 10 ? (*mvasHZZ)[pp] : (*mvas)[pp];
+    float mvaHZZ           = (*mvasHZZ)[pp];
     float dxy              = (*dxys)[pp];
     float dz               = (*dzs)[pp];
     float mini_iso         = (*miniIsos)[pp];
@@ -371,8 +383,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     LepGood_dxy                  = TMath::Log(std::abs(dxy));
     LepGood_dz                   = TMath::Log(std::abs(dz));
     LepGood_mvaIdSpring16        = mva;
+    LepGood_mvaIdSpring16HZZ     = mvaHZZ;
 
     float leptonMva              = readerEle->EvaluateMVA( "BDTG method" );
+    float leptonMva2             = readerEle2->EvaluateMVA( "BDTG method" );
 
     sip3dValues.push_back(sip3d);
     ecalIsoValues.push_back(ecalIso);
@@ -406,7 +420,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["RelIsoCBL"].push_back(        pfRelIso < (probe.isEB() ? 0.0994 : 0.107));
     passWorkingPoints["triggerEmu"].push_back(       triggerEmu);
     passWorkingPoints["IDEmuSpring15"].push_back(    PassIDEmu(probe));
-    passWorkingPoints["IDEmuTTZ"].push_back(         PassIDEmuTTZ(probe));
+    passWorkingPoints["IDEmuDoubleEG"].push_back(    PassIDEmuDoubleEG(probe));
     passWorkingPoints["ISOEmuSpring15"].push_back(   PassISOEmu(probe));
     passWorkingPoints["Charge"].push_back(           probe.isGsfCtfScPixChargeConsistent());
     passWorkingPoints["IHit0"].push_back(            missingInnerHits == 0);
@@ -414,8 +428,10 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["MultiIsoM"].push_back(        PassMultiIso("M",  mini_iso, jetPtRatio, jetPtRel));
     passWorkingPoints["MultiIsoT"].push_back(        PassMultiIso("T",  mini_iso, jetPtRatio, jetPtRel));
     passWorkingPoints["MultiIsoVT"].push_back(       PassMultiIso("VT", mini_iso, jetPtRatio, jetPtRel));
+    passWorkingPoints["LeptonMvaVL"].push_back(      PassLeptonMva("VL", leptonMva));
     passWorkingPoints["LeptonMvaM"].push_back(       PassLeptonMva("M",  leptonMva));
-    passWorkingPoints["LeptonMvaVT"].push_back(      PassLeptonMva("VT", leptonMva));
+    passWorkingPoints["LeptonMvaM"].push_back(       PassLeptonMva("M",  leptonMva));
+    passWorkingPoints["LeptonMva2017"].push_back(    PassLeptonMva2017(leptonMva2));
     passWorkingPoints["CutBasedV"].push_back(        PassCutBased(probe, dxy, dz, missingInnerHits, 0));
     passWorkingPoints["CutBasedL"].push_back(        PassCutBased(probe, dxy, dz, missingInnerHits, 1));
     passWorkingPoints["CutBasedM"].push_back(        PassCutBased(probe, dxy, dz, missingInnerHits, 2));
@@ -436,13 +452,17 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0"].push_back(combine(passWorkingPoints, {"MVATight", "IDEmuSpring15", "TightIP2D", "SIP3D4","ConvVeto","IHit0"}));
     passWorkingPoints["LeptonMvaVTIDEmuTightIP2DSIP3D8mini04"].push_back(    combine(passWorkingPoints, {"LeptonMvaVT", "IDEmuSpring15", "TightIP2D", "SIP3D8", "Mini4"}));
     passWorkingPoints["LeptonMvaMIDEmuTightIP2DSIP3D8mini04"].push_back(     combine(passWorkingPoints, {"LeptonMvaM", "IDEmuSpring15", "TightIP2D", "SIP3D8", "Mini4"}));
+    passWorkingPoints["LeptonMvaVLIDEmuTightIP2DSIP3D8mini04"].push_back(    combine(passWorkingPoints, {"LeptonMvaVL", "IDEmuSpring15", "TightIP2D", "SIP3D8", "Mini4"}));
     passWorkingPoints["CutBasedStopsDilepton"].push_back(                    combine(passWorkingPoints, {"CutBasedT", "TightIP2D", "SIP3D4"}));
+    passWorkingPoints["TTG"].push_back(                                      combine(passWorkingPoints, {"MVAVLoose", "TightIP2D", "SIP3D4", "IDEmuDoubleEG","ConvVeto","IHit0","RelIso012"}));
     passWorkingPoints["ConvVetoIHit1"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit1"}));
     passWorkingPoints["ConvVetoIHit0"].push_back(                            combine(passWorkingPoints, {"ConvVeto","IHit0"}));
     passWorkingPoints["MultiIsoTISOEmu"].push_back(                          combine(passWorkingPoints, {"MultiIsoT", "ISOEmuSpring15"}));
-    passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL","TightIP2D","SIP3D4"}));
-    passWorkingPoints["MVAWP90IDEMuTTZ"].push_back(                          combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ"}));
-    passWorkingPoints["MVAWP90IDEMuTTZRelIsoCBL"].push_back(                 combine(passWorkingPoints, {"MVAWP90","IDEmuTTZ","RelIsoCBL"}));
+    passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuDoubleEG","RelIsoCBL","TightIP2D","SIP3D4"}));
+    passWorkingPoints["MVAWP90IDEMuTTZ"].push_back(                          combine(passWorkingPoints, {"MVAWP90","IDEmuDoubleEG"}));
+    passWorkingPoints["MVAWP90IDEMuTTZRelIsoCBL"].push_back(                 combine(passWorkingPoints, {"MVAWP90","IDEmuDoubleEG","RelIsoCBL"}));
+    passWorkingPoints["TTZ2017"].push_back(                                  combine(passWorkingPoints, {"LeptonMva2017"}));
+    passWorkingPoints["TTZ2017TightCharge"].push_back(                       combine(passWorkingPoints, {"LeptonMva2017", "Charge", "ConvVeto","IHit0"}));
     ++i;
   }
 

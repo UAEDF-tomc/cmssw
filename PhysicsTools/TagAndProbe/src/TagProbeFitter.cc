@@ -131,7 +131,6 @@ void TagProbeFitter::setWeightVar(const std::string &var) {
 }
 
 string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<string>& effCats,const std::vector<string>& effStates, vector<string>& unbinnedVariables, map<string, vector<double> >& binnedReals, map<string, std::vector<string> >& binnedCats, vector<string>& binToPDFmap) {
-
   //go to home directory
   outputDirectory->cd();
   //make a directory corresponding to this efficiency binning
@@ -366,10 +365,12 @@ string TagProbeFitter::calculateEfficiency(string dirName,const std::vector<stri
 
     //get PDF name and make directory name
     TString dirName = catNames[category];
+    std::cout << dirName << std::endl;
     dirName.ReplaceAll("{","").ReplaceAll("}","").ReplaceAll(";","__");
     if(pdfNames[category].size() > 0){
       dirName.Append("__").Append(pdfNames[category]);
     }
+    std::cout << dirName << std::endl;
     
     cout<<"Fitting bin:  "<<dirName<<endl;
     //make a directory for each bin
@@ -560,7 +561,7 @@ void TagProbeFitter::doFitEfficiency(RooWorkspace* w, RooAbsData* data, string p
   // save everything
   res->Write("fitresults");
   w->saveSnapshot("finalState",w->components());
-  saveFitPlot(w);
+  saveFitPlot(w, pdfName);
 
   //extract the efficiency parameter from the results
   RooRealVar* e = (RooRealVar*) res->floatParsFinal().find("efficiency");
@@ -610,7 +611,7 @@ void TagProbeFitter::createPdf(RooWorkspace* w, vector<string>& pdfCommands){
   // create the signal and background pdfs defined by the user
   for(unsigned int i=0; i<pdfCommands.size(); i++){
     const std::string & command = pdfCommands[i];
-    
+
     if (command.find("#import ") == 0) {
       TDirectory *here = gDirectory;
       w->import(command.substr(8).c_str());
@@ -749,7 +750,7 @@ void TagProbeFitter::setInitialValues(RooWorkspace* w, RooAbsData* data){
   //w->saveSnapshot("initialState",w->components());
 }
 
-void TagProbeFitter::saveFitPlot(RooWorkspace* w){
+void TagProbeFitter::saveFitPlot(RooWorkspace* w, string pdfName){
   // save refferences for convenience
   RooCategory& efficiencyCategory = *w->cat("_efficiencyCategory_");
   RooAbsData* dataAll = (binnedFit ? w->data("data_binned") : w->data("data") );

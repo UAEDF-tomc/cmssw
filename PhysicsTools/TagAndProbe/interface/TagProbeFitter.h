@@ -138,7 +138,7 @@ class TagProbeFitter {
   void setInitialValues(RooWorkspace* w, RooAbsData* data=0);
 
   ///saves the fit canvas
-  void saveFitPlot(RooWorkspace* w);
+  void saveFitPlot(RooWorkspace* w, std::string pdfName);
 
   ///saves the distributions canvas
   void saveDistributionsPlot(RooWorkspace* w, RooAbsData* data);
