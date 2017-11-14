@@ -430,7 +430,7 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["MultiIsoVT"].push_back(       PassMultiIso("VT", mini_iso, jetPtRatio, jetPtRel));
     passWorkingPoints["LeptonMvaVL"].push_back(      PassLeptonMva("VL", leptonMva));
     passWorkingPoints["LeptonMvaM"].push_back(       PassLeptonMva("M",  leptonMva));
-    passWorkingPoints["LeptonMvaM"].push_back(       PassLeptonMva("M",  leptonMva));
+    passWorkingPoints["LeptonMvaVT"].push_back(      PassLeptonMva("VT", leptonMva));
     passWorkingPoints["LeptonMva2017"].push_back(    PassLeptonMva2017(leptonMva2));
     passWorkingPoints["CutBasedV"].push_back(        PassCutBased(probe, dxy, dz, missingInnerHits, 0));
     passWorkingPoints["CutBasedL"].push_back(        PassCutBased(probe, dxy, dz, missingInnerHits, 1));
@@ -461,8 +461,8 @@ void MyElectronVariableHelper::produce(edm::Event & iEvent, const edm::EventSetu
     passWorkingPoints["TTZ"].push_back(                                      combine(passWorkingPoints, {"MVAWP90","IDEmuDoubleEG","RelIsoCBL","TightIP2D","SIP3D4"}));
     passWorkingPoints["MVAWP90IDEMuTTZ"].push_back(                          combine(passWorkingPoints, {"MVAWP90","IDEmuDoubleEG"}));
     passWorkingPoints["MVAWP90IDEMuTTZRelIsoCBL"].push_back(                 combine(passWorkingPoints, {"MVAWP90","IDEmuDoubleEG","RelIsoCBL"}));
-    passWorkingPoints["TTZ2017"].push_back(                                  combine(passWorkingPoints, {"LeptonMva2017"}));
-    passWorkingPoints["TTZ2017TightCharge"].push_back(                       combine(passWorkingPoints, {"LeptonMva2017", "Charge", "ConvVeto","IHit0"}));
+    passWorkingPoints["TTZ2017"].push_back(                                  combine(passWorkingPoints, {"IDEmuDoubleEG", "LeptonMva2017"}));
+    passWorkingPoints["TTZ2017TightCharge"].push_back(                       combine(passWorkingPoints, {"IDEmuDoubleEG", "LeptonMva2017", "Charge", "ConvVeto","IHit0"}));
     ++i;
   }
 
