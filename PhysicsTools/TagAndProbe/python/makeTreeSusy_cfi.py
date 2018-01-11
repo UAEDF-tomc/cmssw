@@ -19,12 +19,12 @@ def AddMiniIso(process, options, varOptions):
     )
     
     process.AddLeptonJetRelatedVariables = cms.EDProducer("AddLeptonJetRelatedVariables",
-	JetCollection         = cms.InputTag("jetAwareCleaner"),
-	JetCollectionWithCSV  = cms.InputTag("slimmedJets"),
-	pfCandidates          = cms.InputTag("packedPFCandidates"),
-	LeptonCollection      = cms.InputTag(options['ELECTRON_COLL']),
-	dRmax                 = cms.double(0.4),
-	subLepFromJetForPtRel = cms.bool(True)
+        JetCollection         = cms.InputTag("jetAwareCleaner"),
+        JetCollectionWithCSV  = cms.InputTag("slimmedJets"),
+        pfCandidates          = cms.InputTag("packedPFCandidates"),
+        LeptonCollection      = cms.InputTag(options['ELECTRON_COLL']),
+        dRmax                 = cms.double(0.4),
+        subLepFromJetForPtRel = cms.bool(True)
     )
 
     process.MyEleVars = cms.EDProducer(
@@ -52,7 +52,7 @@ def AddMiniIso(process, options, varOptions):
     process.relminiiso =  cms.EDProducer("IsolationSum",
         effAreasConfigFile = cms.FileInPath('RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt'),
        #effAreasConfigFile = cms.FileInPath('RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt'),
-        rho                = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
+        rho                = cms.InputTag("fixedGridRhoFastjetAll"),
         candidates         = cms.InputTag("packedPFCandidates"),
         probes             = cms.InputTag("slimmedElectrons"),
         minRadius          = cms.double(0.05),
