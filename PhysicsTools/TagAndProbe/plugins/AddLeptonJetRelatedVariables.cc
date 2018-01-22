@@ -25,6 +25,7 @@
 #include "DataFormats/ParticleFlowCandidate/interface/PFCandidateFwd.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
+#include "DataFormats/PatCandidates/interface/Electron.h"
 
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/Common/interface/RefVector.h"
@@ -34,7 +35,6 @@
 #include "DataFormats/Math/interface/deltaR.h"
 
 using namespace std;
-typedef edm::View<reco::Candidate> CandView;
 
 
 //
@@ -52,13 +52,13 @@ private:
   virtual void beginJob();
   virtual void produce(edm::Event&, const edm::EventSetup&);
   virtual void endJob();
-  template <typename T> void putInEvent(std::string, const edm::Handle<CandView>&, std::vector<T>&, edm::Event&);
+  template <typename T> void putInEvent(std::string name, edm::Handle<std::vector<pat::Electron>>& probesHandle, std::vector<T>& product, edm::Event& iEvent);
   
   // ----------auxiliary functions -------------------  
   // ----------member data ---------------------------
   edm::EDGetTokenT<edm::View<reco::Jet>> jetCollectionTag_;
-  edm::EDGetTokenT<edm::View<reco::Jet>> jetCollectionTag2_;
-  edm::EDGetTokenT<reco::CandidateView> leptonCollectionTag_;
+  edm::EDGetTokenT<std::vector<pat::Jet>> jetCollectionTag2_;
+  edm::EDGetTokenT<std::vector<pat::Electron>> leptonCollectionTag_;
   edm::EDGetTokenT<reco::JetCorrector> tagL1Corrector_;
   edm::EDGetTokenT<reco::JetCorrector> tagL1L2L3ResCorrector_;
   edm::EDGetTokenT<reco::VertexCollection> vertexes_;
@@ -90,10 +90,10 @@ AddLeptonJetRelatedVariables::AddLeptonJetRelatedVariables(const edm::ParameterS
   jetCollectionTag_ = consumes<edm::View<reco::Jet>>(jetcollection);
 
   edm::InputTag jetcollection2 = iConfig.getParameter<edm::InputTag>("JetCollectionWithCSV");
-  jetCollectionTag2_ = consumes<edm::View<reco::Jet>>(jetcollection2);
+  jetCollectionTag2_ = consumes<std::vector<pat::Jet>>(jetcollection2);
 
   edm::InputTag leptoncollection = iConfig.getParameter<edm::InputTag>("LeptonCollection");
-  leptonCollectionTag_ = consumes<reco::CandidateView>(leptoncollection);
+  leptonCollectionTag_ = consumes<std::vector<pat::Electron>>(leptoncollection);
 /*
   edm::InputTag l1Cortag = iConfig.getParameter<edm::InputTag>("L1Corrector");
   tagL1Corrector_ = consumes<reco::JetCorrector>(l1Cortag);
@@ -137,87 +137,76 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
 {
   using namespace edm;
 
-  edm::Handle<edm::View<reco::Jet>> jets;       
-  iEvent.getByToken (jetCollectionTag_, jets);    
+  edm::Handle<std::vector<pat::Jet>> jets;       // This is the fully corrected one
+  iEvent.getByToken (jetCollectionTag2_, jets);    
 
-  edm::Handle<edm::View<reco::Jet>> jets2;       
-  iEvent.getByToken (jetCollectionTag2_, jets2);    
+  edm::Handle<edm::View<reco::Jet>> jets2;      // This is the one with L1FastJet 
+  iEvent.getByToken (jetCollectionTag_, jets2);    
 
-  edm::Handle<reco::CandidateView> leptons;               
-  iEvent.getByToken (leptonCollectionTag_, leptons);       
-/*
-  edm::Handle<reco::JetCorrector> correctorL1L2L3Res;
-  iEvent.getByToken(tagL1L2L3ResCorrector_, correctorL1L2L3Res);
+  edm::Handle<std::vector<pat::Electron>> leptons; iEvent.getByToken (leptonCollectionTag_, leptons);       
 
-  edm::Handle<reco::JetCorrector> correctorL1;
-  iEvent.getByToken(tagL1Corrector_, correctorL1);
-
-  edm::Handle<reco::JetTagCollection> bTagHandle;
-  iEvent.getByToken(bTagCollectionTag_, bTagHandle);
-  const reco::JetTagCollection & bTags = *(bTagHandle.product());
-*/
   edm::Handle<std::vector<pat::PackedCandidate>> pfCandidates;
   iEvent.getByToken(pfCandidates_, pfCandidates);
 
-  edm::Handle<reco::VertexCollection> PVs;
-  iEvent.getByToken(vertexes_, PVs);
-  reco::VertexRef PV(PVs.id());
-  reco::VertexRefProd PVRefProd(PVs);
+  edm::Handle<std::vector<reco::Vertex>> vertices; iEvent.getByToken(vertexes_, vertices);
+  auto vertex=*(vertices->begin());
+
+  //Make skimmed "close jet" collection
+  std::vector<pat::Jet> selectedJetsAll;
+  std::vector<pat::Jet> selectedJetsAll2;
+  auto jet2 = jets2->begin();
+  for(auto jet = jets->begin(); jet != jets->end(); ++jet, ++jet2){
+      if( jet->pt() > 5 && fabs( jet->eta() ) < 3){
+        selectedJetsAll.push_back(*jet);
+        selectedJetsAll2.push_back(*jet2);
+      }
+  }
+
+
 
   //Output
   std::vector<float> ptratio,ptrel,nchargeddaughers,btagcsv;
-  for( reco::CandidateView::const_iterator icand = leptons->begin(); icand != leptons->end(); ++ icand){
+  for(auto lepton = leptons->begin(); lepton != leptons->end(); ++lepton){
+    // Find closest selected jet
+    unsigned closestIndex = 0;
+    for(unsigned j = 1; j < selectedJetsAll.size(); ++j){
+        if(reco::deltaR(selectedJetsAll[j], *lepton) < reco::deltaR(selectedJetsAll[closestIndex], *lepton)) closestIndex = j;
+    }
+    const pat::Jet& jet  = selectedJetsAll[closestIndex];
+    const pat::Jet& jet2 = selectedJetsAll2[closestIndex];
+    if(selectedJetsAll.size() == 0 || reco::deltaR(jet, *lepton) > 0.4){ //Now includes safeguard for 0 jet events
+      ptratio.push_back(1);
+      ptrel.push_back(0);
+      btagcsv.push_back(0);
+      nchargeddaughers.push_back(0);
+    } else {
+      auto  l1Jet       = jet2.p4();
+      float JEC         = jet.p4().E()/l1Jet.E();
+      auto  l           = lepton->p4();
+      auto  lepAwareJet = (l1Jet - l)*JEC + l;
+      TLorentzVector lV(l.px(), l.py(), l.pz(), l.E());
+      TLorentzVector jV(lepAwareJet.px(), lepAwareJet.py(), lepAwareJet.pz(), lepAwareJet.E());
 
-    //Initialise loop variables
-    float dR = 9999;
-    reco::Candidate::LorentzVector jet, e;
-    float csv(-999.);
-    int nchdaugthers(0);    
+      ptratio.push_back(l.pt()/lepAwareJet.pt());
+      ptrel.push_back(lV.Perp((jV - lV).Vect()));
+      btagcsv.push_back(jet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
 
-    int i = 0, j = 0;
-    for (auto ijet = jets->begin(); ijet != jets->end(); ++ijet, ++i) {
-
-      // get smallest deltaR with the lepton
-      if(deltaR(*ijet, *icand) > dR) continue;
-      dR = deltaR(*ijet, *icand);
-
-      // A hacky way to easily get the csv value even if we run on the raw jet collection
-      for (auto jjet = jets2->begin(); jjet != jets2->end(); ++jjet, ++j) {
-        if(i==j){
-          auto patJet = static_cast<const pat::Jet*> (&*jjet);
-          csv = patJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-        }
+      //compute selected track multiplicity of closest jet
+      int selectedTrackMult = 0;
+      for(unsigned d = 0; d < jet.numberOfDaughters(); ++d){
+        const pat::PackedCandidate* daughter = (const pat::PackedCandidate*) jet.daughter(d);
+        try {                                                                                                     // In principle, from CMSSW_9_X you need to use if(daughter->hasTrackDetails()){ here, bus that function does not exist in CMSSW_8_X
+            const reco::Track& daughterTrack = daughter->pseudoTrack();                                             // Using try {} catch (...){} the code compiles in both versions
+            TLorentzVector trackVec(daughterTrack.px(), daughterTrack.py(), daughterTrack.pz(), daughterTrack.p());
+            double daughterDeltaR            = trackVec.DeltaR(jV);
+            bool goodTrack                   = daughterTrack.pt() > 1 && daughterTrack.charge() != 0 && daughterTrack.hitPattern().numberOfValidHits() > 7
+                && daughterTrack.hitPattern().numberOfValidPixelHits() > 1 && daughterTrack.normalizedChi2() < 5 && fabs(daughterTrack.dz(vertex.position())) < 17
+                && fabs(daughterTrack.dxy(vertex.position())) < 17;
+            if(daughterDeltaR < 0.4 && daughter->fromPV() > 1 && goodTrack) ++selectedTrackMult;
+        } catch (...){}
       }
-      
-      e   = icand->p4();
-      jet = ijet->p4();
+      nchargeddaughers.push_back(selectedTrackMult); 
     }
-
-    //
-    //Fill the pt ratio and pt rel
-    //
-    //No jets found
-    if(dR > dRmax_){
-      ptratio.push_back(-99);
-      ptrel.push_back(-99);
-      btagcsv.push_back(-999.);
-      nchargeddaughers.push_back(-1);
-    }
-    else{
-      ptratio.push_back(e.pt()/jet.pt());
-
-      if(subLepFromJetForPtRel_) jet -= e;
-      TLorentzVector tmp_e, tmp_jet;
-      tmp_e.SetPxPyPzE(e.px(),e.py(),e.pz(),e.E());
-      tmp_jet.SetPxPyPzE(jet.px(),jet.py(),jet.pz(),jet.E());
-      if ((tmp_jet-tmp_e).Rho()<0.0001)  ptrel.push_back(0.);
-      else                               ptrel.push_back(tmp_e.Perp(tmp_jet.Vect()));
-
-      btagcsv.push_back(csv);
-      nchargeddaughers.push_back(nchdaugthers);
-    }
-
-
   }//end e loop
   
   
@@ -229,7 +218,7 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
 }
 
 /// Function to put product into event
-template <typename T> void AddLeptonJetRelatedVariables::putInEvent(std::string name, const edm::Handle<CandView>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
+template <typename T> void AddLeptonJetRelatedVariables::putInEvent(std::string name, edm::Handle<std::vector<pat::Electron>>& probesHandle, std::vector<T>& product, edm::Event& iEvent){
   std::auto_ptr<edm::ValueMap<T>> out(new edm::ValueMap<T>());
   typename edm::ValueMap<T>::Filler filler(*out);
   filler.insert(probesHandle, product.begin(), product.end());
