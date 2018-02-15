@@ -212,10 +212,10 @@ AddLeptonJetRelatedVariables::produce(edm::Event& iEvent, const edm::EventSetup&
     //
     //No jets found
     if(dR > dRmax_){
-      ptratio.push_back(-99);
-      ptrel.push_back(-99);
-      btagcsv.push_back(-999.);
-      nchargeddaughers.push_back(-1);
+      ptratio.push_back(1.);
+      ptrel.push_back(0.);
+      btagcsv.push_back(0.);
+      nchargeddaughers.push_back(0.);
     }
     else{
       if ((jet-mu).Rho()<0.0001) 
