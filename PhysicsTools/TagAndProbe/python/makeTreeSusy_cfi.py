@@ -61,7 +61,6 @@ def AddMiniIso(process, options, varOptions):
         ktScale            = cms.double(10.),
     )
 
-
     MiniIsoProbeVars = cms.PSet(
         process.GsfElectronToEleID.variables,
         probe_ele_Mini               = cms.InputTag("relminiiso:sum"),
@@ -89,10 +88,10 @@ def AddMiniIso(process, options, varOptions):
                      "CutBasedStopsDilepton","TTZ", "TTG", "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90", "TTZ2017", "TTZ2017TightCharge",
                      "MVAVLooseTightIP2D", "MVAVLooseFOIDEmuTightIP2D", 
                      "MVATightTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4", "MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0",
-                     "LeptonMvaVTIDEmuTightIP2DSIP3D8mini04", "LeptonMvaMIDEmuTightIP2DSIP3D8mini04","LeptonMvaVLIDEmuTightIP2DSIP3D8mini04",
                      "Mini", "Mini2", "Mini4","RelIso010","RelIso012",
                      "MultiIsoM", "MultiIsoT", "MultiIsoT", "MultiIsoTISOEmu",
                      "ConvVetoIHit1", "ConvVetoIHit0", "Charge",
+                     "Feb2018Loose", "Feb2018LeptonMvaL", "Feb2018LeptonMvaM", "Feb2018LeptonMvaT", "TightCharge",
                      "triggerEmu"];
 
 
@@ -113,7 +112,7 @@ def AddMiniIso(process, options, varOptions):
       setattr(process, 'goodElectronsProbe' + name, temp)
       process.my_ele_sequence += temp
 
-    referenceWp = ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0','CutBasedStopsDilepton']
+    referenceWp = ['MVAVLooseTightIP2D', 'MVATightIDEmuTightIP2DSIP3D4', 'MVATightIDEmuTightIP2DSIP3D4ConvVetoIHit0','CutBasedStopsDilepton','Feb2018Loose','RFeb2018LeptonMvaL','RFeb2018LeptonMvaM','RFeb2018LeptonMvaT']
     for wp in referenceWp:
       getAllProbes(wp)
 
@@ -147,7 +146,8 @@ def AddMiniIso(process, options, varOptions):
                 ['CutBasedV','CutBasedL','CutBasedM','CutBasedT','CutBasedSpring15V', 'CutBasedSpring15L', 'CutBasedSpring15M', 'CutBasedSpring15T',
                  'CutBasedStopsDilepton','TTZ', 'TTG', "MVAWP90IDEMuTTZRelIsoCBL", "MVAWP90IDEMuTTZ", "MVAWP90", "TTZ2017", "TTZ2017TightCharge",
                  'MVAVLooseTightIP2D','MVAVLooseFOIDEmuTightIP2D', 'MVATightTightIP2DSIP3D4','MVATightIDEmuTightIP2DSIP3D4',
-                 'LeptonMvaVTIDEmuTightIP2DSIP3D8mini04','LeptonMvaMIDEmuTightIP2DSIP3D8mini04','LeptonMvaVLIDEmuTightIP2DSIP3D8mini04'])
+                 'Feb2018Loose'])
+
 
     getProducer('MVAVLooseElectronToIso', "goodElectronsProbeMVAVLooseTightIP2D", "MVAVLooseTightIP2D",
                 ['Mini','Mini2','Mini4','ConvVetoIHit1'])
@@ -159,6 +159,11 @@ def AddMiniIso(process, options, varOptions):
                 ['Charge'])
 
     getProducer('CutBasedStopsDileptonToIso', 'goodElectronsProbeCutBasedStopsDilepton', 'CutBasedStopsDilepton', ['RelIso012'])
+
+    getProducer('Feb2018LooseToLeptonMva', 'goodElectronsProbeFeb2018Loose', 'Feb2018Loose', ['Feb2018LeptonMvaL','Feb2018LeptonMvaM','Feb2018LeptonMvaT'])
+    getProducer('Feb2018LeptonMvaLToTightCharge', 'goodElectronsProbeRFeb2018LeptonMvaL', 'RFeb2018LeptonMvaL', ['TightCharge'])
+    getProducer('Feb2018LeptonMvaMToTightCharge', 'goodElectronsProbeRFeb2018LeptonMvaM', 'RFeb2018LeptonMvaM', ['TightCharge'])
+    getProducer('Feb2018LeptonMvaTToTightCharge', 'goodElectronsProbeRFeb2018LeptonMvaT', 'RFeb2018LeptonMvaT', ['TightCharge'])
 
     if varOptions.isMC:
         process.p = cms.Path(

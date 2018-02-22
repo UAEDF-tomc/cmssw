@@ -120,6 +120,31 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
 // }
 }
 
+
+
+// Jet Id (https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2016)
+bool tnp::BaseTreeFiller::jetId(const pat::Jet& j, bool tight) const{
+    if(fabs(j.eta()) < 2.7){
+        if(j.neutralHadronEnergyFraction() >= (tight? 0.90 : 0.99)) return false;
+        if(j.neutralEmEnergyFraction() >= (tight? 0.90 : 0.99))     return false;
+        if(j.chargedMultiplicity()+j.neutralMultiplicity() <= 1)    return false;
+        if(fabs(j.eta()) < 2.4){
+            if(j.chargedHadronEnergyFraction() <= 0)                return false;
+            if(j.chargedMultiplicity() <= 0)                        return false;
+            if(j.chargedEmEnergyFraction() >= 0.99)                 return false;
+        }
+    } else if(fabs(j.eta()) < 3.0){
+        if(j.neutralHadronEnergyFraction() >= 0.98)                 return false;
+        if(j.neutralEmEnergyFraction() <= 0.01)                     return false;
+        if(j.neutralMultiplicity() <= 2)                            return false;
+    } else {
+        if(j.neutralEmEnergyFraction() >= 0.90)                     return false;
+        if(j.neutralMultiplicity() <= 10)                           return false;
+    }
+    return true;
+}
+
+
 tnp::BaseTreeFiller::BaseTreeFiller(BaseTreeFiller &main, const edm::ParameterSet &iConfig, edm::ConsumesCollector && iC, const std::string &branchNamePrefix) :
   addEventVariablesInfo_(false),
   tree_(0)
@@ -282,15 +307,12 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
 	edm::Handle<pat::JetCollection> jets;
 	iEvent.getByToken(jetsToken_, jets);
 
-	for(auto jet = jets->begin();
-	    jet != jets->end();
-	    ++jet){
+	for(auto jet = jets->begin(); jet != jets->end(); ++jet){
 	  double pt = jet->pt();
 	  if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
+    if(!jetId(*jet, false)) continue;
 	  bool matched_to_electron = false;
-	  for(auto ele = probes->begin();
-	      ele != probes->end();
-	      ++ele){
+	  for(auto ele = probes->begin(); ele != probes->end(); ++ele){
 	    if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
 	  }
 	  if(matched_to_electron) continue;

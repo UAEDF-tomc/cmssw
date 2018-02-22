@@ -168,6 +168,7 @@ class BaseTreeFiller : boost::noncopyable {
         /// see macro in test directory for how to retrieve it from the output root file
         void writeProvenance(const edm::ParameterSet &pset) const ;
 	void addTotWeightBranch(double totGenWeight, double totEvents);
+        bool jetId(const pat::Jet& j, bool tight) const;
 
     protected:
 
