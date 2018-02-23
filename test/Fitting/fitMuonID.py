@@ -514,7 +514,7 @@ TIGHT_PT_ETA_BINS = cms.PSet(
 
 
 tuplesDir = '/user/tomc/public/tagAndProbe/merged/'
-if scenario == 'data_all':
+if scenario == 'data':
   if sample == 'all': sample = ['B','C','D','E','F','G','H-v2','H-v3']
   else:               sample = [sample]
   samples = [(tuplesDir + 'run' + r + '.root') for r in sample]
@@ -525,117 +525,18 @@ if scenario == 'data_all':
       OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
       Efficiencies = cms.PSet(),
   )
-            # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016E_skimmed_full_MVA.root",
-            # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016F_skimmed_full_MVA.root",
-        )
-    ## Run G
-    elif sample == 'runG':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016G_skimmed_full_MVA.root"
-        )
-    ## Run H
-    elif sample == 'runH':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016H1_skimmed_full_MVA.root",
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016H2_skimmed_full_MVA.root",
-        )
-    ## Run G-H
-    elif sample == 'runGH':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016G_skimmed_full_MVA.root",
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016H1_skimmed_full_MVA.root",
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016H2_skimmed_full_MVA.root",
-        )
 
-elif scenario == 'mc_all':
-    if sample == 'MCID':
-         process.TnP_MuonID = Template.clone(
-         InputFileNames = cms.vstring(
-             ''
-             ),
-         InputTreeName = cms.string("fitter_tree"),
-         InputDirectoryName = cms.string("tpTree"),
-         OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
-         Efficiencies = cms.PSet(),
-         )
-         process.TnP_MuonID.WeightVariable = cms.string("weight")
-         process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
-    elif sample == 'MCISO':
-         process.TnP_MuonID = Template.clone(
-         InputFileNames = cms.vstring(
-             ''
-             ),
-         InputTreeName = cms.string("fitter_tree"),
-         InputDirectoryName = cms.string("tpTree"),
-         OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
-         Efficiencies = cms.PSet(),
-         )
-         process.TnP_MuonID.WeightVariable = cms.string("weight")
-         process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
-    elif sample == 'NLO':
-         process.TnP_MuonID = Template.clone(
-         InputFileNames = cms.vstring(
-             ''
-             ),
-         InputTreeName = cms.string("fitter_tree"),
-         InputDirectoryName = cms.string("tpTree"),
-         OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
-         Efficiencies = cms.PSet(),
-         )
-         process.TnP_MuonID.WeightVariable = cms.string("weight")
-         process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
-    elif sample == 'LO':
-         process.TnP_MuonID = Template.clone(
-         InputFileNames = cms.vstring(
-             ),
-         InputTreeName = cms.string("fitter_tree"),
-         InputDirectoryName = cms.string("tpTree"),
-         OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
-         Efficiencies = cms.PSet(),
-         )
-         #process.TnP_MuonID.WeightVariable = cms.string("weight")
-         #process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
-    elif sample == 'runMcBtoF':
-         process.TnP_MuonID = Template.clone(
-         InputFileNames = cms.vstring(
-             ## Old POG sample
-             "root://eoscms//store/group/phys_muon/hbrun/muonPOGtnpTrees/MCDR80X/DY_Summer16PremixMoriond/MC_Moriond17_DY_tranch4Premix_part1.root"
-             ## Original sample
-             #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/out_tnp_tth_dyjetstoll/180123_182300/0000/tnpZ_MC_98.root"
-             ## Original skimmed 
-             #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_MC_skimmed_part.root"
-             ## Skimmed + MVA
-             #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_MC_skimmed_part_MVA.root"
-             ## Skimmed + MVA + weights -- requires weights!!!
-             #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_MC_skimmed_part_MVA_addweight_BtoF.root"
-             ##
-             ## Junk 
-             # #'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_3to10_BtoF.root'
-             # 'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_3to5_BtoF.root',
-             # 'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_6to8_BtoF.root',
-             # 'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_9to10_BtoF.root'
-             ),
-         InputTreeName = cms.string("fitter_tree"),
-         InputDirectoryName = cms.string("tpTree"),
-         OutputFileName = cms.string("TnP_MuonID_%s_%s.root" % (scenario,sample)),
-         Efficiencies = cms.PSet(),
-         )
-         #process.TnP_MuonID.WeightVariable = cms.string("weight")
-         #process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
-    elif sample == 'runMcGH':
-         process.TnP_MuonID = Template.clone(
-         InputFileNames = cms.vstring(
-             'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_3to5_GH.root',
-             'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_6to8_GH.root',
-             'root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_MC_skimmed_part_addweight_9to10_GH.root'
-             ),
-         InputTreeName = cms.string("fitter_tree"),
-         InputDirectoryName = cms.string("tpTree"),
-         OutputFileName = cms.string("TnP_MuonID_%s_%s.root" % (scenario,sample)),
-         Efficiencies = cms.PSet(),
-         )
-         process.TnP_MuonID.WeightVariable = cms.string("weight")
-         process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
+elif scenario == 'mc':
+   process.TnP_MuonID = Template.clone(
+     InputFileNames = cms.vstring(tuplesDir + 'DY.root'),
+     InputTreeName = cms.string("fitter_tree"),
+     InputDirectoryName = cms.string("tpTree"),
+     OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
+     Efficiencies = cms.PSet(),
+     )
+     process.TnP_MuonID.WeightVariable = cms.string("weight")
+     process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
+
 ID_BINS = []
 
 #_*_*_*_*_*_*_*_*_*_*
