@@ -71,9 +71,9 @@ Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
         miniIsoCharged  = cms.vstring("miniIsoCharged" ,  "-2", "9999999", ""),
         miniIsoNeutrals = cms.vstring("miniIsoNeutrals",  "-2", "9999999", ""),
         #miniIsoPhotons  = cms.vstring("miniIsoPhotons" ,  "-2", "9999999", ""),
-        #miniCombRelIsoTTH = cms.vstring("miniCombRelIsoTTH" ,  "-2", "9999999", ""), # toggle
+        miniCombRelIsoTTH = cms.vstring("miniCombRelIsoTTH" ,  "-2", "9999999", ""), # toggle
         JetBTagCSV      = cms.vstring("JetBTagCSV"     , "-10",       "1", ""),
-        #mvaIdTTH        = cms.vstring("mvaIdTTH"       ,  "-1",       "1", ""), # toggle
+        mvaIdTTH        = cms.vstring("mvaIdTTH"       ,  "-1",       "1", ""), # toggle
         tkSigmaPtOverPt = cms.vstring("tkSigmaPtOverPt",   "0", "9999999", ""),
         fixedGridRhoFastjetCentralNeutral = cms.vstring("fixedGridRhoFastjetCentralNeutral", "-1", "9999999", ""),
         ),
@@ -511,60 +511,20 @@ TIGHT_PT_ETA_BINS = cms.PSet(
     tag_combRelIsoPF04dBeta = cms.vdouble(-0.5, 0.2),
     
 )
+
+
+tuplesDir = '/user/tomc/public/tagAndProbe/merged/'
 if scenario == 'data_all':
-    process.TnP_MuonID = Template.clone(
-        InputFileNames = cms.vstring(""),
-        InputTreeName = cms.string("fitter_tree"),
-        InputDirectoryName = cms.string("tpTree"),
-        OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
-        Efficiencies = cms.PSet(),
-        )
-    if sample == 'all':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-        )
-    ## Run B
-    elif sample == 'runB':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016B_skimmed_full_MVA.root"
-        )
-    ## Run C
-    elif sample == 'runC':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016C_skimmed_full_MVA.root"
-        )
-    ## Run D
-    elif sample == 'runD':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016D_skimmed_full_MVA.root"
-        )
-    ## Run E
-    elif sample == 'runE':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016E_skimmed_full_MVA.root"
-        )
-    ## Run F
-    elif sample == 'runF':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016F_skimmed_full_MVA.root"
-        )
-    ## Run B-F
-    elif sample == 'runBtoF':
-        process.TnP_MuonID.InputFileNames = cms.vstring(
-            ## Old POG sample
-            "root://eoscms//store/group/phys_muon/TagAndProbe/Run2016/80X_v5/data/RunB/TnPTree_80XRereco_Run2016B_GoldenJSON_Run276098to276384.root"
-            ## Original sample
-            #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/out_tnp_tth_run2016b/180123_180544/0000/tnpZ_Data_99.root"
-            ## Original skimmed
-            #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_Data_Run2016B_skimmed_part.root"
-            ## Skimmed + MVA
-            #"root://eoscms//store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_Data_Run2016B_skimmed_part_MVA.root"
-            ## 
-            ## Junk 
-            #"root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_Data_Run2016D_skimmed_part_MVA.root",
-            #"root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/tnpZ_Data_Run2016F_skimmed_part_MVA.root",
-            # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016B_skimmed_full_MVA.root",
-            # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016C_skimmed_full_MVA.root",
-            # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016D_skimmed_full_MVA.root",
+  if sample == 'all': sample = ['B','C','D','E','F','G','H-v2','H-v3']
+  else:               sample = [sample]
+  samples = [(tuplesDir + 'run' + r + '.root') for r in sample]
+  process.TnP_MuonID = Template.clone(
+      InputFileNames = cms.vstring(*samples),
+      InputTreeName = cms.string("fitter_tree"),
+      InputDirectoryName = cms.string("tpTree"),
+      OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
+      Efficiencies = cms.PSet(),
+  )
             # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016E_skimmed_full_MVA.root",
             # "root://eoscms//eos/cms/store/user/trocino/MuonReco/TnP/2017/ntuples/SingleMuon/TTH/tnpZ_Data_Run2016F_skimmed_full_MVA.root",
         )
