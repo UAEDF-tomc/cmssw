@@ -8,8 +8,8 @@ void addMVAmuon(TString fileName) {
   TFile *f = TFile::Open(fileName + ".root");
   TTree *tIn = (TTree *) f->Get("tpTree/fitter_tree");
   //// Variables for MVA 
-  Float_t pt, eta, sip3d, dB, dzPV, segmComp, trackMult, miniIsoCharged, miniIsoNeutral, relIso0p3,
-    /*miniIsoPhotons,*/ ptrel, JetPtRatio, JetBTagCSV, fixedGridRhoFastjetCentralNeutral;
+  float pt, eta, sip3d, dB, dzPV, segmComp, trackMult, miniIsoCharged, miniIsoNeutral, relIso0p3,
+  float ptrel, JetPtRatio, JetBTagCSV, fixedGridRhoFastjetCentralNeutral;
   //// Other variables to save 
   // Float_t mass, abseta, Medium, JetBTagCSV, tkSigmaPtOverPt, tag_nVertices, pair_nJets30, isoTTH, mvaIdTTH;
   tIn->SetBranchAddress("pt"                               , &pt                               );
@@ -21,7 +21,6 @@ void addMVAmuon(TString fileName) {
   tIn->SetBranchAddress("JetNDauCharged"                   , &trackMult                        );
   tIn->SetBranchAddress("miniIsoCharged"                   , &miniIsoCharged                   );
   tIn->SetBranchAddress("miniIsoNeutrals"                  , &miniIsoNeutral                   );
-  //tIn->SetBranchAddress("miniIsoPhotons"                   , &miniIsoPhotons                   );
   tIn->SetBranchAddress("JetPtRel"                         , &ptrel                            );
   tIn->SetBranchAddress("JetPtRatio"                       , &JetPtRatio                       );
   tIn->SetBranchAddress("JetBTagCSV"                       , &JetBTagCSV                       );
@@ -31,7 +30,7 @@ void addMVAmuon(TString fileName) {
   TFile *fOut = new TFile(fileName + "_withIsoAndMva.root", "RECREATE");
   fOut->mkdir("tpTree")->cd();
   TTree *tOut = tIn->CloneTree(0);
-  Float_t miniCombRelIsoTTH = -999999., mvaIdTTH = -999999.;
+  float miniCombRelIsoTTH = -999999., mvaIdTTH = -999999.;
   tOut->Branch("miniCombRelIsoTTH", &miniCombRelIsoTTH, "miniCombRelIsoTTH/F");
   tOut->Branch("mvaIdTTH"         , &mvaIdTTH         , "mvaIdTTH/F");
 
