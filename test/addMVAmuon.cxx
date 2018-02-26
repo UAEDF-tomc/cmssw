@@ -8,10 +8,11 @@ void addMVAmuon(TString fileName) {
   TFile *f = TFile::Open(fileName + ".root");
   TTree *tIn = (TTree *) f->Get("tpTree/fitter_tree");
   //// Variables for MVA 
-  float pt, eta, sip3d, dB, dzPV, segmComp, trackMult, miniIsoCharged, miniIsoNeutral, relIso0p3,
+  bool medium;
+  float pt, eta, sip3d, dB, dzPV, segmComp, trackMult, miniIsoCharged, miniIsoNeutral, relIso0p3;
   float ptrel, JetPtRatio, JetBTagCSV, fixedGridRhoFastjetCentralNeutral;
   //// Other variables to save 
-  // Float_t mass, abseta, Medium, JetBTagCSV, tkSigmaPtOverPt, tag_nVertices, pair_nJets30, isoTTH, mvaIdTTH;
+  tIn->SetBranchAddress("Medium"                           , &medium                           );
   tIn->SetBranchAddress("pt"                               , &pt                               );
   tIn->SetBranchAddress("eta"                              , &eta                              );
   tIn->SetBranchAddress("SIP"                              , &sip3d                            );
@@ -31,8 +32,13 @@ void addMVAmuon(TString fileName) {
   fOut->mkdir("tpTree")->cd();
   TTree *tOut = tIn->CloneTree(0);
   float miniCombRelIsoTTH = -999999., mvaIdTTH = -999999.;
+  bool Feb2018Loose, Feb2018LeptonMvaL, Feb2018LeptonMvaM, Feb2018LeptonMvaT;
   tOut->Branch("miniCombRelIsoTTH", &miniCombRelIsoTTH, "miniCombRelIsoTTH/F");
   tOut->Branch("mvaIdTTH"         , &mvaIdTTH         , "mvaIdTTH/F");
+  tOut->Branch("Feb2018Loose",      &Feb2018Loose,      "Feb2018Loose/O");
+  tOut->Branch("Feb2018LeptonMvaL", &Feb2018LeptonMvaL, "Feb2018LeptonMvaL/O");
+  tOut->Branch("Feb2018LeptonMvaM", &Feb2018LeptonMvaM, "Feb2018LeptonMvaM/O");
+  tOut->Branch("Feb2018LeptonMvaT", &Feb2018LeptonMvaT, "Feb2018LeptonMvaT/O");
 
   float ptratio, jetbtagCSV;
 
@@ -85,6 +91,10 @@ void addMVAmuon(TString fileName) {
     jetbtagCSV      = std::max((double)JetBTagCSV, 0.0);
 
     mvaIdTTH = reader->EvaluateMVA("BDTG method");
+    Feb2018Loose      = (medium==1 and fabs(dB) < 0.05 and fabs(dzPV) < 0.1 and fabs(sip3d) < 8 and miniCombRelIsoTTH < 0.4);
+    Feb2018LeptonMvaL = mvaIdTTH > 0.8;
+    Feb2018LeptonMvaM = mvaIdTTH > 0.85;
+    Feb2018LeptonMvaT = mvaIdTTH > 0.9;
 
     // Fill the output tree
     tOut->Fill();
