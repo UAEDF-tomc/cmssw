@@ -24,7 +24,7 @@ sel  = "mass pt eta abseta SIP dB dzPV combRelIsoPF03 segmentCompatibility JetND
 
 
 def launch(command, logfile):
-    os.system("qsub -v dir=" + os.getcwd() + ",command=\"" + command + "\" -q localgrid@cream02 -o " + logfile + " -e " + logfile + " -l walltime=5:00:00 $CMSSW_BASE/src/MuonAnalysis/TagAndProbe/test/skimTnP.sh &> .qsub.log")
+    os.system("qsub -v dir=" + os.getcwd() + ",command=\"" + command + "\" -q localgrid@cream02 -o " + logfile + " -e " + logfile + " -l walltime=00:30:00 $CMSSW_BASE/src/MuonAnalysis/TagAndProbe/test/skimTnP.sh &> .qsub.log")
     with open('.qsub.log','r') as qsublog:
       for l in qsublog:
         if 'Invalid credential' in l:
@@ -43,4 +43,6 @@ for sample, path in samples.iteritems():
     except: pass
     command  = './skimTree ' + inputFile + ' ' + outFile + ' -d tpTree -t fitter_tree -c \'' + cut + '\' -r \'all\' -k \'' + sel + '\';'
     command  = '\\\"' + command + '\\\"'
+    print inputFile
     launch(command, logFile)
+  time.sleep(60)
