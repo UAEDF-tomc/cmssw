@@ -8,9 +8,9 @@ void addMVAmuon(TString fileName) {
   TFile *f = TFile::Open(fileName + ".root");
   TTree *tIn = (TTree *) f->Get("tpTree/fitter_tree");
   //// Variables for MVA 
-  bool medium;
+  int medium;
   float pt, eta, sip3d, dB, dzPV, segmComp, trackMult, miniIsoCharged, miniIsoNeutral, relIso0p3;
-  float ptrel, JetPtRatio, JetBTagCSV, fixedGridRhoFastjetCentralNeutral;
+  float ptrel, JetPtRatio, JetBTagCSV, fixedGridRhoFastjetCentralNeutral, tkSigmaPtOverPt;
   //// Other variables to save 
   tIn->SetBranchAddress("Medium"                           , &medium                           );
   tIn->SetBranchAddress("pt"                               , &pt                               );
@@ -26,19 +26,21 @@ void addMVAmuon(TString fileName) {
   tIn->SetBranchAddress("JetPtRatio"                       , &JetPtRatio                       );
   tIn->SetBranchAddress("JetBTagCSV"                       , &JetBTagCSV                       );
   tIn->SetBranchAddress("combRelIsoPF03"                   , &relIso0p3                        );
+  tIn->SetBranchAddress("tkSigmaPtOverPt"                  , &tkSigmaPtOverPt                  );
   tIn->SetBranchAddress("fixedGridRhoFastjetCentralNeutral", &fixedGridRhoFastjetCentralNeutral);
 
   TFile *fOut = new TFile(fileName + "_withIsoAndMva.root", "RECREATE");
   fOut->mkdir("tpTree")->cd();
   TTree *tOut = tIn->CloneTree(0);
   float miniCombRelIsoTTH = -999999., mvaIdTTH = -999999.;
-  bool Feb2018Loose, Feb2018LeptonMvaL, Feb2018LeptonMvaM, Feb2018LeptonMvaT;
-  tOut->Branch("miniCombRelIsoTTH", &miniCombRelIsoTTH, "miniCombRelIsoTTH/F");
-  tOut->Branch("mvaIdTTH"         , &mvaIdTTH         , "mvaIdTTH/F");
-  tOut->Branch("Feb2018Loose",      &Feb2018Loose,      "Feb2018Loose/O");
-  tOut->Branch("Feb2018LeptonMvaL", &Feb2018LeptonMvaL, "Feb2018LeptonMvaL/O");
-  tOut->Branch("Feb2018LeptonMvaM", &Feb2018LeptonMvaM, "Feb2018LeptonMvaM/O");
-  tOut->Branch("Feb2018LeptonMvaT", &Feb2018LeptonMvaT, "Feb2018LeptonMvaT/O");
+  bool Feb2018Loose, Feb2018LeptonMvaL, Feb2018LeptonMvaM, Feb2018LeptonMvaT, tkSigmaPtOverPtCut;
+  tOut->Branch("miniCombRelIsoTTH",  &miniCombRelIsoTTH,  "miniCombRelIsoTTH/F");
+  tOut->Branch("mvaIdTTH"         ,  &mvaIdTTH         ,  "mvaIdTTH/F");
+  tOut->Branch("Feb2018Loose",       &Feb2018Loose,       "Feb2018Loose/O");
+  tOut->Branch("Feb2018LeptonMvaL",  &Feb2018LeptonMvaL,  "Feb2018LeptonMvaL/O");
+  tOut->Branch("Feb2018LeptonMvaM",  &Feb2018LeptonMvaM,  "Feb2018LeptonMvaM/O");
+  tOut->Branch("Feb2018LeptonMvaT",  &Feb2018LeptonMvaT,  "Feb2018LeptonMvaT/O");
+  tOut->Branch("tkSigmaPtOverPtCut", &tkSigmaPtOverPtCut, "tkSigmaPtOverPtCut/O");
 
   float ptratio, jetbtagCSV;
 
@@ -91,11 +93,11 @@ void addMVAmuon(TString fileName) {
     jetbtagCSV      = std::max((double)JetBTagCSV, 0.0);
 
     mvaIdTTH = reader->EvaluateMVA("BDTG method");
-    Feb2018Loose      = (medium==1 and fabs(dB) < 0.05 and fabs(dzPV) < 0.1 and fabs(sip3d) < 8 and miniCombRelIsoTTH < 0.4);
-    Feb2018LeptonMvaL = mvaIdTTH > 0.8;
-    Feb2018LeptonMvaM = mvaIdTTH > 0.85;
-    Feb2018LeptonMvaT = mvaIdTTH > 0.9;
-
+    Feb2018Loose       = (medium==1 and fabs(dB) < 0.05 and fabs(dzPV) < 0.1 and fabs(sip3d) < 8 and miniCombRelIsoTTH < 0.4);
+    Feb2018LeptonMvaL  = mvaIdTTH > 0.8;
+    Feb2018LeptonMvaM  = mvaIdTTH > 0.85;
+    Feb2018LeptonMvaT  = mvaIdTTH > 0.9;
+    tkSigmaPtOverPtCut = tkSigmaPtOverPt > 0.2;
     // Fill the output tree
     tOut->Fill();
     //if (i > 10000) break;
