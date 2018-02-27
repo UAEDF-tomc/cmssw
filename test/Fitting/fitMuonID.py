@@ -1,11 +1,11 @@
 import FWCore.ParameterSet.Config as cms
 #### .ID with data and MC: 
-####     cmsRun fitMuonID_id.py data 1
-####     cmsRun fitMuonID_id.py mc 1
+####     cmsRun fitMuonID_id.py data 1 1
+####     cmsRun fitMuonID_id.py mc 1 1
 
 import sys, os, shutil
 args = sys.argv[1:]
-scenario, id = tuple(sys.argv[2:])
+scenario, id, binningType = tuple(sys.argv[2:])
 
 process           = cms.Process("TagProbe")
 process.load('FWCore.MessageService.MessageLogger_cfi')
@@ -18,7 +18,7 @@ def getCategories(wps):
   return categories
 
 
-Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer", NumCPU = cms.uint32(12), SaveWorkspace = cms.bool(False),
+Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer", NumCPU = cms.uint32(8), SaveWorkspace = cms.bool(False),
     Variables = cms.PSet(
         weight                            = cms.vstring("weight","-100","100",""),
         mass                              = cms.vstring("Tag-muon Mass", "70", "130", "GeV/c^{2}"),
@@ -34,15 +34,14 @@ Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer", NumCPU = cms.uint32(12), Sa
         miniCombRelIsoTTH                 = cms.vstring("miniCombRelIsoTTH" ,  "-2", "9999999", ""),
         JetBTagCSV                        = cms.vstring("JetBTagCSV"     , "-10",       "1", ""),
         mvaIdTTH                          = cms.vstring("mvaIdTTH"       ,  "-1",       "1", ""),
-        tkSigmaPtOverPt                   = cms.vstring("tkSigmaPtOverPt",   "0", "9999999", ""),
         fixedGridRhoFastjetCentralNeutral = cms.vstring("fixedGridRhoFastjetCentralNeutral", "-1", "9999999", ""),
     ),
 
 
-    Expressions = cms.PSet(tkSigmaPtOverPtVar = cms.vstring("tkSigmaPtOverPtVar", "tkSigmaPtOverPt<0.2")),
-    Cuts        = cms.PSet(tkSigmaPtOverPt    = cms.vstring("tkSigmaPtOverPt",   "tkSigmaPtOverPtVar",   "0.5")),
+    Expressions = cms.PSet(),
+    Cuts        = cms.PSet(),
 
-    Categories = getCategories(['Feb2018Loose', 'Feb2018LeptonMvaL', 'Feb2018LeptonMvaM', 'Feb2018LeptonMvaT', 'tag_IsoMu24']),
+    Categories = getCategories(['Feb2018Loose', 'Feb2018LeptonMvaL', 'Feb2018LeptonMvaM', 'Feb2018LeptonMvaT', 'tkSigmaPtOverPtCut', 'tag_IsoMu24']),
                           
     PDFs = cms.PSet(
         voigtPlusExpo = cms.vstring(
@@ -108,11 +107,10 @@ def getBins(dict, passVar=None):
   if passVar:                           setattr(bins, passVar, cms.vstring('pass'))
   return bins
 
-bins = {}
 def getBinning(binning, refPoint):
-  if binning == 'pt_eta':     return getBins({'pt' : (15, 20, 25, 30, 40, 50, 60, 80, 120, 200), 'abseta' : (5, 10, 15, 20, 25, 30, 40, 50, 60, 120)}, passVar=refPoint),
-  if binning == 'pt_eta_vtx': return getBins({'pt' : (15, 20, 25, 30, 40, 50, 60, 80, 120, 200), 'abseta' : (5, 10, 15, 20, 25, 30, 40, 50, 60, 120), 'tag_nVertices' : (0.5, 20.5, 30.5, 60.5)}, passVar=refPoint),
-  if binning == 'vtx':        return getBins({'pt' : (15, 200), 'abseta' : (0.0, 2.4), 'tag_nVertices' : (0.5, 5.5, 10.5, 15.5, 20.5, 25.5, 30.5, 35.5, 40.5, 45.5, 50.5, 55.5, 60.5)}, passVar=refPoint),
+  if binning == 'pt_eta':     return getBins({'pt' : (15, 20, 25, 30, 40, 50, 60, 80, 120, 200), 'abseta' : (0., 0.9, 1.2, 2.1, 2.4)}, passVar=refPoint)
+  if binning == 'pt_eta_vtx': return getBins({'pt' : (15, 20, 25, 30, 40, 50, 60, 80, 120, 200), 'abseta' : (0., 0.9, 1.2, 2.1, 2.4), 'tag_nVertices' : (0.5, 20.5, 30.5, 60.5)}, passVar=refPoint)
+  if binning == 'vtx':        return getBins({'pt' : (15, 200), 'abseta' : (0.0, 2.4), 'tag_nVertices' : (0.5, 5.5, 10.5, 15.5, 20.5, 25.5, 30.5, 35.5, 40.5, 45.5, 50.5, 55.5, 60.5)}, passVar=refPoint)
 
 tuplesDir = '/user/tomc/public/tagAndProbe/merged/'
 if scenario == 'data':
@@ -135,7 +133,7 @@ if scenario == 'mc':
 
 
 def addModules(num, refPoint, binning):
-  name = 'NUM_' + num + '_DEN_' + (den if den else 'reco') + '_PAR_' + binning
+  name = 'NUM_' + num + '_DEN_' + (refPoint if refPoint else 'reco') + '_PAR_' + binning
 
   output = os.getcwd() + '/efficiencies/'
   try:    os.makedirs(output)
@@ -145,6 +143,7 @@ def addModules(num, refPoint, binning):
 
   module = process.TnP_MuonID.clone(OutputFileName = cms.string(outputFileName))
   shape = cms.vstring("vpvPlusExpo")
+  shape = cms.vstring("vpvPlusExpo","*pt_bin6*","vpvPlusCheb")
 
   setattr(module.Efficiencies, num+"_"+name, cms.PSet(
       EfficiencyCategoryAndState = cms.vstring(num,"below"),
@@ -155,14 +154,16 @@ def addModules(num, refPoint, binning):
   setattr(process, "TnP_MuonID_"+num+"_"+name, module)        
   setattr(process, "run_"+num+"_"+name,        cms.Path(module))
 
-binning = 'pt_eta'
-if id==1: addModules('Feb2018Loose',      None,                binning)
-if id==2: addModules('Feb2018LeptonMvaL', 'Feb2018Loose',      binning)
-if id==3: addModules('Feb2018LeptonMvaM', 'Feb2018Loose',      binning)
-if id==4: addModules('Feb2018LeptonMvaT', 'Feb2018Loose',      binning)
-if id==5: addModules('tkSigmaPtOverPt',   'Feb2018LeptonMvaL', binning)
-if id==6: addModules('tkSigmaPtOverPt',   'Feb2018LeptonMvaM', binning)
-if id==7: addModules('tkSigmaPtOverPt',   'Feb2018LeptonMvaT', binning)
+if binningType=='1': binning = 'pt_eta'
+if binningType=='2': binning = 'pt_eta_vtx'
+if binningType=='3': binning = 'vtx'
+if id=='1': addModules('Feb2018Loose',      None,                binning)
+if id=='2': addModules('Feb2018LeptonMvaL', 'Feb2018Loose',      binning)
+if id=='3': addModules('Feb2018LeptonMvaM', 'Feb2018Loose',      binning)
+if id=='4': addModules('Feb2018LeptonMvaT', 'Feb2018Loose',      binning)
+if id=='5': addModules('tkSigmaPtOverPtCut','Feb2018LeptonMvaL', binning)
+if id=='6': addModules('tkSigmaPtOverPtCut','Feb2018LeptonMvaM', binning)
+if id=='7': addModules('tkSigmaPtOverPtCut','Feb2018LeptonMvaT', binning)
 
 
 #from customizeTnPforSysts import customizeTnPforSysts
