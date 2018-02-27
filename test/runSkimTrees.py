@@ -8,7 +8,7 @@ import os,glob,time
 versionDir = '/pnfs/iihe/cms/store/user/tomc/tnp_muons/February2018_v2/'
 
 samples = {'DY'      : 'mc/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_DYToLL_mcAtNLO/*/*/*.root',
-           'DY_LO'   : 'mc/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_DYToLL_madgraph/*/*/*.root',
+  #         'DY_LO'   : 'mc/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/crab_DYToLL_madgraph/*/*/*.root',
            'runB'    : 'data/SingleMuon/crab_Run2016B/*/*/*.root',
            'runC'    : 'data/SingleMuon/crab_Run2016C/*/*/*.root',
            'runD'    : 'data/SingleMuon/crab_Run2016D/*/*/*.root',
@@ -19,7 +19,7 @@ samples = {'DY'      : 'mc/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythi
            'runH-v3' : 'data/SingleMuon/crab_Run2016H-v3/*/*/*.root'}
 
 
-cut  = "tag_IsoMu24==1 && tag_combRelIsoPF04dBeta<0.2 && tag_pt>25 && pair_probeMultiplicity>0.5 && pair_probeMultiplicity<1.5 && pt>15 && abseta<2.4 && Loose==1 && abs(dB)<0.05 && abs(dzPV)<0.1 && abs(SIP)<8"
+cut  = "tag_IsoMu24==1 && tag_combRelIsoPF04dBeta<0.2 && tag_pt>25 && pair_probeMultiplicity>0.5 && pair_probeMultiplicity<1.5 && pt>15 && abseta<2.4"
 sel  = "mass pt eta abseta SIP dB dzPV combRelIsoPF03 segmentCompatibility JetNDauCharged miniIsoCharged miniIsoNeutrals miniIsoPUCharged miniIsoPhotons Loose Medium JetPtRel JetPtRatio JetBTagCSV tkSigmaPtOverPt tag_nVertices fixedGridRhoFastjetCentralNeutral pair_nJets30"
 
 
@@ -33,6 +33,7 @@ def launch(command, logfile):
 
 
 for sample, path in samples.iteritems():
+  if not 'runF' in sample: continue
   print versionDir + '/' + path
   inputFiles = glob.glob(versionDir + '/' + path)
   for inputFile in inputFiles:
@@ -45,4 +46,4 @@ for sample, path in samples.iteritems():
     command  = '\\\"' + command + '\\\"'
     print inputFile
     launch(command, logFile)
-  time.sleep(60)
+  time.sleep(300)
