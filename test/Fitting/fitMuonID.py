@@ -17,8 +17,15 @@ def getCategories(wps):
   for wp in wps: setattr(categories, wp, cms.vstring(wp, "dummy[pass=1,fail=0]"))
   return categories
 
+tuplesDir = '/user/tomc/public/tagAndProbe/merged/'
+if scenario == 'data':
+  sample  = ['B','C','D','E','F','G','H-v2','H-v3']
+  samples = [(tuplesDir + 'run' + r + '.root') for r in sample]
+elif scenario == 'mc':
+  samples = [tuplesDir + 'DY_vtxWeighted.root']
 
-Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer", NumCPU = cms.uint32(8), SaveWorkspace = cms.bool(False),
+
+template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer", NumCPU = cms.uint32(8), SaveWorkspace = cms.bool(False),
     Variables = cms.PSet(
         weight                            = cms.vstring("weight","-100","100",""),
         mass                              = cms.vstring("Tag-muon Mass", "70", "130", "GeV/c^{2}"),
@@ -93,8 +100,15 @@ Template = cms.EDAnalyzer("TagProbeFitTreeAnalyzer", NumCPU = cms.uint32(8), Sav
     saveDistributionsPlot = cms.bool(False),
 
     Efficiencies = cms.PSet(),
+    InputFileNames = cms.vstring(*samples),
+    OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
+    InputTreeName = cms.string("fitter_tree"),
+    InputDirectoryName = cms.string("tpTree"),
 )
 
+if scenario == 'mc':
+  template.WeightVariable = cms.string("weight")
+  template.Variables.weight = cms.vstring("weight","-10","10","")
 
 def getBins(dict, passVar=None):
   bins = cms.PSet(
@@ -111,26 +125,7 @@ def getBinning(binning, refPoint):
   if binning == 'pt_eta':     return getBins({'pt' : (15, 20, 25, 30, 40, 50, 60, 80, 120, 200), 'abseta' : (0., 0.9, 1.2, 2.1, 2.4)}, passVar=refPoint)
   if binning == 'pt_eta_vtx': return getBins({'pt' : (15, 20, 25, 30, 40, 50, 60, 80, 120, 200), 'abseta' : (0., 0.9, 1.2, 2.1, 2.4), 'tag_nVertices' : (0.5, 20.5, 30.5, 60.5)}, passVar=refPoint)
   if binning == 'vtx':        return getBins({'pt' : (15, 200), 'abseta' : (0.0, 2.4), 'tag_nVertices' : (0.5, 5.5, 10.5, 15.5, 20.5, 25.5, 30.5, 35.5, 40.5, 45.5, 50.5, 55.5, 60.5)}, passVar=refPoint)
-
-tuplesDir = '/user/tomc/public/tagAndProbe/merged/'
-if scenario == 'data':
-  sample  = ['B','C','D','E','F','G','H-v2','H-v3']
-  samples = [(tuplesDir + 'run' + r + '.root') for r in sample]
-elif scenario == 'mc':
-  samples = [tuplesDir + 'DY_vtxWeighted.root']
-
-process.TnP_MuonID = Template.clone(
-    InputFileNames = cms.vstring(*samples),
-    InputTreeName = cms.string("fitter_tree"),
-    InputDirectoryName = cms.string("tpTree"),
-    OutputFileName = cms.string("TnP_MuonID_%s.root" % scenario),
-    Efficiencies = cms.PSet(),
-)
-
-if scenario == 'mc':
-  process.TnP_MuonID.WeightVariable = cms.string("weight")
-  process.TnP_MuonID.Variables.weight = cms.vstring("weight","-10","10","")
-
+  if binning == 'test':       return getBins({'pt' : (15, 25), 'abseta' : (0., 2.4)}, passVar=refPoint)
 
 def addModules(num, refPoint, binning):
   name = 'NUM_' + num + '_DEN_' + (refPoint if refPoint else 'reco') + '_PAR_' + binning
@@ -141,22 +136,23 @@ def addModules(num, refPoint, binning):
   outputFileName = output + "/TnP_%s_%s.root" % (scenario, name)
   print "Output: " + outputFileName 
 
-  module = process.TnP_MuonID.clone(OutputFileName = cms.string(outputFileName))
+  module = template.clone(OutputFileName = cms.string(outputFileName))
   shape = cms.vstring("vpvPlusExpo")
-  shape = cms.vstring("vpvPlusExpo","*pt_bin6*","vpvPlusCheb")
-
+# shape = cms.vstring("vpvPlusExpo","*pt_bin6*","vpvPlusCheb")
   setattr(module.Efficiencies, num+"_"+name, cms.PSet(
-      EfficiencyCategoryAndState = cms.vstring(num,"below"),
+      EfficiencyCategoryAndState = cms.vstring(num,"pass" if num.count('Feb2018') else "fail"),
       UnbinnedVariables          = cms.vstring("mass") if scenario=='data' else cms.vstring("mass", "weight"),
       BinnedVariables            = getBinning(binning, refPoint),
       BinToPDFmap                = shape
       ))
+
   setattr(process, "TnP_MuonID_"+num+"_"+name, module)        
   setattr(process, "run_"+num+"_"+name,        cms.Path(module))
 
 if binningType=='1': binning = 'pt_eta'
 if binningType=='2': binning = 'pt_eta_vtx'
 if binningType=='3': binning = 'vtx'
+if binningType=='4': binning = 'test'
 if id=='1': addModules('Feb2018Loose',      None,                binning)
 if id=='2': addModules('Feb2018LeptonMvaL', 'Feb2018Loose',      binning)
 if id=='3': addModules('Feb2018LeptonMvaM', 'Feb2018Loose',      binning)
