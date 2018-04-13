@@ -66,6 +66,7 @@ slimmedElectronsWithUserData = cms.EDProducer("PATElectronUserDataEmbedder",
     userFloats = cms.PSet(
         mvaSpring16GP = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
         mvaSpring16HZZ = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
+        mvaFall17NoIso = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
         miniIsoChg = cms.InputTag("isoForEle:miniIsoChg"),
         miniIsoAll = cms.InputTag("isoForEle:miniIsoAll"),
         PFIsoChg = cms.InputTag("isoForEle:PFIsoChg"),
@@ -125,6 +126,52 @@ electronMVATTH= cms.EDProducer("EleBaseMVAValueMapProducer",
         LepGood_dxy = cms.string("log(abs(dB('PV2D')))"),
         LepGood_dz = cms.string("log(abs(dB('PVDZ')))"),
         LepGood_mvaIdSpring16HZZ = cms.string("userFloat('mvaSpring16HZZ')"),
+    )
+)
+
+electronMVATTV2016= cms.EDProducer("EleBaseMVAValueMapProducer",
+    src = cms.InputTag("linkedObjects","electrons"),
+    weightFile =  cms.FileInPath("PhysicsTools/NanoAOD/data/el_BDTG_TTV_2016.weights.xml"),
+    name = cms.string("electronMVATTV"),
+    isClassifier = cms.bool(True),
+    variablesOrder = cms.vstring(["pt","eta","trackMultClosestJet","miniIsoCharged","miniIsoNeutral","pTRel","ptRatio","relIso","deepCsvClosestJet","sip3d","dxy","dz","electronMva"]),
+    variables = cms.PSet(
+        pt                  = cms.string("pt"),
+        eta                 = cms.string("eta"),
+        trackMultClosestJet = cms.string("userFloat('jetNDauChargedMVASel')"),
+        miniIsoCharged      = cms.string("userFloat('miniIsoChg')/pt"),
+        miniIsoNeutral      = cms.string("(userFloat('miniIsoAll')-userFloat('miniIsoChg'))/pt"),
+        pTRel               = cms.string("userFloat('ptRel')"),
+        ptRatio             = cms.string("min(userFloat('ptRatio'),1.5)"),
+        relIso              = cms.string("userFloat('PFIsoAll')/pt"),
+        deepCsvClosestJet   = cms.string("?userCand('jetForLepJetVar').isNonnull()?max(userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probb')+userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probbb'),0.0):-99.0"),
+        sip3d               = cms.string("abs(dB('PV3D')/edB('PV3D'))"),
+        dxy                 = cms.string("log(abs(dB('PV2D')))"),
+        dz                  = cms.string("log(abs(dB('PVDZ')))"),
+        electronMva         = cms.string("userFloat('mvaSpring16GP')"),
+    )
+)
+
+electronMVATTV2017= cms.EDProducer("EleBaseMVAValueMapProducer",
+    src = cms.InputTag("linkedObjects","electrons"),
+    weightFile =  cms.FileInPath("PhysicsTools/NanoAOD/data/el_BDTG_TTV_2017.weights.xml"),
+    name = cms.string("electronMVATTV"),
+    isClassifier = cms.bool(True),
+    variablesOrder = cms.vstring(["pt","eta","trackMultClosestJet","miniIsoCharged","miniIsoNeutral","pTRel","ptRatio","relIso","deepCsvClosestJet","sip3d","dxy","dz","electronMvaFall17NoIso"]),
+    variables = cms.PSet(
+        pt                     = cms.string("pt"),
+        eta                    = cms.string("eta"),
+        trackMultClosestJet    = cms.string("userFloat('jetNDauChargedMVASel')"),
+        miniIsoCharged         = cms.string("userFloat('miniIsoChg')/pt"),
+        miniIsoNeutral         = cms.string("(userFloat('miniIsoAll')-userFloat('miniIsoChg'))/pt"),
+        pTRel                  = cms.string("userFloat('ptRel')"),
+        ptRatio                = cms.string("min(userFloat('ptRatio'),1.5)"),
+        relIso                 = cms.string("userFloat('PFIsoAll')/pt"),
+        deepCsvClosestJet      = cms.string("?userCand('jetForLepJetVar').isNonnull()?max(userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probb')+userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probbb'),0.0):-99.0"),
+        sip3d                  = cms.string("abs(dB('PV3D')/edB('PV3D'))"),
+        dxy                    = cms.string("log(abs(dB('PV2D')))"),
+        dz                     = cms.string("log(abs(dB('PVDZ')))"),
+        electronMvaFall17NoIso = cms.string("userFloat('mvaFall17NoIso')"),
     )
 )
 
