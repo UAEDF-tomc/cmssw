@@ -15,6 +15,8 @@ _electron_id_vid_modules=[
 #'RecoEgamma.ElectronIdentification.Identification.heepElectronID_HEEPV70_cff', # add heepIDVarValueMaps to sequence when uncomment
 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_GeneralPurpose_V1_cff',
 'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Spring16_HZZ_V1_cff',
+'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_noIso_V1_cff',
+'RecoEgamma.ElectronIdentification.Identification.mvaElectronID_Fall17_iso_V1_cff'
 ]
 _bitmapVIDForEle_WorkingPoints = cms.vstring(
     "egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-loose",
@@ -66,7 +68,6 @@ slimmedElectronsWithUserData = cms.EDProducer("PATElectronUserDataEmbedder",
     userFloats = cms.PSet(
         mvaSpring16GP = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
         mvaSpring16HZZ = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16HZZV1Values"),
-        mvaFall17NoIso = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
         miniIsoChg = cms.InputTag("isoForEle:miniIsoChg"),
         miniIsoAll = cms.InputTag("isoForEle:miniIsoAll"),
         PFIsoChg = cms.InputTag("isoForEle:PFIsoChg"),
@@ -148,7 +149,7 @@ electronMVATTV2016= cms.EDProducer("EleBaseMVAValueMapProducer",
         sip3d               = cms.string("abs(dB('PV3D')/edB('PV3D'))"),
         dxy                 = cms.string("log(abs(dB('PV2D')))"),
         dz                  = cms.string("log(abs(dB('PVDZ')))"),
-        electronMva         = cms.string("userFloat('mvaSpring16GP')"),
+        electronMva         = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring16GeneralPurposeV1Values"),
     )
 )
 
@@ -160,18 +161,18 @@ electronMVATTV2017= cms.EDProducer("EleBaseMVAValueMapProducer",
     variablesOrder = cms.vstring(["pt","eta","trackMultClosestJet","miniIsoCharged","miniIsoNeutral","pTRel","ptRatio","relIso","deepCsvClosestJet","sip3d","dxy","dz","electronMvaFall17NoIso"]),
     variables = cms.PSet(
         pt                     = cms.string("pt"),
-        eta                    = cms.string("eta"),
+        eta                    = cms.string("abs(eta)"),
         trackMultClosestJet    = cms.string("userFloat('jetNDauChargedMVASel')"),
         miniIsoCharged         = cms.string("userFloat('miniIsoChg')/pt"),
         miniIsoNeutral         = cms.string("(userFloat('miniIsoAll')-userFloat('miniIsoChg'))/pt"),
         pTRel                  = cms.string("userFloat('ptRel')"),
         ptRatio                = cms.string("min(userFloat('ptRatio'),1.5)"),
         relIso                 = cms.string("userFloat('PFIsoAll')/pt"),
-        deepCsvClosestJet      = cms.string("?userCand('jetForLepJetVar').isNonnull()?max(userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probb')+userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probbb'),0.0):-99.0"),
+        deepCsvClosestJet      = cms.string("?userCand('jetForLepJetVar').isNonnull()?max(userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probb')+userCand('jetForLepJetVar').bDiscriminator('pfDeepCSVJetTags:probbb'),0.0):0.0"),
         sip3d                  = cms.string("abs(dB('PV3D')/edB('PV3D'))"),
         dxy                    = cms.string("log(abs(dB('PV2D')))"),
         dz                     = cms.string("log(abs(dB('PVDZ')))"),
-        electronMvaFall17NoIso = cms.string("userFloat('mvaFall17NoIso')"),
+        electronMvaFall17NoIso = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
     )
 )
 
