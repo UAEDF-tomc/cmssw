@@ -39,6 +39,7 @@
 #include "DataFormats/Candidate/interface/VertexCompositePtrCandidate.h"
 
 #include "PhysicsTools/NanoAOD/interface/MatchingUtils.h"
+#include "TLorentzVector.h"
 
 //
 // class declaration
@@ -55,6 +56,7 @@ class LeptonJetVarProducer : public edm::global::EDProducer<> {
     produces<edm::ValueMap<float>>("ptRatio");
     produces<edm::ValueMap<float>>("ptRel");
     produces<edm::ValueMap<float>>("jetNDauChargedMVASel");
+    produces<edm::ValueMap<float>>("closestJetDeepCsv");
     produces<edm::ValueMap<reco::CandidatePtr>>("jetForLepJetVar");
   }
   ~LeptonJetVarProducer() override {};
@@ -99,28 +101,46 @@ LeptonJetVarProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, con
   edm::Handle<std::vector<reco::Vertex>> srcVtx;
   iEvent.getByToken(srcVtx_, srcVtx);
 
-  unsigned int nJet = srcJet->size();
   unsigned int nLep = srcLep->size();
 
-  std::vector<float> ptRatio(nLep,-1);
-  std::vector<float> ptRel(nLep,-1);
+  std::vector<pat::Jet> selectedJetsAll;
+  for(auto jet = srcJet->begin(); jet != srcJet->end(); ++jet){
+    if(jet->pt() > 5 and fabs(jet->eta()) < 3) selectedJetsAll.push_back(*jet);
+  }
+
+
+  std::vector<float> ptRatio(nLep,1);
+  std::vector<float> ptRel(nLep,0);
   std::vector<float> jetNDauChargedMVASel(nLep,0);
+  std::vector<float> jetDeepCSV(nLep,0);
   std::vector<reco::CandidatePtr> jetForLepJetVar(nLep,reco::CandidatePtr());
 
   const auto & pv = (*srcVtx)[0];
 
   for (unsigned int il = 0; il<nLep; il++){
-    for (unsigned int ij = 0; ij<nJet; ij++){
-      auto lep = srcLep->ptrAt(il);
-      auto jet = srcJet->ptrAt(ij);
-      if(matchByCommonSourceCandidatePtr(*lep,*jet)){
-	  auto res = calculatePtRatioRel(lep,jet,pv);
-	  ptRatio[il] = std::get<0>(res);
-	  ptRel[il] = std::get<1>(res);
-	  jetNDauChargedMVASel[il] = std::get<2>(res);
-	  jetForLepJetVar[il] = jet;
-	  break; // take leading jet with shared source candidates
-	}
+    auto lep = srcLep->ptrAt(il);
+
+    // Find closest selected jet
+    unsigned closestIndex = 0;
+    for(unsigned j = 1; j < selectedJetsAll.size(); ++j){
+      if(reco::deltaR(selectedJetsAll[j], *lep) < reco::deltaR(selectedJetsAll[closestIndex], *lep)) closestIndex = j;
+    }
+
+    auto jet = srcJet->ptrAt(closestIndex);
+    auto res = calculatePtRatioRel(lep,jet,pv);
+
+    if(selectedJetsAll.size() == 0 || reco::deltaR(*jet, *lep) > 0.4){
+      ptRatio[il] = 1;
+      ptRel[il] = 0;
+      jetNDauChargedMVASel[il] = 0;
+      jetDeepCSV[il] = 0;
+      jetForLepJetVar[il] = jet;  // Should actually be null pointer
+    } else {
+      ptRatio[il] = std::get<0>(res);
+      ptRel[il] = std::get<1>(res);
+      jetNDauChargedMVASel[il] = std::get<2>(res);
+      jetDeepCSV[il] = jet->bDiscriminator("pfDeepCSVJetTags:probb") + jet->bDiscriminator("pfDeepCSVJetTags:probbb");
+      jetForLepJetVar[il] = jet;
     }
   }
 
@@ -142,34 +162,38 @@ LeptonJetVarProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, con
   fillerNDau.fill();
   iEvent.put(std::move(jetNDauChargedMVASelV),"jetNDauChargedMVASel");
 
+  std::unique_ptr<edm::ValueMap<float>> jetDeepCSVV(new edm::ValueMap<float>());
+  edm::ValueMap<float>::Filler fillerDeepCSV(*jetDeepCSVV);
+  fillerDeepCSV.insert(srcLep,jetDeepCSV.begin(),jetDeepCSV.end());
+  fillerDeepCSV.fill();
+  iEvent.put(std::move(jetDeepCSVV),"closestJetDeepCsv");
+
   std::unique_ptr<edm::ValueMap<reco::CandidatePtr>> jetForLepJetVarV(new edm::ValueMap<reco::CandidatePtr>());
   edm::ValueMap<reco::CandidatePtr>::Filler fillerjetForLepJetVar(*jetForLepJetVarV);
   fillerjetForLepJetVar.insert(srcLep,jetForLepJetVar.begin(),jetForLepJetVar.end());
   fillerjetForLepJetVar.fill();
   iEvent.put(std::move(jetForLepJetVarV),"jetForLepJetVar");
-
-
 }
 
 template <typename T>
 std::tuple<float,float,float>
-LeptonJetVarProducer<T>::calculatePtRatioRel(edm::Ptr<reco::Candidate> lep, edm::Ptr<pat::Jet> jet, const reco::Vertex &vtx) const {
- 
-  auto rawp4 = jet->correctedP4("Uncorrected");
-  auto lepp4 = lep->p4();
+LeptonJetVarProducer<T>::calculatePtRatioRel(edm::Ptr<reco::Candidate> lepton, edm::Ptr<pat::Jet> jet, const reco::Vertex &vtx) const {
+  auto  l1Jet       = jet->correctedP4("L1FastJet");
+  float JEC         = jet->p4().E()/l1Jet.E();
+  auto  l           = lepton->p4();
+  auto  lepAwareJet = (l1Jet - l)*JEC + l;
 
-  if ((rawp4-lepp4).R()<1e-4) return std::tuple<float,float,float>(1.0,0.0,0.0);
-
-  auto jetp4 = (rawp4 - lepp4*(1.0/jet->jecFactor("L1FastJet")))*(jet->pt()/rawp4.pt())+lepp4;
-  auto ptratio = lepp4.pt()/jetp4.pt();
-  auto ptrel = lepp4.Vect().Cross((jetp4-lepp4).Vect().Unit()).R();
+  TLorentzVector lV(l.Px(), l.Py(), l.Pz(), l.E());
+  TLorentzVector jV(lepAwareJet.Px(), lepAwareJet.Py(), lepAwareJet.Pz(), lepAwareJet.E());
+  auto ptratio = l.Pt()/lepAwareJet.Pt();
+  auto ptrel   = lV.Perp((jV - lV).Vect());
 
   unsigned int jndau = 0;
   for(const auto _d : jet->daughterPtrVector()) {
     const auto d = dynamic_cast<const pat::PackedCandidate*>(_d.get());
     if (d->charge()==0) continue;
     if (d->fromPV()<=1) continue;
-    if (deltaR(*d,*lep)>0.4) continue;
+    if (deltaR(*d,*lepton)>0.4) continue;
     if (!(d->hasTrackDetails())) continue;
     auto tk = d->pseudoTrack();
     if(tk.pt()>1 &&
