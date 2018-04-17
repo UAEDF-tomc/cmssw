@@ -13,6 +13,7 @@
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "DataFormats/BeamSpot/interface/BeamSpot.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
+#include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/METReco/interface/MET.h"
 #include "DataFormats/METReco/interface/METCollection.h"
 #include "DataFormats/METReco/interface/CaloMET.h"
@@ -162,6 +163,7 @@ class BaseTreeFiller : boost::noncopyable {
         /// Write a string dump of this PSet into the TTree header.
         /// see macro in test directory for how to retrieve it from the output root file
         void writeProvenance(const edm::ParameterSet &pset) const ;
+        bool jetId(const pat::Jet& j, bool tight) const;
 
 	//get the pileup weight informations
 	bool storePUweight() const {return storePUweight_;};
@@ -178,6 +180,8 @@ class BaseTreeFiller : boost::noncopyable {
 	edm::EDGetTokenT<double> PUweightSrcToken_;
 	edm::EDGetTokenT<double> rhoToken_;
         edm::EDGetTokenT<reco::VertexCollection> recVtxsToken_;
+        edm::EDGetTokenT<pat::JetCollection> jetsToken_;
+        edm::EDGetTokenT<reco::CandidateView> probesToken_;
         edm::EDGetTokenT<reco::BeamSpot> beamSpotToken_;
         edm::EDGetTokenT<reco::CaloMETCollection> metToken_;
         edm::EDGetTokenT<reco::METCollection> tcmetToken_;
@@ -212,6 +216,10 @@ class BaseTreeFiller : boost::noncopyable {
 	mutable float rho_;
         mutable float mMET_,mSumET_,mMETSign_,mtcMET_,mtcSumET_,
 	  mtcMETSign_,mpfMET_,mpfSumET_,mpfMETSign_, mpfPhi_;
+
+        bool addJetVariablesInfo_;
+        mutable float mht_, mnjets_;
+        float jet_pt_cut_, jet_eta_cut_, match_delta_r_;
 };
 
 
