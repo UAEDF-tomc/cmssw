@@ -44,6 +44,7 @@ isoForEle = cms.EDProducer("EleIsoValueMapProducer",
     relative = cms.bool(False),
     rho_MiniIso = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
     rho_PFIso = cms.InputTag("fixedGridRhoFastjetAll"),
+    pfCandidates = cms.InputTag("packedPFCandidates"),
     EAFile_MiniIso = cms.FileInPath("RecoEgamma/ElectronIdentification/data/Spring15/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_25ns.txt"),
     EAFile_PFIso = cms.FileInPath("RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt"),
 )
@@ -172,7 +173,7 @@ electronMVATTV2017= cms.EDProducer("EleBaseMVAValueMapProducer",
         sip3d                  = cms.string("abs(dB('PV3D')/edB('PV3D'))"),
         dxy                    = cms.string("log(abs(dB('PV2D')))"),
         dz                     = cms.string("log(abs(dB('PVDZ')))"),
-        electronMvaFall17NoIso = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
+        electronMvaFall17NoIso = cms.InputTag("userFloat('electronMvaFall17NoIso')"), #electronMVAValueMapProducer:ElectronMVAEstimatorRun2Fall17NoIsoV1Values"),
     )
 )
 

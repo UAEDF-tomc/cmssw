@@ -2,7 +2,7 @@
 //
 // Package:    PhysicsTools/NanoAOD
 // Class:      IsoValueMapProducer
-// 
+//
 /**\class IsoValueMapProducer IsoValueMapProducer.cc PhysicsTools/NanoAOD/plugins/IsoValueMapProducer.cc
 
  Description: [one line class summary]
@@ -53,12 +53,14 @@ class IsoValueMapProducer : public edm::global::EDProducer<> {
       produces<edm::ValueMap<float>>("miniIsoAll");
       ea_miniiso_.reset(new EffectiveAreas((iConfig.getParameter<edm::FileInPath>("EAFile_MiniIso")).fullPath()));
       rho_miniiso_ = consumes<double>(iConfig.getParameter<edm::InputTag>("rho_MiniIso"));
+      std::cout << iConfig.getParameter<edm::FileInPath>("EAFile_MiniIso").fullPath() << std::endl;
     }
     if ((typeid(T) == typeid(pat::Electron))) {
       produces<edm::ValueMap<float>>("PFIsoChg");
       produces<edm::ValueMap<float>>("PFIsoAll");
       ea_pfiso_.reset(new EffectiveAreas((iConfig.getParameter<edm::FileInPath>("EAFile_PFIso")).fullPath()));
       rho_pfiso_ = consumes<double>(iConfig.getParameter<edm::InputTag>("rho_PFIso"));
+      pfCandidates_ = consumes<std::vector<pat::PackedCandidate>>(iConfig.getParameter<edm::InputTag>("pfCandidates"));
     }
     else if ((typeid(T) == typeid(pat::Photon))) {
       produces<edm::ValueMap<float>>("PFIsoChg");
@@ -73,7 +75,7 @@ class IsoValueMapProducer : public edm::global::EDProducer<> {
     }
   }
   ~IsoValueMapProducer() override {}
-  
+
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
    private:
@@ -89,6 +91,7 @@ class IsoValueMapProducer : public edm::global::EDProducer<> {
   edm::EDGetTokenT<edm::ValueMap<float>> mapIsoChg_;
   edm::EDGetTokenT<edm::ValueMap<float>> mapIsoNeu_;
   edm::EDGetTokenT<edm::ValueMap<float>> mapIsoPho_;
+  edm::EDGetTokenT<std::vector<pat::PackedCandidate>> pfCandidates_;
   std::unique_ptr<EffectiveAreas> ea_miniiso_;
   std::unique_ptr<EffectiveAreas> ea_pfiso_;
   std::unique_ptr<EffectiveAreas> ea_pfiso_chg_;
@@ -99,6 +102,9 @@ class IsoValueMapProducer : public edm::global::EDProducer<> {
   void doPFIsoEle(edm::Event&) const;
   void doPFIsoPho(edm::Event&) const;
 
+  double chargedSum(const T&, edm::Handle<pat::PackedCandidateCollection>, double) const;
+  double neutralSum(const T&, edm::Handle<pat::PackedCandidateCollection>, double) const;
+  double photonSum(const T&, edm::Handle<pat::PackedCandidateCollection>, double) const;
 };
 
 //
@@ -131,6 +137,54 @@ IsoValueMapProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, cons
 
 }
 
+
+template<typename T> double IsoValueMapProducer<T>::chargedSum(const T& ele, edm::Handle<pat::PackedCandidateCollection> pfcands, double coneSize) const{
+  double deadcone = (fabs(getEtaForEA(&ele)) > 1.479 ? 0.015 : 0);
+
+  double iso_ch = 0;
+  for(const pat::PackedCandidate &pfc : *pfcands){
+    if(fabs(pfc.pdgId()) < 7)  continue;
+    if(pfc.charge()==0)        continue;
+    if(pfc.fromPV()<2)         continue; // from PV
+    if(fabs(pfc.pdgId())!=211) continue;
+
+    double dr = deltaR(pfc, ele);
+    if(dr < coneSize and dr > deadcone) iso_ch += pfc.pt();
+  }
+  return iso_ch;
+}
+
+template<typename T> double IsoValueMapProducer<T>::neutralSum(const T& ele, edm::Handle<pat::PackedCandidateCollection> pfcands, double coneSize) const{
+  double deadcone = 0;
+
+  double iso_nh = 0;
+  for(const pat::PackedCandidate &pfc : *pfcands){
+    if(fabs(pfc.pdgId()) < 7)  continue;
+    if(pfc.charge()!=0)        continue;
+    if(fabs(pfc.pdgId())!=130) continue;
+
+    double dr = deltaR(pfc, ele);
+    if(dr < coneSize and dr > deadcone) iso_nh += pfc.pt();
+  }
+  return iso_nh;
+}
+
+template<typename T> double IsoValueMapProducer<T>::photonSum(const T& ele, edm::Handle<pat::PackedCandidateCollection> pfcands, double coneSize) const{
+  double deadcone = (fabs(getEtaForEA(&ele)) > 1.479 ? 0.08 : 0);
+
+  double iso_ph = 0;
+  for(const pat::PackedCandidate &pfc : *pfcands){
+    if(fabs(pfc.pdgId()) < 7)  continue;
+    if(pfc.charge()!=0)        continue;
+    if(fabs(pfc.pdgId())!=22)  continue;
+
+    double dr = deltaR(pfc, ele);
+    if(dr < coneSize and dr > deadcone) iso_ph += pfc.pt();
+  }
+  return iso_ph;
+}
+
+
 template<typename T>
 void
 IsoValueMapProducer<T>::doMiniIso(edm::Event& iEvent) const{
@@ -139,26 +193,28 @@ IsoValueMapProducer<T>::doMiniIso(edm::Event& iEvent) const{
   iEvent.getByToken(src_, src);
   edm::Handle<double> rho;
   iEvent.getByToken(rho_miniiso_,rho);
+  edm::Handle<std::vector<pat::PackedCandidate>> pfCandidates;
+  iEvent.getByToken(pfCandidates_, pfCandidates);
 
   unsigned int nInput = src->size();
-  
+
   std::vector<float> miniIsoChg, miniIsoAll;
   miniIsoChg.reserve(nInput);
   miniIsoAll.reserve(nInput);
- 
-  for (const auto & obj : *src) { 
+
+  for (const auto & obj : *src) {
     auto iso = obj.miniPFIsolation();
-    auto chg = iso.chargedHadronIso();
-    auto neu = iso.neutralHadronIso();
-    auto pho = iso.photonIso();
     auto ea = ea_miniiso_->getEffectiveArea(fabs(getEtaForEA(&obj)));
     float R = 10.0/std::min(std::max(obj.pt(), 50.0),200.0);
+    auto chg = typeid(T) != typeid(pat::Electron) ? iso.chargedHadronIso() : chargedSum(obj, pfCandidates, R);
+    auto neu = typeid(T) != typeid(pat::Electron) ? iso.neutralHadronIso() : neutralSum(obj, pfCandidates, R);
+    auto pho = typeid(T) != typeid(pat::Electron) ? iso.photonIso()        : photonSum(obj, pfCandidates, R);
     ea *= std::pow(R/0.3,2);
     float scale = relative_ ? 1.0/obj.pt() : 1;
     miniIsoChg.push_back(scale*chg);
     miniIsoAll.push_back(scale*(chg+std::max(0.0,neu+pho-(*rho)*ea)));
   }
-  
+
   std::unique_ptr<edm::ValueMap<float>> miniIsoChgV(new edm::ValueMap<float>());
   edm::ValueMap<float>::Filler fillerChg(*miniIsoChgV);
   fillerChg.insert(src,miniIsoChg.begin(),miniIsoChg.end());
@@ -189,14 +245,16 @@ IsoValueMapProducer<pat::Electron>::doPFIsoEle(edm::Event& iEvent) const{
   iEvent.getByToken(src_, src);
   edm::Handle<double> rho;
   iEvent.getByToken(rho_pfiso_,rho);
-  
+  edm::Handle<std::vector<pat::PackedCandidate>> pfCandidates;
+  iEvent.getByToken(pfCandidates_, pfCandidates);
+
   unsigned int nInput = src->size();
 
   std::vector<float> PFIsoChg, PFIsoAll;
   PFIsoChg.reserve(nInput);
   PFIsoAll.reserve(nInput);
-  
-  for (const auto & obj : *src) { 
+
+  for (const auto & obj : *src) {
     auto iso = obj.pfIsolationVariables();
     auto chg = iso.sumChargedHadronPt;
     auto neu = iso.sumNeutralHadronEt;
@@ -206,7 +264,7 @@ IsoValueMapProducer<pat::Electron>::doPFIsoEle(edm::Event& iEvent) const{
     PFIsoChg.push_back(scale*chg);
     PFIsoAll.push_back(scale*(chg+std::max(0.0,neu+pho-(*rho)*ea)));
   }
-  
+
   std::unique_ptr<edm::ValueMap<float>> PFIsoChgV(new edm::ValueMap<float>());
   edm::ValueMap<float>::Filler fillerChg(*PFIsoChgV);
   fillerChg.insert(src,PFIsoChg.begin(),PFIsoChg.end());
@@ -239,13 +297,13 @@ IsoValueMapProducer<pat::Photon>::doPFIsoPho(edm::Event& iEvent) const {
   iEvent.getByToken(mapIsoNeu_, mapIsoNeu);
   edm::Handle<edm::ValueMap<float> > mapIsoPho;
   iEvent.getByToken(mapIsoPho_, mapIsoPho);
-  
+
   unsigned int nInput = src->size();
 
   std::vector<float> PFIsoChg, PFIsoAll;
   PFIsoChg.reserve(nInput);
   PFIsoAll.reserve(nInput);
-  
+
   for (unsigned int i=0; i<nInput; i++){
     auto obj = src->ptrAt(i);
     auto chg = (*mapIsoChg)[obj];
@@ -258,7 +316,7 @@ IsoValueMapProducer<pat::Photon>::doPFIsoPho(edm::Event& iEvent) const {
     PFIsoChg.push_back(scale*std::max(0.0,chg-(*rho)*ea_chg));
     PFIsoAll.push_back(PFIsoChg.back()+scale*(std::max(0.0,neu-(*rho)*ea_neu)+std::max(0.0,pho-(*rho)*ea_pho)));
   }
-  
+
   std::unique_ptr<edm::ValueMap<float>> PFIsoChgV(new edm::ValueMap<float>());
   edm::ValueMap<float>::Filler fillerChg(*PFIsoChgV);
   fillerChg.insert(src,PFIsoChg.begin(),PFIsoChg.end());
@@ -289,6 +347,7 @@ IsoValueMapProducer<T>::fillDescriptions(edm::ConfigurationDescriptions& descrip
   if ((typeid(T) == typeid(pat::Electron))) {
     desc.add<edm::FileInPath>("EAFile_PFIso")->setComment("txt file containing effective areas to be used for PF-isolation pileup subtraction for electrons");
     desc.add<edm::InputTag>("rho_PFIso")->setComment("rho to be used for effective-area based PF-isolation pileup subtraction for electrons");
+    desc.add<edm::InputTag>("pfCandidates")->setComment("pfCandidates to calculate isolation sums for mini-isolation");
   }
   if ((typeid(T) == typeid(pat::Photon))) {
     desc.add<edm::InputTag>("mapIsoChg")->setComment("input charged PF isolation calculated in VID for photons");
