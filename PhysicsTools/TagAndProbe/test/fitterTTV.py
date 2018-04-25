@@ -16,9 +16,14 @@ options.register("altBkg",         -1,     VarParsing.multiplicity.singleton, Va
 options.register("altSig",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative signal shape")
 options.parseArguments()
 
-effDir    = 'efficiencies_PV' if options.doAct else 'efficiencies'
-dataFile  = "../crab/crab_projects_Moriond2017_ttg3/data.root"
-mcFile    = "../crab/crab_projects_Moriond2017_ttg3/DYToLL_madgraph.root"
+useJets =False
+options.doAct=False
+
+tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v3/' + ('2016' if is2016 else '2017') + '/'
+
+effDir    = ('efficiencies_njets' if useJets else 'efficiencies_PV') if options.doAct else 'efficiencies'
+dataFile  = 'data.root'
+mcFile    = 'DY_madgraph.root'
 
 if options.runBToF:
   effDir  += '_runBToF'
@@ -30,7 +35,7 @@ elif options.runGH:
 outputDir = "./" + effDir + "/nominal"
 
 if options.altMC:
-  mcFile    = "../crab/crab_projects_Moriond2017_ttg3/DYToLL_mcAtNLO.root"
+  mcFile    = 'DY_amcatnlo.root'
   outputDir = "./" + effDir + "/altMC"
 
 if options.altTag:
@@ -65,10 +70,15 @@ def BinSpec(name):
       if ptBin == 3: ptRange = "40p0To50p0"
       if ptBin == 4: ptRange = "50p0To100p0"
       if ptBin == 5: ptRange = "100p0To200p0"
-      if ptBin == 6: ptRange = "200p0To500p0"
-      for pvBin, pvRange in enumerate(['0p0To5p0','5p0To10p0','10p0To15p0','15p0To20p0','20p0To25p0','25p0To30p0','30p0To35p0','35p0To40p0','40p0To45p0','45p0To9999p0']):
-        bins.append("event_nPV_bin" + str(pvBin) + "__probe_Ele_pt_bin" + str(ptBin))     # bin mapped to
-        bins.append(name+ "_PV_" + ptRange + "_" + pvRange)                   # pdf
+#     if ptBin == 6: ptRange = "200p0To500p0"
+      if useJets:
+        for njetsBin, njets in enumerate(['m0p5To0p5','0p5To1p5','1p5To2p5','2p5To3p5','3p5To4p5','4p5To6p5']):
+          bins.append("event_njets_bin" + str(njetsBin) + "__probe_Ele_pt_bin" + str(ptBin))     # bin mapped to
+          bins.append(name+ "_njets_" + ptRange + "_" + njets)                   # pdf
+      else:
+        for pvBin, pvRange in enumerate(['0p0To5p0','5p0To10p0','10p0To15p0','15p0To20p0','20p0To25p0','25p0To30p0','30p0To35p0','35p0To40p0','40p0To45p0','45p0To9999p0']):
+          bins.append("event_nPV_bin" + str(pvBin) + "__probe_Ele_pt_bin" + str(ptBin))     # bin mapped to
+          bins.append(name+ "_PV_" + ptRange + "_" + pvRange)                   # pdf
     print bins
     return bins
   else:
@@ -121,10 +131,16 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
 if options.doAct:
-  IDEfficiencyBins = cms.PSet(
-    probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
-    event_nPV       = cms.vdouble(0.,5.,10.,15.,20.,25.,30.,35.,40.,45.,9999.),
-    )
+  if useJets:
+    IDEfficiencyBins = cms.PSet(
+      probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
+      event_njets     = cms.vdouble(-0.5,0.5,1.5,2.5,3.5,4.5,6.5),
+      )
+  else:
+    IDEfficiencyBins = cms.PSet(
+      probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
+      event_nPV       = cms.vdouble(0.,5.,10.,15.,20.,25.,30.,35.,40.,45.,9999.),
+      )
 else:
   IDEfficiencyBins = cms.PSet(
   #  probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
@@ -167,6 +183,7 @@ def getVariables(isData):
     variables = cms.PSet(
       mass             = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
       event_nPV        = cms.vstring("Event N_{PV}", "0", "1000000", ""),
+      event_njets      = cms.vstring("Event N_{jets}", "-.5", "6.5", ""),
       probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "500", "GeV/c"),
       probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
       probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
@@ -209,38 +226,14 @@ process.seq = cms.Sequence()
 def addToProcess(workingpoint, dir, isData, isIso):
     moduleName = ("Data" if isData else "MC") + dir + workingpoint
     setattr(process, moduleName, getAnalyzer(workingpoint, dir, isData, isIso))
-    process.seq += getattr(process, moduleName)
+#     process.seq += getattr(process, moduleName)
 
-                                     # workingpoint                              # directory                       # data or MC       # isIso
-if options.jobId == 0:  addToProcess("CutBasedSpring15V",                        "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 1:  addToProcess("CutBasedSpring15L",                        "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 2:  addToProcess("CutBasedSpring15M",                        "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 3:  addToProcess("CutBasedSpring15T",                        "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 4:  addToProcess("MVAVLooseTightIP2D",                       "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 5:  addToProcess("MVAVLooseFOIDEmuTightIP2D",                "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 6:  addToProcess("MVATightTightIP2DSIP3D4",                  "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 7:  addToProcess("MVATightIDEmuTightIP2DSIP3D4",             "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 8:  addToProcess("CutBasedStopsDilepton",                    "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 9:  addToProcess("LeptonMvaVTIDEmuTightIP2DSIP3D8mini04",    "GsfElectronToID",                options.onlyData, False)
-if options.jobId == 10: addToProcess("LeptonMvaMIDEmuTightIP2DSIP3D8mini04",     "GsfElectronToID",                options.onlyData, False)
-
-if options.jobId == 11: addToProcess("Mini",                                     "MVAVLooseElectronToIso",         options.onlyData, True)
-if options.jobId == 12: addToProcess("Mini2",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
-if options.jobId == 13: addToProcess("Mini4",                                    "MVAVLooseElectronToIso",         options.onlyData, True)
-if options.jobId == 14: addToProcess("ConvVetoIHit1",                            "MVAVLooseElectronToIso",         options.onlyData, True)
-
-if options.jobId == 15: addToProcess("MultiIsoM",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 16: addToProcess("MultiIsoT",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 17: addToProcess("MultiIsoTISOEmu",                          "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 18: addToProcess("ConvVetoIHit0",                            "MVATightElectronToIso",          options.onlyData, True)
-
-if options.jobId == 19: addToProcess("Charge",                                   "MVATightConvIHit0ElectronToIso", options.onlyData, True)
-if options.jobId == 20: addToProcess("RelIso012",                                "CutBasedStopsDileptonToIso",     options.onlyData, True)
-if options.jobId == 21: addToProcess("RelIso010",                                "MVATightElectronToIso",          options.onlyData, True)
-if options.jobId == 22: addToProcess("TTG",                                      "GsfElectronToID",                options.onlyData, True)
-if options.jobId == 23: addToProcess("MVAWP90",                                  "GsfElectronToID",                options.onlyData, True)
-if options.jobId == 24: addToProcess("MVAWP90IDEMuTTZ",                          "GsfElectronToID",                options.onlyData, True)
-if options.jobId == 25: addToProcess("MVAWP90IDEMuTTZRelIsoCBL",                 "GsfElectronToID",                options.onlyData, True)
-if options.jobId == 26: addToProcess("LeptonMvaVLIDEmuTightIP2DSIP3D8mini04",    "GsfElectronToID",                options.onlyData, False)
-
+                                     # workingpoint  # directory                    # data or MC      # isIso
+if options.jobId == 0: addToProcess("TTVLoose",      "EleToId",                     options.onlyData, False)
+if options.jobId == 1: addToProcess("TTVLeptonMvaL", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 2: addToProcess("TTVLeptonMvaM", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 3: addToProcess("TTVLeptonMvaT", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 4: addToProcess("TightCharge",   "TTVLeptonMvaLToTightCharge",  options.onlyData, False)
+if options.jobId == 5: addToProcess("TightCharge",   "TTVLeptonMvaMToTightCharge",  options.onlyData, False)
+if options.jobId == 6: addToProcess("TightCharge",   "TTVLeptonMvaTToTightCharge",  options.onlyData, False)
 process.fit = cms.Path(process.seq)
