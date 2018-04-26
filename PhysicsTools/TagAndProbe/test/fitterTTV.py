@@ -8,22 +8,31 @@ options.register("runBToF",        False,  VarParsing.multiplicity.singleton, Va
 options.register("runGH",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute for run G and H")
 options.register("onlyData",       False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute data efficiencies")
 options.register("onlyMC",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Only compute mc efficiencies")
+options.register("is2016",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "is2016")
+options.register("useJets",        False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "useJets")
+options.register("usePV",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "usePV")
 options.register("jobId",          -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "jobId")
-options.register("doAct",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Bin in activity instead of eta for isolation efficiencies")
 options.register("altMC",          False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative MC")
 options.register("altTag",         False,  VarParsing.multiplicity.singleton, VarParsing.varType.bool,  "Take alternative tag selection")
 options.register("altBkg",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative background shape")
 options.register("altSig",         -1,     VarParsing.multiplicity.singleton, VarParsing.varType.int,   "Take alternative signal shape")
 options.parseArguments()
 
-useJets =False
-options.doAct=False
+useJets = options.useJets
+usePV   = options.usePV
+is2016  = options.is2016
 
 tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v3/' + ('2016' if is2016 else '2017') + '/'
 
-effDir    = ('efficiencies_njets' if useJets else 'efficiencies_PV') if options.doAct else 'efficiencies'
-dataFile  = 'data.root'
-mcFile    = 'DY_madgraph.root'
+if usePV:     ext  = '_PV'
+elif useJets: ext  = '_jets'
+else:         ext  = ''
+if is2016:    ext += '_2016'
+else:         ext += '_2017'
+
+effDir    = 'efficiencies' + ext
+dataFile  = tuplesDir + 'data.root'
+mcFile    = tuplesDir + 'DY_madgraph.root'
 
 if options.runBToF:
   effDir  += '_runBToF'
@@ -35,33 +44,33 @@ elif options.runGH:
 outputDir = "./" + effDir + "/nominal"
 
 if options.altMC:
-  mcFile    = 'DY_amcatnlo.root'
+  mcFile    = tuplesDir + 'DY_amcatnlo.root'
   outputDir = "./" + effDir + "/altMC"
 
 if options.altTag:
   outputDir = "./" + effDir + "/altTag"
-  import PhysicsTools.TagAndProbe.altTagFit as common
+  common = __import__('PhysicsTools.TagAndProbe.altTagFit' + ext, fromlist=['all_pdfs'])
 elif options.altBkg >= 0:
-  common = __import__('PhysicsTools.TagAndProbe.altBkgFit_alternative' + str(options.altBkg), fromlist=['all_pdfs'])
+  common = __import__('PhysicsTools.TagAndProbe.altBkgFit' + ext + '_alternative' + str(options.altBkg), fromlist=['all_pdfs'])
   outputDir = "./" + effDir + "/altBkg" + str(options.altBkg)
 elif options.altSig >= 0:
-  if options.onlyMC: import PhysicsTools.TagAndProbe.altSigFit as common
-  else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit_alternative' + str(options.altSig), fromlist=['all_pdfs'])
+  if options.onlyMC: common = __import__('PhysicsTools.TagAndProbe.altSigFit' + ext, fromlist=['all_pdfs'])
+  else:              common = __import__('PhysicsTools.TagAndProbe.altSigFit' + ext + '_alternative' + str(options.altSig), fromlist=['all_pdfs'])
   outputDir = "./" + effDir + "/altSig" + str(options.altSig)
 else:
-  import PhysicsTools.TagAndProbe.nominalFit as common
+  common = __import__('PhysicsTools.TagAndProbe.nominalFit' + ext, fromlist=['all_pdfs'])
 
 
 def makeDirs(dir):
   try:    os.makedirs(dir)
   except: pass
 
-makeDirs('temp')
+makeDirs('temp/' + ext)
 makeDirs(outputDir)
 
 # Note: not using regexes at the moment (just string comparison). Also official package doesn't use the regexes actually and was just picking the pdf's based on the order they were given
 def BinSpec(name):
-  if options.doAct:
+  if useJets or usePV:
     bins = cms.vstring("ERROR_TEMPLATE_NOT_FOUND_ERROR") # first default
     for ptBin in range(7):
       if ptBin == 0: ptRange = "10p0To20p0"
@@ -73,11 +82,11 @@ def BinSpec(name):
 #     if ptBin == 6: ptRange = "200p0To500p0"
       if useJets:
         for njetsBin, njets in enumerate(['m0p5To0p5','0p5To1p5','1p5To2p5','2p5To3p5','3p5To4p5','4p5To6p5']):
-          bins.append("event_njets_bin" + str(njetsBin) + "__probe_Ele_pt_bin" + str(ptBin))     # bin mapped to
+          bins.append("event_njets_bin" + str(njetsBin) + "__ele_pt_bin" + str(ptBin))     # bin mapped to
           bins.append(name+ "_njets_" + ptRange + "_" + njets)                   # pdf
       else:
         for pvBin, pvRange in enumerate(['0p0To5p0','5p0To10p0','10p0To15p0','15p0To20p0','20p0To25p0','25p0To30p0','30p0To35p0','35p0To40p0','40p0To45p0','45p0To9999p0']):
-          bins.append("event_nPV_bin" + str(pvBin) + "__probe_Ele_pt_bin" + str(ptBin))     # bin mapped to
+          bins.append("event_nPV_bin" + str(pvBin) + "__ele_pt_bin" + str(ptBin))     # bin mapped to
           bins.append(name+ "_PV_" + ptRange + "_" + pvRange)                   # pdf
     print bins
     return bins
@@ -100,12 +109,12 @@ def BinSpec(name):
         if etaBin == 2: etaRange = "1p442To1p566"
         if etaBin == 3: etaRange = "1p566To2p0"
         if etaBin == 4: etaRange = "2p0To2p5"
-        bins.append("probe_Ele_pt_bin" + str(ptBin) + "__probe_sc_abseta_bin" + str(etaBin))     # bin mapped to
+        bins.append("el_pt_bin" + str(ptBin) + "__el_sc_abseta_bin" + str(etaBin))     # bin mapped to
         bins.append(name+ "_" + region + "_" + ptRange + "_" + etaRange)                         # pdf
 
-      bins.append("probe_Ele_pt_bin" + str(ptBin) + "__probe_ele_RelAct_bin")
+      bins.append("el_pt_bin" + str(ptBin) + "__el_RelAct_bin")
       bins.append(name + "_alleta_" + ptRange + "_0p0To2p5")
-      bins.append("probe_Ele_pt_bin" + str(ptBin) + "__event_nPV_bin")
+      bins.append("el_pt_bin" + str(ptBin) + "__event_nPV_bin")
       bins.append(name + "_alleta_" + ptRange + "_0p0To2p5")
     return bins
 
@@ -130,29 +139,26 @@ process.MessageLogger.destinations               = ['cout', 'cerr']
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #specifies the binning of parameters
-if options.doAct:
-  if useJets:
-    IDEfficiencyBins = cms.PSet(
-      probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
-      event_njets     = cms.vdouble(-0.5,0.5,1.5,2.5,3.5,4.5,6.5),
-      )
-  else:
-    IDEfficiencyBins = cms.PSet(
-      probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
-      event_nPV       = cms.vdouble(0.,5.,10.,15.,20.,25.,30.,35.,40.,45.,9999.),
-      )
+if useJets:
+  IDEfficiencyBins = cms.PSet(
+    el_pt       = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
+    event_njets = cms.vdouble(-0.5,0.5,1.5,2.5,3.5,4.5,6.5),
+  )
+elif usePV:
+  IDEfficiencyBins = cms.PSet(
+    el_pt     = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
+    event_nPV = cms.vdouble(0.,5.,10.,15.,20.,25.,30.,35.,40.,45.,9999.),
+  )
 else:
   IDEfficiencyBins = cms.PSet(
-  #  probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200., 500.),
-    probe_Ele_pt    = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200.),
-    probe_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
+    el_pt        = cms.vdouble(10. ,20. ,30., 40.,50., 100., 200.),
+    el_sc_abseta = cms.vdouble(0., 0.8, 1.442, 1.566, 2.0, 2.5),
   )
 
 IsoEfficiencyBins = IDEfficiencyBins
 
 def getBinningSpecification(wp, dir, isData, isIso):
   return cms.PSet(
-#   UnbinnedVariables = cms.vstring("mass", "totWeight", "Ele_dRTau", "probe_dRTau"),
     UnbinnedVariables = cms.vstring("mass") if isData else cms.vstring("mass", "totWeight"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins if isIso else IDEfficiencyBins) if isData else cms.PSet(IsoEfficiencyBins if isIso else IDEfficiencyBins, mcTrue = cms.vstring("true")),
     BinToPDFmap = BinSpec(dir.split('To')[0] + 'To' + wp),
@@ -184,10 +190,10 @@ def getVariables(isData):
       mass             = cms.vstring("Tag-Probe Mass", "60.0", "120.0", "GeV/c^{2}"),
       event_nPV        = cms.vstring("Event N_{PV}", "0", "1000000", ""),
       event_njets      = cms.vstring("Event N_{jets}", "-.5", "6.5", ""),
-      probe_Ele_pt     = cms.vstring("Probe p_{T}", "10", "500", "GeV/c"),
-      probe_sc_abseta  = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
-      probe_ele_RelAct = cms.vstring("Probe Activity", "0", "100000000", ""),
-      tag_Ele_pt       = cms.vstring("Tag p_{T}", "0.", "1000000000", "GeV/c"), # Apparently you need to add the variables which you want to use in the cut, becuase why make it simple if you can do do something more complex?
+      el_pt            = cms.vstring("Probe p_{T}", "10", "500", "GeV/c"),
+      el_sc_abseta     = cms.vstring("Probe |#eta|", "0", "2.5", ""), 
+      el_RelAct        = cms.vstring("Probe Activity", "0", "100000000", ""),
+      tag_Ele_pt       = cms.vstring("Tag p_{T}", "0.", "1000000000", "GeV/c"), # Apparently you need to add the variables which you want to use in the cut, because why make it simple if you can do do something more complex?
       tag_Ele_trigMVA  = cms.vstring("Tag trigMVA", "0.", "1000000000", ""),
       #Ele_dRTau       = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
       #probe_dRTau     = cms.vstring("probe_dRTau", "0.2", "100000", ""),
@@ -199,7 +205,7 @@ def getVariables(isData):
 
 def getAnalyzer(wp, dir, isData, isIso):
     analyzer = cms.EDAnalyzer("TagProbeFitTreeAnalyzer",
-      TempDirectory            = cms.string('temp/' + outputDir.split('/')[-1]),
+      TempDirectory            = cms.string('temp/' + ext + '/' + outputDir.split('/')[-1]),
       InputFileNames           = cms.vstring(dataFile if isData else mcFile),
       InputDirectoryName       = cms.string(dir),
       InputTreeName            = cms.string("fitter_tree"), 
@@ -226,7 +232,7 @@ process.seq = cms.Sequence()
 def addToProcess(workingpoint, dir, isData, isIso):
     moduleName = ("Data" if isData else "MC") + dir + workingpoint
     setattr(process, moduleName, getAnalyzer(workingpoint, dir, isData, isIso))
-#     process.seq += getattr(process, moduleName)
+    process.seq += getattr(process, moduleName)
 
                                      # workingpoint  # directory                    # data or MC      # isIso
 if options.jobId == 0: addToProcess("TTVLoose",      "EleToId",                     options.onlyData, False)
