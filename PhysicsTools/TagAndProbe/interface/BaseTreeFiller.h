@@ -221,7 +221,7 @@ class BaseTreeFiller : boost::noncopyable {
 	  mtcMETSign_,mpfMET_,mpfSumET_,mpfMETSign_, mpfPhi_;
 
         bool addJetVariablesInfo_;
-        mutable float mht_, mnjets_;
+        mutable float mht_, mnjets_, mnjetsAll_;
         float jet_pt_cut_, jet_eta_cut_, match_delta_r_;
 };
 

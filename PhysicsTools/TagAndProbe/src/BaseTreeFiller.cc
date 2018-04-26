@@ -131,6 +131,7 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
       
       tree_->Branch("event_ht", &mht_, "mht/F");
       tree_->Branch("event_njets", &mnjets_, "mnjets/F");
+      tree_->Branch("event_njetsAll", &mnjetsAll_, "mnjetsAll/F");
     }
 }
 
@@ -371,19 +372,23 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
 
   if(addJetVariablesInfo_){
     mnjets_ = 0.;
+    mnjetsAll_ = 0.;
     mht_ = 0.;
     edm::Handle<reco::CandidateView> probes; iEvent.getByToken(probesToken_, probes);
     edm::Handle<pat::JetCollection> jets;    iEvent.getByToken(jetsToken_, jets);
 
     for(auto jet = jets->begin(); jet != jets->end(); ++jet){
       double pt = jet->pt();
-      if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
+      if(pt < jet_pt_cut_) continue;
       if(!jetIsTight(*jet, is2017_)) continue;
       bool matched_to_electron = false;
       for(auto ele = probes->begin(); ele != probes->end(); ++ele){
         if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
       }
 	    if(matched_to_electron) continue;
+      if(fabs(jet->eta())>4.7) continue;
+	    mnjetsAll_ += 1.;
+      if(fabs(jet->eta())>jet_eta_cut_) continue;
 	    mnjets_ += 1.;
 	    mht_ += pt;
   	 }
