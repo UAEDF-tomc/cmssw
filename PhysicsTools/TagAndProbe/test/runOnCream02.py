@@ -3,22 +3,47 @@ import os, time
 
 import argparse
 argParser = argparse.ArgumentParser(description = "Argument parser")
-argParser.add_argument("--dryRun", action='store_true', default=False, help="dry run?")
-argParser.add_argument("--step",   action='store',      default=0,     help="which step?")
+argParser.add_argument("--runLocal", action='store_true', default=False, help="run local?")
+argParser.add_argument("--dryRun",   action='store_true', default=False, help="dry run?")
+argParser.add_argument("--step",     action='store',      default=0,     help="which step?")
 args = argParser.parse_args()
 
-#dataOrMC = "onlyMC=True"
+
+def launch(command, logfile):
+  if args.runLocal:
+    print command
+    os.system(command + ' &> ' + logfile + ' &')
+  else:
+    os.system("qsub -v command=\"" + command + "\" -q localgrid@cream02 -o " + logfile + " -e " + logfile + " -l walltime=2:00:00 runFits.sh &> .qsub.log")
+    with open('.qsub.log','r') as qsublog:
+      for l in qsublog:
+        if 'Invalid credential' in l:
+          time.sleep(10)
+          launch(command, logfile)
+
+
+options = [
+           ['is2016=False', 'useJets=False', 'usePV=False'],
+           ['is2016=False', 'useJets=True',  'usePV=False'],
+           ['is2016=False', 'useJets=False', 'usePV=True'],
+           ['is2016=True',  'useJets=False', 'usePV=False'],
+           ['is2016=True',  'useJets=True',  'usePV=False'],
+           ['is2016=True',  'useJets=False', 'usePV=True']
+           ]
+
 def submitJobs(isData, extraParam = None):
-  try:    os.makedirs('log')
-  except: pass
-  dataOrMC = "onlyData=True" if isData else "onlyMC=True"
-  for jobId in range(27):
-      if jobId != 22: continue
-      logfile = "log/" + dataOrMC.split('=')[0].split('only')[-1] + "_" + ((extraParam + "_") if extraParam else "") + str(jobId) + ".log"
-      command = "cmsRun fitterSusy.py " + dataOrMC + " " + (extraParam if extraParam else "") + " jobId="+ str(jobId)
-      if args.dryRun:  print command
-      else:            os.system('qsub -v command="' + command + '" -q localgrid@cream02 -o ' + logfile + ' -e ' + logfile + ' -l walltime=2:00:00 runFits.sh')
-      time.sleep(1)
+  for option in options:
+    logDir = 'log/'+ ''.join(option)+'/'
+    try:    os.makedirs(logDir)
+    except: pass
+
+    dataOrMC = "onlyData=True" if isData else "onlyMC=True"
+    for jobId in range(7):
+        logfile = logDir + dataOrMC.split('=')[0].split('only')[-1] + "_" + ((extraParam + "_") if extraParam else "") + str(jobId) + ".log"
+        command = "cmsRun fitterTTV.py " + dataOrMC + " " + (extraParam if extraParam else "") + " jobId="+ str(jobId) + ' ' + ' '.join(option)
+        if args.dryRun:  print command
+        else:            launch(command, logfile)
+        time.sleep(1)
 
 # Before step 1: ./MCTemplates/runTemplates.py
 
