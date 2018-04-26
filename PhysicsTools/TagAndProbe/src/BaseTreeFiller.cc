@@ -119,8 +119,8 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
 
     ignoreExceptions_ = iConfig.existsAs<bool>("ignoreExceptions") ? iConfig.getParameter<bool>("ignoreExceptions") : false;
 
-    // This is added by Adam
     addJetVariablesInfo_ = iConfig.existsAs<edm::InputTag>("allProbes") && iConfig.existsAs<edm::InputTag>("jetCollection");
+    is2017_              = iConfig.existsAs<bool>("is2017") ? iConfig.getParameter<bool>("ignoreExceptions") : false;
     if(addJetVariablesInfo_){
       probesToken_   = iC.consumes<reco::CandidateView>(iConfig.getParameter<edm::InputTag>("allProbes"));
       jetsToken_     = iC.consumes<pat::JetCollection>( iConfig.getParameter<edm::InputTag>("jetCollection"));
@@ -135,28 +135,59 @@ tnp::BaseTreeFiller::BaseTreeFiller(const char *name, const edm::ParameterSet& i
 }
 
 
-// Jet Id (https://twiki.cern.ch/twiki/bin/view/CMS/JetID13TeVRun2016)
-bool tnp::BaseTreeFiller::jetId(const pat::Jet& j, bool tight) const{
-    if(fabs(j.eta()) < 2.7){
-        if(j.neutralHadronEnergyFraction() >= (tight? 0.90 : 0.99)) return false;
-        if(j.neutralEmEnergyFraction() >= (tight? 0.90 : 0.99))     return false;
-        if(j.chargedMultiplicity()+j.neutralMultiplicity() <= 1)    return false;
-        if(fabs(j.eta()) < 2.4){
-            if(j.chargedHadronEnergyFraction() <= 0)                return false;
-            if(j.chargedMultiplicity() <= 0)                        return false;
-            if(j.chargedEmEnergyFraction() >= 0.99)                 return false;
+// Jet id's based on https://github.com/GhentAnalysis/heavyNeutrino/blob/18b00372f2ce062553c387d2f56a6c3fd3fed9b8/multilep/src/JetAnalyzer.cc#L251-L302
+bool tnp::BaseTreeFiller::jetIsLoose(const pat::Jet& jet, const bool is2017) const{
+
+    if(fabs(jet.eta()) <= 2.7){
+        if(jet.neutralHadronEnergyFraction() >=  0.99) return false;
+        if(jet.neutralEmEnergyFraction() >= 0.99) return false;
+        if(jet.chargedMultiplicity()+jet.neutralMultiplicity() <= 1) return false;
+        if(fabs(jet.eta()) <= 2.4){
+            if(jet.chargedHadronEnergyFraction() <= 0) return false;
+            if(jet.chargedMultiplicity() <= 0) return false;
+            if( !is2017 && ( jet.chargedEmEnergyFraction() >= 0.99 ) ) return false;
         }
-    } else if(fabs(j.eta()) < 3.0){
-        if(j.neutralHadronEnergyFraction() >= 0.98)                 return false;
-        if(j.neutralEmEnergyFraction() <= 0.01)                     return false;
-        if(j.neutralMultiplicity() <= 2)                            return false;
+
+    } else if(fabs(jet.eta()) <= 3.0){
+        if(jet.neutralHadronEnergyFraction() >= 0.98) return false;
+        if( !is2017 && (jet.neutralEmEnergyFraction() <= 0.01) ) return false;
+        if( is2017 && (jet.neutralEmEnergyFraction() <= 0.02) ) return false;
+        if(jet.neutralMultiplicity() <= 2) return false;
+
     } else {
-        if(j.neutralEmEnergyFraction() >= 0.90)                     return false;
-        if(j.neutralMultiplicity() <= 10)                           return false;
+        if(jet.neutralEmEnergyFraction() >= 0.90) return false;
+        if(jet.neutralMultiplicity() <= 10) return false;
+        if(is2017 && jet.neutralHadronEnergyFraction() <= 0.02) return false;
+    }
+
+    return true;
+}
+
+bool tnp::BaseTreeFiller::jetIsTight(const pat::Jet& jet, const bool is2017) const{
+    if( !jetIsLoose(jet, is2017) ) return false;
+
+    if(fabs(jet.eta()) <= 2.7){
+        if(jet.neutralHadronEnergyFraction() >= 0.9) return false;
+        if(jet.neutralEmEnergyFraction() >= 0.9) return false;
+
+    } else if(fabs(jet.eta()) <= 3.0){
+        if(is2017 && jet.neutralEmEnergyFraction() >= 0.99) return false;   
     }
     return true;
 }
 
+bool tnp::BaseTreeFiller::jetIsTightLepVeto(const pat::Jet& jet, const bool is2017) const{
+    if( !jetIsTight(jet, is2017) ) return false;
+    if(fabs(jet.eta()) <= 2.7){
+        if( jet.chargedMuEnergyFraction() >= 0.8 ) return false;
+        
+        if(fabs(jet.eta()) <= 2.4){
+            if(is2017 && (jet.chargedEmEnergyFraction() >= 0.8) ) return false;
+            if(!is2017 && (jet.chargedEmEnergyFraction() >= 0.9) ) return false;
+        }
+    }
+    return true;
+}
 
 
 tnp::BaseTreeFiller::BaseTreeFiller(BaseTreeFiller &main, const edm::ParameterSet &iConfig, edm::ConsumesCollector && iC, const std::string &branchNamePrefix) :
@@ -347,7 +378,7 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
     for(auto jet = jets->begin(); jet != jets->end(); ++jet){
       double pt = jet->pt();
       if(pt < jet_pt_cut_ || fabs(jet->eta())>jet_eta_cut_) continue;
-      if(!jetId(*jet, false)) continue;
+      if(!jetIsTight(*jet, is2017_)) continue;
       bool matched_to_electron = false;
       for(auto ele = probes->begin(); ele != probes->end(); ++ele){
         if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;

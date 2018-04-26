@@ -163,7 +163,9 @@ class BaseTreeFiller : boost::noncopyable {
         /// Write a string dump of this PSet into the TTree header.
         /// see macro in test directory for how to retrieve it from the output root file
         void writeProvenance(const edm::ParameterSet &pset) const ;
-        bool jetId(const pat::Jet& j, bool tight) const;
+        bool jetIsLoose(const pat::Jet& jet, const bool is2017) const;
+        bool jetIsTight(const pat::Jet& jet, const bool is2017) const;
+        bool jetIsTightLepVeto(const pat::Jet& jet, const bool is2017) const;
 
 	//get the pileup weight informations
 	bool storePUweight() const {return storePUweight_;};
@@ -199,9 +201,10 @@ class BaseTreeFiller : boost::noncopyable {
 	bool storePUweight_;
 
         /// Add branches with event variables: met, sum ET, .. etc.
-	bool addEventVariablesInfo_;
-	bool addRho_;
-	bool addCaloMet_;
+        bool addEventVariablesInfo_;
+        bool addRho_;
+        bool addCaloMet_;
+        bool is2017_;
 	
         void addBranches_(TTree *tree, const edm::ParameterSet &iConfig, edm::ConsumesCollector & iC, const std::string &branchNamePrefix="") ;
 
