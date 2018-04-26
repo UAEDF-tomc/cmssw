@@ -171,15 +171,15 @@ for config in configs:
       myOptions.idprobe      = "passing" + idProbe
       getTemplatesFromMC.main(myOptions)
 
-      myOptions.outputFile   = os.path.join(tnpPackage, 'python', "nominalFit_" + myOptions.idLabel + ".py")
+      myOptions.outputFile   = os.path.join(tnpPackage, 'python', "nominalFit" + ext + "_" + myOptions.idLabel + ".py")
       myOptions.templateFile = myOptions.output
       makeConfigForTemplates.main(myOptions)
 
-      myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altTagFit_" + myOptions.idLabel + ".py")
+      myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altTagFit" + ext + "_" + myOptions.idLabel + ".py")
       makeConfigForTemplates.main(myOptions)
 
       myOptions.altSig       = True  # Also make templates for MC to be used for the altSig systematic
-      myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altSigFit_" + myOptions.idLabel + ".py")
+      myOptions.outputFile   = os.path.join(tnpPackage, 'python', "altSigFit" + ext + "_" + myOptions.idLabel + ".py")
       makeConfigForTemplates.main(myOptions)
 
   jobs = []
@@ -198,7 +198,7 @@ for config in configs:
   pool.close()
   pool.join()
 
-  iteration=3
+  iteration=0
   # Adding everything to all_pdfs, a bit complex as CMSSW doesn't accept more than 255 arguments to a PSet
   for fit in ['nominalFit', 'altSigFit', 'altTagFit']:
     if fit.count('nominal'): type = 'Nominal'
@@ -209,7 +209,7 @@ for config in configs:
 
       for args in jobs:
         f.write('pdfs_' + getIdLabel(args) + ' = cms.PSet(\n')
-        with open(os.path.join(tnpPackage, 'python', fit + "_" + getIdLabel(args) + ".py"), "r") as r:
+        with open(os.path.join(tnpPackage, 'python', fit + ext + "_" + getIdLabel(args) + ".py"), "r") as r:
           for line in r.readlines()[3:-2]:
             if   line.count('BKGPDF'): f.write('"' + getBkgPdf(line, type, iteration) + '",\n')
             elif line.count('SIGPDF'): f.write('"' + getSigPdf(line, type, iteration) + '",\n')
@@ -222,26 +222,26 @@ for config in configs:
       f.write(')')
 
     import glob, os
-    map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', fit + '_*.p*')))
+    map(os.remove, glob.glob(os.path.join(tnpPackage, 'python', fit + ext + '_*.p*')))
 
 
   # For background shape systematic, replace RooCMSShape with RooExponetial (take three alternatives for initial parameters to be sure at least one fit succeeds)
-  with open(os.path.join(tnpPackage, 'python', 'altBkgFit_alternative0.py'), 'w') as f:
-    with open(os.path.join(tnpPackage, 'python', 'nominalFit.py'), 'r') as r:
+  with open(os.path.join(tnpPackage, 'python', 'altBkgFit' + ext + '_alternative0.py'), 'w') as f:
+    with open(os.path.join(tnpPackage, 'python', 'nominalFit' + ext + '.py'), 'r') as r:
       for line in r:
         if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.001, -.1, .1])",\n')
         elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.001, -.1, .1])",\n')
         else:                                           f.write(line)
 
-  with open(os.path.join(tnpPackage, 'python', 'altBkgFit_alternative1.py'), 'w') as f:
-    with open(os.path.join(tnpPackage, 'python', 'nominalFit.py'), 'r') as r:
+  with open(os.path.join(tnpPackage, 'python', 'altBkgFit' + ext + '_alternative1.py'), 'w') as f:
+    with open(os.path.join(tnpPackage, 'python', 'nominalFit' + ext + '.py'), 'r') as r:
       for line in r:
         if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[0.02, -.1, .1])",\n')
         elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[0.02, -.1, .1])",\n')
         else:                                           f.write(line)
 
-  with open(os.path.join(tnpPackage, 'python', 'altBkgFit_alternative2.py'), 'w') as f:
-    with open(os.path.join(tnpPackage, 'python', 'nominalFit.py'), 'r') as r:
+  with open(os.path.join(tnpPackage, 'python', 'altBkgFit' + ext + '_alternative2.py'), 'w') as f:
+    with open(os.path.join(tnpPackage, 'python', 'nominalFit' + ext + '.py'), 'r') as r:
       for line in r:
         if   line.count('RooCMSShape::backgroundPass'): f.write('"RooExponential::backgroundPass(mass, aExpP[-0.02, -.1, .1])",\n')
         elif line.count('RooCMSShape::backgroundFail'): f.write('"RooExponential::backgroundFail(mass, aExpF[-0.02, -.1, .1])",\n')
