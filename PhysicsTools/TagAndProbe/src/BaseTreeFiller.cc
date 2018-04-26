@@ -386,7 +386,7 @@ void tnp::BaseTreeFiller::init(const edm::Event &iEvent) const {
         if(deltaR(*jet, *ele) < match_delta_r_) matched_to_electron = true;
       }
 	    if(matched_to_electron) continue;
-      if(fabs(jet->eta())>4.7) continue;
+      if(fabs(jet->eta())>5) continue;
 	    mnjetsAll_ += 1.;
       if(fabs(jet->eta())>jet_eta_cut_) continue;
 	    mnjets_ += 1.;
