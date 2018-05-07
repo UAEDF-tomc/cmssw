@@ -36,7 +36,7 @@ for config in configs:
 
 
   class options:
-      input           = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v3/' + ('2016' if is2016 else '2017') + '/DY_amcatnlo.root'
+      input           = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v4/' + ('2016' if is2016 else '2017') + '/DY_amcatnlo.root'
       output          = "mc_templates.root"
       directory       = "GsfElectronToID"
       idprobe         = "passingMedium"
@@ -185,12 +185,11 @@ for config in configs:
   jobs = []
   for region in ["PV"] if usePV else (["njets"] if useJets else ["alleta","barrel","crack","endcap"]):
     jobs.append(("TTVLoose",                    "EleToId",                       region))
-    jobs.append(("TTVLeptonMvaL",               "TTVLooseToLeptonMva",           region))
-    jobs.append(("TTVLeptonMvaM",               "TTVLooseToLeptonMva",           region))
-    jobs.append(("TTVLeptonMvaT",               "TTVLooseToLeptonMva",           region))
-    jobs.append(("TightCharge",                 "TTVLeptonMvaLToTightCharge",    region))
-    jobs.append(("TightCharge",                 "TTVLeptonMvaMToTightCharge",    region))
-    jobs.append(("TightCharge",                 "TTVLeptonMvaTToTightCharge",    region))
+    jobs.append(("TTVLeptonMvaTTZ3l",           "TTVLooseToLeptonMva",           region))
+    jobs.append(("TTVLeptonMvaTTZ4l",           "TTVLooseToLeptonMva",           region))
+    jobs.append(("TTVLeptonMvaTTW",             "TTVLooseToLeptonMva",           region))
+    jobs.append(("TTVLeptonMvatZq",             "TTVLooseToLeptonMva",           region))
+    jobs.append(("TightCharge",                 "TTVLeptonMvaTTWToTightCharge",  region))
 
   from multiprocessing import Pool
   pool = Pool(processes=16)
