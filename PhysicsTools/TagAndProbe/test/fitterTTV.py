@@ -22,7 +22,7 @@ useJets = options.useJets
 usePV   = options.usePV
 is2016  = options.is2016
 
-tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v3/' + ('2016' if is2016 else '2017') + '/'
+tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v4/' + ('2016' if is2016 else '2017') + '/'
 
 if usePV:     ext  = '_PV'
 elif useJets: ext  = '_jets'
@@ -82,11 +82,11 @@ def BinSpec(name):
 #     if ptBin == 6: ptRange = "200p0To500p0"
       if useJets:
         for njetsBin, njets in enumerate(['m0p5To0p5','0p5To1p5','1p5To2p5','2p5To3p5','3p5To4p5','4p5To6p5']):
-          bins.append("event_njets_bin" + str(njetsBin) + "__ele_pt_bin" + str(ptBin))     # bin mapped to
+          bins.append("el_pt_bin" + str(ptBin) + "__event_njets_bin" + str(njetsBin))     # bin mapped to
           bins.append(name+ "_njets_" + ptRange + "_" + njets)                   # pdf
       else:
         for pvBin, pvRange in enumerate(['0p0To5p0','5p0To10p0','10p0To15p0','15p0To20p0','20p0To25p0','25p0To30p0','30p0To35p0','35p0To40p0','40p0To45p0','45p0To9999p0']):
-          bins.append("event_nPV_bin" + str(pvBin) + "__ele_pt_bin" + str(ptBin))     # bin mapped to
+          bins.append("el_pt_bin" + str(ptBin) + "__event_nPV_bin" + str(pvBin))     # bin mapped to
           bins.append(name+ "_PV_" + ptRange + "_" + pvRange)                   # pdf
     print bins
     return bins
@@ -159,7 +159,7 @@ IsoEfficiencyBins = IDEfficiencyBins
 
 def getBinningSpecification(wp, dir, isData, isIso):
   return cms.PSet(
-    UnbinnedVariables = cms.vstring("mass") if isData else cms.vstring("mass", "totWeight"),
+    UnbinnedVariables = cms.vstring("mass") if isData else cms.vstring("mass", "PUweight"),
     BinnedVariables = cms.PSet(IsoEfficiencyBins if isIso else IDEfficiencyBins) if isData else cms.PSet(IsoEfficiencyBins if isIso else IDEfficiencyBins, mcTrue = cms.vstring("true")),
     BinToPDFmap = BinSpec(dir.split('To')[0] + 'To' + wp),
   )
@@ -198,7 +198,7 @@ def getVariables(isData):
       #Ele_dRTau       = cms.vstring("Ele_dRTau", "0.2", "100000", ""),
       #probe_dRTau     = cms.vstring("probe_dRTau", "0.2", "100000", ""),
     )
-    if not isData: variables.totWeight = cms.vstring("totWeight", "0", "100000000", "")
+    if not isData: variables.PUweight = cms.vstring("PUweight", "0", "100000000", "")
     return variables
  
 
@@ -222,7 +222,7 @@ def getAnalyzer(wp, dir, isData, isIso):
       PDFs                     = common.all_pdfs,
       Efficiencies             = getEfficiencies(wp, dir, isData, isIso),
     )
-    if not isData:     analyzer.WeightVariable  = cms.string("totWeight")
+    if not isData:     analyzer.WeightVariable  = cms.string("PUweight")
     if not isData:     analyzer.Cuts            = cms.PSet(mcTrue = cms.vstring("mcTrue", "0.99", "above"))
     if options.altTag: analyzer.Cuts            = cms.PSet(ptCut = cms.vstring("tag_Ele_pt", "35", "above"), mvaCut = cms.vstring("tag_Ele_trigMVA", "0.95", "above"))
     return analyzer
@@ -234,12 +234,11 @@ def addToProcess(workingpoint, dir, isData, isIso):
     setattr(process, moduleName, getAnalyzer(workingpoint, dir, isData, isIso))
     process.seq += getattr(process, moduleName)
 
-                                     # workingpoint  # directory                    # data or MC      # isIso
-if options.jobId == 0: addToProcess("TTVLoose",      "EleToId",                     options.onlyData, False)
-if options.jobId == 1: addToProcess("TTVLeptonMvaL", "TTVLooseToLeptonMva",         options.onlyData, False)
-if options.jobId == 2: addToProcess("TTVLeptonMvaM", "TTVLooseToLeptonMva",         options.onlyData, False)
-if options.jobId == 3: addToProcess("TTVLeptonMvaT", "TTVLooseToLeptonMva",         options.onlyData, False)
-if options.jobId == 4: addToProcess("TightCharge",   "TTVLeptonMvaLToTightCharge",  options.onlyData, False)
-if options.jobId == 5: addToProcess("TightCharge",   "TTVLeptonMvaMToTightCharge",  options.onlyData, False)
-if options.jobId == 6: addToProcess("TightCharge",   "TTVLeptonMvaTToTightCharge",  options.onlyData, False)
+                                     # workingpoint      # directory                    # data or MC      # isIso
+if options.jobId == 0: addToProcess("TTVLoose",          "EleToId",                     options.onlyData, False)
+if options.jobId == 1: addToProcess("TTVLeptonMvaTTZ3l", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 2: addToProcess("TTVLeptonMvaTTZ4l", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 3: addToProcess("TTVLeptonMvaTTW",   "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 4: addToProcess("TTVLeptonMvatZq",   "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 5: addToProcess("TightCharge",       "TTVLeptonMvaTTWToTightCharge",options.onlyData, False)
 process.fit = cms.Path(process.seq)

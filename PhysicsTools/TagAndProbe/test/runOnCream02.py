@@ -14,7 +14,7 @@ def launch(command, logfile):
     print command
     os.system(command + ' &> ' + logfile + ' &')
   else:
-    os.system("qsub -v command=\"" + command + "\" -q localgrid@cream02 -o " + logfile + " -e " + logfile + " -l walltime=2:00:00 runFits.sh &> .qsub.log")
+    os.system("qsub -v command=\"" + command + "\" -q localgrid@cream02 -o " + logfile + " -e " + logfile + " -l walltime=4:00:00 runFits.sh &> .qsub.log")
     with open('.qsub.log','r') as qsublog:
       for l in qsublog:
         if 'Invalid credential' in l:
@@ -38,7 +38,7 @@ def submitJobs(isData, extraParam = None):
     except: pass
 
     dataOrMC = "onlyData=True" if isData else "onlyMC=True"
-    for jobId in range(7):
+    for jobId in range(6):
         logfile = logDir + dataOrMC.split('=')[0].split('only')[-1] + "_" + ((extraParam + "_") if extraParam else "") + str(jobId) + ".log"
         command = "cmsRun fitterTTV.py " + dataOrMC + " " + (extraParam if extraParam else "") + " jobId="+ str(jobId) + ' ' + ' '.join(option)
         if args.dryRun:  print command
