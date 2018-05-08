@@ -4,49 +4,58 @@ import os
 import ROOT
 
 def Histo(parent, isfit):
-    sub1 = parent.GetListOfKeys()
-    for ikey1 in xrange(sub1.GetSize()):
-        key1 = sub1.At(ikey1)
-        if key1.GetName() == "ProcessID0": continue
-        dir1 = parent.Get(key1.GetName())
-        sub2 = dir1.GetListOfKeys()
-        for ikey2 in xrange(sub2.GetSize()):
-            key2 = sub2.At(ikey2)
-            dir2 = dir1.Get(key2.GetName())
-            subdir = dir2.Get("fit_eff_plots")
-            if not isfit:
-                subdir = dir2.Get("cnt_eff_plots")
-            subkeys = subdir.GetListOfKeys()
-            for ikey in xrange(subkeys.GetSize()):
-                key = subkeys.At(ikey)
-                if "probe_sc_abseta_probe_Ele_pt_PLOT" not in key.GetName() and "event_nPV_probe_Ele_pt_PLOT" not in key.GetName(): continue
-                canvas = subdir.Get(key.GetName())
-                prims = canvas.GetListOfPrimitives()
-                for iprim in xrange(prims.GetSize()):
-                    prim = prims.At(iprim)
-                    if "probe_sc_abseta_probe_Ele_pt_PLOT" not in prim.GetName() and  "event_nPV_probe_Ele_pt_PLOT" not in prim.GetName(): continue
-                    return prim
-    return None
+  sub1 = parent.GetListOfKeys()
+  for ikey1 in xrange(sub1.GetSize()):
+      key1 = sub1.At(ikey1)
+      if key1.GetName() == "ProcessID0": continue
+      dir1 = parent.Get(key1.GetName())
+      sub2 = dir1.GetListOfKeys()
+      for ikey2 in xrange(sub2.GetSize()):
+          key2 = sub2.At(ikey2)
+          dir2 = dir1.Get(key2.GetName())
+          subdir = dir2.Get("fit_eff_plots")
+          if not isfit:
+              subdir = dir2.Get("cnt_eff_plots")
+          subkeys = subdir.GetListOfKeys()
+          for ikey in xrange(subkeys.GetSize()):
+              key = subkeys.At(ikey)
+              if not any([x in key.GetName() for x in ['el_sc_abseta_el_pt', 'event_nPV_el_pt','event_njets_el_pt']]): continue
+              canvas = subdir.Get(key.GetName())
+              prims = canvas.GetListOfPrimitives()
+              for iprim in xrange(prims.GetSize()):
+                  prim = prims.At(iprim)
+                  if not any([x in key.GetName() for x in ['el_sc_abseta_el_pt', 'event_nPV_el_pt','event_njets_el_pt']]): continue
+                  return prim
+  return None
 
 
-outDir = 'tables'
-try:
-  os.makedirs(outDir)
-except:
-  pass
+usePV=False
+useJets=False
+is2016=False
+
+if usePV:     ext  = '_PV'
+elif useJets: ext  = '_jets'
+else:         ext  = ''
+if is2016:    ext += '_2016'
+else:         ext += '_2017'
+
+outDir = 'tables' + ext
+try:    os.makedirs(outDir)
+except: pass
 
 
+dir = 'efficiencies'+ext
 tnpPackage = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'TagAndProbe')
-nominal    = os.path.join(tnpPackage, 'test', 'efficiencies', 'nominal')
-altSig0    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig0')
-altSig1    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig1')
-altSig2    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig2')
-altSig3    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altSig3')
-altBkg0    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg0')
-altBkg1    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg1')
-altBkg2    = os.path.join(tnpPackage, 'test', 'efficiencies', 'altBkg2')
-altMC      = os.path.join(tnpPackage, 'test', 'efficiencies', 'altMC')
-altTag     = os.path.join(tnpPackage, 'test', 'efficiencies', 'altTag')
+nominal    = os.path.join(tnpPackage, 'test', dir, 'nominal')
+altSig0    = os.path.join(tnpPackage, 'test', dir, 'altSig0')
+altSig1    = os.path.join(tnpPackage, 'test', dir, 'altSig1')
+altSig2    = os.path.join(tnpPackage, 'test', dir, 'altSig2')
+altSig3    = os.path.join(tnpPackage, 'test', dir, 'altSig3')
+altBkg0    = os.path.join(tnpPackage, 'test', dir, 'altBkg0')
+altBkg1    = os.path.join(tnpPackage, 'test', dir, 'altBkg1')
+altBkg2    = os.path.join(tnpPackage, 'test', dir, 'altBkg2')
+altMC      = os.path.join(tnpPackage, 'test', dir, 'altMC')
+altTag     = os.path.join(tnpPackage, 'test', dir, 'altTag')
 
 flist = (f for f in os.listdir(nominal) if "_data_" in f and "_act.root" not in f)
 
@@ -57,10 +66,10 @@ for f in flist:
 
     fdat  = ROOT.TFile(nominal +"/"+ f)
     fnmc  = ROOT.TFile(nominal +"/"+ fmc)
-    fsig0 = ROOT.TFile(nominal +"/"+ f)
-    fsig1 = ROOT.TFile(nominal +"/"+ f)
-    fsig2 = ROOT.TFile(nominal +"/"+ f)
-    fsig3 = ROOT.TFile(nominal +"/"+ f)
+    fsig0 = ROOT.TFile(nominal +"/"+ f) # currently nominal to save work
+    fsig1 = ROOT.TFile(nominal +"/"+ f) # currently nominal to save work
+    fsig2 = ROOT.TFile(nominal +"/"+ f) # currently nominal to save work
+    fsig3 = ROOT.TFile(nominal +"/"+ f) # currently nominal to save work
     fbkg0 = ROOT.TFile(altBkg0 +"/"+ f)
     fbkg1 = ROOT.TFile(altBkg1 +"/"+ f)
     fbkg2 = ROOT.TFile(altBkg2 +"/"+ f)
@@ -113,7 +122,8 @@ for f in flist:
             line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
             line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
             print line1
-            print line2
             fout.write(line1+"\n")
-            fout.write(line2+"\n")
+            if 'PV' not in dir and 'njets' not in dir:
+              print line2
+              fout.write(line2+"\n")
     fout.close()
