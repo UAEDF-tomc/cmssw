@@ -22,7 +22,7 @@ useJets = options.useJets
 usePV   = options.usePV
 is2016  = options.is2016
 
-tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v4/' + ('2016' if is2016 else '2017') + '/'
+tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v5/' + ('2016' if is2016 else '2017') + '/'
 
 if usePV:     ext  = '_PV'
 elif useJets: ext  = '_jets'
@@ -236,9 +236,9 @@ def addToProcess(workingpoint, dir, isData, isIso):
 
                                      # workingpoint      # directory                    # data or MC      # isIso
 if options.jobId == 0: addToProcess("TTVLoose",          "EleToId",                     options.onlyData, False)
-if options.jobId == 1: addToProcess("TTVLeptonMvaTTZ3l", "TTVLooseToLeptonMva",         options.onlyData, False)
-if options.jobId == 2: addToProcess("TTVLeptonMvaTTZ4l", "TTVLooseToLeptonMva",         options.onlyData, False)
-if options.jobId == 3: addToProcess("TTVLeptonMvaTTW",   "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 1: addToProcess("TTVLeptonMvattZ3l", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 2: addToProcess("TTVLeptonMvattZ4l", "TTVLooseToLeptonMva",         options.onlyData, False)
+if options.jobId == 3: addToProcess("TTVLeptonMvattW",   "TTVLooseToLeptonMva",         options.onlyData, False)
 if options.jobId == 4: addToProcess("TTVLeptonMvatZq",   "TTVLooseToLeptonMva",         options.onlyData, False)
-if options.jobId == 5: addToProcess("TightCharge",       "TTVLeptonMvaTTWToTightCharge",options.onlyData, False)
+if options.jobId == 5: addToProcess("TightCharge",       "TTVLeptonMvattWToTightCharge",options.onlyData, False)
 process.fit = cms.Path(process.seq)

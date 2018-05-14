@@ -10,8 +10,19 @@ from efficiencyUtils import efficiency
 from efficiencyUtils import efficiencyList
 import efficiencyUtils as effUtil
 
-outputDirectory = "output"
-doAct = False
+
+import argparse
+argParser = argparse.ArgumentParser(description = "Argument parser")
+argParser.add_argument("--file",   action='store',      default=None,  help="which file?")
+argParser.add_argument("--plot",   action='store',      default=0,     help="which plot?")
+args = argParser.parse_args()
+
+ext = args.file.split('/')[-2].strip('tables')
+
+doAct   = ext.count('PV')
+useJets = ext.count('jets') 
+
+outputDirectory = 'output'+ext
 
 try:    os.makedirs(outputDirectory)
 except: pass
@@ -20,9 +31,9 @@ tdrstyle.setTDRStyle()
 
 rt.gROOT.SetBatch(True)
 
-CMS_lumi.lumi_13TeV = "35.9 fb^{-1}"
+CMS_lumi.lumi_13TeV = ("35.9 fb^{-1}" if ext.count('2016') else "41.4 fb^{-1}")
 CMS_lumi.writeExtraText = 1
-CMS_lumi.lumi_sqrtS = "13 TeV"
+CMS_lumi.lumi_sqrtS = "13 TeV " + ("(2016)" if ext.count('2016') else "(2017)")
 
 
 effiMin = 0.48
@@ -66,7 +77,7 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
     W       = 800
     H       = 800
     yUp     = 0.45
-    canName = ('totoPV' if doAct else 'totoEta') if etaPlot else 'totoPt'
+    canName = ('totoNjets' if useJets else ('totoPV' if doAct else 'totoEta')) if etaPlot else 'totoPt'
     c       = rt.TCanvas(canName,canName,50,50,H,W)
     c.SetTopMargin(0.055)
     c.SetBottomMargin(0.10)
@@ -88,15 +99,15 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
     listOfTGraph1 = []
     listOfTGraph2 = []
     if etaPlot:
-      xMin = 0 if doAct else -2.50
-      xMax = 50 if doAct else +2.50
+      xMin = 0  if doAct else (-.5 if useJets else -2.50)
+      xMax = 50 if doAct else (6.5 if useJets else +2.50)
       zMin = 10
       zMax = 200 #500
     else:
       xMin = 10
       xMax = 200 #500
       zMin = 0
-      zMax = 50 if doAct else 2.6
+      zMax = 50 if doAct else (6.5 if useJets else 2.6)
       p1.SetLogx()
       p2.SetLogx()
 
@@ -122,7 +133,7 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
         grBinsSF.GetHistogram()     .GetXaxis().SetLimits(xMin,xMax)
 
         grBinsSF.GetHistogram().GetXaxis().SetTitleOffset(1)
-        grBinsSF.GetHistogram().GetXaxis().SetTitle(("nPV" if doAct else "SuperCluster #eta") if etaPlot else "p_{T}  [GeV]")
+        grBinsSF.GetHistogram().GetXaxis().SetTitle(("nPV" if doAct else ("N_{jets}" if useJets else "SuperCluster #eta")) if etaPlot else "p_{T}  [GeV]")
             
         grBinsSF.GetHistogram().GetYaxis().SetTitle("Data / MC")
         grBinsSF.GetHistogram().GetYaxis().SetTitleOffset(1)
@@ -134,9 +145,10 @@ def EffiGraph1D(effDataList, sfList, etaPlot, nameout):
         listOfTGraph1.append( grBinsEffData )
         listOfTGraph2.append( grBinsSF ) 
 
-        if etaPlot:  leg.AddEntry( grBinsEffData, '%3.0f #leq p_{T} #leq  %3.0f GeV'   % (key[0], key[1]), "PL")        
-        elif doAct:  leg.AddEntry( grBinsEffData, '%3.0f #leq nPV #leq  %3.0f' % (key[0], key[1]), "PL")        
-        else:        leg.AddEntry( grBinsEffData, '%1.3f #leq | #eta | #leq  %1.3f' % (key[0], key[1]), "PL")        
+        if etaPlot:   leg.AddEntry( grBinsEffData, '%3.0f #leq p_{T} #leq  %3.0f GeV'   % (key[0], key[1]), "PL")        
+        elif doAct:   leg.AddEntry( grBinsEffData, '%3.0f #leq nPV #leq  %3.0f' % (key[0], key[1]), "PL")        
+        elif useJets: leg.AddEntry( grBinsEffData, 'N_{jets} =  ' + ('%d' % (int(key[1])) if key[1] < 5  else '5,6'), "PL")        
+        else:         leg.AddEntry( grBinsEffData, '%1.3f #leq | #eta | #leq  %1.3f' % (key[0], key[1]), "PL")        
 
         
     for i in range(len(listOfTGraph1)):
@@ -206,7 +218,7 @@ def diagnosticErrorPlot( effgr, ierror, nameout ):
     c2D_Err.Print(nameout)
 
 
-filein = sys.argv[1]
+filein = args.file
 if not os.path.exists( filein ) :
   print 'file %s does not exist' % filein
   sys.exit(1)
@@ -227,6 +239,7 @@ for line in fileWithEff:
       myeff = efficiency(ptKey,etaKey,numbers[4],numbers[5],numbers[6],numbers[7],numbers[8],numbers[9],numbers[10],numbers[11])
       effGraph.addEfficiency(myeff)
 
+
 fileWithEff.close()
 
 ### massage the numbers a bit
@@ -237,7 +250,7 @@ print " ------------------------------- "
 
 pdfout = nameOutBase + '_egammaPlots.pdf'
 pdfout2 = nameOutBase + '_eff_vs_pt.pdf'
-pdfout3 = nameOutBase + ('eff_vs_pv.pdf' if doAct else '_eff_vs_eta.pdf')
+pdfout3 = nameOutBase + ('_eff_vs_pv.pdf' if doAct else ('_eff_vs_njets.pdf' if useJets else '_eff_vs_eta.pdf'))
 cDummy = rt.TCanvas()
 cDummy.Print( pdfout + "[" )
 
@@ -292,9 +305,7 @@ canvas.SaveAs(os.path.join(outputDirectory, nameOutBase.split('eff_all_')[-1].sp
 for isyst in range(len(efficiency.getSystematicNames())):
     diagnosticErrorPlot( effGraph, isyst, pdfout )
 
-EffiGraph1D(effGraph.listOfGraphs(False, False) , effGraph.listOfGraphs(True, False) , False, pdfout2)
-time.sleep(1) # dirty pyROOT may end up throwig segmentation faults because its memory structure sucks, waiting 1 second helps pyROOT to recover
-EffiGraph1D(effGraph.listOfGraphs(False, True),   effGraph.listOfGraphs(True, True),   True,  pdfout3)
+if int(args.plot)==1: EffiGraph1D(effGraph.listOfGraphs(False, False) , effGraph.listOfGraphs(True, False) , False, pdfout2)
+if int(args.plot)==2: EffiGraph1D(effGraph.listOfGraphs(False, True),   effGraph.listOfGraphs(True, True),   True,  pdfout3)
 
 cDummy.Print( pdfout + "]" )
-
