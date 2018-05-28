@@ -13,6 +13,7 @@
 <use   name="RecoVertex/VertexPrimitives"/>
 <use   name="DataFormats/L1TGlobal"/>
 <use   name="IOPool/Provenance"/>
+<use   name="CondFormats/JetMETObjects"/>
 
 <library   file="*.cc" name="PhysicsToolsNanoAODPlugins">
   <flags   EDM_PLUGIN="1"/>

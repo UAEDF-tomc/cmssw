@@ -23,6 +23,8 @@
 // user include files
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/global/EDProducer.h"
+#include "FWCore/Framework/interface/one/EDProducer.h"
+#include "FWCore/Framework/interface/Run.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -41,65 +43,73 @@
 #include "PhysicsTools/NanoAOD/interface/MatchingUtils.h"
 #include "TLorentzVector.h"
 
+#include "PhysicsTools/NanoAOD/interface/JEC.h"
+
 //
 // class declaration
 //
+class JEC;
 
-template <typename T>
-class LeptonJetVarProducer : public edm::global::EDProducer<> {
-   public:
-  explicit LeptonJetVarProducer(const edm::ParameterSet &iConfig):
-    srcJet_(consumes<edm::View<pat::Jet>>(iConfig.getParameter<edm::InputTag>("srcJet"))),
-    srcLep_(consumes<edm::View<T>>(iConfig.getParameter<edm::InputTag>("srcLep"))),
-    srcVtx_(consumes<std::vector<reco::Vertex>>(iConfig.getParameter<edm::InputTag>("srcVtx")))
-  {
-    produces<edm::ValueMap<float>>("ptRatio");
-    produces<edm::ValueMap<float>>("ptRel");
-    produces<edm::ValueMap<float>>("jetNDauChargedMVASel");
-    produces<edm::ValueMap<float>>("closestJetDeepCsv");
-    produces<edm::ValueMap<reco::CandidatePtr>>("jetForLepJetVar");
-  }
-  ~LeptonJetVarProducer() override {};
+template <typename T> class LeptonJetVarProducer : public edm::one::EDProducer<edm::one::WatchRuns,edm::one::SharedResources>{
+  private:
+    virtual void beginRun(const edm::Run& iRun, edm::EventSetup const& iSetup) override;
+    virtual void endRun(const edm::Run& iRun, edm::EventSetup const& iSetup) override {};
+    virtual void produce(edm::Event&, const edm::EventSetup&) override;
 
-      static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
+    std::tuple<float,float,float> calculatePtRatioRel(edm::Ptr<reco::Candidate> lep, edm::Ptr<pat::Jet> jet, const reco::Vertex &vtx, const double rho) const;
 
-   private:
-  void produce(edm::StreamID, edm::Event&, const edm::EventSetup&) const override;
+    edm::EDGetTokenT<edm::View<pat::Jet>>       srcJet_;
+    edm::EDGetTokenT<edm::View<T>>              srcLep_;
+    edm::EDGetTokenT<std::vector<reco::Vertex>> srcVtx_;
+    edm::EDGetTokenT<double>                    srcRho_;
+    bool                                        isData;
+    bool                                        is2017;
+    std::string                                 jecPath;
+    std::string                                 jecLevel;
+    JEC*                                        jec;
 
-  std::tuple<float,float,float> calculatePtRatioRel(edm::Ptr<reco::Candidate> lep, edm::Ptr<pat::Jet> jet, const reco::Vertex &vtx) const;
+  public:
+    explicit LeptonJetVarProducer(const edm::ParameterSet &iConfig):
+      srcJet_(consumes<edm::View<pat::Jet>>(      iConfig.getParameter<edm::InputTag>("srcJet"))),
+      srcLep_(consumes<edm::View<T>>(             iConfig.getParameter<edm::InputTag>("srcLep"))),
+      srcVtx_(consumes<std::vector<reco::Vertex>>(iConfig.getParameter<edm::InputTag>("srcVtx"))),
+      srcRho_(consumes<double>(                   iConfig.getParameter<edm::InputTag>("srcRho"))),
+      isData(                                     iConfig.getUntrackedParameter<bool>("isData")),
+      is2017(                                     iConfig.getUntrackedParameter<bool>("is2017")),
+      jecPath(                                    iConfig.getParameter<edm::FileInPath>("JECtxt").fullPath())
+    {
+      produces<edm::ValueMap<float>>("ptRatio");
+      produces<edm::ValueMap<float>>("ptRel");
+      produces<edm::ValueMap<float>>("jetNDauChargedMVASel");
+      produces<edm::ValueMap<float>>("closestJetDeepCsv");
+      produces<edm::ValueMap<reco::CandidatePtr>>("jetForLepJetVar");
 
-      // ----------member data ---------------------------
-
-  edm::EDGetTokenT<edm::View<pat::Jet>> srcJet_;
-  edm::EDGetTokenT<edm::View<T>> srcLep_;
-  edm::EDGetTokenT<std::vector<reco::Vertex>> srcVtx_;
+      // Because it is considered a bad habit to include the latest JEC simply in some global tag or so, need to implement dirty txt-based JEC
+      std::string dirtyHack = "dummy.txt";
+      std::string path = jecPath.substr(0, jecPath.size() - dirtyHack.size());
+      jec = new JEC(path, isData, is2017);
+      if(isData) jecLevel = "L2L3Residual";
+      else       jecLevel = "L3Absolute";
+    }
+    ~LeptonJetVarProducer() override;
+    static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 };
 
-//
-// constants, enums and typedefs
-//
+template <typename T> LeptonJetVarProducer<T>::~LeptonJetVarProducer(){
+  delete jec; 
+}
 
-
-//
-// static data member definitions
-//
-
-//
-// member functions
-//
+template <typename T> void LeptonJetVarProducer<T>::beginRun(const edm::Run& iRun, edm::EventSetup const& iSetup){
+  auto _runNb = (unsigned long) iRun.id().run();
+  jec->updateJEC(_runNb);
+}
 
 // ------------ method called to produce the data  ------------
-template <typename T>
-void
-LeptonJetVarProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, const edm::EventSetup& iSetup) const
-{
-
-  edm::Handle<edm::View<pat::Jet>> srcJet;
-  iEvent.getByToken(srcJet_, srcJet);
-  edm::Handle<edm::View<T>> srcLep;
-  iEvent.getByToken(srcLep_, srcLep);
-  edm::Handle<std::vector<reco::Vertex>> srcVtx;
-  iEvent.getByToken(srcVtx_, srcVtx);
+template <typename T> void LeptonJetVarProducer<T>::produce(edm::Event& iEvent, const edm::EventSetup& iSetup){
+  edm::Handle<edm::View<pat::Jet>> srcJet;       iEvent.getByToken(srcJet_, srcJet);
+  edm::Handle<edm::View<T>> srcLep;              iEvent.getByToken(srcLep_, srcLep);
+  edm::Handle<std::vector<reco::Vertex>> srcVtx; iEvent.getByToken(srcVtx_, srcVtx);
+  edm::Handle<double> rho;                       iEvent.getByToken(srcRho_, rho);
 
   unsigned int nLep = srcLep->size();
 
@@ -127,7 +137,6 @@ LeptonJetVarProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, con
     }
 
     auto jet = srcJet->ptrAt(closestIndex);
-    auto res = calculatePtRatioRel(lep,jet,pv);
 
     if(selectedJetsAll.size() == 0 || reco::deltaR(*jet, *lep) > 0.4){
       ptRatio[il] = 1;
@@ -136,6 +145,7 @@ LeptonJetVarProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, con
       jetDeepCSV[il] = 0;
       jetForLepJetVar[il] = jet;  // Should actually be null pointer
     } else {
+      auto res = calculatePtRatioRel(lep,jet,pv,*rho);
       ptRatio[il] = std::get<0>(res);
       ptRel[il] = std::get<1>(res);
       jetNDauChargedMVASel[il] = std::get<2>(res);
@@ -175,13 +185,20 @@ LeptonJetVarProducer<T>::produce(edm::StreamID streamID, edm::Event& iEvent, con
   iEvent.put(std::move(jetForLepJetVarV),"jetForLepJetVar");
 }
 
-template <typename T>
-std::tuple<float,float,float>
-LeptonJetVarProducer<T>::calculatePtRatioRel(edm::Ptr<reco::Candidate> lepton, edm::Ptr<pat::Jet> jet, const reco::Vertex &vtx) const {
-  auto  l1Jet       = jet->correctedP4("L1FastJet");
-  float JEC         = jet->p4().E()/l1Jet.E();
-  auto  l           = lepton->p4();
-  auto  lepAwareJet = (l1Jet - l)*JEC + l;
+template <typename T> std::tuple<float,float,float> LeptonJetVarProducer<T>::calculatePtRatioRel(edm::Ptr<reco::Candidate> lepton, edm::Ptr<pat::Jet> jet, const reco::Vertex &vtx, const double rho) const {
+  double totalJEC      = jec->jetCorrection(jet->correctedP4("Uncorrected").Pt(), jet->correctedP4("Uncorrected").Eta(), rho, jet->jetArea(), jecLevel);
+  double l1JEC         = jec->jetCorrection(jet->correctedP4("Uncorrected").Pt(), jet->correctedP4("Uncorrected").Eta(), rho, jet->jetArea(), "L1FastJet");
+  float JEC            = totalJEC/l1JEC;
+
+  TLorentzVector l(lepton->px(), lepton->py(), lepton->pz(), lepton->energy());
+  TLorentzVector l1Jet;
+  l1Jet.SetPtEtaPhiE(jet->correctedP4("Uncorrected").Pt()*l1JEC, jet->correctedP4("Uncorrected").Eta(), jet->correctedP4("Uncorrected").Phi(), jet->correctedP4("Uncorrected").E()*l1JEC); 
+
+//auto  l1Jet          = jet->correctedP4("L1FastJet");
+//float JEC            = jet->p4().E()/l1Jet.E(); 
+//auto  l              = lepton->p4();
+  auto  lepAwareJet    = (l1Jet - l)*JEC + l;
+
 
   TLorentzVector lV(l.Px(), l.Py(), l.Pz(), l.E());
   TLorentzVector jV(lepAwareJet.Px(), lepAwareJet.Py(), lepAwareJet.Pz(), lepAwareJet.E());
@@ -209,15 +226,15 @@ LeptonJetVarProducer<T>::calculatePtRatioRel(edm::Ptr<reco::Candidate> lepton, e
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
-template <typename T>
-void
-LeptonJetVarProducer<T>::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
-  //The following says we do not know what parameters are allowed so do no validation
-  // Please change this to state exactly what you do use, even if it is no parameters
+template <typename T> void LeptonJetVarProducer<T>::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   edm::ParameterSetDescription desc;
   desc.add<edm::InputTag>("srcJet")->setComment("jet input collection");
   desc.add<edm::InputTag>("srcLep")->setComment("lepton input collection");
   desc.add<edm::InputTag>("srcVtx")->setComment("primary vertex input collection");
+  desc.add<edm::InputTag>("srcRho")->setComment("rho collection");
+  desc.add<edm::FileInPath>("JECtxt")->setComment("path to JEC files");
+  desc.addUntracked<bool>("is2017")->setComment("switch between 2016 and 2017 data/MC");
+  desc.addUntracked<bool>("isData")->setComment("switch between data and MC");
   std::string modname;
   if (typeid(T) == typeid(pat::Muon)) modname+="Muon";
   else if (typeid(T) == typeid(pat::Electron)) modname+="Electron";

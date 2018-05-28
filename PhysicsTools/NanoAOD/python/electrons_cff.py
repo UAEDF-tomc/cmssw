@@ -53,6 +53,10 @@ ptRatioRelForEle = cms.EDProducer("ElectronJetVarProducer",
     srcJet = cms.InputTag("slimmedJets"),
     srcLep = cms.InputTag("slimmedElectrons"),
     srcVtx = cms.InputTag("offlineSlimmedPrimaryVertices"),
+    srcRho = cms.InputTag("fixedGridRhoFastjetAll"),
+    JECtxt = cms.FileInPath("PhysicsTools/NanoAOD/data/JEC/dummy.txt"),
+    isData = cms.untracked.bool(False),
+    is2017 = cms.untracked.bool(False),
 )
 
 from EgammaAnalysis.ElectronTools.calibratedElectronsRun2_cfi import calibratedPatElectrons
