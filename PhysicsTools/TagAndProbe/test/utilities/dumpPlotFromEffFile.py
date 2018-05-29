@@ -56,7 +56,8 @@ def main(options, failedFitsNominal, failedFitsAltTag, failedFitsAltSig):
     keyList2 = [key.GetName() for key in ROOT.gDirectory.GetListOfKeys()]
     tableDone = False
 
-    for k in  keyList2:
+    if False:
+      for k in  keyList2:
         obj = ROOT.gDirectory.GetKey(k).ReadObj();
         innername = obj.GetName()
         if (obj.ClassName() == "TCanvas"):
@@ -83,9 +84,13 @@ def main(options, failedFitsNominal, failedFitsAltTag, failedFitsAltSig):
             c = ROOT.gDirectory.Get("fit_canvas")
             try:    c.Draw()
             except: continue
-            plotname = os.path.join(options.output, "fit_" + subDir + "_" + innername + ".png")
+            plotname = os.path.join(options.output, innername.replace(options.wp, '') + ".png")
             plotname = plotname.replace("&", "")
             plotname = plotname.replace("__pdfSignalPlusBackground", "")
+            plotname = plotname.replace("_and_mcTrue_true", "")
+            plotname = plotname.replace("_mcTrue_true", "")
+            plotname = plotname.replace("__", "_")
+            plotname = plotname.replace("__", "_")
             c.SaveAs(plotname)
 
             for (name, list) in [('nominal', failedFitsNominal), ('altSig0', failedFitsAltSig), ('altTag', failedFitsAltTag)]:
@@ -121,23 +126,22 @@ if (__name__ == "__main__"):
     argParser.add_argument('--list', action='store_true', default=False, help='List failed fits')
     options = argParser.parse_args()
 
-    try:    os.makedirs('fits')
-    except: pass
-
     failedFitsNominal = []
     failedFitsAltTag = []
     failedFitsAltSig = []
-    for directory in os.listdir(os.path.join(tnpPackage, "test", "efficiencies")):
-      for file in glob.glob(os.path.join(tnpPackage, "test", "efficiencies", directory, "eff*.root")):
-        if not file.count('LeptonMvaVL'): continue
-        options.input  = file
-        options.output = os.path.join('fits', directory, file.split('.root')[0].split('/')[-1])
-        options.cc     = options.output.count("eff_mc") and not directory.count('altSig')
-        try:    os.makedirs(options.output)
-        except: pass
+    #for masterdir in ['efficiencies_2016', 'efficiencies_2017', 'efficiencies_jets_2016', 'efficiencies_jets_2017', 'efficiencies_PV_2016', 'efficiencies_PV_2017']:
+    for masterdir in ['efficiencies_2017']:
+      for directory in os.listdir(os.path.join(tnpPackage, "test", masterdir)):
+        for file in glob.glob(os.path.join(tnpPackage, "test", masterdir, directory, "eff*.root")):
+          options.input  = file
+          options.output = os.path.join('fits'+masterdir.replace('efficiencies',''), directory, file.split('.root')[0].split('/')[-1])
+          options.wp     = file.split('.root')[0].split('_')[-1]
+          options.cc     = options.output.count("eff_mc") and not directory.count('altSig')
+          try:    os.makedirs(options.output)
+          except: pass
 
-        ROOT.gROOT.SetBatch(True)
-        main(options, failedFitsNominal, failedFitsAltTag, failedFitsAltSig)
+          ROOT.gROOT.SetBatch(True)
+          main(options, failedFitsNominal, failedFitsAltTag, failedFitsAltSig)
 
     if options.list: 
       writeFailedFits('failedFitsNominal', failedFitsNominal)
