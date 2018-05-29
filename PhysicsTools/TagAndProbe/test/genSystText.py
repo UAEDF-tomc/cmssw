@@ -116,6 +116,11 @@ for usePV, useJets, is2016 in combinations:
               bkg1 = hbkg1.GetBinContent(ix,iy)
               bkg2 = hbkg2.GetBinContent(ix,iy)
 
+              if ix==1 and iy==1 and not any([is2016, usePV, useJets]): # hacky way, because the nominal fit fails for all 2017 workingpoints at low pt/eta while the alternative tag seems fine
+                dat    = htag.GetBinContent(ix, iy)
+                daterr = htag.GetBinError(ix, iy)
+                bkg    = htag.GetBinContent(ix, iy)
+
               if(abs(sig-dat) > abs(sig1-dat)): sig = sig1  # To be sure we do not take failed fits, we check some slightly alternative fits too
               if(abs(sig-dat) > abs(sig2-dat)): sig = sig2
               if(abs(sig-dat) > abs(sig3-dat)): sig = sig3
@@ -123,8 +128,10 @@ for usePV, useJets, is2016 in combinations:
               if(abs(bkg-dat) > abs(bkg1-dat)): bkg = bkg1
               if(abs(bkg-dat) > abs(bkg2-dat)): bkg = bkg2
 
-              line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
-              line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, hdat.GetBinContent(ix,iy), daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+
+
+              line1 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (xlo, xhi, ylo, yhi, dat, daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
+              line2 = "%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f\t%8.4f" % (-xhi, -xlo, ylo, yhi, dat, daterr, hnmc.GetBinContent(ix,iy), hnmc.GetBinError(ix,iy), bkg, sig, hamc.GetBinContent(ix,iy), htag.GetBinContent(ix,iy), 1., 1., 1.)
               print line1
               fout.write(line1+"\n")
               if 'PV' not in dir and 'njets' not in dir:
