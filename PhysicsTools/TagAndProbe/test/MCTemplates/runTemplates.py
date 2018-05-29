@@ -36,7 +36,7 @@ for config in configs:
 
 
   class options:
-      input           = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v5/' + ('2016' if is2016 else '2017') + '/DY_amcatnlo.root'
+      input           = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v6/' + ('2016' if is2016 else '2017') + '/DY_amcatnlo.root'
       output          = "mc_templates.root"
       directory       = "GsfElectronToID"
       idprobe         = "passingMedium"

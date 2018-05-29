@@ -22,7 +22,7 @@ useJets = options.useJets
 usePV   = options.usePV
 is2016  = options.is2016
 
-tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v5/' + ('2016' if is2016 else '2017') + '/'
+tuplesDir = '/user/tomc/tagAndProbe/electrons/tuples/Moriond18_v6/' + ('2016' if is2016 else '2017') + '/'
 
 if usePV:     ext  = '_PV'
 elif useJets: ext  = '_jets'
