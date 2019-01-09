@@ -254,11 +254,13 @@ def _setupEgammaPostRECOSequenceMiniAOD(process,applyEnergyCorrections=False,app
         egamma_modifications.append(makeEnergyScaleAndSmearingSysModifier("calibratedPatElectrons","calibratedPatPhotons"))
         egamma_modifications.append(egamma8XLegacyEtScaleSysModifier)
 
-    #add the HEEP trk isol to the slimmed electron
+    #add the HEEP trk isol to the slimmed electron, and the photon MVA values for RunIIFall17v2 when available
     if runVID:
         for pset in egamma_modifications:
             if pset.hasParameter("modifierName") and pset.modifierName == cms.string('EGExtraInfoModifierFromFloatValueMaps'):
                 pset.electron_config.heepTrkPtIso = cms.InputTag("heepIDVarValueMaps","eleTrkPtIso")
+                if 'RecoEgamma.PhotonIdentification.Identification.mvaPhotonID_Fall17_94X_V2_cff' in _defaultPhoIDModules:
+                  pset.photon_config.PhotonMVAEstimatorRunIIFall17v2Values = cms.InputTag("photonMVAValueMapProducer", "PhotonMVAEstimatorRunIIFall17v2Values")
                 break
 
     for pset in egamma_modifications:
